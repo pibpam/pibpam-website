@@ -1,0 +1,90 @@
+.seriesCardContainer {
+  height: 100%;
+  background: url('/serieback.png') center/cover;
+  width: 548px;
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background-size: 100% 100%;
+  transition: all .2s ease;
+
+  &:hover {
+    background-size: 130% 130%;
+
+    >div {
+      >div:first-child {
+        >span {
+          width: 64px;
+          opacity: .7;
+        }
+      }
+    }
+  }
+
+  &::before {
+    background: linear-gradient(360deg, rgba(41, 41, 73, 0.91) 26.12%, rgba(0, 0, 0, 0.4) 92.86%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    width: 100%;
+    height: 100%;
+  }
+
+  >div {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+
+    >div:first-child {
+      margin: 0 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 24px;
+      font-weight: 700;
+
+      >span {
+        width: 0px;
+        opacity: 0;
+        transition: all .2s ease;
+      }
+
+      >svg {
+        color: #B5DA35;
+        font-size: 32px;
+      }
+    }
+
+    >h4 {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 32px;
+      line-height: 40px;
+      margin-top: auto;
+    }
+
+    >p {
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 20px;
+      margin-bottom: 40px;
+    }
+
+    >div:last-child {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 15px;
+    }
+
+  }
+
+}
