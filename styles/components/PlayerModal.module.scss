@@ -1,0 +1,86 @@
+@keyframes showUp {
+  from {
+    top: 100vh;
+  }
+
+  to {
+    top: 0;
+  }
+}
+
+@keyframes hideDown {
+  to {
+    top: 100vh;
+  }
+
+  from {
+    top: 0;
+  }
+}
+
+.close {
+  animation: hideDown .5s ease forwards !important;
+}
+
+.container {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: rgba($color: #fff, $alpha: 1);
+  z-index: 11;
+  height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  animation: showUp .5s ease;
+
+  >button {
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.content {
+  max-width: 1440px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: auto;
+  padding: 32px 24px;
+  z-index: 1;
+  position: relative;
+
+  >h3 {
+    font-size: 32px;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  >p {
+    font-weight: 400;
+    font-size: 18px;
+  }
+
+  >div {
+    margin-top: 32px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+}
+
+.footer {
+  margin-top: auto;
+  z-index: 0;
+  position: relative;
+}
