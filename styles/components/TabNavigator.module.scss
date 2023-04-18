@@ -24,6 +24,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
+        transition: all .2s ease;
 
         > svg {
           font-size: 28px;
@@ -39,4 +40,8 @@
       }
     }
   }
+}
+
+.active {
+  color: #B5DA35 !important;
 }

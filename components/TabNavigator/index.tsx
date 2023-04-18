@@ -4,6 +4,7 @@ import styles from "../../styles/components/TabNavigator.module.scss"
 import {useRouter} from "next/router";
 const TabNavigator: React.FC = () => {
     const router = useRouter()
+    const {pathname} = router
 
     const goTo = async (pathname: string) => {
        await router.push({
@@ -15,31 +16,31 @@ const TabNavigator: React.FC = () => {
         <div className={styles.container} >
             <ul>
                 <li>
-                    <button onClick={() => goTo("/events")} >
+                    <button className={`${pathname === "/events" && styles.active}`} onClick={() => goTo("/events")} >
                         <FiPlay/>
                         <span>cultos</span>
                     </button>
                 </li>
                 <li>
-                    <button onClick={() => goTo("/devotionals")} >
+                    <button  className={`${pathname === "/devotionals" && styles.active}`} onClick={() => goTo("/devotionals")} >
                         <FiBookOpen/>
                         <span>devocionais</span>
                     </button>
                 </li>
                 <li>
-                    <button onClick={() => goTo("/event/3424234")} >
+                    <button className={`${pathname === "/event" && styles.active}`}  onClick={() => goTo("/event/3424234")} >
                         <FiRadio/>
                         <span>ao vivo</span>
                     </button>
                 </li>
                 <li>
-                    <button onClick={() => goTo("/schedule")} >
+                    <button className={`${pathname === "/schedule" && styles.active}`}  onClick={() => goTo("/schedule")} >
                         <FiCalendar/>
                         <span>programação</span>
                     </button>
                 </li>
                 <li>
-                    <button onClick={() => goTo("/bible")} >
+                    <button className={`${pathname === "/bible" && styles.active}`}  onClick={() => goTo("/bible")} >
                         <FiBook/>
                         <span>bíblia</span>
                     </button>
