@@ -90,7 +90,7 @@ const Menu: React.FC<IMenu> = ({toggleMenu}) => {
             </ul>
             <div>
                 <p>Desenvolvido por Ljtech Desenvolvimento de Sistemas LTDA.</p>
-                <p>Todos os direitos pertencem a Primeira Igreja Batista em Pará de Minas. 2023</p>
+                <p>Todos os direitos pertencem a Primeira Igreja Batista em Pará de Minas. © 2023</p>
             </div>
         </div>
     )
