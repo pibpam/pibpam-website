@@ -1,0 +1,30 @@
+.container {
+  position: relative;
+  z-index: 2;
+  margin-top: -90px;
+  width: 100%;
+  overflow: hidden;
+  height: 90px;
+
+
+  svg {
+    filter: drop-shadow(0px -4px 4px rgba(0, 0, 0, 0.1));
+    height: 100px;
+  }
+}
+
+.divisor__white {
+
+  svg,
+  path {
+    fill: #fff !important;
+  }
+}
+
+.divisor__yellow {
+
+  svg,
+  path {
+    fill: #B5DA35 !important;
+  }
+}

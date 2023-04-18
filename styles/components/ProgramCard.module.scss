@@ -1,7 +1,7 @@
 .programCardContainer {
   border-radius: 14px;
   background: #5FD9DA;
-  width: 282px;
+  width: 167px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -13,23 +13,27 @@
   }
 
 
-  >div:first-child {
+  > div:first-child {
     flex: 1;
-    padding: 20px;
+    padding: 10px;
+
     font-weight: 700;
-    font-size: 20px;
-    line-height: 25px;
+    font-size: 12px;
+    line-height: 15px;
+
     color: #FFFFFF;
+
     display: flex;
     flex-direction: column;
 
-    >div:last-child {
+    > div:last-child {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 100px;
+      font-size: 60px;
       opacity: .7;
       flex: 1;
+      padding: 24px 0;
 
       svg {
         stroke-width: 1px;
@@ -38,29 +42,31 @@
     }
   }
 
-  >div:last-child {
-    padding: 20px;
+  > div:last-child {
+    padding: 10px;
     display: flex;
     align-items: center;
     background: #494949;
     color: #B5DA35;
     justify-content: space-between;
 
-    >svg {
+    > svg {
       opacity: .5;
-      font-size: 32px;
+      font-size: 24px;
     }
 
-    >div {
+    > div {
       div:first-child {
         font-weight: 400;
-        font-size: 28px;
+        font-size: 16px;
+        line-height: 20px;
         margin-bottom: 4px;
       }
 
       div:last-child {
         font-weight: 300;
-        font-size: 20px;
+        font-size: 12px;
+        line-height: 15px;
       }
 
       div {
@@ -69,12 +75,9 @@
         gap: 8px;
 
         svg {
-          font-size: 28px;
+          font-size: 16px;
         }
       }
-
     }
-
   }
-
 }

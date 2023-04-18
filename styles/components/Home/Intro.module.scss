@@ -1,0 +1,19 @@
+.container {
+  background: #5FD9DA;
+  padding: 32px 24px calc(32px + 90px);
+
+  > p {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 30px;
+    text-align: center;
+    color: #383838;
+    margin-top: 48px;
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}

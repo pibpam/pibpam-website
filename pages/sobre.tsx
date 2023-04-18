@@ -11,7 +11,7 @@ const About: NextPage = () => {
 
         <div className={styles.header} >
           <h1>Sobre</h1>
-          <h2>Conheça quem somos</h2>
+          <h2>Conheça a nossa Igreja.</h2>
         </div>
 
         <Divider color={EDividerColors.white} />

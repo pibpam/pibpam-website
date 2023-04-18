@@ -1,0 +1,42 @@
+.container {
+  background: #3D3D3D;
+  color: #fff;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+  padding: 12px 0;
+  position: fixed;
+  bottom: 0;
+  z-index: 10;
+  width: 100%;
+
+  > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+
+    > li {
+      > button {
+        color: #fff;
+        background: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+
+        > svg {
+          font-size: 28px;
+        }
+
+        > span {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 15px;
+          margin-top: 4px;
+        }
+
+      }
+    }
+  }
+}

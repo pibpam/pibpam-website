@@ -2,6 +2,7 @@ import Head from 'next/head';
 import React, { ReactElement } from 'react';
 import Footer from '../../../components/Footer';
 import NavBar from '../../../components/NavBar';
+import TabNavigator from "../../../components/TabNavigator";
 
 interface IWebsiteProps {
   children: ReactElement
@@ -16,10 +17,11 @@ const Website: React.FC<IWebsiteProps> = ({children}) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <NavBar />
+        {/*<NavBar />*/}
         {children}
-        <Footer />
+        {/*<Footer />*/}
       </main>
+        <TabNavigator/>
     </div>
   );
 }

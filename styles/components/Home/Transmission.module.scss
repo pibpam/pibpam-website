@@ -1,0 +1,22 @@
+.container {
+  padding: 32px 24px;
+}
+
+.live {
+  > .content {
+    margin-bottom: 24px;
+  }
+
+  &:after {
+    content: "";
+    height: 1px;
+    width: 80%;
+    display: block;
+    background: #B5DA35;
+    margin: 40px auto 40px;
+  }
+}
+
+.content {
+  margin-top: 24px;
+}
