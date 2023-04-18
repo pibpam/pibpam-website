@@ -1,0 +1,29 @@
+.container {
+  padding: 8px 0 calc(32px + 90px);
+  background: #B5DA35;
+}
+
+.content {
+  margin-top: 24px;
+  padding: 0 24px;
+}
+
+.caroussel_controlls {
+  margin: 32px 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+
+  > p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+
+    color: #FFF;
+
+    > a {
+      text-decoration: underline;
+    }
+  }
+}
