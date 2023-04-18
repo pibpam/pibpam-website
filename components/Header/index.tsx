@@ -1,9 +1,14 @@
 import React from 'react';
 import styles from '../../styles/components/Header.module.scss'
 import Image from "next/image";
-import {FiMenu} from "react-icons/fi";
+import {FiMenu, FiX} from "react-icons/fi";
 
-const Header: React.FC = () => {
+interface IHeader {
+    toggleMenu: () => void
+    isOpen?: boolean
+}
+
+const Header: React.FC<IHeader> = ({toggleMenu, isOpen= false}) => {
     return (
         <div className={`${styles.container}`}>
             <div>
@@ -11,8 +16,8 @@ const Header: React.FC = () => {
                     <Image src="/pibpam-logo.svg" alt="PIBPM logo" width={120} height={31}/>
                 </button>
             </div>
-            <button className={styles.go_back}>
-                <FiMenu/>
+            <button onClick={toggleMenu} className={styles.go_back}>
+                {isOpen ? <FiX/> : <FiMenu/>}
             </button>
         </div>
     );

@@ -1,8 +1,5 @@
 import type {NextPage} from 'next'
 import styles from '../styles/Home.module.scss'
-import {FiArrowLeft, FiArrowRight, FiFilm} from 'react-icons/fi'
-import Carousel from '../components/Carousel'
-import SeriesCard from '../components/SeriesCard'
 import {EDividerColors} from '../components/Divider'
 import Website from '../layout/container/Website'
 import Banner from "../components/Home/Banner";
@@ -12,39 +9,17 @@ import Intro from "../components/Home/Intro";
 import Transmission from "../components/Home/Transmission";
 import Schedule from "../components/Home/Schedule";
 import Series from "../components/Home/Series";
+import useMenu from "../hooks/useMenu";
 
 const Home: NextPage = () => {
+    const {open, toggleMenu} = useMenu()
 
     return (
-        <Website>
+        <Website openMenu={open} toggleMenu={toggleMenu} >
             <>
-                {/*{modalVideo && (*/}
-                {/*  <PlayerModal*/}
-                {/*    videoId='TG-0kaq7GmQ'*/}
-                {/*    thumb='ASDFSF'*/}
-                {/*    title='Vídeo institucional: PIPAM 41 anos.'*/}
-                {/*    onClose={() => setModalVideo(null)}*/}
-                {/*  />*/}
-                {/*)}*/}
-                {/*<div className={styles.banner} >*/}
-                {/*  <button className={`${styles.banner_arrow} ${styles.banner_arrow__left}`} >*/}
-                {/*    <FiChevronLeft />*/}
-                {/*  </button>*/}
-                {/*  <div className={styles.backdrop} >*/}
-                {/*    <div className={styles.banner_content} >*/}
-                {/*      <h1>Jesus Cristo Vive!</h1>*/}
-                {/*      <p>*/}
-                {/*        "Por que vocês estão procurando entre os mortos aquele que vive?<br />*/}
-                {/*        Ele não está aqui! Ressuscitou!"</p>*/}
-                {/*      <p>Lucas 24, 5-6</p>*/}
-                {/*    </div>*/}
-                {/*  </div>*/}
-                {/*  <button className={`${styles.banner_arrow} ${styles.banner_arrow__rigth}`} >*/}
-                {/*    <FiChevronRight />*/}
-                {/*  </button>*/}
-                {/*</div>*/}
-
-                <Header/>
+                <div className={styles.header_container}  >
+                    <Header toggleMenu={toggleMenu} />
+                </div>
                 <Banner/>
                 <DividerMobile/>
                 <Intro/>

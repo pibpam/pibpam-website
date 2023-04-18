@@ -1,3 +1,11 @@
+.header_container {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  padding: 32px 24px;
+  width: 100%;
+}
+
 .banner {
   height: 636px;
   position: relative;
