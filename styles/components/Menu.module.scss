@@ -1,7 +1,8 @@
 @keyframes showUp {
   0% {
     opacity: 0;
-    transform: translateY(100%);
+    transform: translateY(100vh);
+    border-radius: 16px;
   }
   60% {
     border-radius: 16px;
@@ -16,7 +17,7 @@
 @keyframes hideDown {
   100% {
     opacity: 0;
-    transform: translateY(100%);
+    transform: translateY(100vh);
     border-radius: 0;
   }
   40% {
@@ -25,6 +26,7 @@
   0% {
     opacity: 1;
     transform: translateY(0);
+    border-radius: 16px;
   }
 }
 
@@ -40,7 +42,7 @@
   flex-direction: column;
   gap: 24px;
   opacity: 0;
-  transform: translateY(100%);
+  transform: translateY(100vh);
   border-radius: 16px;
 
   animation: showUp .5s ease-out forwards;
