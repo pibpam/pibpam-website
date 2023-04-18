@@ -1,0 +1,44 @@
+.container {
+}
+
+.content {
+  padding: 24px 24px 100px;
+  background: #B5DA35;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  > button {
+    padding: 8px 16px;
+    border: 1px solid #3D3D3D;
+    border-radius: 8px;
+    background: none;
+    color: #3D3D3D;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+
+      > span:first-child {
+        font-weight: 300;
+        font-size: 12px;
+        line-height: 15px;
+      }
+
+      > span:last-child {
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 30px;
+      }
+    }
+
+    > svg {
+      font-size: 48px;
+      stroke-width: 1px;
+    }
+  }
+}
