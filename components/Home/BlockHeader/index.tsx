@@ -1,5 +1,4 @@
 import React, {ReactElement} from "react";
-import {FiVideo} from "react-icons/fi";
 import styles from "../../../styles/components/Home/BlockHeader.module.scss"
 
 interface IBlockHeader {

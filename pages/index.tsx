@@ -1,12 +1,9 @@
 import type { NextPage } from 'next'
 import styles from '../styles/Home.module.scss'
-import { FiChevronLeft, FiChevronRight, FiHome, FiUser, FiVideo, FiPlay, FiCalendar, FiArrowLeft, FiArrowRight, FiFilm } from 'react-icons/fi'
+import { FiArrowLeft, FiArrowRight, FiFilm } from 'react-icons/fi'
 import Carousel from '../components/Carousel'
-import ProgramCard from '../components/ProgramCard'
 import SeriesCard from '../components/SeriesCard'
-import YTPlayer from '../components/YTPlayer'
-import Divider, { EDividerColors } from '../components/Divider'
-import PrimaryButton from '../components/Button/Primary'
+import  { EDividerColors } from '../components/Divider'
 import Website from '../layout/container/Website'
 import Banner from "../components/Home/Banner";
 import DividerMobile from "../components/DividerMobile";
