@@ -10,9 +10,15 @@ import ThirdButton from "../components/Button/Third";
 import {FiPlus} from "react-icons/fi";
 import React from "react";
 import FooterPage from "../components/FooterPage";
+import {useRouter} from "next/router";
 
 const Devotionals: NextPage = () => {
     const {open, toggleMenu} = useMenu()
+    const router = useRouter()
+
+    const goTo =  async (pathname: string) => {
+        await router.push({pathname})
+    }
 
     return (
         <Website openMenu={open} toggleMenu={toggleMenu} >
@@ -26,15 +32,15 @@ const Devotionals: NextPage = () => {
                 <DividerMobile color={EDividerColors.white} />
                 <div className={styles.container} >
                     <div className={styles.grid}>
-                        <DevotionalCard/>
-                        <DevotionalCard/>
-                        <DevotionalCard/>
-                        <DevotionalCard/>
-                        <DevotionalCard/>
-                        <DevotionalCard/>
-                        <DevotionalCard/>
-                        <DevotionalCard/>
-                        <DevotionalCard/>
+                        <DevotionalCard onClick={() => goTo("/devotional/123")}/>
+                        <DevotionalCard onClick={() => goTo("/devotional/123")}/>
+                        <DevotionalCard onClick={() => goTo("/devotional/123")}/>
+                        <DevotionalCard onClick={() => goTo("/devotional/123")}/>
+                        <DevotionalCard onClick={() => goTo("/devotional/123")}/>
+                        <DevotionalCard onClick={() => goTo("/devotional/123")}/>
+                        <DevotionalCard onClick={() => goTo("/devotional/123")}/>
+                        <DevotionalCard onClick={() => goTo("/devotional/123")}/>
+                        <DevotionalCard onClick={() => goTo("/devotional/123")}/>
                     </div>
                     <ThirdButton>
                         <><FiPlus/> ver mais</>

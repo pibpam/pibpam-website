@@ -2,9 +2,12 @@ import React from "react";
 import {FiExternalLink} from "react-icons/fi";
 import styles from "../../styles/components/MinistriesItem.module.scss";
 
-const MinistriesItem: React.FC = () => {
+interface IMinistriesItem {
+    onClick: () => void
+}
+const MinistriesItem: React.FC<IMinistriesItem> = ({onClick}) => {
     return (
-        <div className={styles.container}>
+        <div className={styles.container} onClick={onClick}>
             <div className={styles.image}></div>
             <div className={styles.info}>
                 <div>JUBAP</div>

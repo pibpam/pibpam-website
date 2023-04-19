@@ -64,6 +64,8 @@ const About: NextPage = () => {
 
                 <Title>Contatos</Title>
                 <div className={styles.social_media}>
+                    <p>Primeira Igreja  Batista em Pará de Minas</p>
+
                     <button className={styles.button_link}>
                         <FiMail/> contato@pibpam.org
                     </button>

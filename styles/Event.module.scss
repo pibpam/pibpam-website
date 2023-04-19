@@ -1,3 +1,11 @@
+.header_container {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  padding: 32px 24px;
+  width: 100%;
+}
+
 .container {
   padding: 0 24px 90px;
 
@@ -11,9 +19,10 @@
 
   > p {
     margin-top: 16px;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 16px;
     line-height: 20px;
+    text-align: justify;
     color: #494949;
   }
 }
@@ -40,29 +49,18 @@
       background: url("/marco.png") center/cover;
     }
   }
-}
 
-.tag_live {
-  padding: 0 16px;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 20px;
-  color: #FFFFFF;
-  background: #FF0000;
-  border-radius: 86px;
-  margin-left: auto;
-}
+  > div:last-child {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #5FD9DA;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
-.tag_date {
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 20px;
-  color: #5FD9DA;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  > svg {
-    font-size: 24px;
+    > svg {
+      font-size: 24px;
+    }
   }
 }

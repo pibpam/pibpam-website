@@ -1,9 +1,12 @@
 import React from "react";
 import styles from "../../styles/components/DevotionalCard.module.scss"
 
-const DevotionalCard: React.FC = () => {
+interface IDevotionalCard {
+    onClick: () => void
+}
+const DevotionalCard: React.FC<IDevotionalCard> = ({onClick}) => {
     return (
-        <div className={styles.container}>
+        <div className={styles.container} onClick={onClick} >
             <div className={styles.tag__date}>
                 14 mai, 2023
             </div>
