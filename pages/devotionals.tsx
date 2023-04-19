@@ -5,6 +5,11 @@ import DividerMobile, {EDividerColors} from "../components/DividerMobile";
 import Header from "../components/Header";
 import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
+import DevotionalCard from "../components/DevotionalCard";
+import ThirdButton from "../components/Button/Third";
+import {FiPlus} from "react-icons/fi";
+import React from "react";
+import FooterPage from "../components/FooterPage";
 
 const Devotionals: NextPage = () => {
     const {open, toggleMenu} = useMenu()
@@ -19,6 +24,23 @@ const Devotionals: NextPage = () => {
                     title={"Devocionais"}
                 />
                 <DividerMobile color={EDividerColors.white} />
+                <div className={styles.container} >
+                    <div className={styles.grid}>
+                        <DevotionalCard/>
+                        <DevotionalCard/>
+                        <DevotionalCard/>
+                        <DevotionalCard/>
+                        <DevotionalCard/>
+                        <DevotionalCard/>
+                        <DevotionalCard/>
+                        <DevotionalCard/>
+                        <DevotionalCard/>
+                    </div>
+                    <ThirdButton>
+                        <><FiPlus/> ver mais</>
+                    </ThirdButton>
+                </div>
+                <FooterPage/>
             </>
         </Website>
     )

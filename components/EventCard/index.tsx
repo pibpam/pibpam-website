@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../../styles/components/EventCard.module.scss"
 import {FiPlayCircle} from "react-icons/fi";
 
-const ThumbVideo: React.FC = () => {
+const EventCard: React.FC = () => {
     return (
         <div className={styles.container} >
             <div className={styles.tag__date} >
@@ -28,4 +28,4 @@ const ThumbVideo: React.FC = () => {
     )
 }
 
-export default ThumbVideo
+export default EventCard

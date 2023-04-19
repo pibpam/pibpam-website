@@ -7,26 +7,18 @@
   position: relative;
 }
 
-.description {
-  padding: 16px;
-  font-weight: 300;
-  font-size: 10px;
-  line-height: 12px;
-  color: #FFFFFF;
-  background: #3D3D3D;
-}
-
 .tag__date {
   font-weight: 500;
   font-size: 10px;
   line-height: 12px;
-  color: #5FD9DA;
+  color: #FFF;
   padding: 0 8px;
   border: 1px solid #5FD9DA;
+  background: #5FD9DA;
   border-radius: 14px;
   position: absolute;
-  right: 16px;
-  top: 16px;
+  right: 8px;
+  top: 8px;
   z-index: 2;
 }
 
@@ -67,7 +59,7 @@
 }
 
 .backdrop {
-  background: url('/carrossel.png') center/cover;
+  background: url('/devotional.png') center/cover;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -76,13 +68,6 @@
   justify-content: center;
   z-index: 1;
 
-  > svg {
-    color: #B5DA35;
-    font-size: 40px;
-    z-index: 1;
-    stroke-width: 1px;
-  }
-
   &::before {
     content: '';
     width: 100%;
@@ -90,7 +75,6 @@
     position: absolute;
     z-index: 0;
     top: 0;
-    background: rgba(8, 12, 35, 0.85);
-    mix-blend-mode: normal;
+    background: linear-gradient(359.4deg, #494949 15.03%, rgba(0, 0, 0, 0.08) 99.5%);
   }
 }

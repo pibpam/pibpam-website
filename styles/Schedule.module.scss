@@ -1,0 +1,29 @@
+.header_container {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  padding: 32px 24px;
+  width: 100%;
+}
+
+.container {
+  padding: 0 24px 90px;
+}
+
+.content {
+  padding: 32px 24px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 32px 0 40px;
+  grid-gap: 8px;
+
+  > div {
+    width: 100%;
+  }
+}

@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  background: #5FD9DA;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+
+  > svg {
+    font-size: 40px;
+    color: rgba(255, 255, 255, 0.69);
+  }
+
+  > div {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    color: #FFFFFF;
+  }
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  background: #494949;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #B5DA35;
+  width: 180px;
+  justify-content: center;
+  padding: 16px;
+  gap: 8px;
+
+  > span {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+
+    > svg {
+      font-size: 16px;
+    }
+  }
+
+}

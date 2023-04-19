@@ -7,9 +7,10 @@ import {useRouter} from "next/router";
 interface IHeader {
     toggleMenu: () => void
     isOpen?: boolean
+    title?: string
 }
 
-const Header: React.FC<IHeader> = ({toggleMenu, isOpen= false}) => {
+const Header: React.FC<IHeader> = ({toggleMenu, isOpen = false, title}) => {
 
     const router = useRouter()
 
@@ -22,9 +23,11 @@ const Header: React.FC<IHeader> = ({toggleMenu, isOpen= false}) => {
     return (
         <div className={`${styles.container}`}>
             <div>
-                <button onClick={goToHome} >
-                    <Image src="/pibpam-logo.svg" alt="PIBPM logo" width={120} height={31}/>
-                </button>
+                {title ? <div className={styles.title}>{title}</div> :
+                    <button onClick={goToHome}>
+                        <Image src="/pibpam-logo.svg" alt="PIBPM logo" width={120} height={31}/>
+                    </button>
+                }
             </div>
             <button onClick={toggleMenu} className={styles.go_back}>
                 {isOpen ? <FiX/> : <FiMenu/>}
