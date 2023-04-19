@@ -3,10 +3,13 @@ import { FiCalendar, FiClock, FiExternalLink, FiUsers } from 'react-icons/fi';
 
 import styles from '../styles/components/ProgramCard.module.scss'
 
+interface IProgramCard {
+    onClick: () => void
+}
 
-const ProgramCard: React.FC = () => {
+const ProgramCard: React.FC<IProgramCard> = ({onClick}) => {
   return (
-    <div className={styles.programCardContainer} >
+    <div onClick={onClick} className={styles.programCardContainer} >
       <div>
         <div>Pequeno Grupo Multiplicador</div>
         <div><FiUsers /></div>

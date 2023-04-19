@@ -2,9 +2,13 @@ import React from "react";
 import styles from "../../styles/components/ScheduleEvent.module.scss"
 import {FiCalendar, FiClock, FiExternalLink} from "react-icons/fi";
 
-const ScheduleEvent: React.FC = () => {
+interface IScheduleEvent {
+    onClick: () => void
+}
+
+const ScheduleEvent: React.FC<IScheduleEvent> = ({onClick}) => {
     return (
-        <div className={styles.container}>
+        <div onClick={onClick} className={styles.container}>
             <div className={styles.external_link}><FiExternalLink/></div>
             <div className={styles.thumb}>
                 <div className={styles.content}>

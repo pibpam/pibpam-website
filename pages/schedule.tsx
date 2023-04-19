@@ -13,10 +13,15 @@ import ProgramCard from "../components/ProgramCard";
 import {FiPlus} from "react-icons/fi";
 import ThirdButton from "../components/Button/Third";
 import React from "react";
+import {useRouter} from "next/router";
 
 const Schedule: NextPage = () => {
     const {open, toggleMenu} = useMenu()
+    const router = useRouter()
 
+    const goTo =  async (pathname: string) => {
+        await router.push({pathname})
+    }
     return (
         <Website openMenu={open} toggleMenu={toggleMenu}>
             <>
@@ -39,20 +44,20 @@ const Schedule: NextPage = () => {
                 <Title>Eventos</Title>
 
                 <div className={styles.content}>
-                    <ScheduleEvent/>
-                    <ScheduleEvent/>
+                    <ScheduleEvent onClick={() => goTo("/schedule/123")}/>
+                    <ScheduleEvent onClick={() => goTo("/schedule/123")}/>
                 </div>
                 <Title>Nesta semana</Title>
                 <div className={styles.container}>
                     <div className={styles.grid}>
-                        <ProgramCard/>
-                        <ProgramCard/>
-                        <ProgramCard/>
-                        <ProgramCard/>
-                        <ProgramCard/>
-                        <ProgramCard/>
-                        <ProgramCard/>
-                        <ProgramCard/>
+                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
+                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
+                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
+                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
+                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
+                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
+                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
+                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
                     </div>
                     <ThirdButton>
                         <><FiPlus/> ver mais</>
