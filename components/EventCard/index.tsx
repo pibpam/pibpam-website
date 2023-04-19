@@ -2,9 +2,13 @@ import React from "react";
 import styles from "../../styles/components/EventCard.module.scss"
 import {FiPlayCircle} from "react-icons/fi";
 
-const EventCard: React.FC = () => {
+interface IEventCard {
+    onClick: () => void
+}
+
+const EventCard: React.FC<IEventCard> = ({onClick}) => {
     return (
-        <div className={styles.container} >
+        <div className={styles.container} onClick={onClick} >
             <div className={styles.tag__date} >
                 14 mai, 2023
             </div>

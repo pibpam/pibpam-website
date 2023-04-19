@@ -44,7 +44,7 @@ const Menu: React.FC<IMenu> = ({toggleMenu}) => {
                         <FiChevronRight/>
                     </button>
                 </li>
-                <li onClick={() => goTo("/event/2342424")} >
+                <li onClick={() => goTo("/event/live")} >
                     <button>
                         <FiRadio/>
                         <div>

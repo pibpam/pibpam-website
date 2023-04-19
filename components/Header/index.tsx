@@ -1,16 +1,17 @@
 import React from 'react';
 import styles from '../../styles/components/Header.module.scss'
 import Image from "next/image";
-import {FiMenu, FiX} from "react-icons/fi";
+import {FiChevronLeft, FiMenu, FiX} from "react-icons/fi";
 import {useRouter} from "next/router";
 
 interface IHeader {
     toggleMenu: () => void
     isOpen?: boolean
     title?: string
+    goBack?: () => void
 }
 
-const Header: React.FC<IHeader> = ({toggleMenu, isOpen = false, title}) => {
+const Header: React.FC<IHeader> = ({toggleMenu, isOpen = false, title, goBack}) => {
 
     const router = useRouter()
 
@@ -23,6 +24,11 @@ const Header: React.FC<IHeader> = ({toggleMenu, isOpen = false, title}) => {
     return (
         <div className={`${styles.container}`}>
             <div>
+                {goBack && (
+                    <button className={styles.go_back} onClick={goBack}>
+                        <FiChevronLeft/>
+                    </button>
+                )}
                 {title ? <div className={styles.title}>{title}</div> :
                     <button onClick={goToHome}>
                         <Image src="/pibpam-logo.svg" alt="PIBPM logo" width={120} height={31}/>

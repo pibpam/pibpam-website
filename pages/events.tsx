@@ -11,9 +11,15 @@ import {FiPlay, FiPlus} from "react-icons/fi";
 import EventCard from "../components/EventCard";
 import ThirdButton from "../components/Button/Third";
 import FooterPage from "../components/FooterPage";
+import {useRouter} from "next/router";
 
 const Events: NextPage = () => {
     const {open, toggleMenu} = useMenu()
+    const router = useRouter()
+
+    const goTo =  async (pathname: string) => {
+       await router.push({pathname})
+    }
 
     return (
         <Website openMenu={open} toggleMenu={toggleMenu}>
@@ -26,24 +32,25 @@ const Events: NextPage = () => {
                 <DividerMobile color={EDividerColors.white}/>
                 <div className={styles.container}>
                     <div className={styles.button__on_line}>
-                        <SecondaryButton>
+                        <SecondaryButton onClick={() => goTo("/event/live")} >
                             <><FiPlay/> Assistir Culto On-line</>
                         </SecondaryButton>
                     </div>
 
                     <div className={styles.grid}>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
+                        <EventCard onClick={() => goTo("/event/123")} />
+                        <EventCard onClick={() => goTo("/event/123")} />
+                        <EventCard onClick={() => goTo("/event/123")} />
+                        <EventCard onClick={() => goTo("/event/123")} />
+                        <EventCard onClick={() => goTo("/event/123")} />
+                        <EventCard onClick={() => goTo("/event/123")} />
+                        <EventCard onClick={() => goTo("/event/123")} />
+                        <EventCard onClick={() => goTo("/event/123")} />
+                        <EventCard onClick={() => goTo("/event/123")} />
+                        <EventCard onClick={() => goTo("/event/123")} />
+                        <EventCard onClick={() => goTo("/event/123")} />
+                        <EventCard onClick={() => goTo("/event/123")} />
+                        <EventCard onClick={() => goTo("/event/123")} />
                     </div>
                     <ThirdButton>
                         <><FiPlus/> ver mais</>

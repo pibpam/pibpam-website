@@ -6,28 +6,22 @@ import Header from "../../components/Header";
 import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
 import LivePage from "../../components/LivePage";
-import {useRouter} from "next/router";
 
-const Event: NextPage = () => {
+const Live: NextPage = () => {
     const {open, toggleMenu} = useMenu()
-    const router = useRouter()
-
-    const goBack = async () => {
-       await router.push({pathname: "/events"})
-    }
 
     return (
-        <Website openMenu={open} toggleMenu={toggleMenu}>
+        <Website openMenu={open} toggleMenu={toggleMenu} >
             <>
-                <div className={styles.header_container}>
-                    <Header goBack={goBack} toggleMenu={toggleMenu}/>
+                <div className={styles.header_container}  >
+                    <Header toggleMenu={toggleMenu} />
                 </div>
                 <HeaderPage/>
-                <DividerMobile color={EDividerColors.white}/>
-                <LivePage isVod/>
+                <DividerMobile color={EDividerColors.white} />
+                <LivePage/>
             </>
         </Website>
     )
 }
 
-export default Event
+export default Live

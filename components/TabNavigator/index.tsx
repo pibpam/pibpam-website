@@ -28,7 +28,7 @@ const TabNavigator: React.FC = () => {
                     </button>
                 </li>
                 <li>
-                    <button className={`${pathname === "/event" && styles.active}`}  onClick={() => goTo("/event/3424234")} >
+                    <button className={`${pathname === "/event/live" && styles.active}`}  onClick={() => goTo("/event/live")} >
                         <FiRadio/>
                         <span>ao vivo</span>
                     </button>
