@@ -5,7 +5,11 @@ import {FiArrowLeft, FiArrowRight, FiCalendar} from "react-icons/fi";
 import Carousel from "../../Carousel";
 import ProgramCard from "../../ProgramCard";
 
-const Schedule: React.FC = () => {
+interface ISchedule {
+    goTo: (pathname: string) => void
+}
+
+const Schedule: React.FC<ISchedule> = ({goTo}) => {
     return (
         <div className={styles.container}>
             <div className={styles.content}>
@@ -30,11 +34,11 @@ const Schedule: React.FC = () => {
             <div>
                 <Carousel>
                     <>
-                        <ProgramCard/>
-                        <ProgramCard/>
-                        <ProgramCard/>
-                        <ProgramCard/>
-                        <ProgramCard/>
+                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
+                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
+                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
+                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
+                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
                     </>
                 </Carousel>
             </div>

@@ -10,22 +10,28 @@ import Transmission from "../components/Home/Transmission";
 import Schedule from "../components/Home/Schedule";
 import Series from "../components/Home/Series";
 import useMenu from "../hooks/useMenu";
+import {useRouter} from "next/router";
 
 const Home: NextPage = () => {
     const {open, toggleMenu} = useMenu()
+    const router = useRouter()
+
+    const goTo = async (pathname: string) => {
+        await router.push({pathname})
+    }
 
     return (
-        <Website openMenu={open} toggleMenu={toggleMenu} >
+        <Website openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <div className={styles.header_container}  >
-                    <Header toggleMenu={toggleMenu} />
+                <div className={styles.header_container}>
+                    <Header toggleMenu={toggleMenu}/>
                 </div>
                 <Banner/>
                 <DividerMobile/>
                 <Intro/>
                 <DividerMobile color={EDividerColors.white}/>
                 <Transmission/>
-                <Schedule/>
+                <Schedule goTo={goTo}/>
                 <DividerMobile color={EDividerColors.yellow}/>
                 <Series/>
             </>
