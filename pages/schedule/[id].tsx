@@ -1,5 +1,5 @@
 import type {NextPage} from 'next'
-import styles from '../../styles/Schedule.module.scss'
+import styles from '../../styles/SchedulePage.module.scss'
 import Website from '../../layout/container/Website'
 import DividerMobile, {EDividerColors} from "../../components/DividerMobile";
 import Header from "../../components/Header";
