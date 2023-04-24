@@ -18,7 +18,7 @@ const Live: NextPage = () => {
                 </div>
                 <HeaderPage/>
                 <DividerMobile color={EDividerColors.white} />
-                <LivePage/>
+                {/*<LivePage/>*/}
             </>
         </Website>
     )

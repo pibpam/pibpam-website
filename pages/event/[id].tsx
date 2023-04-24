@@ -7,27 +7,45 @@ import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
 import LivePage from "../../components/LivePage";
 import {useRouter} from "next/router";
+import {Api} from "../../services/api";
+import {IContent} from "../../interfaces/Contens";
 
-const Event: NextPage = () => {
+interface IEventPage {
+    data: IContent
+}
+
+interface IParams {
+    params: {
+        id: string
+    }
+}
+
+const Event: NextPage<IEventPage> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
 
     const goBack = async () => {
-       await router.push({pathname: "/events"})
+        await router.push({pathname: "/events"})
     }
 
     return (
-        <Website openMenu={open} toggleMenu={toggleMenu}>
+        <Website hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <div className={styles.header_container}>
                     <Header goBack={goBack} toggleMenu={toggleMenu}/>
                 </div>
                 <HeaderPage/>
                 <DividerMobile color={EDividerColors.white}/>
-                <LivePage isVod/>
+                <LivePage content={data} isVod/>
             </>
         </Website>
     )
+}
+
+export async function getServerSideProps({params}: IParams) {
+    const api = new Api()
+    const data = await api.getContent(params.id)
+    return {props: {data}}
 }
 
 export default Event

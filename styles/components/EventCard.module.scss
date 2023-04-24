@@ -50,14 +50,15 @@
   align-items: flex-start;
   gap: 2px;
 
-  > p:first-child {
+  > p:nth-child(1) {
     font-weight: 500;
     font-size: 16px;
     line-height: 20px;
     color: #B5DA35;
 
   }
-  > p:last-child {
+
+  > p:nth-child(2) {
     font-weight: 300;
     font-size: 12px;
     line-height: 15px;

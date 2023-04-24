@@ -2,29 +2,32 @@ import React from "react";
 import styles from "../../styles/components/LivePage.module.scss"
 import YTPlayer from "../YTPlayer";
 import {FiCalendar} from "react-icons/fi";
+import {IContent} from "../../interfaces/Contens";
+import {DateUtils} from "../../utils/Date";
 
 interface ILivePage {
     isVod?: boolean
+    content: IContent
 }
 
-const LivePage: React.FC<ILivePage> = ({isVod = false}) => {
+const LivePage: React.FC<ILivePage> = ({isVod = false, content}) => {
     return (
         <div className={styles.container}>
-            <h1>Celebração da Santa ceia do Senhor</h1>
+            <h1>{content?.name}</h1>
             <div className={styles.header}>
                 <div>
-                    <div></div>
-                    Pr. Alex Oliveira
+                    {content.author?.image && (
+                        <div style={{background: "url('" + content.author.image + "')"}}></div>
+                    )}
+                    {content.author && content.author.name}
                 </div>
-                {isVod ? (<div className={styles.tag_date}><FiCalendar/>14 mai, 2023</div>) : (
+                {isVod ? (<div className={styles.tag_date}>
+                    <FiCalendar/>{content?.contentDate && DateUtils.formatDateDefault(content.contentDate)}</div>) : (
                     <div className={styles.tag_live}>Ao Vivo</div>)}
 
             </div>
-            <YTPlayer videoId={"7YjjOXA30_M"} thumb={"sdad"}/>
-            <p>
-                Paulo mostra aos gálatas que há uma guerra em andamento entre a carne e o Espírito e somente aqueles que
-                andarem em Espírito é que sairão vitoriosos.
-            </p>
+            <YTPlayer videoId={content.content} thumb={content.image}/>
+            <p>{content.description}</p>
         </div>
     )
 }

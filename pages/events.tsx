@@ -12,13 +12,19 @@ import EventCard from "../components/EventCard";
 import ThirdButton from "../components/Button/Third";
 import FooterPage from "../components/FooterPage";
 import {useRouter} from "next/router";
+import {Api} from "../services/api";
+import {IContent} from "../interfaces/Contens";
 
-const Events: NextPage = () => {
+interface IEventsPage {
+    data: IContent[]
+}
+
+const Events: NextPage<IEventsPage> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
 
-    const goTo =  async (pathname: string) => {
-       await router.push({pathname})
+    const goTo = async (pathname: string) => {
+        await router.push({pathname})
     }
 
     return (
@@ -32,34 +38,33 @@ const Events: NextPage = () => {
                 <DividerMobile color={EDividerColors.white}/>
                 <div className={styles.container}>
                     <div className={styles.button__on_line}>
-                        <SecondaryButton onClick={() => goTo("/event/live")} >
+                        <SecondaryButton onClick={() => goTo("/event/live")}>
                             <><FiPlay/> Assistir Culto On-line</>
                         </SecondaryButton>
                     </div>
 
                     <div className={styles.grid}>
-                        <EventCard onClick={() => goTo("/event/123")} />
-                        <EventCard onClick={() => goTo("/event/123")} />
-                        <EventCard onClick={() => goTo("/event/123")} />
-                        <EventCard onClick={() => goTo("/event/123")} />
-                        <EventCard onClick={() => goTo("/event/123")} />
-                        <EventCard onClick={() => goTo("/event/123")} />
-                        <EventCard onClick={() => goTo("/event/123")} />
-                        <EventCard onClick={() => goTo("/event/123")} />
-                        <EventCard onClick={() => goTo("/event/123")} />
-                        <EventCard onClick={() => goTo("/event/123")} />
-                        <EventCard onClick={() => goTo("/event/123")} />
-                        <EventCard onClick={() => goTo("/event/123")} />
-                        <EventCard onClick={() => goTo("/event/123")} />
+                        {
+                            data.map(item => (
+                                <EventCard data={item} key={item.uuid} onClick={() => goTo("/event/" + item.uuid)}/>
+                            ))
+                        }
                     </div>
-                    <ThirdButton>
-                        <><FiPlus/> ver mais</>
-                    </ThirdButton>
+                    {/*<ThirdButton>*/}
+                    {/*    <><FiPlus/> ver mais</>*/}
+                    {/*</ThirdButton>*/}
                 </div>
                 <FooterPage/>
             </>
         </Website>
     )
 }
+
+export async function getServerSideProps() {
+    const api = new Api()
+    const data = await api.getContents()
+    return {props: {data}}
+}
+
 
 export default Events
