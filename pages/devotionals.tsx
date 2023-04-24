@@ -12,9 +12,11 @@ import React from "react";
 import FooterPage from "../components/FooterPage";
 import {useRouter} from "next/router";
 
-const Devotionals: NextPage = () => {
+const Devotionals: NextPage = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
+
+    console.log(data)
 
     const goTo =  async (pathname: string) => {
         await router.push({pathname})
@@ -50,6 +52,16 @@ const Devotionals: NextPage = () => {
             </>
         </Website>
     )
+}
+
+// This gets called on every request
+export async function getServerSideProps() {
+    // Fetch data from external API
+    const res = await fetch(`http://ec2-52-207-255-226.compute-1.amazonaws.com/devotionals`)
+    const data = await res.json()
+
+    // Pass data to the page via props
+    return { props: { data } }
 }
 
 export default Devotionals
