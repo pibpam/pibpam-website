@@ -17,7 +17,7 @@ const LivePage: React.FC<ILivePage> = ({isVod = false, content}) => {
             <div className={styles.header}>
                 <div>
                     {content.author?.image && (
-                        <div style={{background: "url('" + content.author.image + "')"}}></div>
+                        <div style={{background: "url('" + content.author.image + "') center/cover"}}></div>
                     )}
                     {content.author && content.author.name}
                 </div>
