@@ -12,7 +12,11 @@ import React from "react";
 import FooterPage from "../components/FooterPage";
 import {useRouter} from "next/router";
 
-const Devotionals: NextPage = ({data}) => {
+interface IDevotionalsPage {
+    data: Record<string, string>
+}
+
+const Devotionals: NextPage<IDevotionalsPage> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
 
