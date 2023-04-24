@@ -1,22 +1,28 @@
 import React from "react";
 import styles from "../../styles/components/DevotionalCard.module.scss"
+import {IDevotinal} from "../../interfaces/Devotinal";
+import {DateUtils} from "../../utils/Date";
 
 interface IDevotionalCard {
     onClick: () => void
+    devotional: IDevotinal
 }
-const DevotionalCard: React.FC<IDevotionalCard> = ({onClick}) => {
+
+const DevotionalCard: React.FC<IDevotionalCard> = ({onClick, devotional}) => {
     return (
-        <div className={styles.container} onClick={onClick} >
+        <div className={styles.container} onClick={onClick}>
             <div className={styles.tag__date}>
-                14 mai, 2023
+                {DateUtils.formatDateDefault(devotional.contentDate)}
             </div>
             <div className={styles.thumb}>
                 <div className={styles.content}>
-                    <p>As bençãos do justo</p>
-                    <p>Pr. Alex Oliveira</p>
+                    <p>{devotional.title}</p>
+                    {devotional?.author && (
+                        <p>{devotional.author.name}</p>
+                    )}
                 </div>
 
-                <div className={styles.backdrop}/>
+                <div className={styles.backdrop} style={{background: "url('" + devotional.image + "') center/cover"}}/>
             </div>
         </div>
     )

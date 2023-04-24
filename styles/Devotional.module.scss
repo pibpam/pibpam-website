@@ -1,0 +1,66 @@
+.header_container {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  padding: 32px 24px;
+  width: 100%;
+}
+
+.container {
+  padding: 0 24px 24px;
+
+  > h1 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+    color: #3D3D3D;
+    margin-bottom: 16px;
+  }
+
+  > p {
+    margin-top: 16px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: justify;
+    color: #494949;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 24px;
+
+  > div:first-child {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #5FD9DA;
+    display: flex;
+    align-items: center;
+
+    > div {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      margin-right: 8px;
+      background: url("/marco.png") center/cover;
+    }
+  }
+
+  > div:last-child {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #5FD9DA;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    > svg {
+      font-size: 24px;
+    }
+  }
+}

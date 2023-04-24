@@ -7,11 +7,12 @@ interface IWebsiteProps {
     children: ReactElement
     openMenu: boolean
     toggleMenu: () => void
+    hasTabNavigator?: boolean
 }
 
-const Website: React.FC<IWebsiteProps> = ({children, openMenu, toggleMenu}) => {
+const Website: React.FC<IWebsiteProps> = ({hasTabNavigator = true, children, openMenu, toggleMenu}) => {
     return (
-        <div style={{height: openMenu ? "100%" : "auto", overflow: openMenu ? "hidden" : "auto"}} >
+        <div style={{height: openMenu ? "100%" : "auto", overflow: openMenu ? "hidden" : "auto"}}>
             <Head>
                 <title>PIB Pará de Minas</title>
                 <meta name="description" content="Primeira Igreja Batista em Pará de Minas"/>
@@ -20,7 +21,7 @@ const Website: React.FC<IWebsiteProps> = ({children, openMenu, toggleMenu}) => {
             <main>
                 {children}
             </main>
-            <TabNavigator/>
+            {hasTabNavigator && <TabNavigator/>}
             {openMenu && <Menu toggleMenu={toggleMenu}/>}
         </div>
     );
