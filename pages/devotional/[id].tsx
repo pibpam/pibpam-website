@@ -11,6 +11,7 @@ import React from "react";
 import {Api} from "../../services/api";
 import {IDevotinal} from "../../interfaces/Devotinal";
 import {DateUtils} from "../../utils/Date";
+import useLoading from "../../hooks/useLoading";
 
 interface IDevotionalPage {
     data: IDevotinal
@@ -20,8 +21,12 @@ const Devotional: NextPage<IDevotionalPage> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
 
+    const {handleClose, handleOpen} = useLoading()
+
     const goBack = async () => {
+        await handleOpen()
         await router.push({pathname: "/devotionals"})
+        handleClose()
     }
 
     return (
@@ -30,7 +35,7 @@ const Devotional: NextPage<IDevotionalPage> = ({data}) => {
                 <div className={styles.header_container}>
                     <Header goBack={goBack} toggleMenu={toggleMenu}/>
                 </div>
-                <HeaderPage background={data.image}  />
+                <HeaderPage background={data.image}/>
                 <DividerMobile color={EDividerColors.white}/>
                 <div className={styles.container}>
                     <h1>{data.title}</h1>

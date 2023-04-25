@@ -14,6 +14,7 @@ import {useRouter} from "next/router";
 import {IDevotinal} from "../interfaces/Devotinal";
 import EmptyState from "../components/EmptyState";
 import {Api} from "../services/api";
+import useLoading from "../hooks/useLoading";
 
 interface IDevotionalsPage {
     data: IDevotinal[]
@@ -22,9 +23,12 @@ interface IDevotionalsPage {
 const Devotionals: NextPage<IDevotionalsPage> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
+    const {handleClose, handleOpen} = useLoading()
 
     const goTo = async (pathname: string) => {
+        await handleOpen()
         await router.push({pathname})
+        handleClose()
     }
 
     return (
