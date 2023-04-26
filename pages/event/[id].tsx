@@ -36,7 +36,7 @@ const Event: NextPage<IEventPage> = ({data}) => {
                 </div>
                 <HeaderPage/>
                 <DividerMobile color={EDividerColors.white}/>
-                <LivePage content={data} isVod/>
+                <LivePage content={data}/>
             </>
         </Website>
     )
