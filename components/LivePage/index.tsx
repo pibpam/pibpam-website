@@ -6,11 +6,10 @@ import {IContent} from "../../interfaces/Contens";
 import {DateUtils} from "../../utils/Date";
 
 interface ILivePage {
-    isVod?: boolean
     content: IContent
 }
 
-const LivePage: React.FC<ILivePage> = ({isVod = false, content}) => {
+const LivePage: React.FC<ILivePage> = ({content}) => {
     return (
         <div className={styles.container}>
             <h1>{content?.name}</h1>
@@ -21,7 +20,7 @@ const LivePage: React.FC<ILivePage> = ({isVod = false, content}) => {
                     )}
                     {content.author && content.author.name}
                 </div>
-                {isVod ? (<div className={styles.tag_date}>
+                {!content.isLive ? (<div className={styles.tag_date}>
                     <FiCalendar/>{content?.contentDate && DateUtils.formatDateDefault(content.contentDate)}</div>) : (
                     <div className={styles.tag_live}>Ao Vivo</div>)}
 

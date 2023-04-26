@@ -1,14 +1,16 @@
-import React from "react";
+import React, {useContext} from "react";
 import {FiBook, FiBookOpen, FiCalendar, FiPlay, FiRadio} from "react-icons/fi";
 import styles from "../../styles/components/TabNavigator.module.scss"
 import {useRouter} from "next/router";
 import useLoading from "../../hooks/useLoading";
+import {LivesContext} from "../../contexts/lives";
 
 const TabNavigator: React.FC = () => {
     const router = useRouter()
     const {pathname} = router
 
     const {handleOpen, handleClose} = useLoading()
+    const {lives} = useContext(LivesContext)
 
     const goTo = async (pathname: string) => {
         await handleOpen()
@@ -34,13 +36,15 @@ const TabNavigator: React.FC = () => {
                         <span>devocionais</span>
                     </button>
                 </li>
-                <li>
-                    <button className={`${pathname === "/event/live" && styles.active}`}
-                            onClick={() => goTo("/event/live")}>
-                        <FiRadio/>
-                        <span>ao vivo</span>
-                    </button>
-                </li>
+                {!!lives.length && (
+                    <li>
+                        <button className={`${pathname === "/event/live" && styles.active}`}
+                                onClick={() => goTo("/event/live")}>
+                            <FiRadio/>
+                            <span>ao vivo</span>
+                        </button>
+                    </li>
+                )}
                 <li>
                     <button className={`${pathname === "/schedule" && styles.active}`}
                             onClick={() => goTo("/schedule")}>

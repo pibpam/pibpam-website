@@ -1,16 +1,16 @@
 @keyframes showUp {
   0% {
-    top: -100px;
+    //top: -100px;
     opacity: 0;
   }
   100% {
-    top: 0;
+    //top: 0;
     opacity: 1;
   }
 }
 
 .container {
   position: relative;
-  top: -100px;
+  //top: -100px;
   animation: showUp .4s ease-in-out forwards;
 }
