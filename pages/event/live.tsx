@@ -20,7 +20,9 @@ const Live: NextPage = () => {
                 </div>
                 <HeaderPage/>
                 <DividerMobile color={EDividerColors.white}/>
-                <LivePage content={lives[0]}/>
+                {!!lives.length &&
+                    (<LivePage content={lives[0]}/>)
+                }
             </>
         </Website>
     )
