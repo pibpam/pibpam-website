@@ -8,13 +8,25 @@ import HeaderPage from "../components/HeaderPage";
 import MinistriesItem from "../components/MinistriesItem";
 import FooterPage from "../components/FooterPage";
 import {useRouter} from "next/router";
+import {Api} from "../services/api";
+import {ITeam} from "../interfaces/Team";
+import useLoading from "../hooks/useLoading";
+import {FiCalendar, FiPlay} from "react-icons/fi";
+import React from "react";
 
-const Ministries: NextPage = () => {
+interface IMinistries {
+    data: ITeam
+}
+
+const Ministries: NextPage<IMinistries> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
+    const {handleOpen, handleClose} = useLoading()
 
-    const goTo =  async (pathname: string) => {
+    const goTo = async (pathname: string) => {
+        await handleOpen()
         await router.push({pathname})
+        handleClose()
     }
 
     return (
@@ -31,20 +43,35 @@ const Ministries: NextPage = () => {
 
                 <div className={styles.container}>
                     <div className={styles.grid}>
-                        <MinistriesItem onClick={() => goTo("/ministry/123")}/>
-                        <MinistriesItem onClick={() => goTo("/ministry/123")}/>
-                        <MinistriesItem onClick={() => goTo("/ministry/123")}/>
-                        <MinistriesItem onClick={() => goTo("/ministry/123")}/>
-                        <MinistriesItem onClick={() => goTo("/ministry/123")}/>
-                        <MinistriesItem onClick={() => goTo("/ministry/123")}/>
-                        <MinistriesItem onClick={() => goTo("/ministry/123")}/>
-                        <MinistriesItem onClick={() => goTo("/ministry/123")}/>
+                        {data.map(item => (
+                            <MinistriesItem data={item} key={item.uuid} onClick={() => goTo("/ministry/" + item.uuid)}/>
+                        ))}
                     </div>
                 </div>
-                <FooterPage/>
+                <FooterPage
+                    options={[
+                        {
+                            text: "Cultos",
+                            icon: <FiPlay/>,
+                            action: () => goTo("/events")
+                        },
+                        {
+                            text: "Programação",
+                            icon: <FiCalendar/>,
+                            action: () => goTo("/schedule")
+                        }
+                    ]}
+                />
             </>
         </Website>
     )
 }
+
+export async function getServerSideProps() {
+    const api = new Api()
+    const data = await api.getMinistries()
+    return {props: {data}}
+}
+
 
 export default Ministries

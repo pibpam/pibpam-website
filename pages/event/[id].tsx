@@ -9,6 +9,7 @@ import LivePage from "../../components/LivePage";
 import {useRouter} from "next/router";
 import {Api} from "../../services/api";
 import {IContent} from "../../interfaces/Contens";
+import useLoading from "../../hooks/useLoading";
 
 interface IEventPage {
     data: IContent
@@ -23,9 +24,12 @@ interface IParams {
 const Event: NextPage<IEventPage> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
+    const {handleClose, handleOpen} = useLoading()
 
     const goBack = async () => {
+        await handleOpen()
         await router.push({pathname: "/events"})
+        handleClose()
     }
 
     return (
@@ -34,7 +38,7 @@ const Event: NextPage<IEventPage> = ({data}) => {
                 <div className={styles.header_container}>
                     <Header goBack={goBack} toggleMenu={toggleMenu}/>
                 </div>
-                <HeaderPage/>
+                <HeaderPage background={data.image} />
                 <DividerMobile color={EDividerColors.white}/>
                 <LivePage content={data}/>
             </>

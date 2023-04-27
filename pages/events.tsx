@@ -7,13 +7,14 @@ import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
 import React from "react";
 import SecondaryButton from "../components/Button/Secondary";
-import {FiPlay, FiPlus} from "react-icons/fi";
+import {FiBookOpen, FiCalendar, FiPlay} from "react-icons/fi";
 import EventCard from "../components/EventCard";
 import ThirdButton from "../components/Button/Third";
 import FooterPage from "../components/FooterPage";
 import {useRouter} from "next/router";
 import {Api} from "../services/api";
 import {IContent} from "../interfaces/Contens";
+import useLoading from "../hooks/useLoading";
 
 interface IEventsPage {
     data: IContent[]
@@ -22,9 +23,12 @@ interface IEventsPage {
 const Events: NextPage<IEventsPage> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
+    const {handleClose, handleOpen} = useLoading()
 
     const goTo = async (pathname: string) => {
+        await handleOpen()
         await router.push({pathname})
+        handleClose()
     }
 
     return (
@@ -54,7 +58,20 @@ const Events: NextPage<IEventsPage> = ({data}) => {
                     {/*    <><FiPlus/> ver mais</>*/}
                     {/*</ThirdButton>*/}
                 </div>
-                <FooterPage/>
+                <FooterPage
+                    options={[
+                        {
+                            text: "Devocionais",
+                            icon: <FiBookOpen/>,
+                            action: () => goTo("/devotionals")
+                        },
+                        {
+                            text: "Programação",
+                            icon: <FiCalendar/>,
+                            action: () => goTo("/schedule")
+                        }
+                    ]}
+                />
             </>
         </Website>
     )

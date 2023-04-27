@@ -6,74 +6,70 @@ import Header from "../../components/Header";
 import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
 import {useRouter} from "next/router";
-import {FiCalendar} from "react-icons/fi";
 import React from "react";
 import Title from "../../components/Title";
+import useLoading from "../../hooks/useLoading";
+import {Api} from "../../services/api";
+import {ITeam} from "../../interfaces/Team";
 
-const Ministry: NextPage = () => {
+interface IParams {
+    params: {
+        id: string
+    }
+}
+
+interface IMinistry {
+    data: ITeam
+}
+
+const Ministry: NextPage<IMinistry> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
 
+    const {handleClose, handleOpen} = useLoading()
+
     const goBack = async () => {
+        await handleOpen()
         await router.push({pathname: "/ministries"})
+        handleClose()
     }
 
     return (
-        <Website openMenu={open} toggleMenu={toggleMenu}>
+        <Website hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <div className={styles.header_container}>
                     <Header goBack={goBack} toggleMenu={toggleMenu}/>
                 </div>
-                <HeaderPage/>
+                <HeaderPage background={data.image} />
                 <DividerMobile color={EDividerColors.white}/>
                 <div className={styles.container}>
-                    <h1>JUBAP</h1>
-                    <h2>Juventude Batista Pará de Minas</h2>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam lectus tellus, egestas id metus
-                        eu, fringilla vestibulum est. Mauris ut porta massa. Nam porttitor commodo ipsum in ullamcorper.
-                        Morbi metus enim, venenatis at laoreet a, convallis a velit. Integer libero mi, varius eu diam
-                        et, cursus malesuada libero. Donec fermentum tellus vel auctor iaculis. Quisque vitae convallis
-                        elit, vel scelerisque nulla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec
-                        malesuada suscipit porta. Nullam ex eros, congue non velit nec, blandit laoreet tortor.
-                    </p>
+                    <h1>{data.name}</h1>
+                    <h2>{data.shortDescription}</h2>
+                    <p>{data.description}</p>
                 </div>
-                <Title>Equipe</Title>
-                <div className={styles.team}>
-                    <div className={styles.team_item}>
-                        <div></div>
-                        <div>Marco Oliveira</div>
-                        <div>Líder</div>
-                    </div>
-                    <div className={styles.team_item}>
-                        <div></div>
-                        <div>Marco Oliveira</div>
-                        <div>Líder</div>
-                    </div>
-                    <div className={styles.team_item}>
-                        <div></div>
-                        <div>Marco Oliveira</div>
-                        <div>Líder</div>
-                    </div>
-                    <div className={styles.team_item}>
-                        <div></div>
-                        <div>Marco Oliveira</div>
-                        <div>Líder</div>
-                    </div>
-                    <div className={styles.team_item}>
-                        <div></div>
-                        <div>Marco Oliveira</div>
-                        <div>Líder</div>
-                    </div>
-                    <div className={styles.team_item}>
-                        <div></div>
-                        <div>Marco Oliveira</div>
-                        <div>Líder</div>
-                    </div>
-                </div>
+                {!!data.teamMember.length && (
+                    <>
+                        <Title>Equipe</Title>
+                        <div className={styles.team}>
+                            {data.teamMember.map(item => (
+                                <div className={styles.team_item}>
+                                    <div style={{background: "url('"+item.member?.image+"') center/cover"}} ></div>
+                                    <div>{item.member?.name}</div>
+                                    <div>{item.role}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </>
+                )}
             </>
         </Website>
     )
+}
+
+export async function getServerSideProps({params}: IParams) {
+    const api = new Api()
+    const data = await api.getMinistry(params.id)
+    return {props: {data}}
 }
 
 export default Ministry

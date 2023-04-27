@@ -1,6 +1,7 @@
 import axios from "axios";
 import {IDevotinal} from "../interfaces/Devotinal";
 import {IContent} from "../interfaces/Contens";
+import {ITeam} from "../interfaces/Team";
 
 export class Api {
     private client
@@ -33,6 +34,16 @@ export class Api {
 
     async getContent(uuid: string) {
         const {data} = await this.client.get<IContent>("contents/" + uuid)
+        return data
+    }
+
+    async getMinistries() {
+        const {data} = await this.client.get<ITeam[]>("teams")
+        return data
+    }
+
+    async getMinistry(uuid: string) {
+        const {data} = await this.client.get<ITeam>("teams/" + uuid)
         return data
     }
 

@@ -81,7 +81,7 @@ const Schedule: NextPage = () => {
 
                 <Title>Organizador</Title>
                 <div className={styles.container}>
-                    <MinistriesItem onClick={() => alert("Do")}/>
+                    {/*<MinistriesItem onClick={() => alert("Do")}/>*/}
                 </div>
             </>
         </Website>
