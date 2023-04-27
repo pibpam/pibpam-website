@@ -52,7 +52,7 @@ const Ministry: NextPage<IMinistry> = ({data}) => {
                         <Title>Equipe</Title>
                         <div className={styles.team}>
                             {data.teamMember.map(item => (
-                                <div className={styles.team_item}>
+                                <div key={item.uuid} className={styles.team_item}>
                                     <div style={{background: "url('"+item.member?.image+"') center/cover"}} ></div>
                                     <div>{item.member?.name}</div>
                                     <div>{item.role}</div>
