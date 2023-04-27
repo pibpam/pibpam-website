@@ -15,7 +15,7 @@ import {FiCalendar, FiPlay} from "react-icons/fi";
 import React from "react";
 
 interface IMinistries {
-    data: ITeam
+    data: ITeam[]
 }
 
 const Ministries: NextPage<IMinistries> = ({data}) => {
