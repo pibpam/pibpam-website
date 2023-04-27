@@ -40,7 +40,7 @@ const Ministry: NextPage<IMinistry> = ({data}) => {
                 <div className={styles.header_container}>
                     <Header goBack={goBack} toggleMenu={toggleMenu}/>
                 </div>
-                <HeaderPage background={data.image} />
+                <HeaderPage background={data.image}/>
                 <DividerMobile color={EDividerColors.white}/>
                 <div className={styles.container}>
                     <h1>{data.name}</h1>
@@ -53,7 +53,7 @@ const Ministry: NextPage<IMinistry> = ({data}) => {
                         <div className={styles.team}>
                             {data.teamMember.map(item => (
                                 <div key={item.uuid} className={styles.team_item}>
-                                    <div style={{background: "url('"+item.member?.image+"') center/cover"}} ></div>
+                                    <div style={{background: "url('" + item.member?.image + "') center/cover"}}></div>
                                     <div>{item.member?.name}</div>
                                     <div>{item.role}</div>
                                 </div>
