@@ -28,7 +28,7 @@ export class Api {
     }
 
     async getLives() {
-        const {data} = await this.client.get<IContent[]>("contents/lives")
+        const {data} = await this.client.get<IContent[]>("v1/contents/lives")
         return data
     }
 
