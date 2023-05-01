@@ -13,17 +13,17 @@ export class Api {
     }
 
     async getDevotionals() {
-        const {data} = await this.client.get<IDevotinal[]>("devotionals")
+        const {data} = await this.client.get<IDevotinal[]>("v1/devotionals")
         return data
     }
 
     async getDevotional(uuid: string) {
-        const {data} = await this.client.get<IDevotinal>("devotionals/" + uuid)
+        const {data} = await this.client.get<IDevotinal>("v1/devotionals/" + uuid)
         return data
     }
 
     async getContents() {
-        const {data} = await this.client.get<IContent[]>("contents")
+        const {data} = await this.client.get<IContent[]>("v1/contents")
         return data
     }
 
@@ -33,17 +33,17 @@ export class Api {
     }
 
     async getContent(uuid: string) {
-        const {data} = await this.client.get<IContent>("contents/" + uuid)
+        const {data} = await this.client.get<IContent>("v1/contents/" + uuid)
         return data
     }
 
     async getMinistries() {
-        const {data} = await this.client.get<ITeam[]>("teams")
+        const {data} = await this.client.get<ITeam[]>("v1/teams")
         return data
     }
 
     async getMinistry(uuid: string) {
-        const {data} = await this.client.get<ITeam>("teams/" + uuid)
+        const {data} = await this.client.get<ITeam>("v1/teams/" + uuid)
         return data
     }
 
