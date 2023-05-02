@@ -15,12 +15,14 @@ import {useRouter} from "next/router";
 import {Api} from "../services/api";
 import {IContent} from "../interfaces/Contens";
 import useLoading from "../hooks/useLoading";
+import EmptyState from "../components/EmptyState";
 
 interface IEventsPage {
     data: IContent[]
+    lives: IContent[]
 }
 
-const Events: NextPage<IEventsPage> = ({data}) => {
+const Events: NextPage<IEventsPage> = ({data, lives}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
     const {handleClose, handleOpen} = useLoading()
@@ -41,11 +43,13 @@ const Events: NextPage<IEventsPage> = ({data}) => {
                 <HeaderPage title={<>Cultos <span>//</span> Eventos </>}/>
                 <DividerMobile color={EDividerColors.white}/>
                 <div className={styles.container}>
-                    <div className={styles.button__on_line}>
-                        <SecondaryButton onClick={() => goTo("/event/live")}>
-                            <><FiPlay/> Assistir Culto On-line</>
-                        </SecondaryButton>
-                    </div>
+                    {!!lives && !!lives.length && (
+                        <div className={styles.button__on_line}>
+                            <SecondaryButton onClick={() => goTo("/event/" + lives[0].uuid)}>
+                                <><FiPlay/> Assistir Culto On-line</>
+                            </SecondaryButton>
+                        </div>
+                    )}
 
                     <div className={styles.grid}>
                         {
@@ -53,6 +57,10 @@ const Events: NextPage<IEventsPage> = ({data}) => {
                                 <EventCard data={item} key={item.uuid} onClick={() => goTo("/event/" + item.uuid)}/>
                             ))
                         }
+
+                        {!data.length && (
+                            <EmptyState/>
+                        )}
                     </div>
                     {/*<ThirdButton>*/}
                     {/*    <><FiPlus/> ver mais</>*/}
@@ -80,7 +88,9 @@ const Events: NextPage<IEventsPage> = ({data}) => {
 export async function getServerSideProps() {
     const api = new Api()
     const data = await api.getContents()
-    return {props: {data}}
+    const lives = await api.getLives()
+
+    return {props: {data, lives}}
 }
 
 

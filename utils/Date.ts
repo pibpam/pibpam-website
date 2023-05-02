@@ -7,4 +7,22 @@ export class DateUtils {
             locale: ptBR
         })
     }
+
+    static formatDateDayAndMonth(date: string) {
+        return format(new Date(date), "dd/MM", {
+            locale: ptBR
+        })
+    }
+
+    static formatTime(date: string) {
+        return format(new Date(date), "HH:mm", {
+            locale: ptBR
+        })
+    }
+
+    static formatTimeH(date: string) {
+        return format(new Date(date), "HH:mm", {
+            locale: ptBR
+        })
+    }
 }

@@ -10,17 +10,28 @@ import ScheduleItem from "../components/ScheduleItem";
 import ScheduleEvent from "../components/ScheduleEvent";
 import FooterPage from "../components/FooterPage";
 import ProgramCard from "../components/ProgramCard";
-import {FiPlus} from "react-icons/fi";
+import {FiBookOpen, FiPlay} from "react-icons/fi";
 import ThirdButton from "../components/Button/Third";
 import React from "react";
 import {useRouter} from "next/router";
+import {Api} from "../services/api";
+import {IScheduleDate} from "../interfaces/Schedule";
+import useLoading from "../hooks/useLoading";
 
-const Schedule: NextPage = () => {
+interface ISchedule {
+    highlighted: IScheduleDate[]
+    schedules: IScheduleDate[]
+}
+
+const Schedule: NextPage<ISchedule> = ({highlighted, schedules}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
+    const {handleOpen, handleClose} = useLoading()
 
-    const goTo =  async (pathname: string) => {
+    const goTo = async (pathname: string) => {
+        await handleOpen()
         await router.push({pathname})
+        handleClose()
     }
     return (
         <Website openMenu={open} toggleMenu={toggleMenu}>
@@ -41,32 +52,60 @@ const Schedule: NextPage = () => {
                     <ScheduleItem/>
                 </div>
 
-                <Title>Eventos</Title>
+                {!!highlighted.length && (
+                    <>
+                        <Title>Destaques</Title>
+                        <div className={styles.content}>
+                            {
+                                highlighted.map(item => (
+                                    <ScheduleEvent key={item.uuid} schedule={item}
+                                                   onClick={() => goTo("/schedule/" + item.uuid)}/>
+                                ))
+                            }
+                        </div>
+                    </>
+                )}
 
-                <div className={styles.content}>
-                    <ScheduleEvent onClick={() => goTo("/schedule/123")}/>
-                    <ScheduleEvent onClick={() => goTo("/schedule/123")}/>
-                </div>
-                <Title>Nesta semana</Title>
-                <div className={styles.container}>
-                    <div className={styles.grid}>
-                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
-                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
-                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
-                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
-                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
-                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
-                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
-                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
-                    </div>
-                    <ThirdButton>
-                        <><FiPlus/> ver mais</>
-                    </ThirdButton>
-                </div>
-                <FooterPage/>
+                {!!schedules.length && (
+                    <>
+                        <Title>Próximas Agendas</Title>
+                        <div className={styles.container}>
+                            <div className={styles.grid}>
+                                {schedules.map(item => (
+                                    <ProgramCard schedule={item} key={item.uuid}
+                                                 onClick={() => goTo("/schedule/" + item.uuid)}/>
+                                ))}
+                            </div>
+                            {/*<ThirdButton>*/}
+                            {/*    <><FiPlus/> ver mais</>*/}
+                            {/*</ThirdButton>*/}
+                        </div>
+                    </>)}
+                <FooterPage
+                    options={[
+                        {
+                            text: "Cultos",
+                            icon: <FiPlay/>,
+                            action: () => goTo("/events")
+                        },
+                        {
+                            text: "Devocionais",
+                            icon: <FiBookOpen/>,
+                            action: () => goTo("/devotionals")
+                        }
+                    ]}
+                />
             </>
         </Website>
     )
 }
+
+export async function getServerSideProps() {
+    const api = new Api()
+    const highlighted = await api.getSchedulesHighlighted()
+    const schedules = await api.getSchedules()
+    return {props: {highlighted, schedules}}
+}
+
 
 export default Schedule

@@ -2,6 +2,7 @@ import axios from "axios";
 import {IDevotinal} from "../interfaces/Devotinal";
 import {IContent} from "../interfaces/Contens";
 import {ITeam} from "../interfaces/Team";
+import {IScheduleDate} from "../interfaces/Schedule";
 
 export class Api {
     private client
@@ -44,6 +45,26 @@ export class Api {
 
     async getMinistry(uuid: string) {
         const {data} = await this.client.get<ITeam>("v1/teams/" + uuid)
+        return data
+    }
+
+    async getSchedule( scheduleUuid: string) {
+        const {data} = await this.client.get<IScheduleDate>("v1/schedules/date/" + scheduleUuid)
+        return data
+    }
+
+    async getSchedulesHighlighted() {
+        const {data} = await this.client.get<IScheduleDate[]>("v1/schedules/highlighted")
+        return data
+    }
+
+    async getSchedules(limit = undefined) {
+        const params = {} as { limit?: number }
+        if (limit) {
+            params.limit = limit
+        }
+
+        const {data} = await this.client.get<IScheduleDate[]>("v1/schedules", {params})
         return data
     }
 

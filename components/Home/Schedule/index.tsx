@@ -34,11 +34,11 @@ const Schedule: React.FC<ISchedule> = ({goTo}) => {
             <div>
                 <Carousel>
                     <>
-                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
-                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
-                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
-                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
-                        <ProgramCard onClick={() => goTo("/schedule/123")}/>
+                        {/*<ProgramCard onClick={() => goTo("/schedule/123")}/>*/}
+                        {/*<ProgramCard onClick={() => goTo("/schedule/123")}/>*/}
+                        {/*<ProgramCard onClick={() => goTo("/schedule/123")}/>*/}
+                        {/*<ProgramCard onClick={() => goTo("/schedule/123")}/>*/}
+                        {/*<ProgramCard onClick={() => goTo("/schedule/123")}/>*/}
                     </>
                 </Carousel>
             </div>

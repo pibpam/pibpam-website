@@ -1,28 +1,31 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {FiBook, FiBookOpen, FiCalendar, FiChevronRight, FiHome, FiPlay, FiRadio, FiUsers} from "react-icons/fi";
 import styles from "../../styles/components/Menu.module.scss"
 import Header from "../Header";
 import {useRouter} from "next/router";
+import useLoading from "../../hooks/useLoading";
+import {LivesContext} from "../../contexts/lives";
 
 interface IMenu {
     toggleMenu: () => void
 }
 
 const Menu: React.FC<IMenu> = ({toggleMenu}) => {
-
     const [isClosing, setIsClosing] = useState(false)
-
     const router = useRouter()
+    const {handleClose, handleOpen} = useLoading()
+    const {lives} = useContext(LivesContext)
 
     const goTo = async (pathname: string) => {
-        handleClose()
-
+        handleCloseMenu()
+        await handleOpen()
         await router.push({
             pathname
         })
+        handleClose()
     }
 
-    const handleClose = () => {
+    const handleCloseMenu = () => {
         setIsClosing(true)
         setTimeout(() => {
             toggleMenu()
@@ -32,10 +35,10 @@ const Menu: React.FC<IMenu> = ({toggleMenu}) => {
 
     return (
         <div className={`${styles.container} ${isClosing && styles.animation_out}`}>
-            <Header isOpen toggleMenu={handleClose}/>
+            <Header isOpen toggleMenu={handleCloseMenu}/>
             <ul>
                 <li>
-                    <button onClick={() => goTo("/about")}  >
+                    <button onClick={() => goTo("/about")}>
                         <FiHome/>
                         <div>
                             <span>Sobre a PIBPAM</span>
@@ -44,17 +47,19 @@ const Menu: React.FC<IMenu> = ({toggleMenu}) => {
                         <FiChevronRight/>
                     </button>
                 </li>
-                <li onClick={() => goTo("/event/live")} >
-                    <button>
-                        <FiRadio/>
-                        <div>
-                            <span>Ao Vivo</span>
-                        </div>
-                        <FiChevronRight/>
-                    </button>
-                </li>
+                {!!lives.length && (
+                    <li onClick={() => goTo("/event/" + lives[0].uuid)}>
+                        <button>
+                            <FiRadio/>
+                            <div>
+                                <span>Ao Vivo</span>
+                            </div>
+                            <FiChevronRight/>
+                        </button>
+                    </li>
+                )}
                 <li>
-                    <button onClick={() => goTo("/events")} >
+                    <button onClick={() => goTo("/events")}>
                         <FiPlay/>
                         <div>
                             <span>Cultos</span>
@@ -63,7 +68,7 @@ const Menu: React.FC<IMenu> = ({toggleMenu}) => {
                     </button>
                 </li>
                 <li>
-                    <button onClick={() => goTo("/devotionals")} >
+                    <button onClick={() => goTo("/devotionals")}>
                         <FiBookOpen/>
                         <div>
                             <span>Devocionais</span>
@@ -72,7 +77,7 @@ const Menu: React.FC<IMenu> = ({toggleMenu}) => {
                     </button>
                 </li>
                 <li>
-                    <button onClick={() => goTo("/bible")} >
+                    <button onClick={() => goTo("/bible")}>
                         <FiBook/>
                         <div>
                             <span>Bíblia</span>
@@ -81,7 +86,7 @@ const Menu: React.FC<IMenu> = ({toggleMenu}) => {
                     </button>
                 </li>
                 <li>
-                    <button onClick={() => goTo("/schedule")} >
+                    <button onClick={() => goTo("/schedule")}>
                         <FiCalendar/>
                         <div>
                             <span>Programação</span>
@@ -90,7 +95,7 @@ const Menu: React.FC<IMenu> = ({toggleMenu}) => {
                     </button>
                 </li>
                 <li>
-                    <button onClick={() => goTo("/ministries")} >
+                    <button onClick={() => goTo("/ministries")}>
                         <FiUsers/>
                         <div>
                             <span>Ministérios</span>
