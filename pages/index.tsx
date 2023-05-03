@@ -11,13 +11,31 @@ import Schedule from "../components/Home/Schedule";
 import Series from "../components/Home/Series";
 import useMenu from "../hooks/useMenu";
 import {useRouter} from "next/router";
+import {Api} from "../services/api";
+import {IContent} from "../interfaces/Contens";
+import {IScheduleDate} from "../interfaces/Schedule";
+import {useContext} from "react";
+import {LivesContext} from "../contexts/lives";
+import useLoading from "../hooks/useLoading";
+import Devotionals from "../components/Home/Devotionals";
+import {IDevotinal} from "../interfaces/Devotinal";
 
-const Home: NextPage = () => {
+interface IHome {
+    content?: IContent
+    schedules: IScheduleDate[]
+    devotionals: IDevotinal[]
+}
+
+const Home: NextPage<IHome> = ({content, schedules, devotionals}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
+    const {lives} = useContext(LivesContext)
+    const {handleClose, handleOpen} = useLoading()
 
     const goTo = async (pathname: string) => {
+        await handleOpen()
         await router.push({pathname})
+        handleClose()
     }
 
     return (
@@ -28,15 +46,31 @@ const Home: NextPage = () => {
                 </div>
                 <Banner/>
                 <DividerMobile/>
-                <Intro/>
+                <Intro goTo={goTo}/>
                 <DividerMobile color={EDividerColors.white}/>
-                <Transmission/>
-                <Schedule goTo={goTo}/>
-                <DividerMobile color={EDividerColors.yellow}/>
-                <Series/>
+                <Transmission goTo={goTo} live={lives[0] || undefined} content={content}/>
+                {schedules && schedules.length && (
+                    <Schedule schedules={schedules} goTo={goTo}/>
+                )}
+                {devotionals && !!devotionals.length && (
+                    <>
+                        <DividerMobile color={EDividerColors.yellow}/>
+                        <Devotionals devotionals={devotionals} goTo={goTo}/>
+                    </>
+                )}
+                {/*<Series/>*/}
             </>
         </Website>
     )
 }
+
+export async function getServerSideProps() {
+    const api = new Api()
+    const schedules = await api.getSchedules(7)
+    const content = await api.getContents(1)
+    const devotionals = await api.getDevotionals(5)
+    return {props: {content: content[0] || undefined, schedules, devotionals}}
+}
+
 
 export default Home

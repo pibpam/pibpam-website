@@ -13,8 +13,12 @@ export class Api {
         })
     }
 
-    async getDevotionals() {
-        const {data} = await this.client.get<IDevotinal[]>("v1/devotionals")
+    async getDevotionals(limit?: number) {
+        const params = {} as { limit?: number }
+        if (limit) {
+            params.limit = limit
+        }
+        const {data} = await this.client.get<IDevotinal[]>("v1/devotionals", {params})
         return data
     }
 
@@ -23,8 +27,12 @@ export class Api {
         return data
     }
 
-    async getContents() {
-        const {data} = await this.client.get<IContent[]>("v1/contents")
+    async getContents(limit?: number) {
+        const params = {} as { limit?: number }
+        if (limit) {
+            params.limit = limit
+        }
+        const {data} = await this.client.get<IContent[]>("v1/contents", {params})
         return data
     }
 
@@ -48,7 +56,7 @@ export class Api {
         return data
     }
 
-    async getSchedule( scheduleUuid: string) {
+    async getSchedule(scheduleUuid: string) {
         const {data} = await this.client.get<IScheduleDate>("v1/schedules/date/" + scheduleUuid)
         return data
     }
@@ -58,7 +66,7 @@ export class Api {
         return data
     }
 
-    async getSchedules(limit = undefined) {
+    async getSchedules(limit?: number) {
         const params = {} as { limit?: number }
         if (limit) {
             params.limit = limit

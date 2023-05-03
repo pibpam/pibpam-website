@@ -3,6 +3,7 @@ import styles from '../../styles/components/Header.module.scss'
 import Image from "next/image";
 import {FiChevronLeft, FiMenu, FiX} from "react-icons/fi";
 import {useRouter} from "next/router";
+import useLoading from "../../hooks/useLoading";
 
 interface IHeader {
     toggleMenu: () => void
@@ -12,13 +13,15 @@ interface IHeader {
 }
 
 const Header: React.FC<IHeader> = ({toggleMenu, isOpen = false, title, goBack}) => {
-
     const router = useRouter()
+    const {handleClose, handleOpen} = useLoading()
 
     const goToHome = async () => {
+        await handleOpen()
         await router.push({
             pathname: "/"
         })
+        handleClose()
     }
 
     return (

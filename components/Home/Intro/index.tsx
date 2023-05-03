@@ -3,16 +3,20 @@ import PrimaryButton from "../../Button/Primary";
 import {FiHome, FiUser} from "react-icons/fi";
 import styles from "../../../styles/components/Home/Intro.module.scss"
 
-const Intro : React.FC = () => {
+interface IIntro {
+    goTo: (pathname: string) => void
+}
+
+const Intro: React.FC<IIntro> = ({goTo}) => {
     return (
-        <div className={styles.container}  >
-            <div className={styles.buttons} >
-                <PrimaryButton >
-                    <><FiHome />Conheça a nossa igreja</>
+        <div className={styles.container}>
+            <div className={styles.buttons}>
+                <PrimaryButton onClick={() => goTo("/about")}>
+                    <><FiHome/>Conheça a nossa igreja</>
                 </PrimaryButton>
 
-                <PrimaryButton >
-                    <><FiUser />Conheça o nosso pastor</>
+                <PrimaryButton onClick={() => goTo("/about")}>
+                    <><FiUser/>Conheça o nosso pastor</>
                 </PrimaryButton>
             </div>
             <p>

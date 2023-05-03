@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styles from "../../styles/components/Loading.module.scss"
 import useLoading from "../../hooks/useLoading";
+import Spinner from "../Spinner";
 
 const Loading: React.FC = () => {
     const {isLoading} = useLoading()
@@ -27,7 +28,7 @@ const Loading: React.FC = () => {
 
     return (
         <div className={`${styles.container}  ${closing && styles.closed}`}>
-            Loading
+            <Spinner/>
         </div>
     )
 }
