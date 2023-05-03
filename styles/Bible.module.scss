@@ -5,6 +5,71 @@
   height: 158px;
 }
 
-.container {
+.container_books {
   padding: 0 24px 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  > button {
+    text-align: left;
+    padding: 8px 14px;
+    background: #3D3D3D;
+    border-radius: 3px;
+    color: #FFFFFF;
+    border: none;
+    font-weight: 400;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    > svg {
+      color: #B5DA35;
+    }
+  }
 }
+
+.container_chapter {
+  padding: 0 24px 90px;
+  gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  > button {
+    text-align: center;
+    width: 50px;
+    height: 40px;
+    background: #3D3D3D;
+    border-radius: 3px;
+    color: #FFFFFF;
+    border: none;
+    font-weight: 400;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
+.container_verse {
+  padding: 0 24px 90px;
+
+  > p {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-size: 20px;
+    line-height: 28px;
+    position: relative;
+    text-indent: 24px;
+
+    > sup {
+      font-size: 12px;
+      padding-bottom: 8px;
+    }
+
+  }
+}
+
