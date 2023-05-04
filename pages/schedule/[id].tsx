@@ -48,7 +48,8 @@ const Schedule: NextPage<ISchedule> = ({data}) => {
     }
 
     const goToMap = () => {
-        window.open(data.schedule.addressRedirect)
+        // @ts-ignore
+        window.location = 'geo:40.765819,-73.975866'
     }
 
     return (
