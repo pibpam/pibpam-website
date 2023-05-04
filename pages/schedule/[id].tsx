@@ -52,7 +52,7 @@ const Schedule: NextPage<ISchedule> = ({data}) => {
     }
 
     return (
-        <Website openMenu={open} toggleMenu={toggleMenu}>
+        <Website hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <div className={styles.header_container}>
                     <Header goBack={goBack} toggleMenu={toggleMenu}/>
