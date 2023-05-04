@@ -73,6 +73,7 @@ const Schedule: NextPage<ISchedule> = ({data}) => {
                             <div>
                                 <div>{data.schedule.address}</div>
                                 <a onClick={goToMap}>Como chegar</a>
+                                <a href="geo:124.028582,-29.201930" target="_blank" rel="noreferrer">Click here for map</a>
                             </div>
                         </div>
                     )}
