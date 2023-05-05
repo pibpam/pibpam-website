@@ -44,7 +44,7 @@ const Events: NextPage<IEventsPage> = ({data, lives}) => {
         const apiLocal = new ApiLocal()
         const response = await apiLocal.getContents(paginator.page + 1, 20)
         setPaginator(response.pagination)
-        setContents(response.data)
+        setContents(state => ([...state, ...response.data]))
         setLoading(false)
     }
 
