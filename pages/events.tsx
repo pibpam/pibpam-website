@@ -13,12 +13,12 @@ import ThirdButton from "../components/Button/Third";
 import FooterPage from "../components/FooterPage";
 import {useRouter} from "next/router";
 import {Api} from "../services/api";
-import {IContent} from "../interfaces/Contens";
+import {IContent, IGetAllContentsResponse} from "../interfaces/Contens";
 import useLoading from "../hooks/useLoading";
 import EmptyState from "../components/EmptyState";
 
 interface IEventsPage {
-    data: IContent[]
+    data: IGetAllContentsResponse
     lives: IContent[]
 }
 
@@ -53,12 +53,12 @@ const Events: NextPage<IEventsPage> = ({data, lives}) => {
 
                     <div className={styles.grid}>
                         {
-                            data.map(item => (
+                            data.data.map(item => (
                                 <EventCard data={item} key={item.uuid} onClick={() => goTo("/event/" + item.uuid)}/>
                             ))
                         }
 
-                        {!data.length && (
+                        {!data.data.length && (
                             <EmptyState/>
                         )}
                     </div>
@@ -87,7 +87,7 @@ const Events: NextPage<IEventsPage> = ({data, lives}) => {
 
 export async function getServerSideProps() {
     const api = new Api()
-    const data = await api.getContents()
+    const data = await api.getContents(1, 20)
     const lives = await api.getLives()
 
     return {props: {data, lives}}

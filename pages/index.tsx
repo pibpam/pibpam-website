@@ -67,9 +67,9 @@ const Home: NextPage<IHome> = ({content, schedules, devotionals}) => {
 export async function getServerSideProps() {
     const api = new Api()
     const schedules = await api.getSchedules(7)
-    const content = await api.getContents(1)
+    const content = await api.getContents(1, 1)
     const devotionals = await api.getDevotionals(5)
-    return {props: {content: content[0] || undefined, schedules, devotionals}}
+    return {props: {content: content.data[0] || undefined, schedules, devotionals}}
 }
 
 

@@ -1,4 +1,5 @@
 import {IAuthor} from "./Author";
+import {IPagination} from "./Pagination";
 
 export interface IContent {
     uuid: string
@@ -14,4 +15,8 @@ export interface IContent {
     startAt?: string
     finishAt?: string
     author?: IAuthor
+}
+
+export interface IGetAllContentsResponse extends IPagination {
+    data: IContent[]
 }

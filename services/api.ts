@@ -1,6 +1,6 @@
 import axios from "axios";
 import {IDevotinal} from "../interfaces/Devotinal";
-import {IContent} from "../interfaces/Contens";
+import {IContent, IGetAllContentsResponse} from "../interfaces/Contens";
 import {ITeam} from "../interfaces/Team";
 import {IScheduleDate} from "../interfaces/Schedule";
 
@@ -27,12 +27,12 @@ export class Api {
         return data
     }
 
-    async getContents(limit?: number) {
+    async getContents(page: number, limit?: number) {
         const params = {} as { limit?: number }
         if (limit) {
             params.limit = limit
         }
-        const {data} = await this.client.get<IContent[]>("v1/contents", {params})
+        const {data} = await this.client.get<IGetAllContentsResponse>("v1/contents", {params})
         return data
     }
 
