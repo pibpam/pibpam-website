@@ -35,7 +35,7 @@ const TabNavigator: React.FC = () => {
                     <button className={`${pathname === "/devotionals" && styles.active}`}
                             onClick={() => goTo("/devotionals")}>
                         <FiBookOpen/>
-                        <span>devocionais</span>
+                        <span>devocional</span>
                     </button>
                 </li>
                 {!!lives.length && (
@@ -51,7 +51,7 @@ const TabNavigator: React.FC = () => {
                     <button className={`${pathname === "/schedule" && styles.active}`}
                             onClick={() => goTo("/schedule")}>
                         <FiCalendar/>
-                        <span>programação</span>
+                        <span>agenda</span>
                     </button>
                 </li>
                 <li>

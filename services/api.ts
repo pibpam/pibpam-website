@@ -28,9 +28,12 @@ export class Api {
     }
 
     async getContents(page: number, limit?: number) {
-        const params = {} as { limit?: number }
+        const params = {} as { limit?: number, page?: number }
         if (limit) {
             params.limit = limit
+        }
+        if (page) {
+            params.page = page
         }
         const {data} = await this.client.get<IGetAllContentsResponse>("v1/contents", {params})
         return data

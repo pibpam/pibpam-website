@@ -1,13 +1,12 @@
 .container {
-  background: #3D3D3D;
-  color: #fff;
-  border-radius: 12px 12px 0 0;
+  background: #fff;
   overflow: hidden;
-  padding: 12px 0;
+  padding: 16px 0;
   position: fixed;
   bottom: 0;
   z-index: 10;
   width: 100%;
+  filter: drop-shadow(0px 0px 5px rgba(0,0,0, .5));
 
   > ul {
     list-style: none;
@@ -18,7 +17,7 @@
 
     > li {
       > button {
-        color: #fff;
+        color: #5FD9DA;
         background: none;
         display: flex;
         flex-direction: column;
@@ -26,17 +25,20 @@
         justify-content: flex-start;
         transition: all .2s ease;
 
+        &:focus {
+          color: #B5DA35 !important;
+        }
+
         > svg {
           font-size: 28px;
         }
 
         > span {
           font-weight: 400;
-          font-size: 12px;
+          font-size: 14px;
           line-height: 15px;
           margin-top: 4px;
         }
-
       }
     }
   }

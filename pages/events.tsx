@@ -5,9 +5,9 @@ import DividerMobile, {EDividerColors} from "../components/DividerMobile";
 import Header from "../components/Header";
 import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
-import React from "react";
+import React, {useState} from "react";
 import SecondaryButton from "../components/Button/Secondary";
-import {FiBookOpen, FiCalendar, FiPlay} from "react-icons/fi";
+import {FiBookOpen, FiCalendar, FiPlay, FiPlus} from "react-icons/fi";
 import EventCard from "../components/EventCard";
 import ThirdButton from "../components/Button/Third";
 import FooterPage from "../components/FooterPage";
@@ -16,6 +16,9 @@ import {Api} from "../services/api";
 import {IContent, IGetAllContentsResponse} from "../interfaces/Contens";
 import useLoading from "../hooks/useLoading";
 import EmptyState from "../components/EmptyState";
+import {ApiLocal} from "../services/apiLocal";
+import {IPaginationData} from "../interfaces/Pagination";
+import {ImSpinner2} from "react-icons/im";
 
 interface IEventsPage {
     data: IGetAllContentsResponse
@@ -26,11 +29,23 @@ const Events: NextPage<IEventsPage> = ({data, lives}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
     const {handleClose, handleOpen} = useLoading()
+    const [paginator, setPaginator] = useState<IPaginationData>(data.pagination)
+    const [contents, setContents] = useState<IContent[]>([] as IContent[])
+    const [loading, setLoading] = useState(false)
 
     const goTo = async (pathname: string) => {
         await handleOpen()
         await router.push({pathname})
         handleClose()
+    }
+
+    const handleGetAll = async () => {
+        setLoading(true)
+        const apiLocal = new ApiLocal()
+        const response = await apiLocal.getContents(paginator.page + 1, 20)
+        setPaginator(response.pagination)
+        setContents(response.data)
+        setLoading(false)
     }
 
     return (
@@ -57,14 +72,23 @@ const Events: NextPage<IEventsPage> = ({data, lives}) => {
                                 <EventCard data={item} key={item.uuid} onClick={() => goTo("/event/" + item.uuid)}/>
                             ))
                         }
+                        {
+                            contents.map(item => (
+                                <EventCard data={item} key={item.uuid} onClick={() => goTo("/event/" + item.uuid)}/>
+                            ))
+                        }
 
                         {!data.data.length && (
                             <EmptyState/>
                         )}
                     </div>
-                    {/*<ThirdButton>*/}
-                    {/*    <><FiPlus/> ver mais</>*/}
-                    {/*</ThirdButton>*/}
+                    {paginator.page < paginator.totalPage && (
+                        <div className={styles.load_more}>
+                            <ThirdButton loading={loading} onClick={handleGetAll}>
+                                {loading ? <ImSpinner2/> : (<><FiPlus/> ver mais</>)}
+                            </ThirdButton>
+                        </div>
+                    )}
                 </div>
                 <FooterPage
                     options={[

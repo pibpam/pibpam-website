@@ -52,20 +52,16 @@ const Schedule: NextPage<ISchedule> = ({data, platform}) => {
         window.open(data.schedule.enrollmentLink)
     }
 
-    const goToMap = () => {
-        if (!platform) {
-            window.open("https://www.google.com/maps/dir/?api=1&destination=" + data.schedule.addressRedirect, "blank")
-        }
-
+    const goToMap = (): string => {
         if (platform === Platform.IOS) {
-            // @ts-ignore
-            window.location = "maps:" + data.schedule.addressRedirect
+            return "maps:" + data.schedule.addressRedirect
         }
 
         if (platform === Platform.ANDROID) {
-            // @ts-ignore
-            window.location = "geo:" + data.schedule.addressRedirect
+            return "geo:" + data.schedule.addressRedirect
         }
+
+        return "https://www.google.com/maps/dir/?api=1&destination=" + data.schedule.addressRedirect
     }
 
     return (
@@ -88,7 +84,7 @@ const Schedule: NextPage<ISchedule> = ({data, platform}) => {
                             <FiMapPin/>
                             <div>
                                 <div>{data.schedule.address}</div>
-                                <a onClick={goToMap}>Como chegar</a>
+                                <a href={goToMap()} target={"_blank"} rel="noreferrer">Como chegar</a>
                             </div>
                         </div>
                     )}
@@ -149,7 +145,7 @@ const Schedule: NextPage<ISchedule> = ({data, platform}) => {
 export async function getServerSideProps({params, query}: IParams) {
     const api = new Api()
     const data = await api.getSchedule(params.id)
-    return {props: {data, platform:  query?.platform || null}}
+    return {props: {data, platform: query?.platform || null}}
 }
 
 
