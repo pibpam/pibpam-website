@@ -10,7 +10,6 @@ import Transmission from "../components/Home/Transmission";
 import Schedule from "../components/Home/Schedule";
 import Series from "../components/Home/Series";
 import useMenu from "../hooks/useMenu";
-import {useRouter} from "next/router";
 import {Api} from "../services/api";
 import {IContent} from "../interfaces/Contens";
 import {IScheduleDate} from "../interfaces/Schedule";
@@ -19,6 +18,7 @@ import {LivesContext} from "../contexts/lives";
 import useLoading from "../hooks/useLoading";
 import Devotionals from "../components/Home/Devotionals";
 import {IDevotinal} from "../interfaces/Devotinal";
+import {useAppNavigation} from "../hooks/useAppNavigation";
 
 interface IHome {
     content?: IContent
@@ -28,13 +28,13 @@ interface IHome {
 
 const Home: NextPage<IHome> = ({content, schedules, devotionals}) => {
     const {open, toggleMenu} = useMenu()
-    const router = useRouter()
     const {lives} = useContext(LivesContext)
     const {handleClose, handleOpen} = useLoading()
+    const {goTo: goToHook} = useAppNavigation()
 
     const goTo = async (pathname: string) => {
         await handleOpen()
-        await router.push({pathname})
+        await goToHook({pathname})
         handleClose()
     }
 

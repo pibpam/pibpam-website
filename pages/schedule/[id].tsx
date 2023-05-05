@@ -15,18 +15,23 @@ import {IScheduleDate} from "../../interfaces/Schedule";
 import {DateUtils} from "../../utils/Date";
 import MinistriesItem from "../../components/MinistriesItem";
 import useLoading from "../../hooks/useLoading";
+import {Platform} from "../../enum/Platform";
 
 interface IParams {
     params: {
         id: string
     }
+    query?: {
+        platform?: Platform
+    }
 }
 
 interface ISchedule {
     data: IScheduleDate
+    platform?: Platform
 }
 
-const Schedule: NextPage<ISchedule> = ({data}) => {
+const Schedule: NextPage<ISchedule> = ({data, platform}) => {
     const {open, toggleMenu} = useMenu()
     const router = useRouter()
     const {handleOpen, handleClose} = useLoading()
@@ -48,8 +53,19 @@ const Schedule: NextPage<ISchedule> = ({data}) => {
     }
 
     const goToMap = () => {
-        // @ts-ignore
-        window.location = 'geo:40.765819,-73.975866'
+        if (!platform) {
+            window.open("https://www.google.com/maps/dir/?api=1&destination=" + data.schedule.addressRedirect, "blank")
+        }
+
+        if (platform === Platform.IOS) {
+            // @ts-ignore
+            window.location = "maps:" + data.schedule.addressRedirect
+        }
+
+        if (platform === Platform.ANDROID) {
+            // @ts-ignore
+            window.location = "geo:" + data.schedule.addressRedirect
+        }
     }
 
     return (
@@ -73,8 +89,6 @@ const Schedule: NextPage<ISchedule> = ({data}) => {
                             <div>
                                 <div>{data.schedule.address}</div>
                                 <a onClick={goToMap}>Como chegar</a>
-                                <a href="geo:124.028582,-29.201930" target="_blank" rel="noreferrer">Click here for map</a>
-                                <a href="maps:124.028582,-29.201930" target="_blank" rel="noreferrer">Click here for map maps</a>
                             </div>
                         </div>
                     )}
@@ -132,10 +146,10 @@ const Schedule: NextPage<ISchedule> = ({data}) => {
     )
 }
 
-export async function getServerSideProps({params}: IParams) {
+export async function getServerSideProps({params, query}: IParams) {
     const api = new Api()
     const data = await api.getSchedule(params.id)
-    return {props: {data}}
+    return {props: {data, platform:  query?.platform || null}}
 }
 
 

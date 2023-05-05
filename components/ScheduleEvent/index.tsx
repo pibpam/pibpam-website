@@ -18,7 +18,7 @@ const ScheduleEvent: React.FC<IScheduleEvent> = ({onClick, schedule}) => {
                     <h4>{schedule.schedule.title}</h4>
                     <p>{schedule.schedule.shortDescription}</p>
                     <div>
-                        <div>Público: {schedule.schedule.publicSchedule}</div>
+                        <div>{schedule.schedule.publicSchedule  && (<>Público: {schedule.schedule.publicSchedule}</>)} </div>
                         <div>
                             <span><FiCalendar/> {DateUtils.formatDateDayAndMonth(schedule.scheduleDate)}</span>
                             <span><FiClock/> {DateUtils.formatTime(schedule.scheduleDate)}</span>

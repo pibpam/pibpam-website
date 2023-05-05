@@ -13,10 +13,10 @@ import ProgramCard from "../components/ProgramCard";
 import {FiBookOpen, FiPlay} from "react-icons/fi";
 import ThirdButton from "../components/Button/Third";
 import React from "react";
-import {useRouter} from "next/router";
 import {Api} from "../services/api";
 import {IScheduleDate} from "../interfaces/Schedule";
 import useLoading from "../hooks/useLoading";
+import {useAppNavigation} from "../hooks/useAppNavigation";
 
 interface ISchedule {
     highlighted: IScheduleDate[]
@@ -25,12 +25,12 @@ interface ISchedule {
 
 const Schedule: NextPage<ISchedule> = ({highlighted, schedules}) => {
     const {open, toggleMenu} = useMenu()
-    const router = useRouter()
     const {handleOpen, handleClose} = useLoading()
+    const {goTo: goToHook} = useAppNavigation()
 
     const goTo = async (pathname: string) => {
         await handleOpen()
-        await router.push({pathname})
+        await goToHook({pathname})
         handleClose()
     }
     return (

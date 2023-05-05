@@ -2,9 +2,9 @@ import React, {useContext, useState} from "react";
 import {FiBook, FiBookOpen, FiCalendar, FiChevronRight, FiHome, FiPlay, FiRadio, FiUsers} from "react-icons/fi";
 import styles from "../../styles/components/Menu.module.scss"
 import Header from "../Header";
-import {useRouter} from "next/router";
 import useLoading from "../../hooks/useLoading";
 import {LivesContext} from "../../contexts/lives";
+import {useAppNavigation} from "../../hooks/useAppNavigation";
 
 interface IMenu {
     toggleMenu: () => void
@@ -12,14 +12,14 @@ interface IMenu {
 
 const Menu: React.FC<IMenu> = ({toggleMenu}) => {
     const [isClosing, setIsClosing] = useState(false)
-    const router = useRouter()
     const {handleClose, handleOpen} = useLoading()
     const {lives} = useContext(LivesContext)
+    const {goTo: goToHook} = useAppNavigation()
 
     const goTo = async (pathname: string) => {
         handleCloseMenu()
         await handleOpen()
-        await router.push({
+        await goToHook({
             pathname
         })
         handleClose()

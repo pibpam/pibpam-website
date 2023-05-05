@@ -4,6 +4,7 @@ import styles from "../../styles/components/TabNavigator.module.scss"
 import {useRouter} from "next/router";
 import useLoading from "../../hooks/useLoading";
 import {LivesContext} from "../../contexts/lives";
+import {useAppNavigation} from "../../hooks/useAppNavigation";
 
 const TabNavigator: React.FC = () => {
     const router = useRouter()
@@ -11,10 +12,11 @@ const TabNavigator: React.FC = () => {
 
     const {handleOpen, handleClose} = useLoading()
     const {lives} = useContext(LivesContext)
+    const {goTo: goToHook} = useAppNavigation()
 
     const goTo = async (pathname: string) => {
         await handleOpen()
-        await router.push({
+        await goToHook({
             pathname
         })
         handleClose()
