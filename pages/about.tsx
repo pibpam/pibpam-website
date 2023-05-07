@@ -8,11 +8,28 @@ import HeaderPage from "../components/HeaderPage";
 import Title from "../components/Title";
 import FooterPage from "../components/FooterPage";
 import ScheduleItem from "../components/ScheduleItem";
-import {FiGlobe, FiInstagram, FiMail, FiMapPin, FiPhone, FiPlus, FiYoutube} from "react-icons/fi";
-import ThirdButton from "../components/Button/Third";
+import {FiCalendar, FiGlobe, FiInstagram, FiMail, FiMapPin, FiPhone, FiPlay, FiYoutube} from "react-icons/fi";
+import {Api} from "../services/api";
+import {IChurchInfo} from "../interfaces/Church";
+import React from "react";
+import {useAppNavigation} from "../hooks/useAppNavigation";
+import useLoading from "../hooks/useLoading";
+import {TextCollapse} from "../components/TextCollapse";
 
-const About: NextPage = () => {
+interface IAbout {
+    data: IChurchInfo
+}
+
+const About: NextPage<IAbout> = ({data}) => {
     const {open, toggleMenu} = useMenu()
+    const {goTo: goToHook} = useAppNavigation()
+    const {handleOpen, handleClose} = useLoading()
+
+    const goTo = async (pathname: string) => {
+        await handleOpen()
+        await goToHook({pathname})
+        handleClose()
+    }
 
     return (
         <Website openMenu={open} toggleMenu={toggleMenu}>
@@ -27,53 +44,29 @@ const About: NextPage = () => {
                 <Title>História</Title>
 
                 <div className={styles.description}>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis placerat urna a pellentesque
-                        congue. Aenean lorem nibh, consequat a hendrerit ut, accumsan id turpis. Etiam a tempor neque, a
-                        tincidunt libero. Integer ac purus blandit, accumsan sem et, gravida tortor. Integer vel magna
-                        urna. Aenean fermentum, velit ut mollis porta, risus orci tempor libero, non vehicula arcu leo
-                        eu leo. Proin libero diam, bibendum ut augue sed, elementum lobortis turpis. Proin cursus dolor
-                        dolor, sed posuere tortor tempor nec. Proin ornare tincidunt vulputate. Aliquam congue sem eget
-                        cursus molestie. Donec suscipit velit tortor. Phasellus vel
-                    </p>
-                    <div>
-                        <ThirdButton>
-                            <><FiPlus/> ver mais</>
-                        </ThirdButton>
-                    </div>
+                    <TextCollapse text={data.history || ""}/>
                 </div>
 
                 <Title>Pastor</Title>
 
                 <div className={styles.description}>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis placerat urna a pellentesque
-                        congue. Aenean lorem nibh, consequat a hendrerit ut, accumsan id turpis. Etiam a tempor neque, a
-                        tincidunt libero. Integer ac purus blandit, accumsan sem et, gravida tortor. Integer vel magna
-                        urna. Aenean fermentum, velit ut mollis porta, risus orci tempor libero, non vehicula arcu leo
-                        eu leo. Proin libero diam, bibendum ut augue sed, elementum lobortis turpis. Proin cursus dolor
-                        dolor, sed posuere tortor tempor nec. Proin ornare tincidunt vulputate. Aliquam congue sem eget
-                        cursus molestie. Donec suscipit velit tortor. Phasellus vel
-                    </p>
-                    <div>
-                        <ThirdButton>
-                            <><FiPlus/> ver mais</>
-                        </ThirdButton>
+                    <div className={styles.description}>
+                        <TextCollapse text={data.shepherdText || ""}/>
                     </div>
                 </div>
 
                 <Title>Contatos</Title>
                 <div className={styles.social_media}>
-                    <p>Primeira Igreja  Batista em Pará de Minas</p>
+                    <p>{data.name}</p>
 
                     <button className={styles.button_link}>
-                        <FiMail/> contato@pibpam.org
+                        <FiMail/> {data.email}
                     </button>
                     <button className={styles.button_link}>
-                        <FiPhone/> 37 3232-3232 // 37 9 9999-9999
+                        <FiPhone/> {data.phoneNumber} // {data.whatsAppNumber}
                     </button>
                     <button className={styles.button_link}>
-                        <FiGlobe/> pibpam.org
+                        <FiGlobe/> {data.site}
                     </button>
                     <button className={styles.button_link_location}>
                         <FiMapPin/>
@@ -82,7 +75,7 @@ const About: NextPage = () => {
                                 <span>Localização</span><a href="">Como chegar</a>
                             </div>
                             <div>
-                                Av. Presidente Vargas, 1641 - Senador Valadares / Pará de Minas - MG
+                                {data.address}
                             </div>
                         </div>
                     </button>
@@ -91,23 +84,44 @@ const About: NextPage = () => {
                 <Title>Redes sociais</Title>
                 <div className={styles.social_media}>
                     <button className={styles.button_link}>
-                        <FiYoutube/> PIBPAM
+                        <FiYoutube/> {data.youTubeName}
                     </button>
                     <button className={styles.button_link}>
-                        <FiInstagram/> pibpam
+                        <FiInstagram/> {data.instagramName}
                     </button>
                 </div>
 
-                <Title>Horários</Title>
-                <div className={styles.schedule}>
-                    <ScheduleItem/>
-                    <ScheduleItem/>
-                    <ScheduleItem/>
-                </div>
-                <FooterPage/>
+                {data?.church_schedules && !!data.church_schedules.length && (
+                    <>
+                        <Title>Horários</Title>
+                        <div className={styles.schedule}>
+                            {data.church_schedules.map(item => <ScheduleItem key={item.uuid} data={item}/>)}
+                        </div>
+                    </>
+                )}
+                <FooterPage
+                    options={[
+                        {
+                            text: "Cultos",
+                            icon: <FiPlay/>,
+                            action: () => goTo("/events")
+                        },
+                        {
+                            text: "Programação",
+                            icon: <FiCalendar/>,
+                            action: () => goTo("/schedule")
+                        }
+                    ]}
+                />
             </>
         </Website>
     )
+}
+
+export async function getServerSideProps() {
+    const api = new Api()
+    const data = await api.getChurchInfo()
+    return {props: {data}}
 }
 
 export default About

@@ -3,6 +3,7 @@ import {IDevotinal} from "../interfaces/Devotinal";
 import {IContent, IGetAllContentsResponse} from "../interfaces/Contens";
 import {ITeam} from "../interfaces/Team";
 import {IScheduleDate} from "../interfaces/Schedule";
+import {IChurchInfo, IChurchSchedule} from "../interfaces/Church";
 
 export class Api {
     private client
@@ -24,6 +25,16 @@ export class Api {
 
     async getDevotional(uuid: string) {
         const {data} = await this.client.get<IDevotinal>("v1/devotionals/" + uuid)
+        return data
+    }
+
+    async getChurchInfo() {
+        const {data} = await this.client.get<IChurchInfo>("v1/churchs/info")
+        return data
+    }
+
+    async getChurchSchedule() {
+        const {data} = await this.client.get<IChurchSchedule[]>("v1/churchs/schedule")
         return data
     }
 

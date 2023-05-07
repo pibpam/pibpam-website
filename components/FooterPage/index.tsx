@@ -1,6 +1,5 @@
 import React, {ReactElement} from "react";
 import DividerMobile, {EDividerColors} from "../DividerMobile";
-import {FiBookOpen, FiCalendar} from "react-icons/fi";
 import styles from "../../styles/components/FooterPage.module.scss"
 
 interface IOption {
@@ -28,26 +27,6 @@ const FooterPage: React.FC<IFooterPage> = ({options}) => {
                         </div>
                     </button>
                 ))}
-
-                {!options && (
-                    <>
-                        <button>
-                            <FiBookOpen/>
-                            <div>
-                                <span>Ver também:</span>
-                                <span>Devocionais</span>
-                            </div>
-                        </button>
-
-                        <button>
-                            <FiCalendar/>
-                            <div>
-                                <span>Ver também:</span>
-                                <span>Programação</span>
-                            </div>
-                        </button>
-                    </>
-                )}
             </div>
         </div>
     )

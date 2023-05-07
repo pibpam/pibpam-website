@@ -11,19 +11,20 @@ import ScheduleEvent from "../components/ScheduleEvent";
 import FooterPage from "../components/FooterPage";
 import ProgramCard from "../components/ProgramCard";
 import {FiBookOpen, FiPlay} from "react-icons/fi";
-import ThirdButton from "../components/Button/Third";
 import React from "react";
 import {Api} from "../services/api";
 import {IScheduleDate} from "../interfaces/Schedule";
 import useLoading from "../hooks/useLoading";
 import {useAppNavigation} from "../hooks/useAppNavigation";
+import {IChurchSchedule} from "../interfaces/Church";
 
 interface ISchedule {
     highlighted: IScheduleDate[]
     schedules: IScheduleDate[]
+    churchSchedules?: IChurchSchedule[]
 }
 
-const Schedule: NextPage<ISchedule> = ({highlighted, schedules}) => {
+const Schedule: NextPage<ISchedule> = ({highlighted, schedules, churchSchedules}) => {
     const {open, toggleMenu} = useMenu()
     const {handleOpen, handleClose} = useLoading()
     const {goTo: goToHook} = useAppNavigation()
@@ -44,13 +45,14 @@ const Schedule: NextPage<ISchedule> = ({highlighted, schedules}) => {
                 />
                 <DividerMobile color={EDividerColors.white}/>
 
-                <Title>Cultos e Exposições</Title>
-
-                <div className={styles.content}>
-                    <ScheduleItem/>
-                    <ScheduleItem/>
-                    <ScheduleItem/>
-                </div>
+                {churchSchedules && !!churchSchedules.length && (
+                    <>
+                        <Title>Cultos e Exposições</Title>
+                        <div className={styles.content}>
+                            {churchSchedules.map(item => <ScheduleItem key={item.uuid} data={item}/>)}
+                        </div>
+                    </>
+                )}
 
                 {!!highlighted.length && (
                     <>
@@ -104,7 +106,8 @@ export async function getServerSideProps() {
     const api = new Api()
     const highlighted = await api.getSchedulesHighlighted()
     const schedules = await api.getSchedules()
-    return {props: {highlighted, schedules}}
+    const churchSchedules = await api.getChurchSchedule()
+    return {props: {highlighted, schedules, churchSchedules}}
 }
 
 
