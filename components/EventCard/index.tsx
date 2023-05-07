@@ -24,7 +24,7 @@ const EventCard: React.FC<IEventCard> = ({onClick, data}) => {
                 </div>
 
                 <div className={styles.backdrop} style={{background: "url('" + data.image + "') center/cover"}}>
-                    <FiPlayCircle/>
+                    {/*<FiPlayCircle/>*/}
                 </div>
             </div>
             {/*<div className={styles.description}>*/}
