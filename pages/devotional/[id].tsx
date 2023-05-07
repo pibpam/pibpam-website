@@ -5,13 +5,12 @@ import DividerMobile, {EDividerColors} from "../../components/DividerMobile";
 import Header from "../../components/Header";
 import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
-import {useRouter} from "next/router";
 import {FiCalendar} from "react-icons/fi";
 import React from "react";
 import {Api} from "../../services/api";
 import {IDevotinal} from "../../interfaces/Devotinal";
 import {DateUtils} from "../../utils/Date";
-import useLoading from "../../hooks/useLoading";
+import {useAppNavigation} from "../../hooks/useAppNavigation";
 
 interface IDevotionalPage {
     data: IDevotinal
@@ -19,14 +18,10 @@ interface IDevotionalPage {
 
 const Devotional: NextPage<IDevotionalPage> = ({data}) => {
     const {open, toggleMenu} = useMenu()
-    const router = useRouter()
-
-    const {handleClose, handleOpen} = useLoading()
+    const {goTo: goToHook} = useAppNavigation()
 
     const goBack = async () => {
-        await handleOpen()
-        await router.push({pathname: "/devotionals"})
-        handleClose()
+        await goToHook({pathname: "/devotionals", showLoading: true})
     }
 
     return (

@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "../../styles/components/EventCard.module.scss"
-import {FiPlayCircle} from "react-icons/fi";
 import {IContent} from "../../interfaces/Contens";
 import {DateUtils} from "../../utils/Date";
 

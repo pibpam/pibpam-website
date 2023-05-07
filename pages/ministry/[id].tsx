@@ -5,12 +5,11 @@ import DividerMobile, {EDividerColors} from "../../components/DividerMobile";
 import Header from "../../components/Header";
 import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
-import {useRouter} from "next/router";
 import React from "react";
 import Title from "../../components/Title";
-import useLoading from "../../hooks/useLoading";
 import {Api} from "../../services/api";
 import {ITeam} from "../../interfaces/Team";
+import {useAppNavigation} from "../../hooks/useAppNavigation";
 
 interface IParams {
     params: {
@@ -24,14 +23,10 @@ interface IMinistry {
 
 const Ministry: NextPage<IMinistry> = ({data}) => {
     const {open, toggleMenu} = useMenu()
-    const router = useRouter()
-
-    const {handleClose, handleOpen} = useLoading()
+    const {goTo: goToHook} = useAppNavigation()
 
     const goBack = async () => {
-        await handleOpen()
-        await router.push({pathname: "/ministries"})
-        handleClose()
+        await goToHook({pathname: "/ministries", showLoading: true})
     }
 
     return (

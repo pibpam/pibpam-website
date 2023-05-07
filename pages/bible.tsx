@@ -5,9 +5,8 @@ import DividerMobile, {EDividerColors} from "../components/DividerMobile";
 import Header from "../components/Header";
 import useMenu from "../hooks/useMenu";
 import {EBible, getBooks, IBook} from "../data/bibles";
-import useLoading from "../hooks/useLoading";
-import {useRouter} from "next/router";
 import {FiChevronRight} from "react-icons/fi";
+import {useAppNavigation} from "../hooks/useAppNavigation";
 
 interface IBible {
     books: IBook[]
@@ -15,13 +14,10 @@ interface IBible {
 
 const Bible: NextPage<IBible> = ({books}) => {
     const {open, toggleMenu} = useMenu()
-    const router = useRouter()
-    const {handleClose, handleOpen} = useLoading()
+    const {goTo: goToHook} = useAppNavigation()
 
     const goTo = async (pathname: string) => {
-        await handleOpen()
-        await router.push({pathname})
-        handleClose()
+        await goToHook({pathname, showLoading: true})
     }
 
     return (
@@ -33,7 +29,7 @@ const Bible: NextPage<IBible> = ({books}) => {
                 <DividerMobile color={EDividerColors.white}/>
                 <div className={styles.container_books}>
                     {books && books.map(item => (
-                        <button key={item.book_reference_id} onClick={() => goTo("/bible/" + item.book_reference_id)} >
+                        <button key={item.book_reference_id} onClick={() => goTo("/bible/" + item.book_reference_id)}>
                             {item.name} <FiChevronRight/>
                         </button>
                     ))}

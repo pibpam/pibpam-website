@@ -6,15 +6,13 @@ import Header from "../components/Header";
 import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
 import DevotionalCard from "../components/DevotionalCard";
-import ThirdButton from "../components/Button/Third";
-import {FiCalendar, FiPlay, FiPlus} from "react-icons/fi";
+import {FiCalendar, FiPlay} from "react-icons/fi";
 import React from "react";
 import FooterPage from "../components/FooterPage";
-import {useRouter} from "next/router";
 import {IDevotinal} from "../interfaces/Devotinal";
 import EmptyState from "../components/EmptyState";
 import {Api} from "../services/api";
-import useLoading from "../hooks/useLoading";
+import {useAppNavigation} from "../hooks/useAppNavigation";
 
 interface IDevotionalsPage {
     data: IDevotinal[]
@@ -22,13 +20,10 @@ interface IDevotionalsPage {
 
 const Devotionals: NextPage<IDevotionalsPage> = ({data}) => {
     const {open, toggleMenu} = useMenu()
-    const router = useRouter()
-    const {handleClose, handleOpen} = useLoading()
+    const {goTo: goToHook} = useAppNavigation()
 
     const goTo = async (pathname: string) => {
-        await handleOpen()
-        await router.push({pathname})
-        handleClose()
+        await goToHook({pathname, showLoading: true})
     }
 
     return (

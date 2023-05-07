@@ -14,7 +14,6 @@ import {FiBookOpen, FiPlay} from "react-icons/fi";
 import React from "react";
 import {Api} from "../services/api";
 import {IScheduleDate} from "../interfaces/Schedule";
-import useLoading from "../hooks/useLoading";
 import {useAppNavigation} from "../hooks/useAppNavigation";
 import {IChurchSchedule} from "../interfaces/Church";
 
@@ -26,13 +25,10 @@ interface ISchedule {
 
 const Schedule: NextPage<ISchedule> = ({highlighted, schedules, churchSchedules}) => {
     const {open, toggleMenu} = useMenu()
-    const {handleOpen, handleClose} = useLoading()
     const {goTo: goToHook} = useAppNavigation()
 
     const goTo = async (pathname: string) => {
-        await handleOpen()
-        await goToHook({pathname})
-        handleClose()
+        await goToHook({pathname, showLoading: true})
     }
     return (
         <Website openMenu={open} toggleMenu={toggleMenu}>

@@ -2,24 +2,17 @@ import React, {useContext} from "react";
 import {FiBook, FiBookOpen, FiCalendar, FiPlay, FiRadio} from "react-icons/fi";
 import styles from "../../styles/components/TabNavigator.module.scss"
 import {useRouter} from "next/router";
-import useLoading from "../../hooks/useLoading";
 import {LivesContext} from "../../contexts/lives";
 import {useAppNavigation} from "../../hooks/useAppNavigation";
 
 const TabNavigator: React.FC = () => {
     const router = useRouter()
     const {pathname} = router
-
-    const {handleOpen, handleClose} = useLoading()
     const {lives} = useContext(LivesContext)
     const {goTo: goToHook} = useAppNavigation()
 
     const goTo = async (pathname: string) => {
-        await handleOpen()
-        await goToHook({
-            pathname
-        })
-        handleClose()
+        await goToHook({pathname, showLoading: true})
     }
 
     return (

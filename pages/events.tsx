@@ -11,14 +11,13 @@ import {FiBookOpen, FiCalendar, FiPlay, FiPlus} from "react-icons/fi";
 import EventCard from "../components/EventCard";
 import ThirdButton from "../components/Button/Third";
 import FooterPage from "../components/FooterPage";
-import {useRouter} from "next/router";
 import {Api} from "../services/api";
 import {IContent, IGetAllContentsResponse} from "../interfaces/Contens";
-import useLoading from "../hooks/useLoading";
 import EmptyState from "../components/EmptyState";
 import {ApiLocal} from "../services/apiLocal";
 import {IPaginationData} from "../interfaces/Pagination";
 import {ImSpinner2} from "react-icons/im";
+import {useAppNavigation} from "../hooks/useAppNavigation";
 
 interface IEventsPage {
     data: IGetAllContentsResponse
@@ -27,16 +26,13 @@ interface IEventsPage {
 
 const Events: NextPage<IEventsPage> = ({data, lives}) => {
     const {open, toggleMenu} = useMenu()
-    const router = useRouter()
-    const {handleClose, handleOpen} = useLoading()
     const [paginator, setPaginator] = useState<IPaginationData>(data.pagination)
     const [contents, setContents] = useState<IContent[]>([] as IContent[])
     const [loading, setLoading] = useState(false)
+    const {goTo: goToHook} = useAppNavigation()
 
     const goTo = async (pathname: string) => {
-        await handleOpen()
-        await router.push({pathname})
-        handleClose()
+        await goToHook({pathname, showLoading: true})
     }
 
     const handleGetAll = async () => {

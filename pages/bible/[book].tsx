@@ -5,8 +5,7 @@ import DividerMobile, {EDividerColors} from "../../components/DividerMobile";
 import Header from "../../components/Header";
 import useMenu from "../../hooks/useMenu";
 import {EBible, getBook, getBooks, getChapters, IBook} from "../../data/bibles";
-import useLoading from "../../hooks/useLoading";
-import {useRouter} from "next/router";
+import {useAppNavigation} from "../../hooks/useAppNavigation";
 
 interface IBible {
     chapters: number[]
@@ -15,13 +14,10 @@ interface IBible {
 
 const BibleChapters: NextPage<IBible> = ({chapters, book}) => {
     const {open, toggleMenu} = useMenu()
-    const router = useRouter()
-    const {handleClose, handleOpen} = useLoading()
+    const {goTo: goToHook} = useAppNavigation()
 
     const goTo = async (pathname: string) => {
-        await handleOpen()
-        await router.push({pathname})
-        handleClose()
+        await goToHook({pathname, showLoading: true})
     }
 
     return (

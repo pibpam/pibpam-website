@@ -13,7 +13,6 @@ import {Api} from "../services/api";
 import {IChurchInfo} from "../interfaces/Church";
 import React from "react";
 import {useAppNavigation} from "../hooks/useAppNavigation";
-import useLoading from "../hooks/useLoading";
 import {TextCollapse} from "../components/TextCollapse";
 
 interface IAbout {
@@ -23,12 +22,9 @@ interface IAbout {
 const About: NextPage<IAbout> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const {goTo: goToHook} = useAppNavigation()
-    const {handleOpen, handleClose} = useLoading()
 
     const goTo = async (pathname: string) => {
-        await handleOpen()
-        await goToHook({pathname})
-        handleClose()
+        await goToHook({pathname, showLoading: true})
     }
 
     return (

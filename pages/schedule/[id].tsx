@@ -5,7 +5,6 @@ import DividerMobile, {EDividerColors} from "../../components/DividerMobile";
 import Header from "../../components/Header";
 import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
-import {useRouter} from "next/router";
 import React from "react";
 import {FiAlertOctagon, FiCalendar, FiClock, FiEdit3, FiInfo, FiMapPin, FiUsers} from "react-icons/fi";
 import ThirdButton from "../../components/Button/Third";
@@ -14,8 +13,8 @@ import {Api} from "../../services/api";
 import {IScheduleDate} from "../../interfaces/Schedule";
 import {DateUtils} from "../../utils/Date";
 import MinistriesItem from "../../components/MinistriesItem";
-import useLoading from "../../hooks/useLoading";
 import {Platform} from "../../enum/Platform";
+import {useAppNavigation} from "../../hooks/useAppNavigation";
 
 interface IParams {
     params: {
@@ -33,19 +32,14 @@ interface ISchedule {
 
 const Schedule: NextPage<ISchedule> = ({data, platform}) => {
     const {open, toggleMenu} = useMenu()
-    const router = useRouter()
-    const {handleOpen, handleClose} = useLoading()
+    const {goTo: goToHook} = useAppNavigation()
 
     const goBack = async () => {
-        await handleOpen()
-        await router.push({pathname: "/schedule"})
-        handleClose()
+        await goToHook({pathname: "/schedule", showLoading: true})
     }
 
     const goToTeam = async () => {
-        await handleOpen()
-        await router.push({pathname: "/ministry/" + data.schedule.team?.uuid})
-        handleClose()
+        await goToHook({pathname: "/ministry/" + data.schedule.team?.uuid, showLoading: true})
     }
 
     const goToEnrollmentLink = () => {
