@@ -63,6 +63,7 @@ const About: NextPage<IAbout> = ({data}) => {
                         <FiMail/> {data.email}
                     </button>
                     <button className={styles.button_link}>
+                        {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                         <FiPhone/> {data.phoneNumber} // {data.whatsAppNumber}
                     </button>
                     <button className={styles.button_link}>
