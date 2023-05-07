@@ -27,9 +27,9 @@ const EventCard: React.FC<IEventCard> = ({onClick, data}) => {
                     <FiPlayCircle/>
                 </div>
             </div>
-            <div className={styles.description}>
-                <p>{data.description}</p>
-            </div>
+            {/*<div className={styles.description}>*/}
+            {/*    <p>{data.description}</p>*/}
+            {/*</div>*/}
         </div>
     )
 }

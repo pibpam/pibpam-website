@@ -23,7 +23,7 @@ const Website: React.FC<IWebsiteProps> = ({hasTabNavigator = true, children, ope
             <Head>
                 <title>PIB Pará de Minas</title>
                 <meta name="description" content="Primeira Igreja Batista em Pará de Minas"/>
-                <link rel="icon" href="/favicon.ico"/>
+                <link rel="icon" href="/favicon.png"/>
             </Head>
             <main className={styles.container}>
                 {children}
