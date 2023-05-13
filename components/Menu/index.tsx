@@ -15,6 +15,7 @@ const Menu: React.FC<IMenu> = ({toggleMenu}) => {
     const {goTo: goToHook} = useAppNavigation()
 
     const goTo = async (pathname: string) => {
+        handleCloseMenu()
         await goToHook({pathname, showLoading: true})
     }
 

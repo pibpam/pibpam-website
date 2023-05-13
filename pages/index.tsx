@@ -1,5 +1,4 @@
 import type {NextPage} from 'next'
-import styles from '../styles/Home.module.scss'
 import {EDividerColors} from '../components/Divider'
 import Website from '../layout/container/Website'
 import Banner from "../components/Home/Banner";
@@ -17,6 +16,8 @@ import {LivesContext} from "../contexts/lives";
 import Devotionals from "../components/Home/Devotionals";
 import {IDevotinal} from "../interfaces/Devotinal";
 import {useAppNavigation} from "../hooks/useAppNavigation";
+import HeaderContainer from "../components/HeaderContainer";
+import useHeader from "../hooks/useHeader";
 
 interface IHome {
     content?: IContent
@@ -25,25 +26,21 @@ interface IHome {
 }
 
 const Home: NextPage<IHome> = ({content, schedules, devotionals}) => {
-    const [scrollActive, setScrollActive] = useState(false)
     const {open, toggleMenu} = useMenu()
     const {lives} = useContext(LivesContext)
     const {goTo: goToHook} = useAppNavigation()
+    const {scrollActive, changeScroll} = useHeader()
 
     const goTo = async (pathname: string) => {
         await goToHook({pathname, showLoading: true})
     }
 
-    const changeScroll = (top: number) => {
-        setScrollActive(top > 100)
-    }
-
     return (
         <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <div className={`${styles.header_container} ${scrollActive && styles.header_active}`}>
+                <HeaderContainer active={scrollActive} >
                     <Header toggleMenu={toggleMenu}/>
-                </div>
+                </HeaderContainer>
                 <Banner/>
                 <DividerMobile/>
                 <Intro goTo={goTo}/>

@@ -14,6 +14,8 @@ import {IChurchInfo} from "../interfaces/Church";
 import React, {useState} from "react";
 import {useAppNavigation} from "../hooks/useAppNavigation";
 import {TextCollapse} from "../components/TextCollapse";
+import HeaderContainer from "../components/HeaderContainer";
+import useHeader from "../hooks/useHeader";
 
 interface IAbout {
     data: IChurchInfo
@@ -22,22 +24,19 @@ interface IAbout {
 const About: NextPage<IAbout> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const {goTo: goToHook} = useAppNavigation()
-    const [scrollActive, setScrollActive] = useState(false)
+    const {scrollActive, changeScroll} = useHeader()
 
     const goTo = async (pathname: string) => {
         await goToHook({pathname, showLoading: true})
     }
 
-    const changeScroll = (top: number) => {
-        setScrollActive(top > 100)
-    }
-
     return (
-        <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+        <Website hasTabNavigator={false} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <div className={`${styles.header_container} ${scrollActive && styles.header_active}`}>
+                <HeaderContainer active={scrollActive} >
                     <Header goBack={() => goTo("/")} toggleMenu={toggleMenu}/>
-                </div>
+                </HeaderContainer>
+
                 <HeaderPage
                     title={"Sobre a PIBPAM"}
                 />

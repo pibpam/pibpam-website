@@ -13,6 +13,8 @@ import {IDevotinal} from "../interfaces/Devotinal";
 import EmptyState from "../components/EmptyState";
 import {Api} from "../services/api";
 import {useAppNavigation} from "../hooks/useAppNavigation";
+import useHeader from "../hooks/useHeader";
+import HeaderContainer from "../components/HeaderContainer";
 
 interface IDevotionalsPage {
     data: IDevotinal[]
@@ -21,17 +23,18 @@ interface IDevotionalsPage {
 const Devotionals: NextPage<IDevotionalsPage> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const {goTo: goToHook} = useAppNavigation()
+    const {scrollActive, changeScroll} = useHeader()
 
     const goTo = async (pathname: string) => {
         await goToHook({pathname, showLoading: true})
     }
 
     return (
-        <Website openMenu={open} toggleMenu={toggleMenu}>
+        <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <div className={styles.header_container}>
+                <HeaderContainer active={scrollActive} >
                     <Header toggleMenu={toggleMenu}/>
-                </div>
+                </HeaderContainer>
                 <HeaderPage
                     title={"Devocionais"}
                 />

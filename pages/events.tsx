@@ -18,6 +18,8 @@ import {ApiLocal} from "../services/apiLocal";
 import {IPaginationData} from "../interfaces/Pagination";
 import {ImSpinner2} from "react-icons/im";
 import {useAppNavigation} from "../hooks/useAppNavigation";
+import useHeader from "../hooks/useHeader";
+import HeaderContainer from "../components/HeaderContainer";
 
 interface IEventsPage {
     data: IGetAllContentsResponse
@@ -30,6 +32,7 @@ const Events: NextPage<IEventsPage> = ({data, lives}) => {
     const [contents, setContents] = useState<IContent[]>([] as IContent[])
     const [loading, setLoading] = useState(false)
     const {goTo: goToHook} = useAppNavigation()
+    const {scrollActive, changeScroll} = useHeader()
 
     const goTo = async (pathname: string) => {
         await goToHook({pathname, showLoading: true})
@@ -45,11 +48,11 @@ const Events: NextPage<IEventsPage> = ({data, lives}) => {
     }
 
     return (
-        <Website openMenu={open} toggleMenu={toggleMenu}>
+        <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <div className={styles.header_container}>
+                <HeaderContainer active={scrollActive} >
                     <Header toggleMenu={toggleMenu}/>
-                </div>
+                </HeaderContainer>
                 {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                 <HeaderPage title={<>Cultos <span>//</span> Eventos </>}/>
                 <DividerMobile color={EDividerColors.white}/>

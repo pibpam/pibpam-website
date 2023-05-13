@@ -16,6 +16,8 @@ import {Api} from "../services/api";
 import {IScheduleDate} from "../interfaces/Schedule";
 import {useAppNavigation} from "../hooks/useAppNavigation";
 import {IChurchSchedule} from "../interfaces/Church";
+import useHeader from "../hooks/useHeader";
+import HeaderContainer from "../components/HeaderContainer";
 
 interface ISchedule {
     highlighted: IScheduleDate[]
@@ -26,16 +28,17 @@ interface ISchedule {
 const Schedule: NextPage<ISchedule> = ({highlighted, schedules, churchSchedules}) => {
     const {open, toggleMenu} = useMenu()
     const {goTo: goToHook} = useAppNavigation()
+    const {scrollActive, changeScroll} = useHeader()
 
     const goTo = async (pathname: string) => {
         await goToHook({pathname, showLoading: true})
     }
     return (
-        <Website openMenu={open} toggleMenu={toggleMenu}>
+        <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <div className={styles.header_container}>
+                <HeaderContainer active={scrollActive} >
                     <Header toggleMenu={toggleMenu}/>
-                </div>
+                </HeaderContainer>
                 <HeaderPage
                     title={"Programação"}
                 />
