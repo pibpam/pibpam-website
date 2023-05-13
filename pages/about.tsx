@@ -11,7 +11,7 @@ import ScheduleItem from "../components/ScheduleItem";
 import {FiCalendar, FiGlobe, FiInstagram, FiMail, FiMapPin, FiPhone, FiPlay, FiYoutube} from "react-icons/fi";
 import {Api} from "../services/api";
 import {IChurchInfo} from "../interfaces/Church";
-import React from "react";
+import React, {useState} from "react";
 import {useAppNavigation} from "../hooks/useAppNavigation";
 import {TextCollapse} from "../components/TextCollapse";
 
@@ -22,16 +22,21 @@ interface IAbout {
 const About: NextPage<IAbout> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const {goTo: goToHook} = useAppNavigation()
+    const [scrollActive, setScrollActive] = useState(false)
 
     const goTo = async (pathname: string) => {
         await goToHook({pathname, showLoading: true})
     }
 
+    const changeScroll = (top: number) => {
+        setScrollActive(top > 100)
+    }
+
     return (
-        <Website openMenu={open} toggleMenu={toggleMenu}>
+        <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <div className={styles.header_container}>
-                    <Header toggleMenu={toggleMenu}/>
+                <div className={`${styles.header_container} ${scrollActive && styles.header_active}`}>
+                    <Header goBack={() => goTo("/")} toggleMenu={toggleMenu}/>
                 </div>
                 <HeaderPage
                     title={"Sobre a PIBPAM"}

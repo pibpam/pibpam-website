@@ -12,7 +12,7 @@ import useMenu from "../hooks/useMenu";
 import {Api} from "../services/api";
 import {IContent} from "../interfaces/Contens";
 import {IScheduleDate} from "../interfaces/Schedule";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {LivesContext} from "../contexts/lives";
 import Devotionals from "../components/Home/Devotionals";
 import {IDevotinal} from "../interfaces/Devotinal";
@@ -25,6 +25,7 @@ interface IHome {
 }
 
 const Home: NextPage<IHome> = ({content, schedules, devotionals}) => {
+    const [scrollActive, setScrollActive] = useState(false)
     const {open, toggleMenu} = useMenu()
     const {lives} = useContext(LivesContext)
     const {goTo: goToHook} = useAppNavigation()
@@ -33,10 +34,14 @@ const Home: NextPage<IHome> = ({content, schedules, devotionals}) => {
         await goToHook({pathname, showLoading: true})
     }
 
+    const changeScroll = (top: number) => {
+        setScrollActive(top > 100)
+    }
+
     return (
-        <Website openMenu={open} toggleMenu={toggleMenu}>
+        <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <div className={styles.header_container}>
+                <div className={`${styles.header_container} ${scrollActive && styles.header_active}`}>
                     <Header toggleMenu={toggleMenu}/>
                 </div>
                 <Banner/>

@@ -1,9 +1,16 @@
 .header_container {
-  position: absolute;
+  position: fixed;
   top: 0;
-  z-index: 2;
-  padding: 48px 24px 32px;
+  z-index: 10;
+  padding: 48px 24px 24px;
   width: 100%;
+  background: transparent;
+  transition: all .2s ease-in-out;
+}
+
+.header_active {
+  background: #fff;
+  padding: 48px 24px 24px;
 }
 
 .banner {
