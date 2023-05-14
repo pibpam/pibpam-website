@@ -1,5 +1,4 @@
 import type {NextPage} from 'next'
-import styles from '../../styles/Events.module.scss'
 import Website from '../../layout/container/Website'
 import DividerMobile, {EDividerColors} from "../../components/DividerMobile";
 import Header from "../../components/Header";
@@ -9,6 +8,8 @@ import LivePage from "../../components/LivePage";
 import {Api} from "../../services/api";
 import {IContent} from "../../interfaces/Contens";
 import {useAppNavigation} from "../../hooks/useAppNavigation";
+import useHeader from "../../hooks/useHeader";
+import HeaderContainer from "../../components/HeaderContainer";
 
 interface IEventPage {
     data: IContent
@@ -23,17 +24,18 @@ interface IParams {
 const Event: NextPage<IEventPage> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const {goTo: goToHook} = useAppNavigation()
+    const {scrollActive, changeScroll} = useHeader()
 
     const goBack = async () => {
         await goToHook({pathname: "/events", showLoading: true})
     }
 
     return (
-        <Website hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+        <Website changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <div className={styles.header_container}>
+                <HeaderContainer active={scrollActive} >
                     <Header goBack={goBack} toggleMenu={toggleMenu}/>
-                </div>
+                </HeaderContainer>
                 <HeaderPage background={data.image}/>
                 <DividerMobile color={EDividerColors.white}/>
                 <LivePage content={data}/>

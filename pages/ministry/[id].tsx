@@ -10,6 +10,8 @@ import Title from "../../components/Title";
 import {Api} from "../../services/api";
 import {ITeam} from "../../interfaces/Team";
 import {useAppNavigation} from "../../hooks/useAppNavigation";
+import useHeader from "../../hooks/useHeader";
+import HeaderContainer from "../../components/HeaderContainer";
 
 interface IParams {
     params: {
@@ -24,17 +26,18 @@ interface IMinistry {
 const Ministry: NextPage<IMinistry> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const {goTo: goToHook} = useAppNavigation()
+    const {scrollActive, changeScroll} = useHeader()
 
     const goBack = async () => {
         await goToHook({pathname: "/ministries", showLoading: true})
     }
 
     return (
-        <Website hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+        <Website changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <div className={styles.header_container}>
+                <HeaderContainer active={scrollActive} >
                     <Header goBack={goBack} toggleMenu={toggleMenu}/>
-                </div>
+                </HeaderContainer>
                 <HeaderPage background={data.image}/>
                 <DividerMobile color={EDividerColors.white}/>
                 <div className={styles.container}>

@@ -19,8 +19,13 @@ export const useAppNavigation = () => {
             await handleOpen()
         }
 
-        await router.push({pathname: data.pathname, query: router.query})
-        handleClose()
+        try {
+            await router.push({pathname: data.pathname, query: router.query})
+        } catch (e) {
+            alert("ERRO")
+        } finally {
+            handleClose()
+        }
     }
 
     return {

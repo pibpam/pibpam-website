@@ -11,6 +11,8 @@ import {Api} from "../../services/api";
 import {IDevotinal} from "../../interfaces/Devotinal";
 import {DateUtils} from "../../utils/Date";
 import {useAppNavigation} from "../../hooks/useAppNavigation";
+import useHeader from "../../hooks/useHeader";
+import HeaderContainer from "../../components/HeaderContainer";
 
 interface IDevotionalPage {
     data: IDevotinal
@@ -19,17 +21,18 @@ interface IDevotionalPage {
 const Devotional: NextPage<IDevotionalPage> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const {goTo: goToHook} = useAppNavigation()
+    const {scrollActive, changeScroll} = useHeader()
 
     const goBack = async () => {
         await goToHook({pathname: "/devotionals", showLoading: true})
     }
 
     return (
-        <Website hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+        <Website changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <div className={styles.header_container}>
+                <HeaderContainer active={scrollActive} >
                     <Header goBack={goBack} toggleMenu={toggleMenu}/>
-                </div>
+                </HeaderContainer>
                 <HeaderPage background={data.image}/>
                 <DividerMobile color={EDividerColors.white}/>
                 <div className={styles.container}>
