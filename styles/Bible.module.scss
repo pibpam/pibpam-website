@@ -1,12 +1,16 @@
 .header_container {
-  padding: 48px 24px 32px;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  padding: 56px 24px 24px;
   width: 100%;
+  transition: all .2s ease-in-out;
+
   background: #3D3D3D;
-  height: 158px;
 }
 
 .container_books {
-  padding: 0 24px 90px;
+  padding: 140px 24px 90px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -31,7 +35,7 @@
 }
 
 .container_chapter {
-  padding: 0 24px 90px;
+  padding: 140px 24px 90px;
   gap: 8px;
   display: flex;
   flex-wrap: wrap;
@@ -54,9 +58,8 @@
   }
 }
 
-
 .container_verse {
-  padding: 0 24px 90px;
+  padding: 140px 24px 90px;
 
   > p {
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;

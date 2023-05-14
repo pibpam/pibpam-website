@@ -31,8 +31,8 @@ const Website: React.FC<IWebsiteProps> = ({hasTabNavigator = true, children, ope
     return (
         <div
             style={{
-                height: openMenu || isLoading ? "100%" : "auto",
-                overflow: openMenu || isLoading ? "hidden" : "auto"
+                // height: openMenu || isLoading ? "100%" : "auto",
+                // overflow: openMenu || isLoading ? "hidden" : "auto"
             }}>
             <Head>
                 <title>PIB Pará de Minas</title>

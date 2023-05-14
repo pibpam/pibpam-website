@@ -26,7 +26,6 @@ const Bible: NextPage<IBible> = ({books}) => {
                 <div className={styles.header_container}>
                     <Header title={"Bíblia"} toggleMenu={toggleMenu}/>
                 </div>
-                <DividerMobile color={EDividerColors.white}/>
                 <div className={styles.container_books}>
                     {books && books.map(item => (
                         <button key={item.book_reference_id} onClick={() => goTo("/bible/" + item.book_reference_id)}>
