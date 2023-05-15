@@ -38,8 +38,8 @@ export class Api {
         return data
     }
 
-    async getContents(page: number, limit?: number) {
-        const params = {} as { limit?: number, page?: number }
+    async getContents(page: number, type: "preach" | "transmission" | "live", limit?: number) {
+        const params = {type} as { limit?: number, page?: number }
         if (limit) {
             params.limit = limit
         }

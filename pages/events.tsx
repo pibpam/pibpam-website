@@ -50,7 +50,7 @@ const Events: NextPage<IEventsPage> = ({data, lives}) => {
     return (
         <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <HeaderContainer active={scrollActive} >
+                <HeaderContainer active={scrollActive}>
                     <Header toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
@@ -110,7 +110,7 @@ const Events: NextPage<IEventsPage> = ({data, lives}) => {
 
 export async function getServerSideProps() {
     const api = new Api()
-    const data = await api.getContents(1, 20)
+    const data = await api.getContents(1, "transmission", 20)
     const lives = await api.getLives()
 
     return {props: {data, lives}}

@@ -8,6 +8,6 @@ export default async function handler(
 ) {
     const api = new Api()
     const {page = 1, limit = 20} = req.query
-    const data = await api.getContents(Number(page), Number(limit))
+    const data = await api.getContents(Number(page), "transmission", Number(limit))
     res.status(200).json(data)
 }
