@@ -18,14 +18,17 @@ import {IDevotinal} from "../interfaces/Devotinal";
 import {useAppNavigation} from "../hooks/useAppNavigation";
 import HeaderContainer from "../components/HeaderContainer";
 import useHeader from "../hooks/useHeader";
+import Series from "../components/Home/Series";
+import {ISeries} from "../interfaces/Series";
 
 interface IHome {
     content?: IContent
     schedules: IScheduleDate[]
     devotionals: IDevotinal[]
+    series: ISeries[]
 }
 
-const Home: NextPage<IHome> = ({content, schedules, devotionals}) => {
+const Home: NextPage<IHome> = ({content, schedules, devotionals, series}) => {
     const {open, toggleMenu} = useMenu()
     const {lives} = useContext(LivesContext)
     const {goTo: goToHook} = useAppNavigation()
@@ -55,7 +58,10 @@ const Home: NextPage<IHome> = ({content, schedules, devotionals}) => {
                         <Devotionals devotionals={devotionals} goTo={goTo}/>
                     </>
                 )}
-                {/*<Series/>*/}
+                <Series
+                    goTo={goTo}
+                    series={series}
+                />
             </>
         </Website>
     )
@@ -66,7 +72,8 @@ export async function getServerSideProps() {
     const schedules = await api.getSchedules(7)
     const content = await api.getContents(1, "transmission", 1)
     const devotionals = await api.getDevotionals(5)
-    return {props: {content: content.data[0] || undefined, schedules, devotionals}}
+    const series = await api.getSeries(1, 5)
+    return {props: {content: content.data[0] || undefined, schedules, devotionals, series: series.data}}
 }
 
 

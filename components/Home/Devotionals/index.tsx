@@ -6,7 +6,6 @@ import Carousel from "../../Carousel";
 import {IDevotinal} from "../../../interfaces/Devotinal";
 import DevotionalCard from "../../DevotionalCard";
 
-
 interface IDevotionals {
     devotionals?: IDevotinal[]
     goTo: (path: string) => void

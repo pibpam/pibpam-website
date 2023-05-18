@@ -7,7 +7,7 @@ export default async function handler(
     res: NextApiResponse<IGetAllContentsResponse>
 ) {
     const api = new Api()
-    const {page = 1, limit = 20} = req.query
+    const {page = 1, limit = 20, type = "transmission"} = req.query
     const data = await api.getContents(Number(page), "transmission", Number(limit))
     res.status(200).json(data)
 }

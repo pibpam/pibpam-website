@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from 'next/document'
+import Spinner from "../components/Spinner";
 
 export default function Document() {
   return (
@@ -9,6 +10,9 @@ export default function Document() {
         <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
       </Head>
       <body>
+          <div id="globalLoader">
+              <Spinner/>
+          </div>
         <Main />
         <NextScript />
       </body>

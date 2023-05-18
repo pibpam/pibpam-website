@@ -1,5 +1,6 @@
 import axios from "axios";
 import {IGetAllContentsResponse} from "../interfaces/Contens";
+import {IGetAllSeries} from "../interfaces/Series";
 
 export class ApiLocal {
     private client
@@ -17,4 +18,12 @@ export class ApiLocal {
         return data
     }
 
+    async getSeries(page: number, limit: number) {
+        const {data} = await this.client.get<IGetAllSeries>("/series", {
+            params: {
+                page, limit
+            }
+        })
+        return data
+    }
 }

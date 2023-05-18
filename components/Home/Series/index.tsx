@@ -4,29 +4,35 @@ import BlockHeader from "../BlockHeader";
 import {FiFilm} from "react-icons/fi";
 import Carousel from "../../Carousel";
 import SeriesCard from "../../SeriesCard";
+import {ISeries} from "../../../interfaces/Series";
 
-const Series: React.FC = () => {
+interface ISeriesComponent {
+    series: ISeries[]
+    goTo: (pathname: string) => void
+}
+
+const Series: React.FC<ISeriesComponent> = ({series, goTo}) => {
     return (
         <div className={styles.container}>
             <div className={styles.content}>
                 <BlockHeader
-                    icon={<FiFilm color={"#383838"}  />}
+                    icon={<FiFilm color={"#383838"}/>}
                     title="Séries de Ministrações"
                 />
                 <div className={styles.caroussel_controlls}>
                     <p>
-                        Nossas séries, são sequências de estudos sobre determinas assuntos.
+                        Nossas séries, são sequências de estudos sobre determinas assuntos. <a onClick={() => goTo("/series")}>Ver tudo.</a>
                     </p>
                 </div>
             </div>
             <div>
                 <Carousel>
                     <>
-                        <SeriesCard/>
-                        <SeriesCard/>
-                        <SeriesCard/>
-                        <SeriesCard/>
-                        <SeriesCard/>
+                        {series.map(item =>
+                            <div key={item.uuid} className={styles.card_container}>
+                                <SeriesCard onClick={() => goTo("/series/" + item.uuid)} data={item}/>
+                            </div>
+                        )}
                     </>
                 </Carousel>
             </div>
@@ -34,4 +40,4 @@ const Series: React.FC = () => {
     )
 }
 
-export default  Series
+export default Series

@@ -1,5 +1,16 @@
 import React, {useContext, useState} from "react";
-import {FiBook, FiBookOpen, FiCalendar, FiChevronRight, FiHome, FiPlay, FiRadio, FiUsers} from "react-icons/fi";
+import {
+    FiBook,
+    FiBookmark,
+    FiBookOpen,
+    FiCalendar,
+    FiChevronRight,
+    FiFilm,
+    FiHome,
+    FiPlay,
+    FiRadio,
+    FiUsers
+} from "react-icons/fi";
 import styles from "../../styles/components/Menu.module.scss"
 import Header from "../Header";
 import {LivesContext} from "../../contexts/lives";
@@ -57,6 +68,24 @@ const Menu: React.FC<IMenu> = ({toggleMenu}) => {
                         <FiPlay/>
                         <div>
                             <span>Cultos</span>
+                        </div>
+                        <FiChevronRight/>
+                    </button>
+                </li>
+                <li>
+                    <button onClick={() => goTo("/preaches")}>
+                        <FiBookmark/>
+                        <div>
+                            <span>Exposições</span>
+                        </div>
+                        <FiChevronRight/>
+                    </button>
+                </li>
+                <li>
+                    <button onClick={() => goTo("/series")}>
+                        <FiFilm/>
+                        <div>
+                            <span>Séries</span>
                         </div>
                         <FiChevronRight/>
                     </button>

@@ -4,6 +4,7 @@ import {IContent, IGetAllContentsResponse} from "../interfaces/Contens";
 import {ITeam} from "../interfaces/Team";
 import {IScheduleDate} from "../interfaces/Schedule";
 import {IChurchInfo, IChurchSchedule} from "../interfaces/Church";
+import {IGetAllSeries} from "../interfaces/Series";
 
 export class Api {
     private client
@@ -50,6 +51,18 @@ export class Api {
         return data
     }
 
+    async getSeries(page: number, limit?: number) {
+        const params = {} as { limit?: number, page?: number }
+        if (limit) {
+            params.limit = limit
+        }
+        if (page) {
+            params.page = page
+        }
+        const {data} = await this.client.get<IGetAllSeries>("v1/series", {params})
+        return data
+    }
+
     async getLives() {
         const {data} = await this.client.get<IContent[]>("v1/contents/lives")
         return data
@@ -57,6 +70,11 @@ export class Api {
 
     async getContent(uuid: string) {
         const {data} = await this.client.get<IContent>("v1/contents/" + uuid)
+        return data
+    }
+
+    async getOneSeries(uuid: string) {
+        const {data} = await this.client.get<IContent>("v1/series/" + uuid)
         return data
     }
 
