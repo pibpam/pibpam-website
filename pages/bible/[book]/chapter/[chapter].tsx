@@ -15,17 +15,13 @@ interface IBible {
 
 const BibleVerses: NextPage<IBible> = ({chapter, book, verses}) => {
     const {open, toggleMenu} = useMenu()
-    const {goTo: goToHook} = useAppNavigation()
-
-    const goTo = async (pathname: string) => {
-        await goToHook({pathname, showLoading: true})
-    }
+    const {goBack} = useAppNavigation()
 
     return (
         <Website hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <div className={styles.header_container}>
-                    <Header goBack={() => goTo("/bible/" + book.id)} title={`${book.name}, ${chapter}`}
+                    <Header goBack={() => goBack({})} title={`${book.name}, ${chapter}`}
                             toggleMenu={toggleMenu}/>
                 </div>
                 <DividerMobile color={EDividerColors.white}/>

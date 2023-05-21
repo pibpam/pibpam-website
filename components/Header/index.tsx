@@ -15,7 +15,7 @@ const Header: React.FC<IHeader> = ({toggleMenu, isOpen = false, title, goBack}) 
     const {goTo: goToHook} = useAppNavigation()
 
     const goToHome = async () => {
-        await goToHook({pathname: "/", showLoading: true})
+        await goToHook({pathname: "/", showLoading: true, resetHistory: true})
     }
 
     return (

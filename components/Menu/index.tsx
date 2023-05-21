@@ -27,7 +27,7 @@ const Menu: React.FC<IMenu> = ({toggleMenu}) => {
 
     const goTo = async (pathname: string) => {
         handleCloseMenu()
-        await goToHook({pathname, showLoading: true})
+        await goToHook({pathname, showLoading: true, resetHistory: true})
     }
 
     const handleCloseMenu = () => {

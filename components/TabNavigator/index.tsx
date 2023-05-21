@@ -12,7 +12,7 @@ const TabNavigator: React.FC = () => {
     const {goTo: goToHook} = useAppNavigation()
 
     const goTo = async (pathname: string) => {
-        await goToHook({pathname, showLoading: true})
+        await goToHook({pathname, showLoading: true, resetHistory: true})
     }
 
     return (

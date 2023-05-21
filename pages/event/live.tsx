@@ -9,17 +9,19 @@ import {useContext} from "react";
 import {LivesContext} from "../../contexts/lives";
 import useHeader from "../../hooks/useHeader";
 import HeaderContainer from "../../components/HeaderContainer";
+import {useAppNavigation} from "../../hooks/useAppNavigation";
 
 const Live: NextPage = () => {
     const {open, toggleMenu} = useMenu()
     const {lives} = useContext(LivesContext)
     const {scrollActive, changeScroll} = useHeader()
+    const {goBack} = useAppNavigation()
 
     return (
         <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive}>
-                    <Header toggleMenu={toggleMenu}/>
+                    <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 <HeaderPage/>
                 <DividerMobile color={EDividerColors.white}/>

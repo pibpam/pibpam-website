@@ -34,12 +34,8 @@ interface ISchedule {
 
 const Schedule: NextPage<ISchedule> = ({data, platform}) => {
     const {open, toggleMenu} = useMenu()
-    const {goTo: goToHook} = useAppNavigation()
+    const {goTo: goToHook, goBack} = useAppNavigation()
     const {scrollActive, changeScroll} = useHeader()
-
-    const goBack = async () => {
-        await goToHook({pathname: "/schedule", showLoading: true})
-    }
 
     const goToTeam = async () => {
         await goToHook({pathname: "/ministry/" + data.schedule.team?.uuid, showLoading: true})
@@ -65,7 +61,7 @@ const Schedule: NextPage<ISchedule> = ({data, platform}) => {
         <Website changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive} >
-                    <Header goBack={goBack} toggleMenu={toggleMenu}/>
+                    <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 <HeaderPage background={data.schedule.image}/>
                 <DividerMobile color={EDividerColors.white}/>

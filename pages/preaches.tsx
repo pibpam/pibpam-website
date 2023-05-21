@@ -22,15 +22,14 @@ import HeaderContainer from "../components/HeaderContainer";
 
 interface IEventsPage {
     data: IGetAllContentsResponse
-    lives: IContent[]
 }
 
-const Preaches: NextPage<IEventsPage> = ({data, lives}) => {
+const Preaches: NextPage<IEventsPage> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const [paginator, setPaginator] = useState<IPaginationData>(data.pagination)
     const [contents, setContents] = useState<IContent[]>([] as IContent[])
     const [loading, setLoading] = useState(false)
-    const {goTo: goToHook} = useAppNavigation()
+    const {goTo: goToHook, goBack} = useAppNavigation()
     const {scrollActive, changeScroll} = useHeader()
 
     const goTo = async (pathname: string) => {
@@ -50,7 +49,7 @@ const Preaches: NextPage<IEventsPage> = ({data, lives}) => {
         <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive}>
-                    <Header toggleMenu={toggleMenu}/>
+                    <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                 <HeaderPage title={<>Exposições</>}/>

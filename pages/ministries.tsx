@@ -21,7 +21,7 @@ interface IMinistries {
 
 const Ministries: NextPage<IMinistries> = ({data}) => {
     const {open, toggleMenu} = useMenu()
-    const {goTo: goToHook} = useAppNavigation()
+    const {goTo: goToHook, goBack} = useAppNavigation()
     const {scrollActive, changeScroll} = useHeader()
 
     const goTo = async (pathname: string) => {
@@ -32,7 +32,7 @@ const Ministries: NextPage<IMinistries> = ({data}) => {
         <Website changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive} >
-                    <Header toggleMenu={toggleMenu}/>
+                    <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 <HeaderPage
                     title={"Ministérios"}

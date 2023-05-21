@@ -11,7 +11,7 @@ import ScheduleItem from "../components/ScheduleItem";
 import {FiCalendar, FiGlobe, FiInstagram, FiMail, FiMapPin, FiPhone, FiPlay, FiYoutube} from "react-icons/fi";
 import {Api} from "../services/api";
 import {IChurchInfo} from "../interfaces/Church";
-import React, {useState} from "react";
+import React from "react";
 import {useAppNavigation} from "../hooks/useAppNavigation";
 import {TextCollapse} from "../components/TextCollapse";
 import HeaderContainer from "../components/HeaderContainer";
@@ -23,7 +23,7 @@ interface IAbout {
 
 const About: NextPage<IAbout> = ({data}) => {
     const {open, toggleMenu} = useMenu()
-    const {goTo: goToHook} = useAppNavigation()
+    const {goTo: goToHook, goBack} = useAppNavigation()
     const {scrollActive, changeScroll} = useHeader()
 
     const goTo = async (pathname: string) => {
@@ -34,7 +34,7 @@ const About: NextPage<IAbout> = ({data}) => {
         <Website hasTabNavigator={false} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive} >
-                    <Header goBack={() => goTo("/")} toggleMenu={toggleMenu}/>
+                    <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
                 </HeaderContainer>
 
                 <HeaderPage

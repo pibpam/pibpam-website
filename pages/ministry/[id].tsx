@@ -25,18 +25,14 @@ interface IMinistry {
 
 const Ministry: NextPage<IMinistry> = ({data}) => {
     const {open, toggleMenu} = useMenu()
-    const {goTo: goToHook} = useAppNavigation()
+    const {goBack} = useAppNavigation()
     const {scrollActive, changeScroll} = useHeader()
-
-    const goBack = async () => {
-        await goToHook({pathname: "/ministries", showLoading: true})
-    }
 
     return (
         <Website changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive} >
-                    <Header goBack={goBack} toggleMenu={toggleMenu}/>
+                    <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 <HeaderPage background={data.image}/>
                 <DividerMobile color={EDividerColors.white}/>

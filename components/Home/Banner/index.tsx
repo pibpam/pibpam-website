@@ -6,7 +6,7 @@ const Banner: React.FC = () => {
     return (
         <div className={styles.banner}>
             <div className={styles.content} >
-                <h1>Bem-Vindo(a) á PIB Pará de Minas</h1>
+                <h1>Bem-Vindo(a) a PIB Pará de Minas</h1>
                 <h2>Um lugar para você e para sua família.</h2>
             </div>
             <div className={styles.backdrop}  />

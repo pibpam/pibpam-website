@@ -14,7 +14,7 @@ interface IBible {
 
 const BibleChapters: NextPage<IBible> = ({chapters, book}) => {
     const {open, toggleMenu} = useMenu()
-    const {goTo: goToHook} = useAppNavigation()
+    const {goTo: goToHook, goBack} = useAppNavigation()
 
     const goTo = async (pathname: string) => {
         await goToHook({pathname, showLoading: true})
@@ -24,7 +24,7 @@ const BibleChapters: NextPage<IBible> = ({chapters, book}) => {
         <Website hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <div className={styles.header_container}>
-                    <Header goBack={() => goTo("/bible")} title={book.name} toggleMenu={toggleMenu}/>
+                    <Header goBack={() => goBack({})} title={book.name} toggleMenu={toggleMenu}/>
                 </div>
                 <DividerMobile color={EDividerColors.white}/>
                 <div className={styles.container_chapter}>
