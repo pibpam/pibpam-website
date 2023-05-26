@@ -66,7 +66,7 @@ const Ministries: NextPage<IMinistries> = ({data}) => {
     )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const api = new Api()
     const data = await api.getMinistries()
     return {props: {data}}

@@ -97,7 +97,7 @@ const Series: NextPage<ISeriesPage> = ({data}) => {
     )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const api = new Api()
     const data = await api.getSeries(1, 20)
 

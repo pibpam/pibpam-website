@@ -74,7 +74,7 @@ const Devotionals: NextPage<IDevotionalsPage> = ({data}) => {
     )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const api = new Api()
     const data = await api.getDevotionals()
     return {props: {data}}

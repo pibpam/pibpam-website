@@ -11,7 +11,7 @@ import useMenu from "../hooks/useMenu";
 import {Api} from "../services/api";
 import {IContent} from "../interfaces/Contens";
 import {IScheduleDate} from "../interfaces/Schedule";
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import {LivesContext} from "../contexts/lives";
 import Devotionals from "../components/Home/Devotionals";
 import {IDevotinal} from "../interfaces/Devotinal";
@@ -41,7 +41,7 @@ const Home: NextPage<IHome> = ({content, schedules, devotionals, series}) => {
     return (
         <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <HeaderContainer active={scrollActive} >
+                <HeaderContainer active={scrollActive}>
                     <Header toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 <Banner/>
@@ -67,7 +67,7 @@ const Home: NextPage<IHome> = ({content, schedules, devotionals, series}) => {
     )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const api = new Api()
     const schedules = await api.getSchedules(7)
     const content = await api.getContents(1, "transmission", 1)

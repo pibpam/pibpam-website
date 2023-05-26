@@ -97,7 +97,7 @@ const Preaches: NextPage<IEventsPage> = ({data}) => {
     )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const api = new Api()
     const data = await api.getContents(1, "preach", 20)
 

@@ -119,7 +119,7 @@ const About: NextPage<IAbout> = ({data}) => {
     )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const api = new Api()
     const data = await api.getChurchInfo()
     return {props: {data}}

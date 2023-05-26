@@ -108,7 +108,7 @@ const Events: NextPage<IEventsPage> = ({data, lives}) => {
     )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const api = new Api()
     const data = await api.getContents(1, "transmission", 20)
     const lives = await api.getLives()

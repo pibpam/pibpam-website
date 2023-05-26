@@ -101,7 +101,7 @@ const Schedule: NextPage<ISchedule> = ({highlighted, schedules, churchSchedules}
     )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const api = new Api()
     const highlighted = await api.getSchedulesHighlighted()
     const schedules = await api.getSchedules()
