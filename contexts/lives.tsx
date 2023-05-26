@@ -21,9 +21,15 @@ export const LivesContextProvider: React.FC<IChildren> = ({children}: IChildren)
         setLives(data)
     }
 
+    const handleGetLives = () => {
+        setInterval(() => {
+            getLives()
+        }, 300000)
+    }
 
     useEffect(() => {
         getLives()
+        handleGetLives()
     }, [])
 
     return (
