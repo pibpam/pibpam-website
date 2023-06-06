@@ -21,7 +21,7 @@ const Series: React.FC<ISeriesComponent> = ({series, goTo}) => {
                 />
                 <div className={styles.caroussel_controlls}>
                     <p>
-                        Nossas séries, são sequências de estudos sobre determinas assuntos. <a onClick={() => goTo("/series")}>Ver tudo.</a>
+                        Nossas séries, são sequências de estudos sobre determinados assuntos. <a onClick={() => goTo("/series")}>Ver tudo.</a>
                     </p>
                 </div>
             </div>
