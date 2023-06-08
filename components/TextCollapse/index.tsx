@@ -7,7 +7,7 @@ interface ITextCollapse {
     text: string
 }
 
-const defaultHeight = 216
+const defaultHeight = 300
 
 export const TextCollapse: React.FC<ITextCollapse> = ({text}) => {
     const [seeAll, setSeeAll] = useState(false)
@@ -40,7 +40,7 @@ export const TextCollapse: React.FC<ITextCollapse> = ({text}) => {
 
     return (
         <div className={styles.description}>
-            <div style={{maxHeight: maxHeight && seeAll ? maxHeight + "px" : "216px"}}>
+            <div style={{maxHeight: maxHeight && seeAll ? maxHeight + "px" : "300px"}}>
                 {/* @ts-ignore*/}
                 <div ref={pRef} dangerouslySetInnerHTML={{__html: text || ""}}></div>
             </div>

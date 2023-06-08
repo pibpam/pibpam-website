@@ -47,13 +47,13 @@ const About: NextPage<IAbout> = ({data}) => {
                     <TextCollapse text={data.history || ""}/>
                 </div>
 
-                <Title>Pastor</Title>
+                {/*<Title>Pastor</Title>*/}
 
-                <div className={styles.description}>
-                    <div className={styles.description}>
-                        <TextCollapse text={data.shepherdText || ""}/>
-                    </div>
-                </div>
+                {/*<div className={styles.description}>*/}
+                {/*    <div className={styles.description}>*/}
+                {/*        <TextCollapse text={data.shepherdText || ""}/>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
 
                 <Title>Contatos</Title>
                 <div className={styles.social_media}>
