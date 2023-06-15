@@ -61,6 +61,11 @@ interface IParams {
 export async function getServerSideProps({params}: IParams) {
     const api = new Api()
     const data = await api.getDevotional(params.id)
+    if (!data) {
+        return {
+            notFound: true,
+        };
+    }
     return {props: {data}}
 }
 

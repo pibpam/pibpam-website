@@ -138,6 +138,11 @@ const Schedule: NextPage<ISchedule> = ({data, platform}) => {
 export async function getServerSideProps({params, query}: IParams) {
     const api = new Api()
     const data = await api.getSchedule(params.id)
+    if (!data) {
+        return {
+            notFound: true,
+        };
+    }
     return {props: {data, platform: query?.platform || null}}
 }
 

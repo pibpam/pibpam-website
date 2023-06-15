@@ -63,6 +63,11 @@ const Ministry: NextPage<IMinistry> = ({data}) => {
 export async function getServerSideProps({params}: IParams) {
     const api = new Api()
     const data = await api.getMinistry(params.id)
+    if (!data) {
+        return {
+            notFound: true,
+        };
+    }
     return {props: {data}}
 }
 

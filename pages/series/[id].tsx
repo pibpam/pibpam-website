@@ -59,6 +59,11 @@ const Event: NextPage<IEventPage> = ({data}) => {
 export async function getServerSideProps({params}: IParams) {
     const api = new Api()
     const data = await api.getOneSeries(params.id)
+    if (!data) {
+        return {
+            notFound: true,
+        };
+    }
     return {props: {data}}
 }
 
