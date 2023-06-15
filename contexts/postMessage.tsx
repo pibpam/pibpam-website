@@ -24,8 +24,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
                 return
             }
 
-            alert(event.origin)
-            alert(JSON.stringify(event.data))
+            alert(event.data)
             console.log(event.origin)
             console.log(event.data)
 
