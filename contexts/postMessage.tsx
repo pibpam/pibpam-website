@@ -1,4 +1,4 @@
-import React, {createContext, ReactElement, useEffect, useRef} from "react";
+import React, {createContext, ReactElement, useEffect, useRef, useState} from "react";
 import {useAppNavigation} from "../hooks/useAppNavigation";
 
 interface Context {
@@ -19,8 +19,18 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
     const {goBack} = useAppNavigation()
 
     const sendMessage = () => {
-        window.parent.postMessage("Hello","*");
+        window.parent.postMessage("Hello", "*");
     }
+
+    const [action, setAction] = useState("")
+
+    useEffect(() => {
+        if (action) {
+            goBack({})
+            setAction("")
+            sendMessage()
+        }
+    }, [action])
 
     const init = () => {
         if (started.current) {
@@ -40,9 +50,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
             }
 
             if (data.pibpam.action === EActions.GOBACK) {
-                alert("GOBACK")
-                goBack({})
-                sendMessage()
+                setAction(EActions.GOBACK)
             }
         });
     }
