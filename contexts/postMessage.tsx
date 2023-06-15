@@ -25,6 +25,11 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
             }
 
             alert(event.data)
+            alert(event.data.pibpam)
+
+            const data = JSON.parse(event.data)
+            alert(data.pibpam.action)
+
             console.log(event.origin)
             console.log(event.data)
 
