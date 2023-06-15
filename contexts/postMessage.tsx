@@ -20,7 +20,6 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
         started.current = true
         window.addEventListener("message", (event) => {
             console.log(event)
-            alert("Frame window alert 1");
         });
     }
 
