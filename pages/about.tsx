@@ -35,6 +35,7 @@ const About: NextPage<IAbout> = ({data, platform}) => {
     }
 
     const goToMap = (): string => {
+        alert && alert(platform)
         return data.address ? getHref(data.address, platform) : ""
     }
 
