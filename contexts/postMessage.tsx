@@ -18,18 +18,12 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
     const started = useRef(false)
     const {goBack} = useAppNavigation()
 
-    const sendMessage = () => {
-        // @ts-ignore
-        window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({pibpam: {teste: 123}}));
-    }
-
     const [action, setAction] = useState("")
 
     useEffect(() => {
         if (action) {
             goBack({})
             setAction("")
-            sendMessage()
         }
     }, [action])
 
@@ -37,7 +31,6 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
         if (started.current) {
             return
         }
-        sendMessage()
         started.current = true
         window.addEventListener("message", (event) => {
             if (["http://localhost:3000", "https://pibpam-website.vercel.app"].includes(event.origin)) {

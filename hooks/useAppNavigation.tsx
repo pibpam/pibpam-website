@@ -1,5 +1,6 @@
 import {useRouter} from "next/router";
 import useLoading from "./useLoading";
+import usePostMessage from "./usePostMessage";
 
 interface IGoToParams {
     pathname: string
@@ -10,6 +11,11 @@ interface IGoToParams {
 export const useAppNavigation = () => {
     const router = useRouter()
     const {handleOpen, handleClose} = useLoading()
+    const {sendMessage} = usePostMessage()
+
+    const handleSendMessage = (route: string) => {
+        sendMessage({action: "changeRoute", route})
+    }
 
     const goTo = async ({resetHistory = false, ...data}: IGoToParams) => {
         if (router.pathname === data.pathname) {
@@ -46,6 +52,7 @@ export const useAppNavigation = () => {
                 delete query.history
             }
             await router.push({pathname: data.pathname, query})
+            handleSendMessage(data.pathname)
         } catch (e) {
             alert("ERRO")
         } finally {
@@ -74,6 +81,7 @@ export const useAppNavigation = () => {
                 query.history = history
             }
             await router.push({pathname: navigateTo, query})
+            handleSendMessage(navigateTo)
         } catch (e) {
             alert("ERRO")
         } finally {
