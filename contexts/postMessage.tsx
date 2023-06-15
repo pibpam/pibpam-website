@@ -20,7 +20,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
 
     const sendMessage = () => {
         // @ts-ignore
-        window.ReactNativeWebView.postMessage({pibpam: {teste: 123}});
+        window.ReactNativeWebView && window.ReactNativeWebView.postMessage({pibpam: {teste: 123}});
     }
 
     const [action, setAction] = useState("")
