@@ -19,7 +19,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
     const {goBack} = useAppNavigation()
 
     const sendMessage = () => {
-        parent.postMessage("Hello","*");
+        window.parent.postMessage("Hello","*");
     }
 
     const init = () => {
@@ -41,6 +41,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
 
             if (data.pibpam.action === EActions.GOBACK) {
                 alert("GOBACK")
+                sendMessage()
                 goBack({})
             }
         });

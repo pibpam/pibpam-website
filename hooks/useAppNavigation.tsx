@@ -73,6 +73,8 @@ export const useAppNavigation = () => {
             } else {
                 query.history = history
             }
+            alert("Navigate")
+            alert(navigateTo)
             await router.push({pathname: navigateTo, query})
         } catch (e) {
             alert("ERRO")
