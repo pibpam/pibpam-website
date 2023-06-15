@@ -57,8 +57,6 @@ export const useAppNavigation = () => {
         let navigateTo = fallback || "/"
         const {history} = router.query
 
-        alert(JSON.stringify(history))
-
         if (history && Array.isArray(history)) {
             if (history.length > 1) {
                 navigateTo = history[history.length - 2]
@@ -75,8 +73,6 @@ export const useAppNavigation = () => {
             } else {
                 query.history = history
             }
-            alert("Navigate")
-            alert(navigateTo)
             await router.push({pathname: navigateTo, query})
         } catch (e) {
             alert("ERRO")

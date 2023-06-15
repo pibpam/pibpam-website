@@ -19,7 +19,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
     const {goBack} = useAppNavigation()
 
     const sendMessage = () => {
-        window.parent.postMessage("Hello", "*");
+        window.postMessage("Hello", "*");
     }
 
     const [action, setAction] = useState("")
