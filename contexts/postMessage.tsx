@@ -14,12 +14,15 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
     const started = useRef(false)
 
     const init = () => {
+        console.log("init")
         if (started.current) {
             return
         }
         started.current = true
         window.addEventListener("message", (event) => {
-            console.log(event)
+            if (event.data) {
+                console.log(event)
+            }
         });
     }
 
