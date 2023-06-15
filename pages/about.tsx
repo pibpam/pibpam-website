@@ -11,29 +11,48 @@ import ScheduleItem from "../components/ScheduleItem";
 import {FiCalendar, FiGlobe, FiInstagram, FiMail, FiMapPin, FiPhone, FiPlay, FiYoutube} from "react-icons/fi";
 import {Api} from "../services/api";
 import {IChurchInfo} from "../interfaces/Church";
-import React from "react";
+import React, {useMemo} from "react";
 import {useAppNavigation} from "../hooks/useAppNavigation";
 import {TextCollapse} from "../components/TextCollapse";
 import HeaderContainer from "../components/HeaderContainer";
 import useHeader from "../hooks/useHeader";
+import {Platform} from "../enum/Platform";
+import useOpenMap from "../hooks/useOpenMap";
 
 interface IAbout {
     data: IChurchInfo
+    platform?: Platform
 }
 
-const About: NextPage<IAbout> = ({data}) => {
+const About: NextPage<IAbout> = ({data, platform}) => {
     const {open, toggleMenu} = useMenu()
     const {goTo: goToHook, goBack} = useAppNavigation()
     const {scrollActive, changeScroll} = useHeader()
+    const {getHref} = useOpenMap()
 
     const goTo = async (pathname: string) => {
         await goToHook({pathname, showLoading: true})
     }
 
+    const goToMap = (): string => {
+        return data.address ? getHref(data.address, platform) : ""
+    }
+
+    const phonesStr = () => {
+        if (data.phoneNumber && data.whatsAppNumber) {
+            return `${data.phoneNumber} // ${data.whatsAppNumber}`
+        }
+
+        if (data.phoneNumber) {
+            return data.phoneNumber
+        }
+        return data.whatsAppNumber
+    }
+
     return (
         <Website hasTabNavigator={false} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <HeaderContainer active={scrollActive} >
+                <HeaderContainer active={scrollActive}>
                     <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
                 </HeaderContainer>
 
@@ -62,18 +81,22 @@ const About: NextPage<IAbout> = ({data}) => {
                     <button className={styles.button_link}>
                         <FiMail/> {data.email}
                     </button>
-                    <button className={styles.button_link}>
-                        {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
-                        <FiPhone/> {data.phoneNumber} // {data.whatsAppNumber}
-                    </button>
-                    <button className={styles.button_link}>
-                        <FiGlobe/> {data.site}
-                    </button>
+                    {!!phonesStr() && (
+                        <button className={styles.button_link}>
+                            <FiPhone/> {phonesStr()}
+                        </button>
+                    )}
+                    {!!data.site && (
+                        <button className={styles.button_link}>
+                            <FiGlobe/> {data.site}
+                        </button>
+                    )}
                     <button className={styles.button_link_location}>
                         <FiMapPin/>
                         <div>
                             <div>
-                                <span>Localização</span><a href="">Como chegar</a>
+                                <span>Localização</span><a href={goToMap()} target={"_blank"} rel="noreferrer">Como
+                                chegar</a>
                             </div>
                             <div>
                                 {data.address}
@@ -84,12 +107,12 @@ const About: NextPage<IAbout> = ({data}) => {
 
                 <Title>Redes sociais</Title>
                 <div className={styles.social_media}>
-                    <button className={styles.button_link}>
+                    <a href={data.youTubeUrl} target={"_blank"} className={styles.button_link} rel="noreferrer">
                         <FiYoutube/> {data.youTubeName}
-                    </button>
-                    <button className={styles.button_link}>
+                    </a>
+                    <a href={data.instagramUrl} target={"_blank"} className={styles.button_link} rel="noreferrer">
                         <FiInstagram/> {data.instagramName}
-                    </button>
+                    </a>
                 </div>
 
                 {data?.church_schedules && !!data.church_schedules.length && (
@@ -119,10 +142,17 @@ const About: NextPage<IAbout> = ({data}) => {
     )
 }
 
-export async function getStaticProps() {
+interface IParams {
+    query?: {
+        platform?: Platform
+    }
+}
+
+
+export async function getStaticProps({query}: IParams) {
     const api = new Api()
     const data = await api.getChurchInfo()
-    return {props: {data}}
+    return {props: {data, platform: query?.platform || null}}
 }
 
 export default About

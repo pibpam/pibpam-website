@@ -17,6 +17,7 @@ import {Platform} from "../../enum/Platform";
 import {useAppNavigation} from "../../hooks/useAppNavigation";
 import useHeader from "../../hooks/useHeader";
 import HeaderContainer from "../../components/HeaderContainer";
+import useOpenMap from "../../hooks/useOpenMap";
 
 interface IParams {
     params: {
@@ -36,6 +37,7 @@ const Schedule: NextPage<ISchedule> = ({data, platform}) => {
     const {open, toggleMenu} = useMenu()
     const {goTo: goToHook, goBack} = useAppNavigation()
     const {scrollActive, changeScroll} = useHeader()
+    const {getHref} = useOpenMap()
 
     const goToTeam = async () => {
         await goToHook({pathname: "/ministry/" + data.schedule.team?.uuid, showLoading: true})
@@ -46,22 +48,13 @@ const Schedule: NextPage<ISchedule> = ({data, platform}) => {
     }
 
     const goToMap = (): string => {
-        if (platform === Platform.IOS) {
-            return "https://maps.apple.com/?daddr=" + data.schedule.addressRedirect
-        }
-
-        //
-        // if (platform === Platform.ANDROID) {
-        //     return "geo:" + data.schedule.addressRedirect
-        // }
-
-        return "https://www.google.com/maps/dir/?api=1&destination=" + data.schedule.addressRedirect
+        return data.schedule.addressRedirect ? getHref(data.schedule.addressRedirect, platform) : ""
     }
 
     return (
         <Website changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <HeaderContainer active={scrollActive} >
+                <HeaderContainer active={scrollActive}>
                     <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 <HeaderPage background={data.schedule.image}/>
