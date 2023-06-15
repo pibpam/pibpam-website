@@ -20,8 +20,9 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
         }
         started.current = true
         window.addEventListener("message", (event) => {
-            if (event.data) {
-                console.log(event.data)
+            if (event.data && event.data.pibpam) {
+                console.log(event.data.pibpam)
+                alert(JSON.stringify(event.data.pibpam))
             }
         });
     }
