@@ -1,4 +1,5 @@
 import React, {createContext, ReactElement, useEffect, useRef} from "react";
+import {useAppNavigation} from "../hooks/useAppNavigation";
 
 interface Context {
 }
@@ -9,33 +10,37 @@ export interface IChildren {
     children: ReactElement
 }
 
-export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChildren) => {
+enum EActions {
+    GOBACK = 'goBack'
+}
 
+export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChildren) => {
     const started = useRef(false)
+    const {goBack} = useAppNavigation()
+
+    const sendMessage = () => {
+        parent.postMessage("Hello","*");
+    }
 
     const init = () => {
-        console.log("init")
         if (started.current) {
             return
         }
+        sendMessage()
         started.current = true
         window.addEventListener("message", (event) => {
             if (["http://localhost:3000", "https://pibpam-website.vercel.app"].includes(event.origin)) {
                 return
             }
 
-            alert(event.data)
-            alert(event.data.pibpam)
-
             const data = JSON.parse(event.data)
-            alert(data.pibpam.action)
 
-            console.log(event.origin)
-            console.log(event.data)
+            if (!data.pibpam || !data.pibpam.action) {
+                return
+            }
 
-            if (event.data && event.data?.pibpam) {
-                console.log(event.data.pibpam)
-                alert(JSON.stringify(event.data.pibpam))
+            if (data.pibpam.action === EActions.GOBACK) {
+                goBack({})
             }
         });
     }
