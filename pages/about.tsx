@@ -11,24 +11,31 @@ import ScheduleItem from "../components/ScheduleItem";
 import {FiCalendar, FiGlobe, FiInstagram, FiMail, FiMapPin, FiPhone, FiPlay, FiYoutube} from "react-icons/fi";
 import {Api} from "../services/api";
 import {IChurchInfo} from "../interfaces/Church";
-import React, {useMemo} from "react";
+import React, {useEffect, useState} from "react";
 import {useAppNavigation} from "../hooks/useAppNavigation";
 import {TextCollapse} from "../components/TextCollapse";
 import HeaderContainer from "../components/HeaderContainer";
 import useHeader from "../hooks/useHeader";
 import {Platform} from "../enum/Platform";
 import useOpenMap from "../hooks/useOpenMap";
+import {useRouter} from "next/router";
 
 interface IAbout {
     data: IChurchInfo
-    platform?: Platform
 }
 
-const About: NextPage<IAbout> = ({data, platform}) => {
+const About: NextPage<IAbout> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const {goTo: goToHook, goBack} = useAppNavigation()
     const {scrollActive, changeScroll} = useHeader()
     const {getHref} = useOpenMap()
+    const router = useRouter()
+    const [platform, setPlatform] = useState<Platform | undefined>()
+
+    useEffect(() => {
+        const {platform} = router.query
+        setPlatform(platform as Platform)
+    }, [router])
 
     const goTo = async (pathname: string) => {
         await goToHook({pathname, showLoading: true})
@@ -57,7 +64,7 @@ const About: NextPage<IAbout> = ({data, platform}) => {
                 </HeaderContainer>
 
                 <HeaderPage
-                    title={"Sobre a PIBPAM" + platform}
+                    title={"Sobre a PIBPAM"}
                 />
                 <DividerMobile color={EDividerColors.white}/>
                 <Title>História</Title>
@@ -142,17 +149,10 @@ const About: NextPage<IAbout> = ({data, platform}) => {
     )
 }
 
-interface IParams {
-    query?: {
-        platform?: Platform
-    }
-}
-
-
-export async function getStaticProps({query}: IParams) {
+export async function getStaticProps() {
     const api = new Api()
     const data = await api.getChurchInfo()
-    return {props: {data, platform: query?.platform || null}}
+    return {props: {data}}
 }
 
 export default About
