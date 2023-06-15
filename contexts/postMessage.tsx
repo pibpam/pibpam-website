@@ -19,7 +19,8 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
     const {goBack} = useAppNavigation()
 
     const sendMessage = () => {
-        window.postMessage("Hello", "*");
+        // @ts-ignore
+        window.ReactNativeWebView.postMessage({pibpam: {teste: 123}});
     }
 
     const [action, setAction] = useState("")
