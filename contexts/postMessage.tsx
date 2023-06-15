@@ -27,28 +27,32 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
         }
     }, [action])
 
+    const handleEventPostMessage = (event: MessageEvent) => {
+        alert(event.origin)
+
+        if (["http://localhost:3000", "https://pibpam-website.vercel.app"].includes(event.origin)) {
+            return
+        }
+
+        const data = JSON.parse(event.data)
+
+        if (!data.pibpam || !data.pibpam.action) {
+            return
+        }
+
+        if (data.pibpam.action === EActions.GOBACK) {
+            setAction(EActions.GOBACK)
+        }
+    }
+
     const init = () => {
         if (started.current) {
             return
         }
         started.current = true
-        window.addEventListener("message", (event) => {
-            alert(event.origin)
-
-            if (["http://localhost:3000", "https://pibpam-website.vercel.app"].includes(event.origin)) {
-                return
-            }
-
-            const data = JSON.parse(event.data)
-
-            if (!data.pibpam || !data.pibpam.action) {
-                return
-            }
-
-            if (data.pibpam.action === EActions.GOBACK) {
-                setAction(EActions.GOBACK)
-            }
-        });
+        window.addEventListener("message", handleEventPostMessage);
+        // @ts-ignore
+        document.addEventListener("message", handleEventPostMessage);
     }
 
     useEffect(() => {
