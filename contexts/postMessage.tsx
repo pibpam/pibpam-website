@@ -21,7 +21,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
         started.current = true
         window.addEventListener("message", (event) => {
             if (event.data) {
-                console.log(event)
+                console.log(event.data)
             }
         });
     }
