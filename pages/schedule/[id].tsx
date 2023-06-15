@@ -46,9 +46,8 @@ const Schedule: NextPage<ISchedule> = ({data, platform}) => {
     }
 
     const goToMap = (): string => {
-        alert(platform)
         if (platform === Platform.IOS) {
-            return "maps:" + data.schedule.addressRedirect
+            return "maps://maps.google.com/?q=" + data.schedule.addressRedirect
         }
 
         //
