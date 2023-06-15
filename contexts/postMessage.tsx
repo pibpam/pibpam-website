@@ -22,14 +22,13 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
 
     useEffect(() => {
         if (action) {
-            goBack({})
+            goBack({}).then()
             setAction("")
         }
+        // eslint-disable-next-line
     }, [action])
 
     const handleEventPostMessage = (event: MessageEvent) => {
-        alert(event.origin)
-
         if (["http://localhost:3000", "https://pibpam-website.vercel.app"].includes(event.origin)) {
             return
         }
@@ -57,6 +56,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
 
     useEffect(() => {
         init()
+        // eslint-disable-next-line
     }, [])
 
     return (
