@@ -41,8 +41,8 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
 
             if (data.pibpam.action === EActions.GOBACK) {
                 alert("GOBACK")
-                sendMessage()
                 goBack({})
+                sendMessage()
             }
         });
     }
