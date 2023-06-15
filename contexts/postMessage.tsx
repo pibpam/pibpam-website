@@ -33,6 +33,8 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
         }
         started.current = true
         window.addEventListener("message", (event) => {
+            alert(event.origin)
+
             if (["http://localhost:3000", "https://pibpam-website.vercel.app"].includes(event.origin)) {
                 return
             }
