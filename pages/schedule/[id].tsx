@@ -51,7 +51,7 @@ const Schedule: NextPage<ISchedule> = ({data, platform}) => {
         }
 
         if (platform === Platform.ANDROID) {
-            return "geo:-22.0210584,-47.9113343" + data.schedule.addressRedirect
+            return "geo:-22.0210584,-47.9113343"
         }
 
         return "https://www.google.com/maps/dir/?api=1&destination=" + data.schedule.addressRedirect
