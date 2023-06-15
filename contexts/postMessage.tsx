@@ -28,7 +28,6 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChi
         if (action) {
             goBack({})
             setAction("")
-            sendMessage()
         }
     }, [action])
 

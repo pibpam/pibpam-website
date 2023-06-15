@@ -5,13 +5,13 @@ import {PostMessageContextProvider} from "./postMessage";
 
 const Contexts: React.FC<IChildren> = ({children}: IChildren) => {
     return <>
-        <PostMessageContextProvider>
-            <LoadingContextProvider>
+        <LoadingContextProvider>
+            <PostMessageContextProvider>
                 <LivesContextProvider>
                     {children}
                 </LivesContextProvider>
-            </LoadingContextProvider>
-        </PostMessageContextProvider>
+            </PostMessageContextProvider>
+        </LoadingContextProvider>
     </>;
 }
 
