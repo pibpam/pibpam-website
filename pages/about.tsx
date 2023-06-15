@@ -35,7 +35,6 @@ const About: NextPage<IAbout> = ({data, platform}) => {
     }
 
     const goToMap = (): string => {
-        alert && alert(platform)
         return data.address ? getHref(data.address, platform) : ""
     }
 
@@ -58,7 +57,7 @@ const About: NextPage<IAbout> = ({data, platform}) => {
                 </HeaderContainer>
 
                 <HeaderPage
-                    title={"Sobre a PIBPAM"}
+                    title={"Sobre a PIBPAM" + platform}
                 />
                 <DividerMobile color={EDividerColors.white}/>
                 <Title>História</Title>
