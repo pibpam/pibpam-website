@@ -18,7 +18,7 @@ const SeriesCard: React.FC<ISeriesCard> = ({data, onClick}) => {
                 {/*<p>Marco Oliveira</p>*/}
                 <div>
                     {/*<div>Público: Adolescentes</div>*/}
-                    <div>{data.series_contents.length} episódios</div>
+                    <div>{data.series_contents.length} {data.series_contents.length > 1 ? "episódios" : "episódio"}</div>
                 </div>
             </div>
         </div>

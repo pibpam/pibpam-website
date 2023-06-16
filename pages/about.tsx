@@ -138,7 +138,7 @@ const About: NextPage<IAbout> = ({data}) => {
                             action: () => goTo("/events")
                         },
                         {
-                            text: "Programação",
+                            text: "Agenda",
                             icon: <FiCalendar/>,
                             action: () => goTo("/schedule")
                         }

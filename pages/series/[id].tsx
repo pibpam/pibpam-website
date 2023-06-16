@@ -36,19 +36,27 @@ const Event: NextPage<IEventPage> = ({data}) => {
     return (
         <Website changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <HeaderContainer active={scrollActive} >
+                <HeaderContainer active={scrollActive}>
                     <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 <HeaderPage background={data.image}/>
                 <DividerMobile color={EDividerColors.white}/>
-                <div className={styles.container} >
+                <div className={styles.container}>
                     <div className={styles.header}>
                         <h2>{data.title}</h2>
                         <p>{data.description}</p>
-                        <p> <FiPlay/> {data.series_contents.length} episódios</p>
+                        <p>
+                            <FiPlay/> {data.series_contents.length} {data.series_contents.length > 1 ? "episódios" : "episódio"}
+                        </p>
                     </div>
-                    <div className={styles.grid} >
-                        {data.series_contents.map(item => (<EventCard key={item.content.uuid} onClick={() => goToContent("/event/" + item.content.uuid)} data={item.content} />))}
+                    <div className={styles.grid}>
+                        {data.series_contents.map(item => (
+                            <EventCard
+                                key={item.content.uuid} hideDate
+                                onClick={() => goToContent("/event/" + item.content.uuid)}
+                                data={item.content}
+                            />
+                        ))}
                     </div>
                 </div>
             </>

@@ -40,7 +40,7 @@ const Schedule: NextPage<ISchedule> = ({highlighted, schedules, churchSchedules}
                     <Header toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 <HeaderPage
-                    title={"Programação"}
+                    title={"Agenda"}
                 />
                 <DividerMobile color={EDividerColors.white}/>
 

@@ -31,7 +31,7 @@ const Footer: React.FC = () => {
               Ministérios
             </li>
             <li>
-              Programação
+              Agenda
             </li>
             <li>
               Cultos

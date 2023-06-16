@@ -97,7 +97,7 @@ const Events: NextPage<IEventsPage> = ({data, lives}) => {
                             action: () => goTo("/devotionals")
                         },
                         {
-                            text: "Programação",
+                            text: "Agenda",
                             icon: <FiCalendar/>,
                             action: () => goTo("/schedule")
                         }

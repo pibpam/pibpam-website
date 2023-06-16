@@ -22,7 +22,7 @@ const NavBar: React.FC = () => {
           </li>
           <li>
             <Link href="/programacao">
-              <a>Programação</a>
+              <a>Agenda</a>
             </Link>
           </li>
           <li>

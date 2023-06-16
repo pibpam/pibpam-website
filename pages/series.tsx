@@ -86,7 +86,7 @@ const Series: NextPage<ISeriesPage> = ({data}) => {
                             action: () => goTo("/devotionals")
                         },
                         {
-                            text: "Programação",
+                            text: "Agenda",
                             icon: <FiCalendar/>,
                             action: () => goTo("/schedule")
                         }

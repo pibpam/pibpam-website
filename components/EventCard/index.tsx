@@ -6,14 +6,17 @@ import {DateUtils} from "../../utils/Date";
 interface IEventCard {
     onClick: () => void
     data: IContent
+    hideDate?: boolean
 }
 
-const EventCard: React.FC<IEventCard> = ({onClick, data}) => {
+const EventCard: React.FC<IEventCard> = ({onClick, data, hideDate = false}) => {
     return (
         <div className={styles.container} onClick={onClick}>
-            <div className={styles.tag__date}>
-                {DateUtils.formatDateDefault(data.contentDate)}
-            </div>
+            {!hideDate && (
+                <div className={styles.tag__date}>
+                    {DateUtils.formatDateDefault(data.contentDate)}
+                </div>
+            )}
             <div className={styles.thumb}>
                 <div className={styles.content}>
                     <p>{data.name}</p>

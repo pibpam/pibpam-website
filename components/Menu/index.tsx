@@ -112,7 +112,7 @@ const Menu: React.FC<IMenu> = ({toggleMenu}) => {
                     <button onClick={() => goTo("/schedule")}>
                         <FiCalendar/>
                         <div>
-                            <span>Programação</span>
+                            <span>Agenda</span>
                         </div>
                         <FiChevronRight/>
                     </button>

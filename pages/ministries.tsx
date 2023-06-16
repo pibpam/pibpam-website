@@ -47,20 +47,20 @@ const Ministries: NextPage<IMinistries> = ({data}) => {
                         ))}
                     </div>
                 </div>
-                <FooterPage
-                    options={[
-                        {
-                            text: "Cultos",
-                            icon: <FiPlay/>,
-                            action: () => goTo("/events")
-                        },
-                        {
-                            text: "Programação",
-                            icon: <FiCalendar/>,
-                            action: () => goTo("/schedule")
-                        }
-                    ]}
-                />
+                {/*<FooterPage*/}
+                {/*    options={[*/}
+                {/*        {*/}
+                {/*            text: "Cultos",*/}
+                {/*            icon: <FiPlay/>,*/}
+                {/*            action: () => goTo("/events")*/}
+                {/*        },*/}
+                {/*        {*/}
+                {/*            text: "Programação",*/}
+                {/*            icon: <FiCalendar/>,*/}
+                {/*            action: () => goTo("/schedule")*/}
+                {/*        }*/}
+                {/*    ]}*/}
+                {/*/>*/}
             </>
         </Website>
     )

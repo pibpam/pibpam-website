@@ -63,7 +63,7 @@ const Devotionals: NextPage<IDevotionalsPage> = ({data}) => {
                             action: () => goTo("/events")
                         },
                         {
-                            text: "Programação",
+                            text: "Agenda",
                             icon: <FiCalendar/>,
                             action: () => goTo("/schedule")
                         }
