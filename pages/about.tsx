@@ -19,6 +19,7 @@ import useHeader from "../hooks/useHeader";
 import {Platform} from "../enum/Platform";
 import useOpenMap from "../hooks/useOpenMap";
 import {useRouter} from "next/router";
+import {FaSpotify} from "react-icons/fa";
 
 interface IAbout {
     data: IChurchInfo
@@ -119,6 +120,9 @@ const About: NextPage<IAbout> = ({data}) => {
                     </a>
                     <a href={data.instagramUrl} target={"_blank"} className={styles.button_link} rel="noreferrer">
                         <FiInstagram/> {data.instagramName}
+                    </a>
+                    <a href={data.spotifyUrl} target={"_blank"} className={styles.button_link} rel="noreferrer">
+                        <FaSpotify/> {data.spotifyName}
                     </a>
                 </div>
 
