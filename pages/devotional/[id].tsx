@@ -45,7 +45,7 @@ const Devotional: NextPage<IDevotionalPage> = ({data}) => {
                         </div>
                         <div><FiCalendar/>{DateUtils.formatDateDefault(data.contentDate)}</div>
                     </div>
-                    <p>{data.content}</p>
+                    <div dangerouslySetInnerHTML={{__html: data.content || ""}}></div>
                 </div>
             </>
         </Website>
