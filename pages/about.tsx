@@ -20,6 +20,7 @@ import {Platform} from "../enum/Platform";
 import useOpenMap from "../hooks/useOpenMap";
 import {useRouter} from "next/router";
 import {FaSpotify} from "react-icons/fa";
+import usePostMessage from "../hooks/usePostMessage";
 
 interface IAbout {
     data: IChurchInfo
@@ -32,6 +33,7 @@ const About: NextPage<IAbout> = ({data}) => {
     const {getHref} = useOpenMap()
     const router = useRouter()
     const [platform, setPlatform] = useState<Platform | undefined>()
+    const {openLink} = usePostMessage()
 
     useEffect(() => {
         const {platform} = router.query
@@ -121,9 +123,9 @@ const About: NextPage<IAbout> = ({data}) => {
                     <a href={data.instagramUrl} target={"_blank"} className={styles.button_link} rel="noreferrer">
                         <FiInstagram/> {data.instagramName}
                     </a>
-                    <a href={data.spotifyUrl} target={"_blank"} className={styles.button_link} rel="noreferrer">
+                    <button onClick={() => openLink(data.spotifyUrl || '')} className={styles.button_link}>
                         <FaSpotify/> {data.spotifyName}
-                    </a>
+                    </button>
                 </div>
 
                 {data?.church_schedules && !!data.church_schedules.length && (

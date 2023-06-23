@@ -5,7 +5,12 @@ const usePostMessage = () => {
         // @ts-ignore
         window && window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({pibpam: data}));
     }
-    return {sendMessage}
+
+    const openLink = (url: string) => {
+        sendMessage({action: "open", url})
+    }
+
+    return {sendMessage, openLink}
 }
 
 export default usePostMessage
