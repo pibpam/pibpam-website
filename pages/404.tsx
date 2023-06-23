@@ -21,9 +21,9 @@ const NotFound: NextPage = () => {
         <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive}>
-                    <Header title={"404"} goBack={() => goBack({})} toggleMenu={toggleMenu}/>
+                    <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
                 </HeaderContainer>
-                <HeaderPage/>
+                <HeaderPage title={"404"} />
                 <DividerMobile color={EDividerColors.white}/>
                 <div className={styles.container}>
                     <EmptyState description={"Ops! O que você procura não está mais aqui!"}/>
