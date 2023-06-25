@@ -5,7 +5,7 @@ import DividerMobile, {EDividerColors} from "../../components/DividerMobile";
 import Header from "../../components/Header";
 import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {FiAlertOctagon, FiCalendar, FiClock, FiEdit3, FiInfo, FiMapPin, FiUsers} from "react-icons/fi";
 import ThirdButton from "../../components/Button/Third";
 import Title from "../../components/Title";
@@ -13,42 +13,42 @@ import {Api} from "../../services/api";
 import {IScheduleDate} from "../../interfaces/Schedule";
 import {DateUtils} from "../../utils/Date";
 import MinistriesItem from "../../components/MinistriesItem";
-import {Platform} from "../../enum/Platform";
 import {useAppNavigation} from "../../hooks/useAppNavigation";
 import useHeader from "../../hooks/useHeader";
 import HeaderContainer from "../../components/HeaderContainer";
 import useOpenMap from "../../hooks/useOpenMap";
+import usePostMessage from "../../hooks/usePostMessage";
 
 interface IParams {
     params: {
         id: string
     }
-    query?: {
-        platform?: Platform
-    }
 }
 
 interface ISchedule {
     data: IScheduleDate
-    platform?: Platform
 }
 
-const Schedule: NextPage<ISchedule> = ({data, platform}) => {
+const Schedule: NextPage<ISchedule> = ({data}) => {
     const {open, toggleMenu} = useMenu()
     const {goTo: goToHook, goBack} = useAppNavigation()
     const {scrollActive, changeScroll} = useHeader()
     const {getHref} = useOpenMap()
+    const [mapUrl, setMapUrl] = useState('')
+    const {openLink} = usePostMessage()
+
+    useEffect(() => {
+        setMapUrl(data.schedule.addressRedirect ? getHref(data.schedule.addressRedirect) : "")
+    }, [data.schedule.addressRedirect, getHref])
 
     const goToTeam = async () => {
         await goToHook({pathname: "/ministry/" + data.schedule.team?.uuid, showLoading: true})
     }
 
     const goToEnrollmentLink = () => {
-        window.open(data.schedule.enrollmentLink)
-    }
-
-    const goToMap = (): string => {
-        return data.schedule.addressRedirect ? getHref(data.schedule.addressRedirect, platform) : ""
+        if (data.schedule.enrollmentLink) {
+            openLink(data.schedule.enrollmentLink)
+        }
     }
 
     return (
@@ -71,7 +71,7 @@ const Schedule: NextPage<ISchedule> = ({data, platform}) => {
                             <FiMapPin/>
                             <div>
                                 <div>{data.schedule.address}</div>
-                                <a href={goToMap()} target={"_blank"} rel="noreferrer">Como chegar</a>
+                                <button onClick={() => openLink(mapUrl)}>Como chegar</button>
                             </div>
                         </div>
                     )}
@@ -129,7 +129,7 @@ const Schedule: NextPage<ISchedule> = ({data, platform}) => {
     )
 }
 
-export async function getServerSideProps({params, query}: IParams) {
+export async function getServerSideProps({params}: IParams) {
     const api = new Api()
     const data = await api.getSchedule(params.id)
     if (!data) {
@@ -137,7 +137,7 @@ export async function getServerSideProps({params, query}: IParams) {
             notFound: true,
         };
     }
-    return {props: {data, platform: query?.platform || null}}
+    return {props: {data}}
 }
 
 

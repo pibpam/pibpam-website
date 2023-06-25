@@ -16,12 +16,10 @@ import {useAppNavigation} from "../hooks/useAppNavigation";
 import {TextCollapse} from "../components/TextCollapse";
 import HeaderContainer from "../components/HeaderContainer";
 import useHeader from "../hooks/useHeader";
-import {Platform} from "../enum/Platform";
 import useOpenMap from "../hooks/useOpenMap";
-import {useRouter} from "next/router";
 import {FaSpotify} from "react-icons/fa";
 
-// import usePostMessage from "../hooks/usePostMessage";
+import usePostMessage from "../hooks/usePostMessage";
 
 interface IAbout {
     data: IChurchInfo
@@ -32,22 +30,16 @@ const About: NextPage<IAbout> = ({data}) => {
     const {goTo: goToHook, goBack} = useAppNavigation()
     const {scrollActive, changeScroll} = useHeader()
     const {getHref} = useOpenMap()
-    const router = useRouter()
-    const [platform, setPlatform] = useState<Platform | undefined>()
-    // const {openLink} = usePostMessage()
-
-    useEffect(() => {
-        const {platform} = router.query
-        setPlatform(platform as Platform)
-    }, [router])
+    const {openLink} = usePostMessage()
+    const [mapUrl, setMapUrl] = useState('')
 
     const goTo = async (pathname: string) => {
         await goToHook({pathname, showLoading: true})
     }
 
-    const goToMap = (): string => {
-        return data.address ? getHref(data.address, platform) : ""
-    }
+    useEffect(() => {
+        setMapUrl(data.address ? getHref(data.address) : "")
+    }, [data.address, getHref])
 
     const phonesStr = () => {
         if (data.phoneNumber && data.whatsAppNumber) {
@@ -106,8 +98,12 @@ const About: NextPage<IAbout> = ({data}) => {
                         <FiMapPin/>
                         <div>
                             <div>
-                                <span>Localização</span><a href={goToMap()} target={"_blank"} rel="noreferrer">Como
-                                chegar</a>
+                                <span>Localização</span>
+                                {mapUrl && (
+                                    <button onClick={() => openLink(mapUrl)}>
+                                        Como chegar
+                                    </button>
+                                )}
                             </div>
                             <div>
                                 {data.address}
@@ -118,15 +114,15 @@ const About: NextPage<IAbout> = ({data}) => {
 
                 <Title>Redes sociais</Title>
                 <div className={styles.social_media}>
-                    <a href={data.youTubeUrl} target={"_blank"} className={styles.button_link} rel="noreferrer">
+                    <button onClick={() => openLink(data.youTubeUrl || '')} className={styles.button_link}>
                         <FiYoutube/> {data.youTubeName}
-                    </a>
-                    <a href={data.instagramUrl} target={"_blank"} className={styles.button_link} rel="noreferrer">
+                    </button>
+                    <button onClick={() => openLink(data.instagramUrl || '')} className={styles.button_link}>
                         <FiInstagram/> {data.instagramName}
-                    </a>
-                    <a href={data.spotifyUrl} target={"_blank"} className={styles.button_link} rel="noreferrer">
+                    </button>
+                    <button onClick={() => openLink(data.spotifyUrl || '')} className={styles.button_link}>
                         <FaSpotify/> {data.spotifyName}
-                    </a>
+                    </button>
                 </div>
 
                 {data?.church_schedules && !!data.church_schedules.length && (

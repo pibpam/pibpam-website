@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {FiPlayCircle} from 'react-icons/fi';
 import YouTube, {YouTubePlayer} from 'react-youtube';
 import styles from '../styles/components/YTPlayer.module.scss'
@@ -10,9 +10,9 @@ interface YTPlayerProps {
 }
 
 const YTPlayer: React.FC<YTPlayerProps> = ({videoId, autoplay = false, thumb}: YTPlayerProps) => {
-    const [player, setPlayer] = useState<YouTubePlayer>();
+    const [, setPlayer] = useState<YouTubePlayer>();
 
-    const [playing, setPlaying] = useState(false)
+    const [playing, setPlaying] = useState(true)
     const playerContainer = useRef<null | HTMLDivElement>(null)
 
     const liberaPlayer = () => {

@@ -1,15 +1,13 @@
-import React from "react";
-import {Platform} from "../enum/Platform";
+import React, {useContext} from "react";
+import {AppContext} from "../contexts/app";
 
 const useOpenMap = () => {
-    const getHref = (address: string, platform?: Platform) => {
-        if (platform === Platform.IOS) {
+    const {isIos} = useContext(AppContext)
+
+    const getHref = (address: string) => {
+        if (isIos) {
             return "https://maps.apple.com/?daddr=" + address
         }
-        //
-        // if (platform === Platform.ANDROID) {
-        //     return "geo:" + data.schedule.addressRedirect
-        // }
         return "https://www.google.com/maps/dir/?api=1&destination=" + address
     }
     return {getHref}
