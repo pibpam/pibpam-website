@@ -8,7 +8,17 @@ import HeaderPage from "../components/HeaderPage";
 import Title from "../components/Title";
 import FooterPage from "../components/FooterPage";
 import ScheduleItem from "../components/ScheduleItem";
-import {FiCalendar, FiGlobe, FiInstagram, FiMail, FiMapPin, FiPhone, FiPlay, FiYoutube} from "react-icons/fi";
+import {
+    FiArrowRight,
+    FiCalendar,
+    FiGlobe,
+    FiInstagram,
+    FiMail,
+    FiMapPin,
+    FiPhone,
+    FiPlay,
+    FiYoutube
+} from "react-icons/fi";
 import {Api} from "../services/api";
 import {IChurchInfo} from "../interfaces/Church";
 import React, {useEffect, useState} from "react";
@@ -130,6 +140,7 @@ const About: NextPage<IAbout> = ({data}) => {
                         <Title>Horários</Title>
                         <div className={styles.schedule}>
                             {data.church_schedules.map(item => <ScheduleItem key={item.uuid} data={item}/>)}
+                            <button onClick={() => goTo('/schedule')} className={styles.seeAllButton} >Ver agenda completa <FiArrowRight/></button>
                         </div>
                     </>
                 )}
