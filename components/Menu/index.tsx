@@ -1,7 +1,6 @@
 import React, {useContext, useState} from "react";
 import {
     FiBook,
-    FiBookmark,
     FiBookOpen,
     FiCalendar,
     FiChevronRight,
@@ -128,7 +127,9 @@ const Menu: React.FC<IMenu> = ({toggleMenu}) => {
                 </li>
             </ul>
             <div>
-                <p>Desenvolvido por Ljtech Desenvolvimento de Sistemas LTDA.</p>
+                <p>
+                    {/*Desenvolvido por Ljtech Desenvolvimento de Sistemas LTDA.*/}
+                </p>
                 <p>Todos os direitos pertencem a Primeira Igreja Batista em Pará de Minas. © 2023</p>
             </div>
         </div>
