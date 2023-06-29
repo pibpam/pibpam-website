@@ -20,7 +20,19 @@ const usePostMessage = () => {
 
     }
 
-    return {sendMessage, openLink}
+    const share = async (message: string, url: string) => {
+        if (isApp) {
+            sendMessage({action: "share", message, url})
+            return
+        }
+
+        if (navigator) {
+            await navigator.share({url, title: message});
+        }
+
+    }
+
+    return {sendMessage, openLink, share}
 }
 
 export default usePostMessage

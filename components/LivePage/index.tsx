@@ -4,6 +4,7 @@ import YTPlayer from "../YTPlayer";
 import {FiCalendar} from "react-icons/fi";
 import {IContent} from "../../interfaces/Contens";
 import {DateUtils} from "../../utils/Date";
+import ShareButton from "../ShareButton";
 
 interface ILivePage {
     content: IContent
@@ -27,6 +28,7 @@ const LivePage: React.FC<ILivePage> = ({content}) => {
             </div>
             <YTPlayer videoId={content.content} thumb={content.image}/>
             <p>{content.description}</p>
+            <ShareButton url={`https://pibpam-website.vercel.app/event/${content.uuid}`} message={`${content.name}, ${content.author?.name}.`}/>
         </div>
     )
 }
