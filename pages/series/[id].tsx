@@ -12,6 +12,7 @@ import {ISeries} from "../../interfaces/Series";
 import {FiPlay} from "react-icons/fi";
 import styles from "../../styles/SeriesPage.module.scss"
 import EventCard from "../../components/EventCard";
+import {GetStaticPaths} from "next";
 
 interface IEventPage {
     data: ISeries
@@ -64,7 +65,14 @@ const Event: NextPage<IEventPage> = ({data}) => {
     )
 }
 
-export async function getServerSideProps({params}: IParams) {
+export const getStaticPaths: GetStaticPaths = async () => {
+    return {
+        paths: [],
+        fallback: 'blocking',
+    }
+}
+
+export async function getStaticProps({params}: IParams) {
     const api = new Api()
     const data = await api.getOneSeries(params.id)
     if (!data) {

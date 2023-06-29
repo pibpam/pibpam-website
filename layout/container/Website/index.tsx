@@ -2,7 +2,6 @@ import Head from 'next/head';
 import React, {ReactElement, useEffect} from 'react';
 import TabNavigator from "../../../components/TabNavigator";
 import Menu from "../../../components/Menu";
-import useLoading from "../../../hooks/useLoading";
 import styles from "../../../styles/components/WebSite.module.scss"
 
 interface IWebsiteProps {
@@ -12,10 +11,18 @@ interface IWebsiteProps {
     hasTabNavigator?: boolean
     changeScroll?: (top: number) => void,
     title?: string,
+    img?: string
 }
 
-const Website: React.FC<IWebsiteProps> = ({title = 'PIB Pará de Minas', hasTabNavigator = true, children, openMenu, toggleMenu, changeScroll}) => {
-    const {isLoading} = useLoading()
+const Website: React.FC<IWebsiteProps> = ({
+                                              title = 'PIB Pará de Minas',
+                                              hasTabNavigator = true,
+                                              children,
+                                              openMenu,
+                                              toggleMenu,
+                                              img,
+                                              changeScroll
+                                          }) => {
 
     const handleChangeScroll = () => {
         changeScroll && changeScroll(window.scrollY)
@@ -30,15 +37,16 @@ const Website: React.FC<IWebsiteProps> = ({title = 'PIB Pará de Minas', hasTabN
     }, [])
 
     return (
-        <div
-            style={{
-                // height: openMenu || isLoading ? "100%" : "auto",
-                // overflow: openMenu || isLoading ? "hidden" : "auto"
-            }}>
+        <div>
             <Head>
                 <title>{title}</title>
                 <meta name="description" content="Primeira Igreja Batista em Pará de Minas"/>
                 <link rel="icon" href="/favicon.png"/>
+                <meta property="og:title" content={title}/>
+                <meta property="og:description" content="Primeira Igreja Batista em Pará de Minas"/>
+                {/*<meta property="og:url" content="https://exemplo.com/"/>*/}
+                {img && (<meta property="og:image" content={img}/>)}
+                <meta property="og:type" content="website"/>
             </Head>
             <main
                 className={styles.container}>

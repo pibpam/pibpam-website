@@ -27,7 +27,7 @@ const Event: NextPage<IEventPage> = ({data}) => {
     const {scrollActive, changeScroll} = useHeader()
 
     return (
-        <Website title={`${data.name} - ${data.author?.name}`} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={`${data.name} - ${data.author?.name}`} img={data.image}  changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive} >
                     <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>

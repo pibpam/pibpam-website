@@ -13,6 +13,8 @@ import {DateUtils} from "../../utils/Date";
 import {useAppNavigation} from "../../hooks/useAppNavigation";
 import useHeader from "../../hooks/useHeader";
 import HeaderContainer from "../../components/HeaderContainer";
+import {GetStaticPaths} from "next";
+import ShareButton from "../../components/ShareButton";
 
 interface IDevotionalPage {
     data: IDevotinal
@@ -24,9 +26,10 @@ const Devotional: NextPage<IDevotionalPage> = ({data}) => {
     const {scrollActive, changeScroll} = useHeader()
 
     return (
-        <Website changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+        <Website changeScroll={changeScroll} title={`Devocional: ${data.title} - ${data.author?.name}`} img={data.image}
+                 hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <HeaderContainer active={scrollActive} >
+                <HeaderContainer active={scrollActive}>
                     <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 <HeaderPage background={data.image}/>
@@ -46,6 +49,8 @@ const Devotional: NextPage<IDevotionalPage> = ({data}) => {
                         <div><FiCalendar/>{DateUtils.formatDateDefault(data.contentDate)}</div>
                     </div>
                     <div dangerouslySetInnerHTML={{__html: data.content || ""}}></div>
+                    <ShareButton url={`https://pibpam-website.vercel.app/devotional/${data.uuid}`}
+                                 message={`Devocional: ${data.title} - ${data.author?.name}`}/>
                 </div>
             </>
         </Website>
@@ -58,7 +63,14 @@ interface IParams {
     }
 }
 
-export async function getServerSideProps({params}: IParams) {
+export const getStaticPaths: GetStaticPaths = async () => {
+    return {
+        paths: [],
+        fallback: 'blocking',
+    }
+}
+
+export async function getStaticProps({params}: IParams) {
     const api = new Api()
     const data = await api.getDevotional(params.id)
     if (!data) {
