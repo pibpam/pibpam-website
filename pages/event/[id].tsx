@@ -1,4 +1,4 @@
-import type {NextPage} from 'next'
+import type {GetStaticPaths, NextPage} from 'next'
 import Website from '../../layout/container/Website'
 import DividerMobile, {EDividerColors} from "../../components/DividerMobile";
 import Header from "../../components/Header";
@@ -27,7 +27,7 @@ const Event: NextPage<IEventPage> = ({data}) => {
     const {scrollActive, changeScroll} = useHeader()
 
     return (
-        <Website changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={`${data.name} - ${data.author?.name}`} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive} >
                     <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
@@ -40,7 +40,14 @@ const Event: NextPage<IEventPage> = ({data}) => {
     )
 }
 
-export async function getServerSideProps({params}: IParams) {
+export const getStaticPaths: GetStaticPaths = async () => {
+    return {
+        paths: [],
+        fallback: 'blocking',
+    }
+}
+
+export async function getStaticProps({params}: IParams) {
     const api = new Api()
     const data = await api.getContent(params.id)
     if (!data) {

@@ -10,10 +10,11 @@ interface IWebsiteProps {
     openMenu: boolean
     toggleMenu: () => void
     hasTabNavigator?: boolean
-    changeScroll?: (top: number) => void
+    changeScroll?: (top: number) => void,
+    title?: string,
 }
 
-const Website: React.FC<IWebsiteProps> = ({hasTabNavigator = true, children, openMenu, toggleMenu, changeScroll}) => {
+const Website: React.FC<IWebsiteProps> = ({title = 'PIB Pará de Minas', hasTabNavigator = true, children, openMenu, toggleMenu, changeScroll}) => {
     const {isLoading} = useLoading()
 
     const handleChangeScroll = () => {
@@ -35,7 +36,7 @@ const Website: React.FC<IWebsiteProps> = ({hasTabNavigator = true, children, ope
                 // overflow: openMenu || isLoading ? "hidden" : "auto"
             }}>
             <Head>
-                <title>PIB Pará de Minas</title>
+                <title>{title}</title>
                 <meta name="description" content="Primeira Igreja Batista em Pará de Minas"/>
                 <link rel="icon" href="/favicon.png"/>
             </Head>
