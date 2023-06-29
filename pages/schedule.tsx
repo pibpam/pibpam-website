@@ -105,8 +105,17 @@ export async function getStaticProps() {
     const api = new Api()
     const highlighted = await api.getSchedulesHighlighted()
     const schedules = await api.getSchedules()
+
+    const finalSchedules = [] as IScheduleDate[]
+    schedules.forEach(item => {
+        const hasType = finalSchedules.find(schedule => schedule.schedule.uuid === item.schedule.uuid)
+        if (!hasType) {
+            finalSchedules.push(item)
+        }
+    })
+
     const churchSchedules = await api.getChurchSchedule()
-    return {props: {highlighted, schedules, churchSchedules}}
+    return {props: {highlighted, schedules: finalSchedules, churchSchedules}}
 }
 
 
