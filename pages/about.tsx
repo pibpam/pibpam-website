@@ -16,7 +16,7 @@ import {
     FiMail,
     FiMapPin,
     FiPhone,
-    FiPlay,
+    FiPlay, FiUser,
     FiYoutube
 } from "react-icons/fi";
 import {Api} from "../services/api";
@@ -140,10 +140,56 @@ const About: NextPage<IAbout> = ({data}) => {
                         <Title>Horários</Title>
                         <div className={styles.schedule}>
                             {data.church_schedules.map(item => <ScheduleItem key={item.uuid} data={item}/>)}
-                            <button onClick={() => goTo('/schedule')} className={styles.seeAllButton} >Ver agenda completa <FiArrowRight/></button>
+                            <button onClick={() => goTo('/schedule')} className={styles.seeAllButton}>Ver agenda
+                                completa <FiArrowRight/></button>
                         </div>
                     </>
                 )}
+
+                <Title>Congregações</Title>
+                <div className={styles.congragations}>
+                    <p>Congregação Batista em Ascenção</p>
+                    <button className={styles.congragation_preach}>
+                        <FiUser/>
+                        <div>
+                            <div>Pastor</div>
+                            <div>
+                                Aparecido de Oliveira
+                            </div>
+                        </div>
+                    </button>
+                    <button className={styles.button_link_location}>
+                        <FiMapPin/>
+                        <div>
+                            <div>
+                                <span>Localização</span>
+                            </div>
+                            <div>
+                                Rua Planalto, 49 - Ascenção
+                            </div>
+                        </div>
+                    </button>
+                </div>
+
+                <Title>Horários - Ascenção</Title>
+                <div className={styles.scheduleCongragations}>
+                    <ScheduleItem data={{
+                        uuid: '',
+                        created_at: '',
+                        text: 'Exposição Bíblica',
+                        day: 'Quarta-feira',
+                        time: '19:30'
+                    }}/>
+
+                    <ScheduleItem data={{
+                        uuid: '',
+                        created_at: '',
+                        text: 'Exposição Bíblica',
+                        day: 'Domingo',
+                        time: '19:30'
+                    }}/>
+                </div>
+
                 <FooterPage
                     options={[
                         {

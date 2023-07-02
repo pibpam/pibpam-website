@@ -47,9 +47,30 @@ const Schedule: NextPage<ISchedule> = ({highlighted, schedules, churchSchedules}
                 {churchSchedules && !!churchSchedules.length && (
                     <>
                         <Title>Cultos e Exposições</Title>
+
                         <div className={styles.content}>
                             {churchSchedules.map(item => <ScheduleItem key={item.uuid} data={item}/>)}
                         </div>
+
+                        <Title>Ascenção</Title>
+                        <div className={styles.content}>
+                            <ScheduleItem data={{
+                                uuid: '',
+                                created_at: '',
+                                text: 'Exposição Bíblica',
+                                day: 'Quarta-feira',
+                                time: '19:30'
+                            }}/>
+
+                            <ScheduleItem data={{
+                                uuid: '',
+                                created_at: '',
+                                text: 'Exposição Bíblica',
+                                day: 'Domingo',
+                                time: '19:30'
+                            }}/>
+                        </div>
+
                     </>
                 )}
 
@@ -77,9 +98,6 @@ const Schedule: NextPage<ISchedule> = ({highlighted, schedules, churchSchedules}
                                                  onClick={() => goTo("/schedule/" + item.uuid)}/>
                                 ))}
                             </div>
-                            {/*<ThirdButton>*/}
-                            {/*    <><FiPlus/> ver mais</>*/}
-                            {/*</ThirdButton>*/}
                         </div>
                     </>)}
                 <FooterPage
