@@ -148,7 +148,7 @@ const About: NextPage<IAbout> = ({data}) => {
 
                 <Title>Congregações</Title>
                 <div className={styles.congragations}>
-                    <p>Congregação Batista em Ascenção</p>
+                    <p>Congregação Batista em Ascensão</p>
                     <button className={styles.congragation_preach}>
                         <FiUser/>
                         <div>
@@ -165,18 +165,18 @@ const About: NextPage<IAbout> = ({data}) => {
                                 <span>Localização</span>
                             </div>
                             <div>
-                                Rua Planalto, 49 - Ascenção
+                                Rua Pompéu, 49 - Ascensão
                             </div>
                         </div>
                     </button>
                 </div>
 
-                <Title>Horários - Ascenção</Title>
+                <Title>Horários - Ascensão</Title>
                 <div className={styles.scheduleCongragations}>
                     <ScheduleItem data={{
                         uuid: '',
                         created_at: '',
-                        text: 'Exposição Bíblica',
+                        text: 'EBD',
                         day: 'Quarta-feira',
                         time: '19:30'
                     }}/>

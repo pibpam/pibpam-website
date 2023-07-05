@@ -52,12 +52,12 @@ const Schedule: NextPage<ISchedule> = ({highlighted, schedules, churchSchedules}
                             {churchSchedules.map(item => <ScheduleItem key={item.uuid} data={item}/>)}
                         </div>
 
-                        <Title>Ascenção</Title>
+                        <Title>Ascensão</Title>
                         <div className={styles.content}>
                             <ScheduleItem data={{
                                 uuid: '',
                                 created_at: '',
-                                text: 'Exposição Bíblica',
+                                text: 'EBD',
                                 day: 'Quarta-feira',
                                 time: '19:30'
                             }}/>
