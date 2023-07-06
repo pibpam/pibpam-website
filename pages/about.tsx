@@ -176,7 +176,7 @@ const About: NextPage<IAbout> = ({data}) => {
                     <ScheduleItem data={{
                         uuid: '',
                         created_at: '',
-                        text: 'EBD',
+                        text: 'Escola Bíblica',
                         day: 'Quarta-feira',
                         time: '19:30'
                     }}/>

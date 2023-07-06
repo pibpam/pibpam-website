@@ -57,7 +57,7 @@ const Schedule: NextPage<ISchedule> = ({highlighted, schedules, churchSchedules}
                             <ScheduleItem data={{
                                 uuid: '',
                                 created_at: '',
-                                text: 'EBD',
+                                text: 'Escola Bíblica',
                                 day: 'Quarta-feira',
                                 time: '19:30'
                             }}/>
