@@ -6,10 +6,8 @@ import Header from "../components/Header";
 import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
 import MinistriesItem from "../components/MinistriesItem";
-import FooterPage from "../components/FooterPage";
 import {Api} from "../services/api";
 import {ITeam} from "../interfaces/Team";
-import {FiCalendar, FiPlay} from "react-icons/fi";
 import React from "react";
 import {useAppNavigation} from "../hooks/useAppNavigation";
 import useHeader from "../hooks/useHeader";
@@ -29,9 +27,10 @@ const Ministries: NextPage<IMinistries> = ({data}) => {
     }
 
     return (
-        <Website changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={"Ministérios"} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open}
+                 toggleMenu={toggleMenu}>
             <>
-                <HeaderContainer active={scrollActive} >
+                <HeaderContainer active={scrollActive}>
                     <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 <HeaderPage

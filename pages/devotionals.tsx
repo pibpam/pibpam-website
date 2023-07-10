@@ -30,9 +30,9 @@ const Devotionals: NextPage<IDevotionalsPage> = ({data}) => {
     }
 
     return (
-        <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={"Devocionais"} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <HeaderContainer active={scrollActive} >
+                <HeaderContainer active={scrollActive}>
                     <Header toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 <HeaderPage

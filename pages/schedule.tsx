@@ -34,9 +34,9 @@ const Schedule: NextPage<ISchedule> = ({highlighted, schedules, churchSchedules}
         await goToHook({pathname, showLoading: true})
     }
     return (
-        <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={"Agenda"} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
-                <HeaderContainer active={scrollActive} >
+                <HeaderContainer active={scrollActive}>
                     <Header toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 <HeaderPage

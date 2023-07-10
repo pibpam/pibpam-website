@@ -18,12 +18,12 @@ const NotFound: NextPage = () => {
     const {scrollActive, changeScroll} = useHeader()
 
     return (
-        <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={"404"} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive}>
                     <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
                 </HeaderContainer>
-                <HeaderPage title={"404"} />
+                <HeaderPage title={"404"}/>
                 <DividerMobile color={EDividerColors.white}/>
                 <div className={styles.container}>
                     <EmptyState description={"Ops! O que você procura não está mais aqui!"}/>

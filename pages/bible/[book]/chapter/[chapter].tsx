@@ -18,7 +18,8 @@ const BibleVerses: NextPage<IBible> = ({chapter, book, verses}) => {
     const {goBack} = useAppNavigation()
 
     return (
-        <Website hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={`Bíblia: ${book.name} - ${chapter} `} hasTabNavigator={false} openMenu={open}
+                 toggleMenu={toggleMenu}>
             <>
                 <div className={styles.header_container}>
                     <Header goBack={() => goBack({})} title={`${book.name}, ${chapter}`}

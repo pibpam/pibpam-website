@@ -21,7 +21,7 @@ const BibleChapters: NextPage<IBible> = ({chapters, book}) => {
     }
 
     return (
-        <Website hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={`Bíblia: ${book.name}`} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <div className={styles.header_container}>
                     <Header goBack={() => goBack({})} title={book.name} toggleMenu={toggleMenu}/>

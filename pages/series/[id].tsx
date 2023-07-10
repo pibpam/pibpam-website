@@ -35,7 +35,8 @@ const Event: NextPage<IEventPage> = ({data}) => {
     }
 
     return (
-        <Website changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={`${data.title}`} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open}
+                 toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive}>
                     <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>

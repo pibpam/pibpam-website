@@ -52,7 +52,8 @@ const Schedule: NextPage<ISchedule> = ({data}) => {
     }
 
     return (
-        <Website changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={`${data.schedule.title}`} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open}
+                 toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive}>
                     <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>

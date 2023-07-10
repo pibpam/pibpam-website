@@ -46,7 +46,7 @@ const Series: NextPage<ISeriesPage> = ({data}) => {
     }
 
     return (
-        <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={"Séries"} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive}>
                     <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>

@@ -29,9 +29,10 @@ const Ministry: NextPage<IMinistry> = ({data}) => {
     const {scrollActive, changeScroll} = useHeader()
 
     return (
-        <Website changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={`${data.name}`} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open}
+                 toggleMenu={toggleMenu}>
             <>
-                <HeaderContainer active={scrollActive} >
+                <HeaderContainer active={scrollActive}>
                     <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
                 </HeaderContainer>
                 <HeaderPage background={data.image}/>
@@ -47,7 +48,8 @@ const Ministry: NextPage<IMinistry> = ({data}) => {
                         <div className={styles.team}>
                             {data.teamMember.map(item => (
                                 <div key={item.uuid} className={styles.team_item}>
-                                    <div style={{background: "url('" + (item.member?.image || "/user.jpg") + "') center/cover"}}></div>
+                                    <div
+                                        style={{background: "url('" + (item.member?.image || "/user.jpg") + "') center/cover"}}></div>
                                     <div>{item.member?.name}</div>
                                     <div>{item.role}</div>
                                 </div>

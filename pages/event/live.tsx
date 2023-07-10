@@ -18,7 +18,8 @@ const Live: NextPage = () => {
     const {goBack} = useAppNavigation()
 
     return (
-        <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={`Ao vivo - ${lives[0].name || ''}`} changeScroll={changeScroll} openMenu={open}
+                 toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive}>
                     <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>

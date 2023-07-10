@@ -48,7 +48,7 @@ const Events: NextPage<IEventsPage> = ({data, lives}) => {
     }
 
     return (
-        <Website changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={"Cultos e Eventos"} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive}>
                     <Header toggleMenu={toggleMenu}/>

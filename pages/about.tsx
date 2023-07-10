@@ -63,7 +63,8 @@ const About: NextPage<IAbout> = ({data}) => {
     }
 
     return (
-        <Website hasTabNavigator={false} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={"Sobre a PIPPAM"} hasTabNavigator={false} changeScroll={changeScroll} openMenu={open}
+                 toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive}>
                     <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>

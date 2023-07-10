@@ -1,7 +1,6 @@
 import type {NextPage} from 'next'
 import styles from '../styles/Bible.module.scss'
 import Website from '../layout/container/Website'
-import DividerMobile, {EDividerColors} from "../components/DividerMobile";
 import Header from "../components/Header";
 import useMenu from "../hooks/useMenu";
 import {EBible, getBooks, IBook} from "../data/bibles";
@@ -21,7 +20,7 @@ const Bible: NextPage<IBible> = ({books}) => {
     }
 
     return (
-        <Website openMenu={open} toggleMenu={toggleMenu}>
+        <Website title={"Bíblia"} openMenu={open} toggleMenu={toggleMenu}>
             <>
                 <div className={styles.header_container}>
                     <Header title={"Bíblia"} toggleMenu={toggleMenu}/>
