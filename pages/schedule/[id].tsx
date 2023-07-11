@@ -18,6 +18,7 @@ import useHeader from "../../hooks/useHeader";
 import HeaderContainer from "../../components/HeaderContainer";
 import useOpenMap from "../../hooks/useOpenMap";
 import usePostMessage from "../../hooks/usePostMessage";
+import YTPlayer from "../../components/YTPlayer";
 
 interface IParams {
     params: {
@@ -99,11 +100,16 @@ const Schedule: NextPage<ISchedule> = ({data}) => {
                         </div>
                     )}
                 </div>
-                {(data.schedule.description || data.schedule.extraData) && (
+                {(data.schedule.description || data.schedule.extraData || data.schedule.promotionalVideo) && (
                     <>
                         <Title>Descrição</Title>
                         <div className={styles.description}>
                             <p>{data.schedule.description}</p>
+
+                            {!!data.schedule.promotionalVideo && (
+                                <YTPlayer videoId={data.schedule.promotionalVideo}/>
+                            )}
+
                             {data.schedule.extraData && (
                                 <div className={styles.alert_multiline}>
                                     <FiInfo/>

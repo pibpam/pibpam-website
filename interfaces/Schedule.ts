@@ -15,6 +15,7 @@ export interface ISchedule {
     extraData?: string
     created_at: string
     team?: ITeam
+    promotionalVideo?: string
 }
 
 export interface IScheduleDate {
