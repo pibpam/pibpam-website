@@ -161,9 +161,9 @@ const Carousel: React.FC<Carousel> = ({
                     className={styles.sliderInner}
                     ref={slider}
                     id={id}
-                    // onTouchMove={onMouseMove}
-                    onTouchCancel={onMouseLeave}
-                    onTouchEnd={onMouseLeave}
+                    onTouchMove={onMouseMove}
+                    // onTouchCancel={onMouseLeave}
+                    // onTouchEnd={onMouseLeave}
                     onTouchStart={onMouseDown}
 
                     onMouseMove={onMouseMove}
