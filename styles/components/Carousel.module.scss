@@ -14,6 +14,7 @@
   width: 3000px;
   height: 100%;
   display: flex;
+  touch-action: pan-y;
 
   > div {
     display: flex;
