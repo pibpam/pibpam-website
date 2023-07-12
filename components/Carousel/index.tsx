@@ -100,7 +100,7 @@ const Carousel: React.FC<Carousel> = ({
 
 
     const onMouseMove = (e: any) => {
-        // e.preventDefault()
+        e.preventDefault()
 
         const slider = document.getElementById(id);
 
