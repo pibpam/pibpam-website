@@ -1,0 +1,32 @@
+.item {
+  width: calc(100vw - (2 * 24px));
+  background: #8E8E8E;
+  aspect-ratio: 16/9;
+}
+
+.container {
+  width: calc(100vw - (2 * 24px));
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.stepper {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  padding: 16px 0 0;
+
+  > div {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255, .5);
+    border-radius: 4px;
+    overflow: hidden;
+
+    > div {
+      height: 100%;
+      background: #fff;
+      transition: all 1s linear;
+    }
+  }
+}
