@@ -166,6 +166,8 @@ const Carousel: React.FC<Carousel> = ({
                     onTouchMove={onMouseMove}
                     onTouchCancel={onMouseLeave}
                     onTouchEnd={onMouseLeave}
+                    onTouchCancelCapture={onMouseLeave}
+                    onTouchEndCapture={onMouseLeave}
                     onTouchStart={onMouseDown}
 
                     // onMouseMove={onMouseMove}
