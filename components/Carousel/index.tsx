@@ -115,12 +115,10 @@ const Carousel: React.FC<Carousel> = ({
     }
 
     const onMouseDown = () => {
-        alert('start')
         setSliderGrabbed(true);
     }
 
     const onMouseLeave = () => {
-        alert('OI')
         setSliderGrabbed(false);
         const slider = document.getElementById(id);
 

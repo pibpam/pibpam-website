@@ -14,7 +14,7 @@ const CarouselAutoPlay: React.FC<CarouselAutoPlay> = () => {
             <Carousel onChange={(active) => setActive(active)} onChangePercent={percent => setPercent(percent)}
                       autoStart padding={0} gap={0}>
                 <>
-                    <div className={styles.item}>Teste 1</div>
+                    <div onClick={() => alert('aaaa')} className={styles.item}>Teste 1</div>
                     <div className={styles.item}>Teste 2</div>
                     <div className={styles.item}>Teste 3</div>
                 </>
