@@ -100,7 +100,7 @@ const Carousel: React.FC<Carousel> = ({
 
 
     const onMouseMove = (e: any) => {
-        e.preventDefault()
+        // e.preventDefault()
 
         const slider = document.getElementById(id);
 
@@ -114,6 +114,7 @@ const Carousel: React.FC<Carousel> = ({
     }
 
     const onMouseDown = () => {
+        alert('aa')
         setSliderGrabbed(true);
     }
 
@@ -161,7 +162,8 @@ const Carousel: React.FC<Carousel> = ({
                     className={styles.sliderInner}
                     ref={slider}
                     id={id}
-                    onTouchMove={onMouseMove}
+                    // onTouchMove={onMouseMove}
+                    onTouchMoveCapture={onMouseMove}
                     // onTouchCancel={onMouseLeave}
                     // onTouchEnd={onMouseLeave}
                     onTouchStart={onMouseDown}
