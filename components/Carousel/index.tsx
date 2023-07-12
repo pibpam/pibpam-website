@@ -109,12 +109,12 @@ const Carousel: React.FC<Carousel> = ({
         }
 
         if (sliderGrabbed && slider.parentElement) {
-            slider.parentElement.scrollLeft -= e.movementX;
+            const delta = (e.changedTouches[0].clientX - window.innerWidth / 2) * 0.5;
+            slider.parentElement.scrollLeft -= (e.movementX || (e.changedTouches[0].clientX + delta));
         }
     }
 
     const onMouseDown = () => {
-        alert('aa')
         setSliderGrabbed(true);
     }
 
@@ -162,16 +162,15 @@ const Carousel: React.FC<Carousel> = ({
                     className={styles.sliderInner}
                     ref={slider}
                     id={id}
-                    // onTouchMove={onMouseMove}
-                    onTouchMoveCapture={onMouseMove}
-                    // onTouchCancel={onMouseLeave}
-                    // onTouchEnd={onMouseLeave}
+                    onTouchMove={onMouseMove}
+                    onTouchCancel={onMouseLeave}
+                    onTouchEnd={onMouseLeave}
                     onTouchStart={onMouseDown}
 
-                    onMouseMove={onMouseMove}
-                    onMouseUp={onMouseLeave}
-                    onMouseDown={onMouseDown}
-                    onMouseLeave={onMouseLeave}
+                    // onMouseMove={onMouseMove}
+                    // onMouseUp={onMouseLeave}
+                    // onMouseDown={onMouseDown}
+                    // onMouseLeave={onMouseLeave}
                     style={{cursor: sliderGrabbed ? 'grabbing' : 'grab', padding: `0 ${padding}px`}}
                 >
                     <div style={{
