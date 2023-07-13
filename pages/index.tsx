@@ -20,15 +20,17 @@ import HeaderContainer from "../components/HeaderContainer";
 import useHeader from "../hooks/useHeader";
 import Series from "../components/Home/Series";
 import {ISeries} from "../interfaces/Series";
+import {IBanner} from "../interfaces/Banner";
 
 interface IHome {
     content?: IContent
     schedules: IScheduleDate[]
     devotionals: IDevotinal[]
     series: ISeries[]
+    banners: IBanner[]
 }
 
-const Home: NextPage<IHome> = ({content, schedules, devotionals, series}) => {
+const Home: NextPage<IHome> = ({content, schedules, devotionals, series, banners}) => {
     const {open, toggleMenu} = useMenu()
     const {lives} = useContext(LivesContext)
     const {goTo: goToHook} = useAppNavigation()
@@ -46,7 +48,7 @@ const Home: NextPage<IHome> = ({content, schedules, devotionals, series}) => {
                 </HeaderContainer>
                 <Banner/>
                 <DividerMobile/>
-                <Intro goTo={goTo}/>
+                <Intro banners={banners} goTo={goTo}/>
                 <DividerMobile color={EDividerColors.white}/>
                 <Transmission goTo={goTo} live={lives[0] || undefined} content={content}/>
                 {schedules && schedules.length && (
@@ -69,11 +71,12 @@ const Home: NextPage<IHome> = ({content, schedules, devotionals, series}) => {
 
 export async function getStaticProps() {
     const api = new Api()
+    const banners = await api.getBanners()
     const schedules = await api.getSchedules(7)
     const content = await api.getContents(1, "transmission", 1)
     const devotionals = await api.getDevotionals(5)
     const series = await api.getSeries(1, 5)
-    return {props: {content: content.data[0] || undefined, schedules, devotionals, series: series.data}}
+    return {props: {content: content.data[0] || undefined, schedules, devotionals, series: series.data, banners}}
 }
 
 

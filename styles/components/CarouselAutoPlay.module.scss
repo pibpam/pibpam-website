@@ -1,0 +1,48 @@
+.item {
+  width: calc(100vw - (2 * 24px));
+  background: #8E8E8E;
+  aspect-ratio: 16/9;
+}
+
+.container {
+  width: calc(100vw - (2 * 24px));
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+@keyframes widthAnimation {
+  from {
+    width: 0;
+    opacity: .7;
+  }
+
+  to {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+.activeStep {
+  animation: widthAnimation 10s ease-out;
+}
+
+.stepper {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  padding: 16px 0 0;
+
+  > div {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255, .5);
+    border-radius: 4px;
+    overflow: hidden;
+
+    > div {
+      height: 100%;
+      background: #fff;
+      width: 0;
+    }
+  }
+}

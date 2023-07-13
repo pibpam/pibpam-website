@@ -62,6 +62,14 @@ const About: NextPage<IAbout> = ({data}) => {
         return data.whatsAppNumber
     }
 
+    const getCallableNumber = () => {
+        if (data.phoneNumber) {
+            const justNumbers = data.phoneNumber.match(/\d/g)?.join("")
+            return `+55${justNumbers}`
+        }
+        return ''
+    }
+
     return (
         <Website title={"Sobre a PIPPAM"} hasTabNavigator={false} changeScroll={changeScroll} openMenu={open}
                  toggleMenu={toggleMenu}>
@@ -92,11 +100,11 @@ const About: NextPage<IAbout> = ({data}) => {
                 <div className={styles.social_media}>
                     <p>{data.name}</p>
 
-                    <button className={styles.button_link}>
+                    <button onClick={() => openLink(`mailto:${data.email}`)} className={styles.button_link}>
                         <FiMail/> {data.email}
                     </button>
                     {!!phonesStr() && (
-                        <button className={styles.button_link}>
+                        <button onClick={() => openLink(`tel:${getCallableNumber()}`)}  className={styles.button_link}>
                             <FiPhone/> {phonesStr()}
                         </button>
                     )}

@@ -24,7 +24,7 @@ const Carousel: React.FC<Carousel> = ({children}: Carousel) => {
     useEffect(() => {
         setTimeout(() => {
             if (slider && slider.current) {
-                slider.current.style.width = (slider.current?.firstElementChild?.clientWidth || 0 + 24 + 24) + 'px'
+                slider.current.style.width = (slider.current?.firstElementChild?.clientWidth || 24 + 24) + 'px'
             }
         }, 500)
     }, [])
