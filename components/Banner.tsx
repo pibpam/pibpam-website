@@ -17,6 +17,7 @@ const Banner: React.FC<ISeriesCard> = ({data, onClick}) => {
                     <div><FiInfo/> {data.category}</div>
                 )}
                 <h4>{data.title}</h4>
+                <p>{data.subtitle}</p>
             </div>
         </div>
     );
