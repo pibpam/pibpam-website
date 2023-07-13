@@ -3,12 +3,14 @@ import PrimaryButton from "../../Button/Primary";
 import {FiHome} from "react-icons/fi";
 import styles from "../../../styles/components/Home/Intro.module.scss"
 import CarouselAutoPlay from "../../CarouselAutoPlay";
+import {IBanner} from "../../../interfaces/Banner";
 
 interface IIntro {
     goTo: (pathname: string) => void
+    banners?: IBanner[]
 }
 
-const Intro: React.FC<IIntro> = ({goTo}) => {
+const Intro: React.FC<IIntro> = ({goTo, banners}) => {
     return (
         <>
             <div className={styles.container}>
@@ -24,7 +26,11 @@ const Intro: React.FC<IIntro> = ({goTo}) => {
                 <p>
                     Faça-nos uma visita! Será um prazer receber você!
                 </p>
-                <CarouselAutoPlay/>
+                {banners && !!banners.length && (
+                    <div className={styles.bannerContainer}>
+                        <CarouselAutoPlay banners={banners}/>
+                    </div>
+                )}
             </div>
         </>
     )

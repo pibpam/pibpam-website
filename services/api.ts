@@ -5,6 +5,7 @@ import {ITeam} from "../interfaces/Team";
 import {IScheduleDate} from "../interfaces/Schedule";
 import {IChurchInfo, IChurchSchedule} from "../interfaces/Church";
 import {IGetAllSeries} from "../interfaces/Series";
+import {IBanner} from "../interfaces/Banner";
 
 export class Api {
     private client
@@ -105,6 +106,11 @@ export class Api {
         }
 
         const {data} = await this.client.get<IScheduleDate[]>("v1/schedules", {params})
+        return data
+    }
+
+    async getBanners() {
+        const {data} = await this.client.get<IBanner[]>("v1/banners")
         return data
     }
 

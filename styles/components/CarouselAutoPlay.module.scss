@@ -10,6 +10,22 @@
   overflow: hidden;
 }
 
+@keyframes widthAnimation {
+  from {
+    width: 0;
+    opacity: .7;
+  }
+
+  to {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+.activeStep {
+  animation: widthAnimation 10s ease-out;
+}
+
 .stepper {
   display: flex;
   gap: 8px;
@@ -26,7 +42,7 @@
     > div {
       height: 100%;
       background: #fff;
-      transition: all 1s linear;
+      width: 0;
     }
   }
 }
