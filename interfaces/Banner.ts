@@ -9,6 +9,7 @@ export interface IBanner {
     image: string
     active: boolean
     created_at: string
+    subtitle?: string
 }
 
 export enum EBannerType {
