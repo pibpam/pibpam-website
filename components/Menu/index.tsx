@@ -1,5 +1,6 @@
 import React, {useContext, useState} from "react";
 import {
+    FiBell,
     FiBook,
     FiBookOpen,
     FiCalendar,
@@ -121,6 +122,15 @@ const Menu: React.FC<IMenu> = ({toggleMenu}) => {
                         <FiUsers/>
                         <div>
                             <span>Ministérios</span>
+                        </div>
+                        <FiChevronRight/>
+                    </button>
+                </li>
+                <li>
+                    <button onClick={() => goTo("/notices")}>
+                        <FiBell/>
+                        <div>
+                            <span>Avisos</span>
                         </div>
                         <FiChevronRight/>
                     </button>

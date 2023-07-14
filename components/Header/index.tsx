@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import styles from '../../styles/components/Header.module.scss'
 import Image from "next/image";
-import {FiChevronLeft, FiMenu, FiX} from "react-icons/fi";
+import {FiBell, FiChevronLeft, FiMenu, FiX} from "react-icons/fi";
 import {useAppNavigation} from "../../hooks/useAppNavigation";
+import {NoticesContext} from "../../contexts/notices";
 
 interface IHeader {
     toggleMenu: () => void
@@ -13,6 +14,7 @@ interface IHeader {
 
 const Header: React.FC<IHeader> = ({toggleMenu, isOpen = false, title, goBack}) => {
     const {goTo: goToHook} = useAppNavigation()
+    const {allSeen} = useContext(NoticesContext)
 
     const goToHome = async () => {
         await goToHook({pathname: "/", showLoading: true, resetHistory: true})
@@ -32,6 +34,8 @@ const Header: React.FC<IHeader> = ({toggleMenu, isOpen = false, title, goBack}) 
                     </button>
                 }
             </div>
+            <button onClick={() => goToHook({pathname: '/notices', showLoading: true})} className={styles.notifications}>
+                {!allSeen && (<span>1</span>)}<FiBell/></button>
             <button onClick={toggleMenu} className={styles.go_back}>
                 {isOpen ? <FiX/> : <FiMenu/>}
             </button>
