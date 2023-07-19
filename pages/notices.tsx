@@ -35,7 +35,7 @@ const Notices: NextPage = () => {
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Avisos</>} />
         <DividerMobile color={EDividerColors.white} />
-        {/* <div className={styles.container}>
+        <div className={styles.container}>
           {notices.map(notice => (
             <>
               <div className={styles.header}>
@@ -43,7 +43,7 @@ const Notices: NextPage = () => {
                   {DateUtils.formatDateTimeWithWeekDay(notice.date)}
                 </div>
               </div>
-              {notice.notice.map(item => (
+              {/* {notice.notice.map(item => (
                 <div key={item.uuid} className={`${styles.noticeItem} ${!item.seem && styles.addAnimation}`}>
                   <p>
                     {item.notice}
@@ -52,10 +52,10 @@ const Notices: NextPage = () => {
                     {DateUtils.formatTime(item.publishDate)} <FiCheck />
                   </span>
                 </div>
-              ))}
+              ))} */}
             </>
           ))}
-        </div> */}
+        </div>
       </>
     </Website>
   )
