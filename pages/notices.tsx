@@ -38,11 +38,12 @@ const Notices: NextPage = () => {
         <div className={styles.container}>
           {notices.map(notice => (
             <>
-              {/* <div className={styles.header}>
+              <div className={styles.header}>
                 <div>
-                  {DateUtils.formatDateTimeWithWeekDay(notice.date)}
+                  {notice.date}
+                  {/* {DateUtils.formatDateTimeWithWeekDay(notice.date)} */}
                 </div>
-              </div> */}
+              </div>
               {notice.notice.map(item => (
                 <div key={item.uuid} className={`${styles.noticeItem} ${!item.seem && styles.addAnimation}`}>
                   <p>
