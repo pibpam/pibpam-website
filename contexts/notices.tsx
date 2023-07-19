@@ -85,7 +85,11 @@ export const NoticesContextProvider: React.FC<IChildren> = ({ children }: IChild
   }
 
   useEffect(() => {
-    getNotices()
+    try {
+      getNotices()
+    } catch (err: any) {
+      alert(err.message)
+    }
   }, [])
 
   return (
