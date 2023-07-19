@@ -63,7 +63,7 @@ export const NoticesContextProvider: React.FC<IChildren> = ({ children }: IChild
     setnoticesAll(sorted)
 
     sorted.forEach(item => {
-      const date = DateUtils.formatDateUS(item.publishDate)
+      const date = new Date(DateUtils.formatDateUS(item.publishDate)).toISOString()
       if (!dates.find(item => item === date)) {
         dates.push(date)
       }
@@ -73,7 +73,7 @@ export const NoticesContextProvider: React.FC<IChildren> = ({ children }: IChild
 
     dates.forEach(item => {
       const filtered = sorted.filter(notice => {
-        return DateUtils.formatDateUS(notice.publishDate) === item
+        return new Date(DateUtils.formatDateUS(notice.publishDate)).toISOString() === item
       })
       noticesByDay.push({
         date: item,
