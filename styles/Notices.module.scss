@@ -2,24 +2,29 @@
   from {
     background: #B5DA35;
   }
+
   to {
     background: #eee;
   }
 }
 
 .container {
-  padding: 0 24px 32px;
+  padding: 0 24px 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .header {
   font-size: 14px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  margin-top: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #3D3D3D;
 
-  > div {
+  >div {
     background: #ddd;
     padding: 8px 16px;
     border-radius: 16px;
@@ -41,7 +46,7 @@
   position: relative;
   color: #3D3D3D;
 
-  > span {
+  >span {
     display: flex;
     gap: 4px;
     align-items: center;

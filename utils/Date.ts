@@ -1,28 +1,38 @@
-import {format} from "date-fns"
+import { format } from "date-fns"
 import ptBR from 'date-fns/locale/pt-BR';
 
 export class DateUtils {
-    static formatDateDefault(date: string) {
-        return format(new Date(date), "dd MMM, yyyy", {
-            locale: ptBR
-        })
-    }
+  static formatDateDefault(date: string) {
+    return format(new Date(date), "dd MMM, yyyy", {
+      locale: ptBR
+    })
+  }
 
-    static formatDateDayAndMonth(date: string) {
-        return format(new Date(date), "dd/MM", {
-            locale: ptBR
-        })
-    }
+  static formatDateUS(date: string) {
+    return format(new Date(date), "MM-dd-yyyy")
+  }
 
-    static formatTime(date: string) {
-        return format(new Date(date), "HH:mm", {
-            locale: ptBR
-        })
-    }
+  static formatDateDayAndMonth(date: string) {
+    return format(new Date(date), "dd/MM", {
+      locale: ptBR
+    })
+  }
 
-    static formatTimeH(date: string) {
-        return format(new Date(date), "HH:mm", {
-            locale: ptBR
-        })
-    }
+  static formatTime(date: string) {
+    return format(new Date(date), "HH:mm", {
+      locale: ptBR
+    })
+  }
+
+  static formatTimeH(date: string) {
+    return format(new Date(date), "HH:mm", {
+      locale: ptBR
+    })
+  }
+
+  static formatDateTimeWithWeekDay(date: string) {
+    return format(new Date(date), "EEEE, dd 'de' MMMM 'de' yyyy", {
+      locale: ptBR
+    })
+  }
 }

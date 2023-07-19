@@ -1,59 +1,64 @@
-import type {NextPage} from 'next'
+import type { NextPage } from 'next'
 import styles from '../styles/Notices.module.scss'
 import Website from '../layout/container/Website'
-import DividerMobile, {EDividerColors} from "../components/DividerMobile";
+import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
 import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
-import React, {useContext, useEffect} from "react";
-import {FiCheck} from "react-icons/fi";
-import {useAppNavigation} from "../hooks/useAppNavigation";
+import React, { useContext, useEffect } from "react";
+import { FiCheck } from "react-icons/fi";
+import { useAppNavigation } from "../hooks/useAppNavigation";
 import useHeader from "../hooks/useHeader";
 import HeaderContainer from "../components/HeaderContainer";
-import {NoticesContext} from "../contexts/notices";
+import { NoticesContext } from "../contexts/notices";
+import { DateUtils } from '../utils/Date';
 
 const Notices: NextPage = () => {
-    const {open, toggleMenu} = useMenu()
-    const {goBack} = useAppNavigation()
-    const {scrollActive, changeScroll} = useHeader()
-    const {allSeen, setAllSeen} = useContext(NoticesContext)
+  const { open, toggleMenu } = useMenu()
+  const { goBack } = useAppNavigation()
+  const { scrollActive, changeScroll } = useHeader()
+  const { checkAllSeem, notices } = useContext(NoticesContext)
 
-    useEffect(() => {
-        setTimeout(() => {
-            setAllSeen(true)
-        }, 5000)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+  useEffect(() => {
+    setTimeout(() => {
+      checkAllSeem()
+    }, 5000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-    return (
-        <Website title={"Avisos"} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+  return (
+    <Website title={"Avisos"} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+      <>
+        <HeaderContainer active={scrollActive}>
+          <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+        </HeaderContainer>
+        {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
+        <HeaderPage title={<>Avisos</>} />
+        <DividerMobile color={EDividerColors.white} />
+        <div className={styles.container}>
+          {notices.map(notice => (
             <>
-                <HeaderContainer active={scrollActive}>
-                    <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
-                </HeaderContainer>
-                {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
-                <HeaderPage title={<>Avisos</>}/>
-                <DividerMobile color={EDividerColors.white}/>
-                <div className={styles.container}>
-                    <div className={styles.header}>
-                        <div>
-                            Sexta-feira, 14 de julho de 2023
-                        </div>
-                    </div>
-                    <div className={`${styles.noticeItem} ${!allSeen && styles.addAnimation}`}>
-                        <p>
-                            Informamos que o velório do pai de nossa irmã Josiane será realizado amanhã, 15 de julho, no
-                            período de 8 às 14 horas no velório municipal. O momento fúnebre está marcado para às 10
-                            horas. Contamos com a presença dos irmãos.
-                        </p>
-                        <span>
-                            15:00 <FiCheck/>
-                        </span>
-                    </div>
+              <div className={styles.header}>
+                <div>
+                  {DateUtils.formatDateTimeWithWeekDay(notice.date)}
                 </div>
+              </div>
+              {notice.notice.map(item => (
+                <div key={item.uuid} className={`${styles.noticeItem} ${!item.seem && styles.addAnimation}`}>
+                  <p>
+                    {item.notice}
+                  </p>
+                  <span>
+                    {DateUtils.formatTime(item.publishDate)} <FiCheck />
+                  </span>
+                </div>
+              ))}
             </>
-        </Website>
-    )
+          ))}
+        </div>
+      </>
+    </Website>
+  )
 }
 
 export default Notices
