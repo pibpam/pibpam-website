@@ -9,7 +9,7 @@ export class DateUtils {
   }
 
   static formatDateUS(date: string) {
-    return format(new Date(date), "MM-dd-yyyy") + ' 00:00:00'
+    return format(new Date(date), "MM-dd-yyyy")
   }
 
   static formatDateDayAndMonth(date: string) {

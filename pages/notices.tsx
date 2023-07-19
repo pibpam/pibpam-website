@@ -40,7 +40,7 @@ const Notices: NextPage = () => {
             <>
               <div className={styles.header}>
                 <div>
-                  {DateUtils.formatDateTimeWithWeekDay(notice.date)}
+                  {DateUtils.formatDateTimeWithWeekDay(notice.notice[0].publishDate)}
                 </div>
               </div>
               {notice.notice.map(item => (
