@@ -81,7 +81,6 @@ export const NoticesContextProvider: React.FC<IChildren> = ({ children }: IChild
       })
     })
 
-    console.log(noticesByDay)
     setNotices(noticesByDay)
   }
 

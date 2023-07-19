@@ -35,7 +35,7 @@ const Notices: NextPage = () => {
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Avisos</>} />
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container}>
+        {/* <div className={styles.container}>
           {notices.map(notice => (
             <>
               <div className={styles.header}>
@@ -55,7 +55,7 @@ const Notices: NextPage = () => {
               ))}
             </>
           ))}
-        </div>
+        </div> */}
       </>
     </Website>
   )
