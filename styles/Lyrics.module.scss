@@ -74,16 +74,28 @@
   h4 {
     font-size: 24px;
     color: #333;
-    margin-bottom: 24px;
 
     span {
       font-weight: 300;
     }
   }
 
-  div {
+  h5 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    margin: 0;
+    margin-top: 8px;
+  }
+
+  >div {
     font-size: 20px;
     line-height: 28px;
     color: #3D3D3D;
+    margin-top: 24px;
+
+    p {
+      margin-bottom: 28px;
+    }
   }
 }

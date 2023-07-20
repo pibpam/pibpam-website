@@ -115,6 +115,7 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
             <FiMusic />
             <div>
               <span>Hinários</span>
+              <span>CC // HCC</span>
             </div>
             <FiChevronRight />
           </button>

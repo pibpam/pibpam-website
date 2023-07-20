@@ -10,9 +10,10 @@ import { ILyric } from '../../../../interfaces/Lyric';
 
 interface IBible {
   lyric: ILyric
+  type: string
 }
 
-const BibleVerses: NextPage<IBible> = ({ lyric }) => {
+const BibleVerses: NextPage<IBible> = ({ lyric, type }) => {
   const { open, toggleMenu } = useMenu()
   const { goBack } = useAppNavigation()
 
@@ -21,12 +22,13 @@ const BibleVerses: NextPage<IBible> = ({ lyric }) => {
       toggleMenu={toggleMenu}>
       <>
         <div className={styles.header_container}>
-          <Header goBack={() => goBack({})} title={`Cantor Cristão`}
+          <Header goBack={() => goBack({})} title={`${type.toUpperCase()} - ${lyric.number}`}
             toggleMenu={toggleMenu} />
         </div>
         <DividerMobile color={EDividerColors.white} />
         <div className={styles.container_lyric}>
           <h4> <span>{lyric.number}</span> {lyric.name}</h4>
+          <h5>{lyric.author}</h5>
           <div dangerouslySetInnerHTML={{ __html: lyric.lyric }} ></div>
         </div>
       </>
@@ -36,12 +38,20 @@ const BibleVerses: NextPage<IBible> = ({ lyric }) => {
 
 export async function getStaticPaths() {
   const api = new Api()
-  const lyrics = await api.getAllLyrics()
-  const data = [] as { lyric: string, number: string }[]
+  const lyricsCC = await api.getAllLyrics('cc')
+  const lyricsHCC = await api.getAllLyrics('hcc')
+  const data = [] as { type: string, number: string }[]
 
-  lyrics.forEach(book => {
+  lyricsCC.forEach(book => {
     data.push({
-      lyric: 'cc',
+      type: 'cc',
+      number: book.number.toString()
+    })
+  })
+
+  lyricsHCC.forEach(book => {
+    data.push({
+      type: 'hcc',
       number: book.number.toString()
     })
   })
@@ -54,16 +64,16 @@ export async function getStaticPaths() {
 
 interface IParams {
   params: {
-    lyric: string
+    type: string
     number: number
   }
 }
 
 export async function getStaticProps({ params }: IParams) {
   const api = new Api()
-  const lyric = await api.getLyric(params.number)
+  const lyric = await api.getLyric(params.number, params.type)
 
-  return { props: { lyric } }
+  return { props: { lyric, type: params.type } }
 }
 
 export default BibleVerses

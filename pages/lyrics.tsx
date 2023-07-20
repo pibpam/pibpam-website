@@ -24,6 +24,9 @@ const Lyrics: NextPage = () => {
           <button onClick={() => goTo("/lyrics/cc")}>
             Cantor Cristão <FiChevronRight />
           </button>
+          <button onClick={() => goTo("/lyrics/hcc")}>
+            Hinário para o Culto Cristão <FiChevronRight />
+          </button>
         </div>
         {/* <FooterPage
           options={[

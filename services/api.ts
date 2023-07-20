@@ -133,13 +133,13 @@ export class Api {
   }
 
 
-  async getAllLyrics() {
-    const { data } = await this.client.get<ILyric[]>("v1/lyrics")
+  async getAllLyrics(type: string) {
+    const { data } = await this.client.get<ILyric[]>("v1/lyrics/" + type)
     return data
   }
 
-  async getLyric(number: number) {
-    const { data } = await this.client.get<ILyric>("v1/lyrics/" + number)
+  async getLyric(number: number, type: string) {
+    const { data } = await this.client.get<ILyric>("v1/lyrics/" + type + "/" + number)
     return data
   }
 }
