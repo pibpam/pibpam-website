@@ -5,7 +5,7 @@ import styles from "../styles/Privacy.module.scss"
 const Privacy: NextPage = () => {
   return (
     <div className={styles.container}>
-      <a href="pibpamapp://teste">Teste</a>
+      <a href="pibpamapp://path/into/app?hello=world">Teste</a>
     </div>
   )
 }
