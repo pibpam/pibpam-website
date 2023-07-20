@@ -8,6 +8,7 @@ import {
   FiFilm,
   FiHome,
   FiImage,
+  FiMusic,
   FiPlay,
   FiRadio,
   FiUsers
@@ -105,6 +106,15 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
             <FiBook />
             <div>
               <span>Bíblia</span>
+            </div>
+            <FiChevronRight />
+          </button>
+        </li>
+        <li>
+          <button onClick={() => goTo("/lyrics")}>
+            <FiMusic />
+            <div>
+              <span>Hinários</span>
             </div>
             <FiChevronRight />
           </button>

@@ -8,6 +8,7 @@ import { IGetAllSeries } from "../interfaces/Series";
 import { IBanner } from "../interfaces/Banner";
 import { ICollection } from "../interfaces/Collection";
 import { INotice } from "../interfaces/Notice";
+import { ILyric } from "../interfaces/Lyric";
 
 export class Api {
   private client
@@ -127,7 +128,18 @@ export class Api {
   }
 
   async getNotices() {
-    const { data } = await this.client.get<INotice[]>("v1/notices/")
+    const { data } = await this.client.get<INotice[]>("v1/notices")
+    return data
+  }
+
+
+  async getAllLyrics() {
+    const { data } = await this.client.get<ILyric[]>("v1/lyrics")
+    return data
+  }
+
+  async getLyric(number: number) {
+    const { data } = await this.client.get<ILyric>("v1/lyrics/" + number)
     return data
   }
 }
