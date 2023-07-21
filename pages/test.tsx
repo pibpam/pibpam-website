@@ -9,7 +9,7 @@ const Privacy: NextPage = () => {
 
   useEffect(() => {
     if (!isApp) {
-      window.open('pibpamapp://path/into/app?hello=world')
+      window.location.href = 'pibpamapp://path/into/app?hello=world'
     }
   }, [])
 
