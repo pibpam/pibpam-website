@@ -9,13 +9,13 @@ const Privacy: NextPage = () => {
 
   useEffect(() => {
     if (!isApp) {
-      window.location.href = 'pibpamapp://path/into/app?hello=world'
+      window.location.href = 'pibpamapp://path/'
     }
   }, [])
 
   return (
     <div className={styles.container}>
-      <a href="pibpamapp://path/into/app?hello=world">Teste</a>
+      <a href="pibpamapp://path/">Teste</a>
     </div>
   )
 }
