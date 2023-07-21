@@ -50,6 +50,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
     }
 
     if (data.pibpam.action === EActions.LINKING) {
+      alert(EActions.LINKING)
       setAction(EActions.LINKING)
     }
   }
