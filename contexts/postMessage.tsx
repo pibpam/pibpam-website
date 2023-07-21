@@ -1,5 +1,5 @@
-import React, {createContext, ReactElement, useEffect, useRef, useState} from "react";
-import {useAppNavigation} from "../hooks/useAppNavigation";
+import React, { createContext, ReactElement, useEffect, useRef, useState } from "react";
+import { useAppNavigation } from "../hooks/useAppNavigation";
 
 interface Context {
 }
@@ -7,63 +7,73 @@ interface Context {
 export const PostMessageContext = createContext<Context>({} as Context)
 
 export interface IChildren {
-    children: ReactElement
+  children: ReactElement
 }
 
 enum EActions {
-    GOBACK = 'goBack'
+  GOBACK = 'goBack',
+  LINKING = 'linking'
 }
 
-export const PostMessageContextProvider: React.FC<IChildren> = ({children}: IChildren) => {
-    const started = useRef(false)
-    const {goBack} = useAppNavigation()
+export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IChildren) => {
+  const started = useRef(false)
+  const { goBack, goTo } = useAppNavigation()
 
-    const [action, setAction] = useState("")
+  const [action, setAction] = useState("")
 
-    useEffect(() => {
-        if (action) {
-            goBack({}).then()
-            setAction("")
-        }
-        // eslint-disable-next-line
-    }, [action])
-
-    const handleEventPostMessage = (event: MessageEvent) => {
-        if (["http://localhost:3000", "https://pibpam-website.vercel.app"].includes(event.origin)) {
-            return
-        }
-
-        const data = JSON.parse(event.data)
-
-        if (!data.pibpam || !data.pibpam.action) {
-            return
-        }
-
-        if (data.pibpam.action === EActions.GOBACK) {
-            setAction(EActions.GOBACK)
-        }
+  useEffect(() => {
+    if (action === EActions.GOBACK) {
+      goBack({}).then()
+      setAction("")
     }
 
-    const init = () => {
-        if (started.current) {
-            return
-        }
-        started.current = true
-        window.addEventListener("message", handleEventPostMessage);
-        // @ts-ignore
-        document.addEventListener("message", handleEventPostMessage);
+    if (action === EActions.LINKING) {
+      goTo({ pathname: '/', resetHistory: true }).then()
+      setAction("")
+    }
+    // eslint-disable-next-line
+  }, [action])
+
+  const handleEventPostMessage = (event: MessageEvent) => {
+    if (["http://localhost:3000", "https://pibpam-website.vercel.app"].includes(event.origin)) {
+      return
     }
 
-    useEffect(() => {
-        init()
-        // eslint-disable-next-line
-    }, [])
+    const data = JSON.parse(event.data)
 
-    return (
-        <PostMessageContext.Provider
-            value={{}}
-        >
-            {children}
-        </PostMessageContext.Provider>
-    )
+    if (!data.pibpam || !data.pibpam.action) {
+      return
+    }
+
+    if (data.pibpam.action === EActions.GOBACK) {
+      setAction(EActions.GOBACK)
+    }
+
+    if (data.pibpam.action === EActions.LINKING) {
+      setAction(EActions.LINKING)
+    }
+  }
+
+  const init = () => {
+    if (started.current) {
+      return
+    }
+    started.current = true
+    window.addEventListener("message", handleEventPostMessage);
+    // @ts-ignore
+    document.addEventListener("message", handleEventPostMessage);
+  }
+
+  useEffect(() => {
+    init()
+    // eslint-disable-next-line
+  }, [])
+
+  return (
+    <PostMessageContext.Provider
+      value={{}}
+    >
+      {children}
+    </PostMessageContext.Provider>
+  )
 }
