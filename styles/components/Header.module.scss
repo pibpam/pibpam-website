@@ -8,6 +8,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    overflow: hidden;
   }
 
   button {
@@ -21,8 +22,12 @@
   font-weight: 700;
   font-size: 24px;
   line-height: 30px;
-
   color: #FFFFFF;
+
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .go_back {

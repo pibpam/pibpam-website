@@ -12,6 +12,7 @@ import useHeader from "../hooks/useHeader";
 import HeaderContainer from "../components/HeaderContainer";
 import { NoticesContext } from "../contexts/notices";
 import { DateUtils } from '../utils/Date';
+import EmptyState from '../components/EmptyState';
 
 const Notices: NextPage = () => {
   const { open, toggleMenu } = useMenu()
@@ -36,6 +37,11 @@ const Notices: NextPage = () => {
         <HeaderPage title={<>Avisos</>} />
         <DividerMobile color={EDividerColors.white} />
         <div className={styles.container}>
+
+          {!notices.length && (
+            <EmptyState />
+          )}
+
           {notices.map(notice => (
             <>
               <div className={styles.header}>
