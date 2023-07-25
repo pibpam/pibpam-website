@@ -49,7 +49,7 @@ const Devotional: NextPage<IDevotionalPage> = ({ data }) => {
             <div><FiCalendar />{DateUtils.formatDateDefault(data.contentDate)}</div>
           </div>
           <div dangerouslySetInnerHTML={{ __html: data.content || "" }}></div>
-          <ShareButton url={`https://pibpam.org.app/devotional/${data.uuid}`}
+          <ShareButton url={`https://pibpam.org/devotional/${data.uuid}`}
             message={`Devocional: ${data.title} - ${data.author?.name}`} />
         </div>
       </>
