@@ -28,7 +28,7 @@ const LivePage: React.FC<ILivePage> = ({content}) => {
             </div>
             <YTPlayer videoId={content.content} thumb={content.image}/>
             <p>{content.description}</p>
-            <ShareButton url={`https://pibpam-website.vercel.app/event/${content.uuid}`} message={`${content.name}, ${content.author?.name}.`}/>
+            <ShareButton url={`https://pibpam.org/event/${content.uuid}`} message={`${content.name}, ${content.author?.name}.`}/>
         </div>
     )
 }
