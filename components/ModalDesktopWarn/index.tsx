@@ -1,11 +1,11 @@
 import React, { useContext, useMemo } from 'react';
-import styles from "../../styles/components/Modal.module.scss"
+import styles from "../../styles/components/ModalDesktopWarn.module.scss"
 import { AppContext } from '../../contexts/app';
 import AppleStore from '../svgs/appleStore.svg'
 import GooglePlay from '../svgs/googlePlay.svg'
 import Logo from '../svgs/pibpamlogo.svg'
 
-const Modal: React.FC = () => {
+const ModalDesktopWarn: React.FC = () => {
   const { isMobile, isApp } = useContext(AppContext)
 
   const isDesktop = useMemo(() => {
@@ -44,4 +44,4 @@ const Modal: React.FC = () => {
   );
 }
 
-export default Modal;
+export default ModalDesktopWarn;

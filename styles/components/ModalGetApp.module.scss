@@ -1,0 +1,76 @@
+.container {
+  position: fixed;
+  z-index: 10;
+  bottom: 0;
+  left: 0;
+  background: rgba($color: #fff, $alpha: 1);
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 72px 24px 32px;
+  border-radius: 24px 24px 0 0;
+  box-shadow: rgba($color: #000000, $alpha: .2) 0px 0px 10px;
+
+  h2 {
+    font-weight: 400;
+    font-size: 20px;
+    max-width: 300px;
+    margin: auto;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  >button {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    background: #ededed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+    font-size: 16px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+  }
+
+}
+
+.download {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0;
+
+  >a {
+    display: flex;
+    background: none;
+    cursor: pointer;
+    flex: 1;
+
+    svg {
+      width: 100%;
+    }
+  }
+
+}
+
+.contacts {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+
+  >a {
+    background: #fff;
+    color: #5FD9DA;
+    font-size: 20px;
+    padding: 8px 16px;
+    border-radius: 24px;
+  }
+}
