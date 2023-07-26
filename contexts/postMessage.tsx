@@ -1,5 +1,6 @@
 import React, { createContext, ReactElement, useEffect, useRef, useState } from "react";
 import { useAppNavigation } from "../hooks/useAppNavigation";
+import usePostMessage from "../hooks/usePostMessage";
 
 interface Context {
 }
@@ -18,6 +19,7 @@ enum EActions {
 export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IChildren) => {
   const started = useRef(false)
   const { goBack, goTo } = useAppNavigation()
+  const {sendMessage} = usePostMessage()
 
   const [action, setAction] = useState("")
 
@@ -28,7 +30,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
     }
 
     if (action === EActions.LINKING) {
-      goTo({ pathname: '/', resetHistory: true }).then()
+      goTo({ pathname: '/', resetHistory: true, showLoading: true }).then()
       setAction("")
     }
     // eslint-disable-next-line
@@ -63,6 +65,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
     window.addEventListener("message", handleEventPostMessage);
     // @ts-ignore
     document.addEventListener("message", handleEventPostMessage);
+    sendMessage({action: 'ok'})
   }
 
   useEffect(() => {
