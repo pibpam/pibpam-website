@@ -59,8 +59,6 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
     }
 
     if (data.pibpam.action === EActions.LINKING) {
-      alert(data.pibpam.route)
-
       setDataLink({
         route: data.pibpam.route,
         params: data.pibpam.params,
