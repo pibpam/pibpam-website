@@ -35,8 +35,10 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
     }
 
     if (action === EActions.LINKING) {
-      goTo({ pathname: '/', resetHistory: true, showLoading: true }).then()
+      const route = dataLink.route ? `/${dataLink.route}` : '/'
+      goTo({ pathname: route, resetHistory: true, showLoading: true }).then()
       setAction("")
+      setDataLink({} as DataLink)
     }
     // eslint-disable-next-line
   }, [action])
