@@ -46,6 +46,7 @@ export const useAppNavigation = () => {
 
         try {
             const query = router.query
+            alert(JSON.stringify(query))
             if (localHistory) {
                 query.history = localHistory
             } else {
