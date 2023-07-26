@@ -36,7 +36,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
 
     if (action === EActions.LINKING) {
       const route = dataLink.route ? `/${dataLink.route}` : '/'
-      goTo({ pathname: route, resetHistory: true, showLoading: true }).then()
+      goTo({ pathname: route, showLoading: true }).then()
       setAction("")
       setDataLink({} as DataLink)
     }
