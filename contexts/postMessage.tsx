@@ -16,12 +16,17 @@ enum EActions {
   LINKING = 'linking'
 }
 
+interface DataLink {
+  route: string, params: Record<string, string>
+}
+
 export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IChildren) => {
   const started = useRef(false)
   const { goBack, goTo } = useAppNavigation()
-  const {sendMessage} = usePostMessage()
+  const { sendMessage } = usePostMessage()
 
   const [action, setAction] = useState("")
+  const [dataLink, setDataLink] = useState<DataLink>({} as DataLink)
 
   useEffect(() => {
     if (action === EActions.GOBACK) {
@@ -52,7 +57,13 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
     }
 
     if (data.pibpam.action === EActions.LINKING) {
-      alert(EActions.LINKING)
+      alert(data.pibpam.route)
+
+      setDataLink({
+        route: data.pibpam.route,
+        params: data.pibpam.params,
+      })
+
       setAction(EActions.LINKING)
     }
   }
@@ -65,7 +76,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
     window.addEventListener("message", handleEventPostMessage);
     // @ts-ignore
     document.addEventListener("message", handleEventPostMessage);
-    sendMessage({action: 'ok'})
+    sendMessage({ action: 'ok' })
   }
 
   useEffect(() => {

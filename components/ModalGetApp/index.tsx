@@ -4,10 +4,12 @@ import { AppContext } from '../../contexts/app';
 import AppleStore from '../svgs/appleStore.svg'
 import GooglePlay from '../svgs/googlePlay.svg'
 import { FiX } from 'react-icons/fi';
+import { useRouter } from 'next/router';
 
 const ModalGetApp: React.FC = () => {
   const { isMobile, isApp } = useContext(AppContext)
   const [isOpen, setIsOpen] = useState(true)
+  const router = useRouter()
 
   const isDesktop = useMemo(() => {
     return !isApp && isMobile
@@ -15,8 +17,10 @@ const ModalGetApp: React.FC = () => {
 
   useEffect(() => {
     if (!isApp && isMobile) {
-      window.location.href = 'pibpamapp://path/'
+      const currentRoute = router.asPath.split('?')[0]
+      window.location.href = 'pibpamapp://path' + currentRoute
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isApp, isMobile])
 
   return (
