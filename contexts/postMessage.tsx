@@ -1,6 +1,7 @@
 import React, { createContext, ReactElement, useEffect, useRef, useState } from "react";
 import { useAppNavigation } from "../hooks/useAppNavigation";
 import usePostMessage from "../hooks/usePostMessage";
+import { useRouter } from "next/router";
 
 interface Context {
 }
@@ -27,6 +28,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
 
   const [action, setAction] = useState("")
   const [dataLink, setDataLink] = useState<DataLink>({} as DataLink)
+  const { query } = useRouter()
 
   useEffect(() => {
     if (action === EActions.GOBACK) {
@@ -36,7 +38,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
 
     if (action === EActions.LINKING) {
       const route = dataLink.route ? `/${dataLink.route}` : '/'
-      goTo({ pathname: route, showLoading: true }).then()
+      goTo({ pathname: route, showLoading: true, query: query as Record<string, string> }).then()
       setAction("")
       setDataLink({} as DataLink)
     }
