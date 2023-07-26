@@ -15,17 +15,20 @@ const ModalGetApp: React.FC = () => {
     return !isApp && isMobile
   }, [isApp, isMobile])
 
+  const openApp = () => {
+    const currentRoute = router.asPath.split('?')[0]
+    try {
+      window.location.href = 'pibpamapp://path' + currentRoute
+    } catch (err: any) {
+      alert(err.message)
+    }
+  }
+
   useEffect(() => {
     if (!isApp && isMobile) {
-      const currentRoute = router.asPath.split('?')[0]
-      try {
-        // window.location.href = 'pibpamapp://path' + currentRoute
-        window.open('pibpamapp://path' + currentRoute, '_blank')
-      } catch(err: any) {
-        alert(err.message)
-      }
+      openApp()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isApp, isMobile])
 
   return (
@@ -33,6 +36,7 @@ const ModalGetApp: React.FC = () => {
       {(isDesktop && isOpen) && (
         <div className={styles.container} >
           <button onClick={() => setIsOpen(false)} >Fechar <FiX /></button>
+          <a onClick={openApp} >Abrir no App</a>
           <h2>
             Baixe o App e tenha uma experiência completa.
           </h2>

@@ -12,6 +12,16 @@
   border-radius: 24px 24px 0 0;
   box-shadow: rgba($color: #000000, $alpha: .2) 0px 0px 10px;
 
+  >a {
+    background: #5FD9DA;
+    color: #fff;
+    padding: 8px 32px;
+    text-align: center;
+    border-radius: 24px;
+    margin: 16px auto;
+    font-size: 20px;
+  }
+
   h2 {
     font-weight: 400;
     font-size: 20px;
