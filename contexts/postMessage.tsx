@@ -42,7 +42,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
   }, [action])
 
   const handleEventPostMessage = (event: MessageEvent) => {
-    if (["http://localhost:3000", "https://pibpam-website.vercel.app", "htts://pibpam.org"].includes(event.origin)) {
+    if (["http://localhost:3000", "https://pibpam-website.vercel.app", "https://pibpam.org", "https://www.pibpam.org"].includes(event.origin)) {
       return
     }
 
