@@ -18,7 +18,12 @@ const ModalGetApp: React.FC = () => {
   useEffect(() => {
     if (!isApp && isMobile) {
       const currentRoute = router.asPath.split('?')[0]
-      window.location.href = 'pibpamapp://path' + currentRoute
+      try {
+        // window.location.href = 'pibpamapp://path' + currentRoute
+        window.open('pibpamapp://path' + currentRoute, '_blank')
+      } catch(err: any) {
+        alert(err.message)
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isApp, isMobile])
