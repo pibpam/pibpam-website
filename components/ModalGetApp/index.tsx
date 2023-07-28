@@ -35,8 +35,7 @@ const ModalGetApp: React.FC = () => {
     <>
       {(isDesktop && isOpen) && (
         <div className={styles.container} >
-          <button onClick={() => setIsOpen(false)} >Fechar <FiX /></button>
-          <a onClick={openApp} >Abrir no App</a>
+          {/* <a onClick={openApp} >Abrir no App</a> */}
           <h2>
             Baixe o App e tenha uma experiência completa.
           </h2>
@@ -48,6 +47,7 @@ const ModalGetApp: React.FC = () => {
               <AppleStore />
             </a>
           </div>
+          <button onClick={() => setIsOpen(false)} >Fechar</button>
         </div>
       )}
     </>
