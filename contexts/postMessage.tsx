@@ -78,7 +78,9 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
     window.addEventListener("message", handleEventPostMessage);
     // @ts-ignore
     document.addEventListener("message", handleEventPostMessage);
-    sendMessage({ action: 'ok' })
+    setTimeout(() => {
+      sendMessage({ action: 'ok' })
+    }, 1000)
   }
 
   useEffect(() => {
