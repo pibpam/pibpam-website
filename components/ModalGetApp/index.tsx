@@ -35,7 +35,7 @@ const ModalGetApp: React.FC = () => {
     <>
       {(isDesktop && isOpen) && (
         <div className={styles.container} >
-          {/* <a onClick={openApp} >Abrir no App</a> */}
+          <a onClick={openApp} >Abrir no App</a>
           <h2>
             Baixe o App e tenha uma experiência completa.
           </h2>
