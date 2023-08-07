@@ -10,10 +10,10 @@ export class ApiLocal {
     this.client = axios.create({ baseURL: "api/" })
   }
 
-  async getContents(page: number, limit: number) {
+  async getContents(page: number, limit: number, published?: boolean, type = 'transmission') {
     const { data } = await this.client.get<IGetAllContentsResponse>("/contents", {
       params: {
-        page, limit
+        page, limit, published, type
       }
     })
     return data

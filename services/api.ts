@@ -43,13 +43,16 @@ export class Api {
     return data
   }
 
-  async getContents(page: number, type: "preach" | "transmission" | "live", limit?: number) {
-    const params = { type } as { limit?: number, page?: number }
+  async getContents(page: number, type: "preach" | "transmission" | "live", limit?: number, published?: boolean) {
+    const params = { type } as { limit?: number, page?: number, published?: number }
     if (limit) {
       params.limit = limit
     }
     if (page) {
       params.page = page
+    }
+    if (published !== undefined) {
+      params.published = +published
     }
     const { data } = await this.client.get<IGetAllContentsResponse>("v1/contents", { params })
     return data

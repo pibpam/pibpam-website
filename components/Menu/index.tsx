@@ -3,6 +3,7 @@ import {
   FiBell,
   FiBook,
   FiBookOpen,
+  FiBookmark,
   FiCalendar,
   FiChevronRight,
   FiFilm,
@@ -74,15 +75,15 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
             <FiChevronRight />
           </button>
         </li>
-        {/*<li>*/}
-        {/*    <button onClick={() => goTo("/preaches")}>*/}
-        {/*        <FiBookmark/>*/}
-        {/*        <div>*/}
-        {/*            <span>Exposições</span>*/}
-        {/*        </div>*/}
-        {/*        <FiChevronRight/>*/}
-        {/*    </button>*/}
-        {/*</li>*/}
+        <li>
+          <button onClick={() => goTo("/preaches")}>
+            <FiBookmark />
+            <div>
+              <span>Exposições</span>
+            </div>
+            <FiChevronRight />
+          </button>
+        </li>
         <li>
           <button onClick={() => goTo("/series")}>
             <FiFilm />
