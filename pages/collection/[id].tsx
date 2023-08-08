@@ -46,10 +46,10 @@ const Collection: NextPage<ICollectionPage> = ({ data }) => {
             <button onClick={() => setSelected(0)} ><FiX /></button>
             <div className={styles.controller} >
               <button disabled={selected === 1} onClick={() => setSelected(state => state - 1)} >
-                {/* <FiChevronLeft /> */}
+                <FiChevronLeft />
               </button>
               <button disabled={selected >= photos.length} onClick={() => setSelected(state => state + 1)} >
-                {/* <FiChevronRight /> */}
+                <FiChevronRight />
               </button>
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
