@@ -16,6 +16,12 @@
     color: #fff;
     background: rgba($color: #000000, $alpha: .5);
 
+    >svg {
+      width: 24px;
+      height: auto;
+      stroke: #fff;
+    }
+
     &:disabled {
       opacity: .5;
     }
