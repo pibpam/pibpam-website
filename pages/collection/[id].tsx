@@ -45,8 +45,12 @@ const Collection: NextPage<ICollectionPage> = ({ data }) => {
           <div className={styles.modal} >
             <button onClick={() => setSelected(0)} ><FiX /></button>
             <div className={styles.controller} >
-              <button disabled={selected === 1} onClick={() => setSelected(state => state - 1)} ><FiChevronLeft /></button>
-              <button disabled={selected >= photos.length} onClick={() => setSelected(state => state + 1)} ><FiChevronRight /></button>
+              <button disabled={selected === 1} onClick={() => setSelected(state => state - 1)} >
+                {/* <FiChevronLeft /> */}
+              </button>
+              <button disabled={selected >= photos.length} onClick={() => setSelected(state => state + 1)} >
+                {/* <FiChevronRight /> */}
+              </button>
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={photos[selected - 1].image} alt="" />
