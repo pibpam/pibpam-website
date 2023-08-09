@@ -8,11 +8,11 @@ import { Api } from "../../services/api";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import useHeader from "../../hooks/useHeader";
 import HeaderContainer from "../../components/HeaderContainer";
-import { FiCalendar, FiChevronLeft, FiChevronRight, FiImage, FiX } from "react-icons/fi";
+import { FiCalendar, FiChevronLeft, FiChevronRight, FiDownload, FiImage, FiX } from "react-icons/fi";
 import styles from "../../styles/Collection.module.scss"
 import { GetStaticPaths } from "next";
 import { ICollection } from '../../interfaces/Collection';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { DateUtils } from '../../utils/Date';
 
 interface ICollectionPage {
@@ -32,6 +32,10 @@ const Collection: NextPage<ICollectionPage> = ({ data }) => {
   const [selected, setSelected] = useState(0)
   const [photos] = useState(data.photos.map((item, index) => ({ ...item, index: index + 1 })))
 
+  const selectedPhoto = useMemo(() => {
+    return photos.find(item => item.index === selected)
+  }, [selected, photos])
+
   return (
     <Website title={`${data.title}`} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open}
       toggleMenu={toggleMenu}>
@@ -43,7 +47,11 @@ const Collection: NextPage<ICollectionPage> = ({ data }) => {
         <DividerMobile color={EDividerColors.white} />
         {!!selected && (
           <div className={styles.modal} >
-            <button onClick={() => setSelected(0)} ><FiX /></button>
+            <div className={styles.headerModal} >
+              <a download href={selectedPhoto?.image} ><FiDownload /> Salvar</a>
+              <button onClick={() => setSelected(0)} ><FiX /></button>
+            </div>
+            <div className={styles.view} style={{backgroundImage: `url('${selectedPhoto?.image}')`}} ></div>
             <div className={styles.controller} >
               <button disabled={selected === 1} onClick={() => setSelected(state => state - 1)} >
                 <FiChevronLeft />
@@ -52,8 +60,6 @@ const Collection: NextPage<ICollectionPage> = ({ data }) => {
                 <FiChevronRight />
               </button>
             </div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={photos[selected - 1].image} alt="" />
           </div>
         )}
         <div className={styles.container}>
