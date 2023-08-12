@@ -3,7 +3,6 @@ import styles from "../../styles/components/ModalGetApp.module.scss"
 import { AppContext } from '../../contexts/app';
 import AppleStore from '../svgs/appleStore.svg'
 import GooglePlay from '../svgs/googlePlay.svg'
-import { FiX } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 
 const ModalGetApp: React.FC = () => {
@@ -26,7 +25,7 @@ const ModalGetApp: React.FC = () => {
 
   useEffect(() => {
     if (!isApp && isMobile) {
-      openApp()
+      // openApp()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isApp, isMobile])
