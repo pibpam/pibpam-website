@@ -76,7 +76,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
       const notifiationData = notification?.notification?.request?.content?.data
 
       if (notifiationData?.route){
-        goTo({ pathname: notifiationData?.route, showLoading: true, query: query as Record<string, string> }).then()
+        goTo({ pathname: `/${notifiationData.route}`, showLoading: true, query: query as Record<string, string> }).then()
       }
 
       setAction("")
