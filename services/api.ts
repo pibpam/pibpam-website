@@ -145,4 +145,11 @@ export class Api {
     const { data } = await this.client.get<ILyric>("v1/lyrics/" + type + "/" + number)
     return data
   }
+
+  async savePushToken(token: string) {
+    const { data } = await this.client.post("v1/notification/token", {
+      token
+    })
+    return data
+  }
 }

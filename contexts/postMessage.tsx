@@ -2,6 +2,7 @@ import React, { createContext, ReactElement, useEffect, useRef, useState } from 
 import { useAppNavigation } from "../hooks/useAppNavigation";
 import usePostMessage from "../hooks/usePostMessage";
 import { useRouter } from "next/router";
+import { ApiLocal } from "../services/apiLocal";
 
 interface Context {
 }
@@ -23,6 +24,20 @@ interface DataLink {
   route: string, params: Record<string, string>
 }
 
+interface INotification {
+  notification?: {
+    request?: {
+      content?: {
+        data?: {
+          route?: string
+          params?: Record<string, string>
+        }
+      }
+    }
+  }
+}
+
+
 export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IChildren) => {
   const started = useRef(false)
   const { goBack, goTo } = useAppNavigation()
@@ -31,7 +46,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
   const [action, setAction] = useState("")
   const [dataLink, setDataLink] = useState<DataLink>({} as DataLink)
   const [expoToken, setExpoToken] = useState('')
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState<INotification>({} as INotification)
   const { query } = useRouter()
 
   useEffect(() => {
@@ -49,10 +64,23 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
 
     if (action === EActions.EXPO_TOKEN) {
       alert(expoToken)
+      const api = new ApiLocal()
+      if (expoToken) {
+        api.savePushToken(expoToken)
+      }
+      setAction("")
     }
 
     if (action === EActions.NOTIFICATION) {
-      alert(JSON.stringify(notification))
+      alert(JSON.stringify(notification?.notification?.request?.content?.data))
+      const notifiationData = notification?.notification?.request?.content?.data
+
+      if (notifiationData?.route){
+        goTo({ pathname: notifiationData?.route, showLoading: true, query: query as Record<string, string> }).then()
+      }
+
+      setAction("")
+      setNotification({} as INotification)
     }
 
     // eslint-disable-next-line
