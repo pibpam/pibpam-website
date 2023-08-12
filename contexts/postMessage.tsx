@@ -63,7 +63,6 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
     }
 
     if (action === EActions.EXPO_TOKEN) {
-      alert(expoToken)
       const api = new ApiLocal()
       if (expoToken) {
         api.savePushToken(expoToken)
@@ -72,7 +71,6 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
     }
 
     if (action === EActions.NOTIFICATION) {
-      alert(JSON.stringify(notification?.notification?.request?.content?.data))
       const notifiationData = notification?.notification?.request?.content?.data
 
       if (notifiationData?.route){
