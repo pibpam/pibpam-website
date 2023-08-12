@@ -147,7 +147,7 @@ export class Api {
   }
 
   async savePushToken(token: string) {
-    const { data } = await this.client.post("v1/notification/token", {
+    const { data } = await this.client.post("v1/notifications/device", {
       token
     })
     return data
