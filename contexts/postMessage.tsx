@@ -14,7 +14,9 @@ export interface IChildren {
 
 enum EActions {
   GOBACK = 'goBack',
-  LINKING = 'linking'
+  LINKING = 'linking',
+  EXPO_TOKEN = 'expoToken',
+  NOTIFICATION = 'notification'
 }
 
 interface DataLink {
@@ -28,6 +30,8 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
 
   const [action, setAction] = useState("")
   const [dataLink, setDataLink] = useState<DataLink>({} as DataLink)
+  const [expoToken, setExpoToken] = useState('')
+  const [notification, setNotification] = useState('')
   const { query } = useRouter()
 
   useEffect(() => {
@@ -42,6 +46,15 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
       setAction("")
       setDataLink({} as DataLink)
     }
+
+    if (action === EActions.EXPO_TOKEN) {
+      alert(expoToken)
+    }
+
+    if (action === EActions.NOTIFICATION) {
+      alert(JSON.stringify(notification))
+    }
+
     // eslint-disable-next-line
   }, [action])
 
@@ -58,6 +71,18 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
 
     if (data.pibpam.action === EActions.GOBACK) {
       setAction(EActions.GOBACK)
+    }
+
+
+    if (data.pibpam.action === EActions.EXPO_TOKEN) {
+      setExpoToken(data.pibpam.token)
+      setAction(EActions.EXPO_TOKEN)
+    }
+
+
+    if (data.pibpam.action === EActions.NOTIFICATION) {
+      setNotification(data.pibpam.notification)
+      setAction(EActions.NOTIFICATION)
     }
 
     if (data.pibpam.action === EActions.LINKING) {
