@@ -32,15 +32,16 @@ const Collection: NextPage<ICollectionPage> = ({ data }) => {
   const { scrollActive, changeScroll } = useHeader()
   const [selected, setSelected] = useState(0)
   const [photos] = useState(data.photos.map((item, index) => ({ ...item, index: index + 1 })))
-  const {saveImage} = usePostMessage()
+  const { openLink } = usePostMessage()
 
   const selectedPhoto = useMemo(() => {
     return photos.find(item => item.index === selected)
   }, [selected, photos])
 
-  // const saveImage = (image: string) => {
-  //   openLink()
-  // }
+  const saveImage = (image: string) => {
+    const imageDownload = 'https://pibpam.org/api/download?image=' + image
+    openLink(imageDownload)
+  }
 
   return (
     <Website title={`${data.title}`} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open}
