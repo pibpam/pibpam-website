@@ -6,10 +6,13 @@ import React, { useEffect } from "react";
 import Script from "next/script";
 import Modal from '../components/ModalDesktopWarn';
 import ModalGetApp from '../components/ModalGetApp';
+import { clarity } from 'react-microsoft-clarity';
 
 function MyApp({ Component, pageProps }: AppProps) {
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      clarity.init('ifcbvo85r0')
       const loader = document.getElementById('globalLoader');
       if (loader) {
         loader.remove();

@@ -7,7 +7,7 @@ export class ApiLocal {
   private client
 
   constructor() {
-    this.client = axios.create({ baseURL: "api/" })
+    this.client = axios.create({ baseURL: "https://pibpam.org/api/" })
   }
 
   async getContents(page: number, limit: number, published?: boolean, type = 'transmission') {
