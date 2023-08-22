@@ -13,7 +13,7 @@ const HeaderPage: React.FC<IHeaderPage> = ({title, background}) => {
                 <h1>{title}</h1>
             </div>
             <div className={styles.backdrop} style={{
-                background: "url('" + (background ? background : "/carrossel.png") + "') center/cover"
+                background: "url('" + (background ? background : "/carrossel-min.png") + "') center/cover"
             }}/>
         </div>
     )
