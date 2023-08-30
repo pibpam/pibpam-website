@@ -130,7 +130,7 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
             <FiChevronRight />
           </button>
         </li>
-        <li>
+        {/* <li>
           <button onClick={() => goTo("/ministries")}>
             <FiUsers />
             <div>
@@ -138,7 +138,7 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
             </div>
             <FiChevronRight />
           </button>
-        </li>
+        </li> */}
         <li>
           <button onClick={() => goTo("/notices")}>
             <FiBell />
