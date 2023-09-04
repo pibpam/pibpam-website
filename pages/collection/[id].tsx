@@ -15,6 +15,7 @@ import { ICollection } from '../../interfaces/Collection';
 import { useMemo, useState } from 'react';
 import { DateUtils } from '../../utils/Date';
 import usePostMessage from '../../hooks/usePostMessage';
+import ShareButton from '../../components/ShareButton';
 
 interface ICollectionPage {
   data: ICollection
@@ -88,6 +89,8 @@ const Collection: NextPage<ICollectionPage> = ({ data }) => {
               <div onClick={() => setSelected(item.index)} key={item.uuid} style={{ background: `url('${item.image}') center/cover` }} />
             ))}
           </div>
+          <ShareButton url={`https://pibpam.org/collection/${data.uuid}`}
+            message={`Fotos: ${data.title}`} />
         </div>
       </>
     </Website>
