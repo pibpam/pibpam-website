@@ -57,7 +57,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
 
     if (action === EActions.LINKING) {
       const route = dataLink.route ? `/${dataLink.route}` : '/'
-      goTo({ pathname: route, showLoading: true, query: query as Record<string, string> }).then()
+      goTo({ pathname: route, showLoading: true, query: { ...query, from: 'linking' } as Record<string, string> }).then()
       setAction("")
       setDataLink({} as DataLink)
     }
@@ -74,7 +74,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
       const notifiationData = notification?.notification?.request?.content?.data
 
       if (notifiationData?.route){
-        goTo({ pathname: `/${notifiationData.route}`, showLoading: true, query: query as Record<string, string> }).then()
+        goTo({ pathname: `/${notifiationData.route}`, showLoading: true, query: {...query, from: 'push'} as Record<string, string> }).then()
       }
 
       setAction("")
