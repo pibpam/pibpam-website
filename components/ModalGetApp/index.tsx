@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 
 const ModalGetApp: React.FC = () => {
   const { isMobile, isApp } = useContext(AppContext)
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
   const isDesktop = useMemo(() => {
