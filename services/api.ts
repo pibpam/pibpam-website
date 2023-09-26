@@ -9,6 +9,7 @@ import { IBanner } from "../interfaces/Banner";
 import { ICollection } from "../interfaces/Collection";
 import { INotice } from "../interfaces/Notice";
 import { ILyric } from "../interfaces/Lyric";
+import { IMemberBasic } from "../interfaces/Member";
 
 export class Api {
   private client
@@ -143,6 +144,16 @@ export class Api {
 
   async getLyric(number: number, type: string) {
     const { data } = await this.client.get<ILyric>("v1/lyrics/" + type + "/" + number)
+    return data
+  }
+
+  async getMonthBithDateMembers() {
+    const date = new Date()
+    const { data } = await this.client.get<IMemberBasic[]>("v1/members/birthday", {
+      params: {
+        month: date.getMonth() + 1
+      }
+    })
     return data
   }
 

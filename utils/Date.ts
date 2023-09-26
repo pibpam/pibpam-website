@@ -35,4 +35,10 @@ export class DateUtils {
       locale: ptBR
     })
   }
+
+  static getMonthStr(date: string) {
+    return format(new Date(date), "MMMM", {
+      locale: ptBR
+    })
+  }
 }

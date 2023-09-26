@@ -3,7 +3,6 @@ import {
   FiBell,
   FiBook,
   FiBookOpen,
-  FiBookmark,
   FiCalendar,
   FiChevronRight,
   FiFilm,
@@ -12,8 +11,8 @@ import {
   FiMusic,
   FiPlay,
   FiRadio,
-  FiUsers
 } from "react-icons/fi";
+import { BiParty } from "react-icons/bi";
 import styles from "../../styles/components/Menu.module.scss"
 import Header from "../Header";
 import { LivesContext } from "../../contexts/lives";
@@ -153,6 +152,15 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
             <FiImage />
             <div>
               <span>Galeria</span>
+            </div>
+            <FiChevronRight />
+          </button>
+        </li>
+        <li>
+          <button onClick={() => goTo("/birthdays")}>
+            <BiParty />
+            <div>
+              <span>Aniversariantes</span>
             </div>
             <FiChevronRight />
           </button>

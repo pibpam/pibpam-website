@@ -4,3 +4,9 @@ export interface IMember {
     image?: string
     created_at: string
 }
+
+export interface IMemberBasic {
+  uuid: string
+  name: string
+  birthday?: number
+}
