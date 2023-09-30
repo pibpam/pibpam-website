@@ -43,7 +43,7 @@ const Schedule: NextPage<ISchedule> = ({data}) => {
     }, [data.schedule.addressRedirect, getHref])
 
     const goToTeam = async () => {
-        await goToHook({pathname: "/ministry/" + data.schedule.team?.uuid, showLoading: true})
+        // await goToHook({pathname: "/ministry/" + data.schedule.team?.uuid, showLoading: true})
     }
 
     const goToEnrollmentLink = () => {
@@ -53,7 +53,7 @@ const Schedule: NextPage<ISchedule> = ({data}) => {
     }
 
     return (
-        <Website title={`${data.schedule.title}`} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open}
+        <Website title={`${data.schedule.title}`} img={data.schedule.image} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open}
                  toggleMenu={toggleMenu}>
             <>
                 <HeaderContainer active={scrollActive}>
@@ -104,7 +104,7 @@ const Schedule: NextPage<ISchedule> = ({data}) => {
                     <>
                         <Title>Descrição</Title>
                         <div className={styles.description}>
-                            <p>{data.schedule.description}</p>
+                        <p dangerouslySetInnerHTML={{ __html: data.schedule.description || "" }}></p>
 
                             {!!data.schedule.promotionalVideo && (
                                 <YTPlayer videoId={data.schedule.promotionalVideo}/>
