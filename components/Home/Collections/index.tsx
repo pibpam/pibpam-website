@@ -17,7 +17,7 @@ const Collections: React.FC<ICollections> = ({ collections, goTo }) => {
       <div className={styles.content}>
         <BlockHeader
           icon={<FiImage color={"#383838"} />}
-          title="Nossas Últimos Registros"
+          title="Nossos Últimos Registros"
         />
         <div className={styles.caroussel_controlls}>
           <p>
