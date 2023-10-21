@@ -10,6 +10,7 @@ import { ICollection } from "../interfaces/Collection";
 import { INotice } from "../interfaces/Notice";
 import { ILyric } from "../interfaces/Lyric";
 import { IMemberBasic } from "../interfaces/Member";
+import { IBroadcast } from "../interfaces/Broadcast";
 
 export class Api {
   private client
@@ -72,7 +73,12 @@ export class Api {
   }
 
   async getLives() {
-    const { data } = await this.client.get<IContent[]>("v1/contents/lives")
+    const { data } = await this.client.get<IBroadcast[]>("v1/broadcast/lives")
+    return data
+  }
+
+  async getBroadcast(uuid: string) {
+    const { data } = await this.client.get<IBroadcast>("v1/broadcast/" + uuid)
     return data
   }
 

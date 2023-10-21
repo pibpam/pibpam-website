@@ -13,7 +13,6 @@ import { IContent } from "../interfaces/Contens";
 import { IScheduleDate } from "../interfaces/Schedule";
 import { useContext } from "react";
 import { LivesContext } from "../contexts/lives";
-import Devotionals from "../components/Home/Devotionals";
 import { IDevotinal } from "../interfaces/Devotinal";
 import { useAppNavigation } from "../hooks/useAppNavigation";
 import HeaderContainer from "../components/HeaderContainer";

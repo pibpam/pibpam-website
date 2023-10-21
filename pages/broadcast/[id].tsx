@@ -1,18 +1,18 @@
-import type { GetStaticPaths, NextPage } from 'next'
+import type { NextPage } from 'next'
 import Website from '../../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
 import Header from "../../components/Header";
 import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
 import { Api } from "../../services/api";
-import { IContent } from "../../interfaces/Contens";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import useHeader from "../../hooks/useHeader";
 import HeaderContainer from "../../components/HeaderContainer";
-import ContentPage from '../../components/ContentPage';
+import LivePage from '../../components/LivePage';
+import { IBroadcast } from '../../interfaces/Broadcast';
 
-interface IEventPage {
-  data: IContent
+interface IBroadcastPage {
+  data: IBroadcast
 }
 
 interface IParams {
@@ -21,35 +21,28 @@ interface IParams {
   }
 }
 
-const Event: NextPage<IEventPage> = ({ data }) => {
+const Broadcast: NextPage<IBroadcastPage> = ({ data }) => {
   const { open, toggleMenu } = useMenu()
   const { goBack } = useAppNavigation()
   const { scrollActive, changeScroll } = useHeader()
 
   return (
-    <Website title={`${data.name} - ${data.author?.name}`} img={data.image} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+    <Website title={`${data.title} - ${data.author?.name}`} img={data.image} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
       <>
         <HeaderContainer active={scrollActive} >
           <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
         </HeaderContainer>
         <HeaderPage background={data.image} />
         <DividerMobile color={EDividerColors.white} />
-        <ContentPage content={data} />
+        <LivePage content={data} />
       </>
     </Website>
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  }
-}
-
-export async function getStaticProps({ params }: IParams) {
+export async function getServerSideProps({ params }: IParams) {
   const api = new Api()
-  const data = await api.getContent(params.id)
+  const data = await api.getBroadcast(params.id)
   if (!data) {
     return {
       notFound: true,
@@ -58,4 +51,4 @@ export async function getStaticProps({ params }: IParams) {
   return { props: { data } }
 }
 
-export default Event
+export default Broadcast

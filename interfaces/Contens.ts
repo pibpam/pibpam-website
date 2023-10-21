@@ -20,3 +20,4 @@ export interface IContent {
 export interface IGetAllContentsResponse extends IPagination {
     data: IContent[]
 }
+
