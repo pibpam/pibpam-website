@@ -31,7 +31,7 @@ const Transmission: React.FC<ITransmission> = ({ content, live, goTo }) => {
             />
           </div>
 
-          <SecondaryButton onClick={() => goTo("/event/" + live?.uuid)}>
+          <SecondaryButton onClick={() => goTo("/broadcast/" + live?.uuid)}>
             <><FiPlay /> Assistir Culto On-line</>
           </SecondaryButton>
         </div>
