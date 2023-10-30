@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FiBook, FiBookOpen, FiCalendar, FiPlay, FiRadio } from "react-icons/fi";
+import { FiBook, FiBookOpen, FiCalendar, FiFilm, FiPlay, FiRadio } from "react-icons/fi";
 import styles from "../../styles/components/TabNavigator.module.scss"
 import { useRouter } from "next/router";
 import { LivesContext } from "../../contexts/lives";
@@ -24,13 +24,21 @@ const TabNavigator: React.FC = () => {
             <span>cultos</span>
           </button>
         </li>
-        <li>
+        {/* <li>
           <button className={`${pathname === "/devotionals" && styles.active}`}
             onClick={() => goTo("/devotionals")}>
             <FiBookOpen />
             <span>devocional</span>
           </button>
+        </li> */}
+        <li>
+          <button className={`${pathname === "/series" && styles.active}`}
+            onClick={() => goTo("/series")}>
+            <FiFilm />
+            <span>séries</span>
+          </button>
         </li>
+        
         {!!lives.length && (
           <li>
             <button className={`${pathname === "/live" && styles.active}`}
