@@ -5,12 +5,12 @@ import Website from '../../../layout/container/Website';
 import HeaderMember from '../../../components/HeaderMember';
 import { ButtonSave, Container, List, ListItems, MemberRotation, ModalOpen } from '../../../styles/Rotation';
 import { useAppNavigation } from '../../../hooks/useAppNavigation';
-import { Api } from '../../../services/api';
 import { IGetMemberRotations, IRotation } from '../../../interfaces/Rotation';
 import { BottomSheet } from 'react-spring-bottom-sheet';
 import 'react-spring-bottom-sheet/dist/style.css'
 import { FiArrowRight, FiCheck, FiInfo, FiUpload, FiX } from 'react-icons/fi';
 import { DateUtils } from '../../../utils/Date';
+import { ApiLocal } from '../../../services/apiLocal';
 
 const Member: NextPage = () => {
 
@@ -21,7 +21,7 @@ const Member: NextPage = () => {
   const [userAvailability, setUserAvailability] = useState<{ uuid: string, availability: 'unavailable' | 'available' | 'unknown' }[]>([])
 
   const getRotations = async (token: string) => {
-    const api = new Api()
+    const api = new ApiLocal()
     const data = await api.getRotations(token)
     setTeams(data)
   }
@@ -65,7 +65,7 @@ const Member: NextPage = () => {
       setUserAvailability([...userAvailability, { uuid, availability }])
     }
 
-    const api = new Api()
+    const api = new ApiLocal()
     await api.saveAvailability(token, {
       rotationItem: uuid,
       status: availability
@@ -115,7 +115,21 @@ const Member: NextPage = () => {
             <p>Prencha a escala de acordo com a sua disponibilidade. Sua resposta não garante o dia da escala. A definição será feita posteriormente pelo líder do ministério.</p>
           </div>
           <ListItems>
-            {selectedRotation?.items.map(item => <div key={item.uuid}>
+            {selectedRotation?.items.sort((a, b) => {
+
+              if (!a.rotationDate || !b.rotationDate) {
+                return 0
+              }
+
+              if (new Date(a.rotationDate) > new Date(b.rotationDate)) {
+                return 1
+              }
+              if (new Date(a.rotationDate) < new Date(b.rotationDate)) {
+                return -1
+              }
+
+              return 0
+            }).map(item => <div key={item.uuid}>
               <div>
                 <div>
                   {item.rotationDate && DateUtils.formatDateDayAndMonth(item.rotationDate)}

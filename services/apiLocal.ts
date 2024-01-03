@@ -3,11 +3,13 @@ import { IGetAllContentsResponse } from "../interfaces/Contens";
 import { IGetAllSeries } from "../interfaces/Series";
 import { INotice } from "../interfaces/Notice";
 import { IUser } from "../interfaces/User";
+import { IGetMemberRotations } from "../interfaces/Rotation";
 
 export class ApiLocal {
   private client
 
   constructor() {
+    // this.client = axios.create({ baseURL: "/api/" })
     this.client = axios.create({ baseURL: "https://www.pibpam.org/api/" })
   }
 
@@ -47,5 +49,15 @@ export class ApiLocal {
   async getMe(token: string) {
     const { data } = await this.client.get<IUser>("/member/me", { headers: { Authorization: token } })
     return data
+  }
+
+  async getRotations(token: string) {
+    const { data } = await this.client.get<IGetMemberRotations>("/rotation/get", { headers: { Authorization: token } })
+    return data
+  }
+
+  async saveAvailability(token: string, data: { status: string, rotationItem: string }) {
+    const result = await this.client.post("/rotation/availability", data, { headers: { Authorization: token } })
+    return result
   }
 }
