@@ -76,6 +76,7 @@ export const MemberRotation = styled.div`
       border-radius: 4px;
       flex-direction: column;
       gap: 8px;
+      color: #3D3D3D;
 
       > div:first-child {
         font-size: 24px;
@@ -83,6 +84,7 @@ export const MemberRotation = styled.div`
         align-items: center;
         justify-content: space-between;
         width: 100%;
+        color: #3D3D3D;
       }
 
       > div:last-child {
@@ -93,6 +95,7 @@ export const MemberRotation = styled.div`
         width: 100%;
         text-align: left;
         gap: 8px;
+        color: #3D3D3D;
       }
 
     }
@@ -174,6 +177,7 @@ export const ListItems = styled.div`
         padding: 16px 8px;
         background: transparent;
         transition: ease .2s all;
+        margin: 0;
 
         &.active {
           background: ${theme.colors.primary};

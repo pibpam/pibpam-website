@@ -20,7 +20,7 @@ const Intro: React.FC<IIntro> = ({ goTo, banners, userName }) => {
             <FiUsers />
             <div>
               <h3>Olá {userName.split(' ')[0]}!</h3>
-              <p>Acesse á área de membros aqui.</p>
+              <p>Acesse a área de membros aqui.</p>
             </div>
           </button>
         )}
