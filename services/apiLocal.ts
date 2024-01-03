@@ -2,12 +2,13 @@ import axios from "axios";
 import { IGetAllContentsResponse } from "../interfaces/Contens";
 import { IGetAllSeries } from "../interfaces/Series";
 import { INotice } from "../interfaces/Notice";
+import { IUser } from "../interfaces/User";
 
 export class ApiLocal {
   private client
 
   constructor() {
-    this.client = axios.create({ baseURL: "api/" })
+    this.client = axios.create({ baseURL: "http://localhost:3000/api/" })
   }
 
   async getContents(page: number, limit: number, published?: boolean, type = 'transmission') {
@@ -35,6 +36,16 @@ export class ApiLocal {
 
   async savePushToken(token: string) {
     const { data } = await this.client.post("/notifications", { token })
+    return data
+  }
+
+  async authByCode(token: string) {
+    const { data } = await this.client.post<{ accessToken: string }>("/auth/code", { token })
+    return data
+  }
+
+  async getMe(token: string) {
+    const { data } = await this.client.get<IUser>("/member/me", { headers: { Authorization: token } })
     return data
   }
 }

@@ -11,13 +11,14 @@ import { INotice } from "../interfaces/Notice";
 import { ILyric } from "../interfaces/Lyric";
 import { IMemberBasic } from "../interfaces/Member";
 import { IBroadcast } from "../interfaces/Broadcast";
+import { IGetMemberRotations } from "../interfaces/Rotation";
 
 export class Api {
   private client
 
   constructor() {
     this.client = axios.create({
-      baseURL: "http://ec2-52-207-255-226.compute-1.amazonaws.com/"
+      baseURL: "http://localhost:3333/"
     })
   }
 
@@ -163,9 +164,36 @@ export class Api {
     return data
   }
 
+  async getRotations(token: string) {
+    const { data } = await this.client.get<IGetMemberRotations>("v1/member/rotations", { headers: { Authorization: `Bearer ${token}`}})
+    return data
+  }
+
+  async saveAvailability(token: string, { rotationItem, status }: { status: string, rotationItem: string}) {
+    const { data } = await this.client.post<{ uuid: string, status: 'unavailable' | 'available' | 'unknown' }>("v1/member/rotations/availability", { rotationItem, status }, { headers: { Authorization: `Bearer ${token}`}})
+    return data
+  }
+
   async savePushToken(token: string) {
     const { data } = await this.client.post("v1/notifications/device", {
       token
+    })
+    return data
+  }
+
+  // Public Route
+  async authByToken(code: string) {
+    const { data } = await this.client.post("auth/member/code", {
+      code
+    })
+    return data
+  }
+
+  async getMe(token: string) {
+    const { data } = await this.client.get("v1/member/users/me", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     })
     return data
   }

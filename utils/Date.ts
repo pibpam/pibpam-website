@@ -8,6 +8,12 @@ export class DateUtils {
     })
   }
 
+  static getWeekdayStr(date: string) {
+    return format(new Date(date), "EEEE", {
+      locale: ptBR
+    })
+  }
+
   static formatDateUS(date: string) {
     return format(new Date(date), "MM-dd-yyyy")
   }
