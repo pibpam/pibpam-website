@@ -19,6 +19,7 @@ const Member: NextPage = () => {
   const [team, setTeams] = useState<undefined | IGetMemberRotations>()
   const [selectedRotation, setSelectedRotation] = useState<undefined | IRotation>()
   const [userAvailability, setUserAvailability] = useState<{ uuid: string, availability: 'unavailable' | 'available' | 'unknown' }[]>([])
+  const [maxHei, setMaxHei] = useState(0)
 
   const getRotations = async (token: string) => {
     const api = new ApiLocal()
@@ -44,6 +45,12 @@ const Member: NextPage = () => {
       getRotations(token)
     }
   }, [token])
+
+  useEffect(() => {
+    if (window) {
+      setMaxHei(window.screen.height - 60)
+    }
+  }, [])
 
   const handleAvailability = async (uuid: string, availability: 'unavailable' | 'available' | 'unknown') => {
 
@@ -107,7 +114,7 @@ const Member: NextPage = () => {
           </Container>
         </>
       </Website>
-      <BottomSheet onDismiss={() => setSelectedRotation(undefined)} open={!!selectedRotation}>
+      <BottomSheet maxHeight={maxHei || undefined} onDismiss={() => setSelectedRotation(undefined)} open={!!selectedRotation}>
         <ModalOpen>
           <div>
             <h1>Escala</h1>
