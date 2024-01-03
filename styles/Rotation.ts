@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import theme from './theme';
 
 export const Container = styled.div`
-  padding: 24px 24px 90px;
+  padding: 0 24px 90px;
   display: flex;
   flex-direction: column;
   width: 100%;
 
   >p {
     color: #3D3D3D;
-    margin-top: 32px;
+    margin-top: 8px;
   }
 `;
 

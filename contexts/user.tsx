@@ -6,6 +6,7 @@ import { IUser } from "../interfaces/User";
 interface Context {
   user?: IUser,
   token?: string
+  initUser: () => void
 }
 
 export const UserContext = createContext<Context>({} as Context)
@@ -19,24 +20,32 @@ export const UserContextProvider: React.FC<IChildren> = ({ children }: IChildren
   const [user, setUser] = useState<IUser | undefined>()
 
   const getUser = async (token: string) => {
-    const api = new ApiLocal()
-    // const data = await api.getMe(token)
-    // setUser(data)
+    try {
+      const api = new ApiLocal()
+      const data = await api.getMe(token)
+      setUser(data)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
-  useEffect(() => {
+  const initUser = () => {
     const token = getToken()
     if (token) {
       setToken(token)
       getUser(token)
     }
+  }
 
+  useEffect(() => {
+    initUser()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <UserContext.Provider
       value={{
-        token, user
+        token, user, initUser
       }}
     >
       {children}

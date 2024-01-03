@@ -11,12 +11,14 @@ import {
   FiMusic,
   FiPlay,
   FiRadio,
+  FiUsers,
 } from "react-icons/fi";
 import { BiParty } from "react-icons/bi";
 import styles from "../../styles/components/Menu.module.scss"
 import Header from "../Header";
 import { LivesContext } from "../../contexts/lives";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
+import { UserContext } from "../../contexts/user";
 
 interface IMenu {
   toggleMenu: () => void
@@ -24,6 +26,7 @@ interface IMenu {
 
 const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
   const [isClosing, setIsClosing] = useState(false)
+  const {user} = useContext(UserContext)
   const { lives } = useContext(LivesContext)
   const { goTo: goToHook } = useAppNavigation()
 
@@ -44,7 +47,19 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
     <div className={`${styles.container} ${isClosing && styles.animation_out}`}>
       <Header isOpen toggleMenu={handleCloseMenu} />
       <ul>
-        <li>
+        {!!user?.id && (
+          <li>
+            <button onClick={() => goTo("/member")}>
+              <FiUsers />
+              <div>
+                <span>Área de Membros</span>
+                <span>Recursos para membresia e ministérios</span>
+              </div>
+              <FiChevronRight />
+            </button>
+          </li> 
+        )}
+       <li>
           <button onClick={() => goTo("/about")}>
             <FiHome />
             <div>

@@ -82,28 +82,30 @@ const Member: NextPage = () => {
   return (
     <>
       <Website hasTabNavigator={false} title={"Área de membros"} openMenu={false} toggleMenu={() => { }}>
-        <Container >
+        <>
           <HeaderMember goBack={() => goTo({ pathname: '/member', resetHistory: true })} title={"Escalas"} />
-          <p>
-            Veja, acompanhe e preencha as escalas dos ministérios que você participa.
-          </p>
-          <List>
-            {team?.map(item => <MemberRotation key={item.uuid}>
-              <div>
-                <div>Ministério</div>
-                <div>{item.name}</div>
-              </div>
-              <div>
-                {item?.rotations.map(item => <button onClick={() => setSelectedRotation(item)} key={item.uuid}>
-                  <div>{item.title} <FiArrowRight/> </div>
-                  <div>
-                   <FiInfo/> {item.status === 'open' && `Escala aberta. Preencha com sua disponibilidade.`}
-                  </div>
-                </button>)}
-              </div>
-            </MemberRotation>)}
-          </List>
-        </Container>
+          <Container >
+            <p>
+              Veja, acompanhe e preencha as escalas dos ministérios que você participa.
+            </p>
+            <List>
+              {team?.map(item => <MemberRotation key={item.uuid}>
+                <div>
+                  <div>Ministério</div>
+                  <div>{item.name}</div>
+                </div>
+                <div>
+                  {item?.rotations.map(item => <button onClick={() => setSelectedRotation(item)} key={item.uuid}>
+                    <div>{item.title} <FiArrowRight /> </div>
+                    <div>
+                      <FiInfo /> {item.status === 'open' && `Escala aberta. Preencha com sua disponibilidade.`}
+                    </div>
+                  </button>)}
+                </div>
+              </MemberRotation>)}
+            </List>
+          </Container>
+        </>
       </Website>
       <BottomSheet onDismiss={() => setSelectedRotation(undefined)} open={!!selectedRotation}>
         <ModalOpen>

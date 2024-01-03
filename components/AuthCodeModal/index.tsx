@@ -15,14 +15,14 @@ const AuthCodeModal: React.FC<{ name: string, code: string }> = ({ name, code })
     }
   }
 
-  // if (!name) {
-  //   return <></>
-  // }
+  if (!name) {
+    return <></>
+  }
 
   return (
     <div className={styles.container} >
       <h2>
-        {name?.split(' ')[0]}, você está autenticado como membro em nossa aplicação. Para usar este usuário no app, acesse o botão abaixo. Se você ainda não tem o app instalado, faça o download na loja do seu dispositivo e refaça o processo. Em breve teremos a opção de login em ambas as plataformas.
+        <strong> {name?.split(' ')[0]}, você está autenticado como membro em nossa aplicação. Para usar este usuário no app, clique no botão abaixo.</strong><br/> Se você ainda não tem o app instalado, faça o download na loja do seu dispositivo e refaça o processo. Em breve teremos a opção de login em ambas as plataformas.
       </h2>
       <a onClick={openApp} >Abrir no App</a>
 

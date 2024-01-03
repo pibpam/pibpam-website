@@ -22,6 +22,7 @@ import { ISeries } from "../interfaces/Series";
 import { IBanner } from "../interfaces/Banner";
 import { ICollection } from '../interfaces/Collection';
 import Collections from '../components/Home/Collections';
+import { UserContext } from '../contexts/user';
 
 interface IHome {
   content?: IContent
@@ -37,6 +38,7 @@ const Home: NextPage<IHome> = ({ content, schedules, devotionals, series, banner
   const { lives } = useContext(LivesContext)
   const { goTo: goToHook } = useAppNavigation()
   const { scrollActive, changeScroll } = useHeader()
+  const { user } = useContext(UserContext)
 
   const goTo = async (pathname: string) => {
     await goToHook({ pathname, showLoading: true })
@@ -50,7 +52,7 @@ const Home: NextPage<IHome> = ({ content, schedules, devotionals, series, banner
         </HeaderContainer>
         <Banner />
         <DividerMobile />
-        <Intro banners={banners} goTo={goTo} />
+        <Intro userName={user?.member.name} banners={banners} goTo={goTo} />
         <DividerMobile color={EDividerColors.white} />
         <Transmission goTo={goTo} live={lives[0] || undefined} content={content} />
         {schedules && schedules.length && (

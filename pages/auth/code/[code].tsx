@@ -1,13 +1,13 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { ApiLocal } from '../../../services/apiLocal'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { saveToken } from '../../../utils/LocalStorage'
-import { IUser } from '../../../interfaces/User'
 import Loading from '../../../components/Loading'
 import AuthCodeModal from '../../../components/AuthCodeModal'
 import { useAppNavigation } from '../../../hooks/useAppNavigation'
 import { AppContext } from '../../../contexts/app'
+import { UserContext } from '../../../contexts/user'
 
 interface ICode {
   code: string
@@ -15,18 +15,22 @@ interface ICode {
 
 const AuthCode: NextPage<ICode> = () => {
   const router = useRouter()
-  const [user, setUser] = useState<undefined | IUser>()
   const { isApp } = useContext(AppContext)
   const { goTo } = useAppNavigation()
+  const { initUser, user } = useContext(UserContext)
 
   const authUser = async (code: string) => {
-    // const api = new ApiLocal()
-    // const data = await api.authByCode(code)
-    // saveToken(data.accessToken)
-    // const user = await api.getMe(data.accessToken)
-    // setUser(user)
-    if (isApp) {
-      goToMember()
+    try {
+      const api = new ApiLocal()
+      const data = await api.authByCode(code)
+      saveToken(data.accessToken)
+      initUser()
+
+      if (isApp) {
+        goToMember()
+      }
+    } catch (error) {
+      console.error(error)
     }
   }
 

@@ -37,7 +37,7 @@ const Member: NextPage = () => {
 
             <button>
               <FiBook />
-              <span>Planos de Leituras</span>
+              <span>Planos de Leitura</span>
             </button>
           </div>
         </div>

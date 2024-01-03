@@ -2,13 +2,44 @@
   background: #5FD9DA;
   padding: 32px 24px calc(32px + 90px);
 
-  > p {
+  >p {
     font-weight: 400;
     font-size: 24px;
     line-height: 30px;
     text-align: center;
     color: #383838;
     margin-top: 48px;
+  }
+}
+
+.memberarea {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  width: 100%;
+  margin-bottom: 24px;
+  padding: 16px;
+
+  >div {
+    text-align: left;
+
+    h3 {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 16px;
+    }
+  }
+
+  >svg {
+    width: 40px;
+    height: auto;
   }
 }
 
