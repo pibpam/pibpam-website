@@ -11,6 +11,7 @@ import 'react-spring-bottom-sheet/dist/style.css'
 import { FiArrowRight, FiCheck, FiInfo, FiUpload, FiX } from 'react-icons/fi';
 import { DateUtils } from '../../../utils/Date';
 import { ApiLocal } from '../../../services/apiLocal';
+import { AppContext } from '../../../contexts/app';
 
 const Member: NextPage = () => {
 
@@ -20,6 +21,7 @@ const Member: NextPage = () => {
   const [selectedRotation, setSelectedRotation] = useState<undefined | IRotation>()
   const [userAvailability, setUserAvailability] = useState<{ uuid: string, availability: 'unavailable' | 'available' | 'unknown' }[]>([])
   const [maxHei, setMaxHei] = useState(0)
+  const { isApp } = useContext(AppContext)
 
   const getRotations = async (token: string) => {
     const api = new ApiLocal()
@@ -114,7 +116,7 @@ const Member: NextPage = () => {
           </Container>
         </>
       </Website>
-      <BottomSheet maxHeight={maxHei || undefined} onDismiss={() => setSelectedRotation(undefined)} open={!!selectedRotation}>
+      <BottomSheet maxHeight={isApp ? (maxHei || undefined) : undefined} onDismiss={() => setSelectedRotation(undefined)} open={!!selectedRotation}>
         <ModalOpen>
           <div>
             <h1>Escala</h1>
