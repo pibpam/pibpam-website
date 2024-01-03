@@ -18,7 +18,7 @@ export class Api {
 
   constructor() {
     this.client = axios.create({
-      baseURL: "http://localhost:3333/"
+      baseURL: "http://ec2-52-207-255-226.compute-1.amazonaws.com/"
     })
   }
 
@@ -165,12 +165,12 @@ export class Api {
   }
 
   async getRotations(token: string) {
-    const { data } = await this.client.get<IGetMemberRotations>("v1/member/rotations", { headers: { Authorization: `Bearer ${token}`}})
+    const { data } = await this.client.get<IGetMemberRotations>("v1/member/rotations", { headers: { Authorization: `Bearer ${token}` } })
     return data
   }
 
-  async saveAvailability(token: string, { rotationItem, status }: { status: string, rotationItem: string}) {
-    const { data } = await this.client.post<{ uuid: string, status: 'unavailable' | 'available' | 'unknown' }>("v1/member/rotations/availability", { rotationItem, status }, { headers: { Authorization: `Bearer ${token}`}})
+  async saveAvailability(token: string, { rotationItem, status }: { status: string, rotationItem: string }) {
+    const { data } = await this.client.post<{ uuid: string, status: 'unavailable' | 'available' | 'unknown' }>("v1/member/rotations/availability", { rotationItem, status }, { headers: { Authorization: `Bearer ${token}` } })
     return data
   }
 
