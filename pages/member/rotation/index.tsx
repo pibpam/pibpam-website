@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from '../../../contexts/user';
 import Website from '../../../layout/container/Website';
 import HeaderMember from '../../../components/HeaderMember';
-import { ButtonSave, Container, List, ListItems, MemberRotation, ModalOpen } from './styles';
+import { ButtonSave, Container, List, ListItems, MemberRotation, ModalOpen } from '../../../styles/Rotation';
 import { useAppNavigation } from '../../../hooks/useAppNavigation';
 import { Api } from '../../../services/api';
 import { IGetMemberRotations, IRotation } from '../../../interfaces/Rotation';
