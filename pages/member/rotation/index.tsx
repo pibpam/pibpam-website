@@ -139,7 +139,7 @@ const Member: NextPage = () => {
           <div>
             <h1>Escala</h1>
             <h2>{selectedRotation?.title}</h2>
-            <p>{descriptionMessage[selectedRotation?.status] || ''}</p>
+            <p>{descriptionMessage[selectedRotation?.status || 'open'] || ''}</p>
           </div>
           <ListItems>
             {selectedRotation?.items.sort((a, b) => {
