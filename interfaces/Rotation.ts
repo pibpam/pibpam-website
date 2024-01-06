@@ -2,6 +2,14 @@ type IAvailabilityRotationMembers = {
   status: 'unavailable' | 'available' | 'unknown'
 }
 
+export type IRotationMember = {
+  uuid: string,
+  member: {
+    name: string,
+    uuid: string
+  }
+}
+
 type IRotationItem = {
   uuid: string;
   title: string | null;
@@ -11,7 +19,8 @@ type IRotationItem = {
   rotationDateEnd: string | null;
   rotationDateTimes: string; // Assuming it's a string representation of an array
   created_at: string;
-  availabilityRotationMembers: IAvailabilityRotationMembers[]; // You may replace `any[]` with a more specific type
+  availabilityRotationMembers: IAvailabilityRotationMembers[];
+  rotationItemMembers?: IRotationMember[]
 };
 
 export type IRotation = {

@@ -3,9 +3,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from '../../../contexts/user';
 import Website from '../../../layout/container/Website';
 import HeaderMember from '../../../components/HeaderMember';
-import { ButtonSave, Container, List, ListItems, MemberRotation, ModalOpen } from '../../../styles/Rotation';
+import { ButtonSave, Container, HeaderItem, List, ListItems, MemberRotation, MembersSelecteds, ModalOpen } from '../../../styles/Rotation';
 import { useAppNavigation } from '../../../hooks/useAppNavigation';
-import { IGetMemberRotations, IRotation } from '../../../interfaces/Rotation';
+import { IGetMemberRotations, IRotation, IRotationMember } from '../../../interfaces/Rotation';
 import { BottomSheet } from 'react-spring-bottom-sheet';
 import 'react-spring-bottom-sheet/dist/style.css'
 import { FiArrowRight, FiCheck, FiInfo, FiUpload, FiX } from 'react-icons/fi';
@@ -15,7 +15,7 @@ import { AppContext } from '../../../contexts/app';
 
 const Member: NextPage = () => {
 
-  const { token } = useContext(UserContext)
+  const { token, user } = useContext(UserContext)
   const { goTo } = useAppNavigation()
   const [team, setTeams] = useState<undefined | IGetMemberRotations>()
   const [selectedRotation, setSelectedRotation] = useState<undefined | IRotation>()
@@ -88,6 +88,24 @@ const Member: NextPage = () => {
     return find?.availability
   }
 
+  const statusMessage = {
+    open: 'Escala aberta. Preencha com sua disponibilidade.',
+    live: 'Escala em andamento. Você ainda pode preencher ou alterar a sua disponibilidade.'
+  } as Record<string, string>
+
+  const descriptionMessage = {
+    open: 'Prencha a escala de acordo com a sua disponibilidade. Sua resposta não garante o dia da escala. A definição será feita posteriormente pelo líder do ministério.',
+    live: 'A escala está em andamento! Fique atento aos dias que você foi escalado. Você não pode alterar a disponibilidade destes dias. Caso tenha imprevistos, contate o seu líder.'
+  } as Record<string, string>
+
+  const verifyIfLoggedUser = (memberUuid: string) => {
+    return user?.member.uuid === memberUuid
+  }
+
+  const verifyIfLoggedUserWasSelected = (rotations: IRotationMember[]) => {
+    return !!rotations.find(item => item.member.uuid === user?.member.uuid)
+  }
+
   return (
     <>
       <Website hasTabNavigator={false} title={"Área de membros"} openMenu={false} toggleMenu={() => { }}>
@@ -107,7 +125,7 @@ const Member: NextPage = () => {
                   {item?.rotations.map(item => <button onClick={() => setSelectedRotation(item)} key={item.uuid}>
                     <div>{item.title} <FiArrowRight /> </div>
                     <div>
-                      <FiInfo /> {item.status === 'open' && `Escala aberta. Preencha com sua disponibilidade.`}
+                      <FiInfo /> {statusMessage[item.status] || 'Sem detalhes.'}
                     </div>
                   </button>)}
                 </div>
@@ -121,7 +139,7 @@ const Member: NextPage = () => {
           <div>
             <h1>Escala</h1>
             <h2>{selectedRotation?.title}</h2>
-            <p>Prencha a escala de acordo com a sua disponibilidade. Sua resposta não garante o dia da escala. A definição será feita posteriormente pelo líder do ministério.</p>
+            <p>{descriptionMessage[selectedRotation?.status] || ''}</p>
           </div>
           <ListItems>
             {selectedRotation?.items.sort((a, b) => {
@@ -139,28 +157,38 @@ const Member: NextPage = () => {
 
               return 0
             }).map(item => <div key={item.uuid}>
-              <div>
+              <HeaderItem>
                 <div>
-                  {item.rotationDate && DateUtils.formatDateDayAndMonth(item.rotationDate)}
+                  <div>
+                    {item.rotationDate && DateUtils.formatDateDayAndMonth(item.rotationDate)}
+                  </div>
+                  <div>
+                    {item.rotationDate && DateUtils.getWeekdayStr(item.rotationDate)}
+                  </div>
+                  <div>
+                    {item.rotationDate && DateUtils.formatTime(item.rotationDate)}
+                  </div>
                 </div>
-                <div>
-                  {item.rotationDate && DateUtils.getWeekdayStr(item.rotationDate)}
+                <div className={`buttonsActions ${verifyIfLoggedUserWasSelected(item.rotationItemMembers || []) ? 'selected' : ''}`}>
+                  <button disabled={!!verifyIfLoggedUserWasSelected(item.rotationItemMembers || [])} className={`${checkOptionAvailability(item.uuid) === 'available' && 'active'}`} onClick={() => handleAvailability(item.uuid, 'available')} >
+                    <FiCheck /> Sim
+                  </button>
+                  <button disabled={!!verifyIfLoggedUserWasSelected(item.rotationItemMembers || [])} className={`${checkOptionAvailability(item.uuid) === 'unavailable' && 'active'}`} onClick={() => handleAvailability(item.uuid, 'unavailable')} >
+                    <FiX /> Não
+                  </button>
+                  <button disabled={!!verifyIfLoggedUserWasSelected(item.rotationItemMembers || [])} className={`${checkOptionAvailability(item.uuid) === 'unknown' && 'active'}`} onClick={() => handleAvailability(item.uuid, 'unknown')} >
+                    Talvez
+                  </button>
                 </div>
-                <div>
-                  {item.rotationDate && DateUtils.formatTime(item.rotationDate)}
-                </div>
-              </div>
-              <div>
-                <button className={`${checkOptionAvailability(item.uuid) === 'available' && 'active'}`} onClick={() => handleAvailability(item.uuid, 'available')} >
-                  <FiCheck /> Sim
-                </button>
-                <button className={`${checkOptionAvailability(item.uuid) === 'unavailable' && 'active'}`} onClick={() => handleAvailability(item.uuid, 'unavailable')} >
-                  <FiX /> Não
-                </button>
-                <button className={`${checkOptionAvailability(item.uuid) === 'unknown' && 'active'}`} onClick={() => handleAvailability(item.uuid, 'unknown')} >
-                  Talvez
-                </button>
-              </div>
+              </HeaderItem>
+              {selectedRotation.status !== 'open' && (
+                <MembersSelecteds >
+                  {item.rotationItemMembers?.map(member => (<div key={member.uuid} className={`${verifyIfLoggedUser(member.member.uuid) ? 'active' : ''}`} >
+                    <div>Responsável</div>
+                    <div>{member.member.name}</div>
+                  </div>))}
+                </MembersSelecteds>
+              )}
             </div>)}
           </ListItems>
           <ButtonSave>

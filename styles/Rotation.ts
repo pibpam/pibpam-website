@@ -18,29 +18,6 @@ export const List = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 8px;
-  margin-top: 32px;
-/*   
-  > div {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    background: #eee;
-    border-radius: 8px;
-    padding: 16px 8px;
-
-    > div {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-
-      > button {
-        display: flex;
-        align-items: center;
-        background-color: #ddd;
-        padding: 8px;
-      }
-    }
-  } */
 `;
 
 export const MemberRotation = styled.div`
@@ -96,12 +73,14 @@ export const MemberRotation = styled.div`
         text-align: left;
         gap: 8px;
         color: #3D3D3D;
-      }
 
+        > svg {
+          min-width: 24px;
+        }
+      }
     }
   }
 `
-
 
 export const ModalOpen = styled.div`
   padding: 24px 24px;
@@ -136,15 +115,18 @@ export const ListItems = styled.div`
   flex-direction: column;
   gap: 8px;
 
-  > div {
+ > div {
+    & + div {
+      border-top: 2px solid #eee;
+    }
+  }
+`;
+
+export const HeaderItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 16px 0px;
-
-    & + div {
-      border-top: 2px solid #eee;
-    }
 
     > div:first-child {
       display: flex;
@@ -162,12 +144,11 @@ export const ListItems = styled.div`
       }
     }
 
-      > div:last-child {
+    .buttonsActions {
       display: flex;
       border: 2px solid ${theme.colors.primary};
       border-radius: 8px;
       overflow: hidden;
-
 
       > button {
         display: flex;
@@ -188,10 +169,53 @@ export const ListItems = styled.div`
           border-left:  2px solid ${theme.colors.primary};
         }
       }
+
+      &.selected {
+         border: 2px solid #ddd;
+
+         > button {
+          background: transparent;
+          cursor: not-allowed;
+
+          &.active {
+            background: #ddd;
+            color: #222;
+          }
+
+          & + button {
+            border-left:  2px solid #ddd;
+          }
+        }
+      }
+    }
+  `
+
+export const MembersSelecteds = styled.div`
+  > div {
+    display: flex;
+    flex-direction: column;
+    background: #eee;
+    padding: 8px;
+    border-radius: 8px;
+
+    &.active {
+      background: ${theme.colors.secundary};
+    }
+
+    > div:first-child {
+      font-weight: 400;
+      font-size: 12px;
+    }
+
+    > div:last-child {
+      font-weight: 600;
+      font-size: 18px;
+      text-overflow: ellipsis;
+      text-wrap: nowrap;
+      overflow: hidden;
     }
   }
 `;
-
 
 export const ButtonSave = styled.div`
   display: flex;
