@@ -51,7 +51,7 @@
   margin-top: 48px;
   position: relative;
   width: 100%;
-  aspect-ratio: 16/9;
+  // aspect-ratio: 16/9;
   border-radius: 8px;
   overflow: hidden;
   text-align: left;
@@ -68,7 +68,7 @@
 
     &::after {
       content: '';
-      background: rgba($color: #222, $alpha: .8);
+      background: rgba($color: #222, $alpha: .9);
       height: 100%;
       width: 100%;
       position: absolute;
@@ -93,7 +93,7 @@
 
       >svg {
         height: auto;
-        width: 80px;
+        width: 60px;
       }
     }
 

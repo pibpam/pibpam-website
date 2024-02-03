@@ -11,7 +11,7 @@ import EmptyState from '../../components/EmptyState';
 import FooterPage from '../../components/FooterPage';
 import { FiBookOpen, FiCalendar, FiClock, FiInfo, FiMapPin } from 'react-icons/fi';
 import { IGroupPage } from '../../pages/groups';
-import { Begin, Container, ContainerModal, Description, Grid } from './styles';
+import { Begin, Container, ContainerModal, Description, Grid, Location } from './styles';
 import GroupItem from '../../components/GroupItem';
 import Modal from '../../components/Modal';
 import { IGroup } from '../../interfaces/Group';
@@ -50,7 +50,7 @@ const Group: React.FC<IGroupPage> = ({ data }) => {
         <Container>
           <Grid>
             {
-              data.map(item => (<GroupItem onClick={() => setSelectedGroup(item)} group={item} key={item.uuid} />))
+              data.map(item => (<GroupItem onClick={() => { selectedGroup ? () => { } : setSelectedGroup(item) }} group={item} key={item.uuid} />))
             }
             {!data.length && (
               <EmptyState />
@@ -84,13 +84,13 @@ const Group: React.FC<IGroupPage> = ({ data }) => {
                     <div><FiClock />{selectedGroup.timeDescription}</div>
                   </div>
                   {selectedGroup?.address && (
-                    <div className={styles.location}>
+                    <Location>
                       <FiMapPin />
                       <div>
                         <div>{selectedGroup?.address}</div>
                         <button onClick={() => openLink(mapUrl)}>Como chegar</button>
                       </div>
-                    </div>
+                    </Location>
                   )}
                 </Begin>
                 {(selectedGroup?.description || selectedGroup?.info || selectedGroup?.promotionalVideo) && (

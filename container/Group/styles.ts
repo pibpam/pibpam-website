@@ -49,3 +49,40 @@ export const Begin = styled.div`
     margin-bottom: 16px;
   }
 `;
+
+export const Location = styled.div`
+  display: flex;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: #5FD9DA;
+  margin-bottom: 16px;
+  align-items: center;
+
+  > svg {
+    margin-right: 8px;
+    font-size: 20px;
+  }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    > button {
+      text-decoration: underline;
+      font-weight: 400;
+      font-size: 12px;
+      background: transparent;
+      display: flex;
+      margin-right: auto;
+      padding: 4px 4px 4px 0;
+      color: #5FD9DA;
+
+      &:focus, &:active {
+        outline: none;
+      }
+    }
+  }
+
+`;
