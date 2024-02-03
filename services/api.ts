@@ -12,6 +12,7 @@ import { ILyric } from "../interfaces/Lyric";
 import { IMemberBasic } from "../interfaces/Member";
 import { IBroadcast } from "../interfaces/Broadcast";
 import { IGetMemberRotations } from "../interfaces/Rotation";
+import { IGetAllGroupResponse } from "../interfaces/Group";
 
 export class Api {
   private client
@@ -58,6 +59,12 @@ export class Api {
       params.published = +published
     }
     const { data } = await this.client.get<IGetAllContentsResponse>("v1/contents", { params })
+    return data
+  }
+
+
+  async getAllGroups() {
+    const { data } = await this.client.get<IGetAllGroupResponse>("v1/group")
     return data
   }
 

@@ -6,12 +6,10 @@ import HeaderMember from '../../../components/HeaderMember';
 import { ButtonSave, Container, HeaderItem, List, ListItems, MemberRotation, MembersSelecteds, ModalOpen } from '../../../styles/Rotation';
 import { useAppNavigation } from '../../../hooks/useAppNavigation';
 import { IGetMemberRotations, IRotation, IRotationMember } from '../../../interfaces/Rotation';
-import { BottomSheet } from 'react-spring-bottom-sheet';
-import 'react-spring-bottom-sheet/dist/style.css'
 import { FiArrowRight, FiCheck, FiInfo, FiUpload, FiX } from 'react-icons/fi';
 import { DateUtils } from '../../../utils/Date';
 import { ApiLocal } from '../../../services/apiLocal';
-import { AppContext } from '../../../contexts/app';
+import Modal from '../../../components/Modal';
 
 const Member: NextPage = () => {
 
@@ -20,8 +18,6 @@ const Member: NextPage = () => {
   const [team, setTeams] = useState<undefined | IGetMemberRotations>()
   const [selectedRotation, setSelectedRotation] = useState<undefined | IRotation>()
   const [userAvailability, setUserAvailability] = useState<{ uuid: string, availability: 'unavailable' | 'available' | 'unknown' }[]>([])
-  const [maxHei, setMaxHei] = useState(0)
-  const { isApp } = useContext(AppContext)
 
   const getRotations = async (token: string) => {
     const api = new ApiLocal()
@@ -47,12 +43,6 @@ const Member: NextPage = () => {
       getRotations(token)
     }
   }, [token])
-
-  useEffect(() => {
-    if (window) {
-      setMaxHei(window.screen.height - 60)
-    }
-  }, [])
 
   const handleAvailability = async (uuid: string, availability: 'unavailable' | 'available' | 'unknown') => {
 
@@ -134,7 +124,7 @@ const Member: NextPage = () => {
           </Container>
         </>
       </Website>
-      <BottomSheet maxHeight={isApp ? (maxHei || undefined) : undefined} onDismiss={() => setSelectedRotation(undefined)} open={!!selectedRotation}>
+      <Modal onClose={() => setSelectedRotation(undefined)} isOpen={!!selectedRotation}>
         <ModalOpen>
           <div>
             <h1>Escala</h1>
@@ -195,7 +185,7 @@ const Member: NextPage = () => {
             <button onClick={() => setSelectedRotation(undefined)} > <FiUpload /> Salvar</button>
           </ButtonSave>
         </ModalOpen>
-      </BottomSheet>
+      </Modal>
     </>
   )
 }

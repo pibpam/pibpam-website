@@ -89,6 +89,15 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
             <FiChevronRight />
           </button>
         </li>
+        <li>
+          <button onClick={() => goTo("/groups")}>
+            <FiUsers />
+            <div>
+              <span>Pequenos Grupos</span>
+            </div>
+            <FiChevronRight />
+          </button>
+        </li>
         {/* <li>
           <button onClick={() => goTo("/preaches")}>
             <FiBookmark />

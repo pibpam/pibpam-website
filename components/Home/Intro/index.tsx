@@ -1,6 +1,6 @@
 import React from "react";
 import PrimaryButton from "../../Button/Primary";
-import { FiHome, FiUsers } from "react-icons/fi";
+import { FiArrowRight, FiHome, FiUsers } from "react-icons/fi";
 import styles from "../../../styles/components/Home/Intro.module.scss"
 import CarouselAutoPlay from "../../CarouselAutoPlay";
 import { IBanner } from "../../../interfaces/Banner";
@@ -36,12 +36,23 @@ const Intro: React.FC<IIntro> = ({ goTo, banners, userName }) => {
         <p>
           Faça-nos uma visita! Será um prazer receber você!
         </p>
-        {banners && !!banners.length && (
+        {/* {banners && !!banners.length && (
           <div className={styles.bannerContainer}>
             <CarouselAutoPlay banners={banners} />
           </div>
-        )}
-      </div>
+        )} */}
+
+        <button onClick={() => goTo("/groups")} className={styles.pgmContainer}>
+          <div></div>
+          <div>
+            <div>
+             <FiUsers/> <h1>Participe de um Pequeno Grupo Multiplicador</h1>
+            </div>
+            <p>Encontre o pequeno grupo mais perto de você!</p>
+            <button> <FiArrowRight /> acesse aqui</button>
+          </div>
+        </button>
+      </div >
     </>
   )
 }

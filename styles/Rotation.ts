@@ -88,7 +88,6 @@ export const ModalOpen = styled.div`
   flex-direction: column;
   width: 100%;
 
-
   > div:first-child {
     margin-bottom: 24px;
     h1 {
@@ -103,10 +102,6 @@ export const ModalOpen = styled.div`
     p {
       color: #3D3D3D;
     }
-  }
-
-  > div:last-child {
-
   }
 `;
 

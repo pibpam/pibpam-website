@@ -32,7 +32,7 @@ interface ISchedule {
 
 const Schedule: NextPage<ISchedule> = ({ data }) => {
   const { open, toggleMenu } = useMenu()
-  const { goTo: goToHook, goBack } = useAppNavigation()
+  const { goBack } = useAppNavigation()
   const { scrollActive, changeScroll } = useHeader()
   const { getHref } = useOpenMap()
   const [mapUrl, setMapUrl] = useState('')
