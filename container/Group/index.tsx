@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useMenu from '../../hooks/useMenu';
 import { useAppNavigation } from '../../hooks/useAppNavigation';
 import useHeader from '../../hooks/useHeader';
@@ -30,12 +30,29 @@ const Group: React.FC<IGroupPage> = ({ data }) => {
   const { getHref } = useOpenMap()
   const [selectedGroup, setSelectedGroup] = useState<undefined | IGroup>(undefined)
 
+  const waitToClick = useRef(false)
+
   useEffect(() => {
     setMapUrl(selectedGroup?.addressRedirect ? getHref(selectedGroup?.addressRedirect) : "")
   }, [selectedGroup?.addressRedirect, getHref])
 
   const goTo = async (pathname: string) => {
     await goToHook({ pathname, showLoading: true })
+  }
+
+  const handleOpen = (data?: IGroup) => {
+    if (waitToClick.current && data) {
+      return
+    }
+
+    waitToClick.current = true
+    setSelectedGroup(data)
+
+    if (!data) {
+      setTimeout(() => {
+        waitToClick.current = false
+      }, 1000)
+    }
   }
 
   return (
@@ -50,7 +67,7 @@ const Group: React.FC<IGroupPage> = ({ data }) => {
         <Container>
           <Grid>
             {
-              data.map(item => (<GroupItem onClick={() => { selectedGroup ? () => { } : setSelectedGroup(item) }} group={item} key={item.uuid} />))
+              data.map(item => (<GroupItem onClick={() => { selectedGroup ? () => { } : handleOpen(item) }} group={item} key={item.uuid} />))
             }
             {!data.length && (
               <EmptyState />
@@ -71,8 +88,7 @@ const Group: React.FC<IGroupPage> = ({ data }) => {
             }
           ]}
         />
-        <Modal isOpen={!!selectedGroup} onClose={() => setSelectedGroup(undefined)} >
-
+        <Modal isOpen={!!selectedGroup} onClose={() => handleOpen(undefined)} >
           <ContainerModal>
             {selectedGroup && (
               <>
