@@ -64,7 +64,6 @@
     height: 100%;
     width: 100%;
     z-index: 0;
-    filter: blur(2px);
 
     &::after {
       content: '';
@@ -79,7 +78,7 @@
 
   >div:last-child {
     padding: 16px;
-    color: #B5DA35;
+    color: #5FD9DA;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -103,6 +102,7 @@
 
     p {
       font-size: 16px;
+      color: #fff;
     }
 
     button {
@@ -110,8 +110,10 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      color: #5FD9DA;
+      color: #B5DA35;
       font-size: 16px;
+      padding: 0;
+      margin: 0;
       margin-top: 16px;
     }
   }

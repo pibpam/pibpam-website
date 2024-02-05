@@ -2,6 +2,7 @@ import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { BottomSheet } from 'react-spring-bottom-sheet';
 import { AppContext } from '../../contexts/app';
 import 'react-spring-bottom-sheet/dist/style.css'
+import { BlockClick } from './styles';
 
 interface IModal {
   children: ReactElement
@@ -20,9 +21,14 @@ const Modal: React.FC<IModal> = ({ children, onClose, isOpen }) => {
   }, [])
 
   return (
-    <BottomSheet maxHeight={isApp ? (maxHei || undefined) : undefined} onDismiss={onClose} open={isOpen}>
-      {children}
-    </BottomSheet>
+    <>
+      {isOpen && (
+        <BlockClick />
+      )}
+      <BottomSheet maxHeight={isApp ? (maxHei || undefined) : undefined} onDismiss={onClose} open={isOpen}>
+        {children}
+      </BottomSheet>
+    </>
   );
 }
 

@@ -84,5 +84,4 @@ export const Location = styled.div`
       }
     }
   }
-
 `;
