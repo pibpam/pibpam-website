@@ -27,7 +27,7 @@ const CarouselAutoPlay: React.FC<CarouselAutoPlay> = ({banners}) => {
         }
 
         if (banner.type === EBannerType.INTERNAL && banner.url) {
-            goTo({pathname: banner.url}).then()
+            goTo({pathname: banner.url, showLoading: true}).then()
             return
         }
     }
