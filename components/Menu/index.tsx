@@ -70,7 +70,7 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
           </button>
         </li>
         {!!lives.length && (
-          <li onClick={() => goTo("/event/" + lives[0].uuid)}>
+          <li onClick={() => goTo("/live")}>
             <button>
               <FiRadio />
               <div>
