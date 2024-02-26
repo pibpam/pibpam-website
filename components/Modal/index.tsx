@@ -8,9 +8,10 @@ interface IModal {
   children: ReactElement
   onClose: () => void
   isOpen: boolean
+  blockClick?: boolean
 }
 
-const Modal: React.FC<IModal> = ({ children, onClose, isOpen }) => {
+const Modal: React.FC<IModal> = ({ children, onClose, isOpen, blockClick = false }) => {
   const [maxHei, setMaxHei] = useState(0)
   const { isApp } = useContext(AppContext)
 
@@ -22,7 +23,7 @@ const Modal: React.FC<IModal> = ({ children, onClose, isOpen }) => {
 
   return (
     <>
-      {isOpen && (
+      {isOpen && blockClick && (
         <BlockClick />
       )}
       <BottomSheet maxHeight={isApp ? (maxHei || undefined) : undefined} onDismiss={onClose} open={isOpen}>

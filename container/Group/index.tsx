@@ -88,7 +88,7 @@ const Group: React.FC<IGroupPage> = ({ data }) => {
             }
           ]}
         />
-        <Modal isOpen={!!selectedGroup} onClose={() => handleOpen(undefined)} >
+        <Modal blockClick isOpen={!!selectedGroup} onClose={() => handleOpen(undefined)} >
           <ContainerModal>
             {selectedGroup && (
               <>
