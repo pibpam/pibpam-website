@@ -12,6 +12,9 @@ interface IIntro {
 }
 
 const Intro: React.FC<IIntro> = ({ goTo, banners, userName }) => {
+
+  
+
   return (
     <>
       <div className={styles.container}>
@@ -36,13 +39,13 @@ const Intro: React.FC<IIntro> = ({ goTo, banners, userName }) => {
         <p>
           Faça-nos uma visita! Será um prazer receber você!
         </p>
-        {/* {banners && !!banners.length && (
+        {banners && !!banners.length && (
           <div className={styles.bannerContainer}>
             <CarouselAutoPlay banners={banners} />
           </div>
-        )} */}
+        )}
 
-        <button onClick={() => goTo("/groups")} className={styles.pgmContainer}>
+        {/* <button onClick={() => goTo("/groups")} className={styles.pgmContainer}>
           <div></div>
           <div>
             <div>
@@ -51,7 +54,7 @@ const Intro: React.FC<IIntro> = ({ goTo, banners, userName }) => {
             <p>Encontre o pequeno grupo mais perto de você!</p>
             <button> <FiArrowRight /> acesse aqui</button>
           </div>
-        </button>
+        </button> */}
       </div >
     </>
   )
