@@ -1,8 +1,19 @@
-.container {
-  padding: 16px 24px 90px;
-}
+import styled from 'styled-components';
 
-.begin {
+export const Container = styled.div`
+  padding: 16px 24px 16px;
+`
+
+export const ImageHeader = styled.div<{ src: string}>`
+  aspect-ratio: 16/9;
+  width: 100%;
+  height: auto;
+  background: ${({ src }) => `url('${src}') center/cover`};
+  border-radius: 8px;
+  margin-bottom: 16px;
+`
+
+export const Begin = styled.div`
   padding: 0 24px 24px;
 
   > h1 {
@@ -19,9 +30,9 @@
     color: #3D3D3D;
     margin-bottom: 16px;
   }
-}
+`
 
-.date_time {
+export const DateTime = styled.div`
   display: flex;
   align-items: center;
   gap: 32px;
@@ -40,11 +51,9 @@
       font-size: 20px;
     }
   }
+`
 
-}
-
-
-.location {
+export const Location = styled.div`
   display: flex;
   font-weight: 400;
   font-size: 16px;
@@ -72,11 +81,16 @@
       margin-right: auto;
       padding: 4px 4px 4px 0;
       color: #5FD9DA;
+
+      &:focus {
+        outline: none;
+      }
+
     }
   }
-}
+`
 
-.audience {
+export const Audience = styled.div`
   display: flex;
   font-weight: 400;
   font-size: 16px;
@@ -101,9 +115,9 @@
       line-height: 12px;
     }
   }
-}
+`
 
-.alert {
+export const Alert = styled.div`
   display: flex;
   align-items: center;
   background: #B5DA35;
@@ -118,13 +132,13 @@
     font-size: 22px;
     margin-right: 8px;
   }
-}
+`
 
-.subscription_button {
+export const SubscriptionButton = styled.div`
   margin-top: 16px;
-}
+`
 
-.description {
+export const Description = styled.div`
   padding: 16px 24px 32px;
 
   > p {
@@ -135,9 +149,10 @@
     color: #3D3D3D;
     margin-bottom: 24px;
   }
-}
+`
 
-.alert_multiline {
+
+export const AlertMultiline = styled.div`
   display: flex;
   align-items: center;
   padding: 16px;
@@ -167,4 +182,4 @@
       line-height: 20px;
     }
   }
-}
+`;

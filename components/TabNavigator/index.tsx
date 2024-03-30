@@ -38,7 +38,7 @@ const TabNavigator: React.FC = () => {
             <span>séries</span>
           </button>
         </li>
-        
+
         {!!lives.length && (
           <li>
             <button className={`${pathname === "/live" && styles.active}`}
@@ -49,8 +49,8 @@ const TabNavigator: React.FC = () => {
           </li>
         )}
         <li>
-          <button className={`${pathname === "/schedule" && styles.active}`}
-            onClick={() => goTo("/schedule")}>
+          <button className={`${pathname.includes("/schedule") && styles.active}`}
+            onClick={pathname.includes("/schedule") ? undefined : () => goTo("/schedule")}>
             <FiCalendar />
             <span>agenda</span>
           </button>
