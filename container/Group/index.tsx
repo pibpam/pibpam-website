@@ -17,9 +17,9 @@ import Modal from '../../components/Modal';
 import { IGroup } from '../../interfaces/Group';
 import Title from '../../components/Title';
 import YTPlayer from '../../components/YTPlayer';
-import styles from '../../styles/SchedulePage.module.scss'
 import usePostMessage from '../../hooks/usePostMessage';
 import useOpenMap from '../../hooks/useOpenMap';
+import { AlertMultiline, DateTime } from '../Schedule/Details/styles';
 
 const Group: React.FC<IGroupPage> = ({ data }) => {
   const { open, toggleMenu } = useMenu()
@@ -95,10 +95,10 @@ const Group: React.FC<IGroupPage> = ({ data }) => {
                 <Begin>
                   <h1>{selectedGroup?.title}</h1>
                   <h2>{selectedGroup?.shortDescription}</h2>
-                  <div className={styles.date_time}>
+                  <DateTime>
                     <div><FiCalendar />{selectedGroup.dayDescription}</div>
                     <div><FiClock />{selectedGroup.timeDescription}</div>
-                  </div>
+                  </DateTime>
                   {selectedGroup?.address && (
                     <Location>
                       <FiMapPin />
@@ -120,23 +120,23 @@ const Group: React.FC<IGroupPage> = ({ data }) => {
                       )}
 
                       {selectedGroup?.info && (
-                        <div className={styles.alert_multiline}>
+                        <AlertMultiline>
                           <FiInfo />
                           <div>
                             <div>Mais informações:</div>
                             <div>{selectedGroup?.info}</div>
                           </div>
-                        </div>
+                        </AlertMultiline>
                       )}
 
                       {selectedGroup?.lider && (
-                        <div className={styles.alert_multiline}>
+                        <AlertMultiline>
                           <FiInfo />
                           <div>
                             <div>Líder(es):</div>
                             <div>{selectedGroup?.lider}</div>
                           </div>
-                        </div>
+                        </AlertMultiline>
                       )}
                     </Description>
                   </>
