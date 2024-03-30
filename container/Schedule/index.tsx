@@ -47,7 +47,7 @@ const ScheduleContainer: React.FC<ISchedule> = ({ highlighted, schedules, church
   }
 
   return (
-    <Website title={"Agenda"} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+    <Website hasTabNavigator={!selectedEvent} title={"Agenda"} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
       <>
         <HeaderContainer active={scrollActive}>
           <Header toggleMenu={toggleMenu} />

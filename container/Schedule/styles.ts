@@ -23,5 +23,5 @@ export const Grid = styled.div`
 `;
 
 export const ContainerModal = styled.div`
-  padding: 32px 0 80px;
+  padding: 32px 0 0;
 `;
