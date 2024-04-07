@@ -27,9 +27,9 @@ const Code: React.FC = () => {
       saveToken(data.accessToken)
       initUser()
 
-      if (isApp) {
+      // if (isApp) {
         goToMember()
-      }
+      // }
     } catch (error) {
       setHasError(true)
       console.error(error)
