@@ -91,7 +91,9 @@
     position: absolute;
     z-index: 0;
     top: 0;
-    background: rgba(8, 12, 35, 0.85);
-    mix-blend-mode: normal;
+    // background: rgb(8, 12, 35);
+    // background: linear-gradient(180deg, rgba(8, 12, 35, 0.9136029411764706) 0%, rgba(8, 12, 35, 0.3253676470588235) 21%, rgba(8, 12, 35, 0.5550595238095238) 51%, rgba(8, 12, 35, 0.9136029411764706) 100%);
+    background: rgba(8, 12, 35, 0.7);
+    // mix-blend-mode: multiply;
   }
 }
