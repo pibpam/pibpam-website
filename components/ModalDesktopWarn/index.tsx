@@ -34,8 +34,8 @@ const ModalDesktopWarn: React.FC = () => {
             </div>
             <p>Se precisar, entre em contato pelo nosso e-mail ou telefone:</p>
             <div className={styles.contacts} >
-              <a href='mailto:natalinasantos428@gmail.com'>natalinasantos428@gmail.com</a>
-              <a href='tel:+553799979-4374' >(37) 99979-4374</a>
+              <a href='mailto:secretariapibpam@gmail.com'>secretariapibpam@gmail.com</a>
+              <a href='tel:+55373232-7250' >(37) 3232-7250</a>
             </div>
           </div>
         </div>
