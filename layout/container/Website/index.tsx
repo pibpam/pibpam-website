@@ -1,11 +1,12 @@
 import Head from 'next/head';
-import React, { ReactElement, useEffect } from 'react';
+import React, { ReactElement, useContext, useEffect } from 'react';
 import TabNavigator from "../../../components/TabNavigator";
 import Menu from "../../../components/Menu";
-import styles from "../../../styles/components/WebSite.module.scss"
+import { Container, Handler } from './styles';
+import { AppContext } from '../../../contexts/app';
 
 interface IWebsiteProps {
-  children: ReactElement
+  children: ReactElement | ReactElement[]
   openMenu: boolean
   toggleMenu: () => void
   hasTabNavigator?: boolean
@@ -28,13 +29,15 @@ const Website: React.FC<IWebsiteProps> = ({
     changeScroll && changeScroll(window.scrollY)
   }
 
+  const { isApp } = useContext(AppContext)
+
   useEffect(() => {
     window.addEventListener("scroll", () => handleChangeScroll())
 
     return () => {
       window.removeEventListener("scroll", () => handleChangeScroll())
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -49,10 +52,18 @@ const Website: React.FC<IWebsiteProps> = ({
         {img && (<meta property="og:image" content={img} />)}
         <meta property="og:type" content="website" />
       </Head>
-      <main
-        className={styles.container}>
-        {children}
-      </main>
+      <Container>
+        {Array.isArray(children) && <Handler isApp={isApp}>
+          <div>
+            {children[0] || 'Ops! Algo deu errado'}
+          </div>
+          <div>
+            {children[1] || 'Em criação'}
+          </div>
+        </Handler>}
+
+        {!Array.isArray(children) && children}
+      </Container>
       {hasTabNavigator && <TabNavigator />}
       {openMenu && <Menu toggleMenu={toggleMenu} />}
     </div>

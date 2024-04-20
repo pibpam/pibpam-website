@@ -32,7 +32,6 @@ const YTPlayer: React.FC<YTPlayerProps> = ({ videoId, autoplay = false, thumb, c
 
   const handleVisibilitychange = () => {
     if (document.visibilityState === "visible") {
-      console.log(document.visibilityState)
       if (playerRef.current) {
         playerRef.current?.playVideo()
       }

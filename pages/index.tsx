@@ -23,6 +23,7 @@ import { IBanner } from "../interfaces/Banner";
 import { ICollection } from '../interfaces/Collection';
 import Collections from '../components/Home/Collections';
 import { UserContext } from '../contexts/user';
+import HomeDesktop from '../container/Desktop/HomeDesktop';
 
 interface IHome {
   content?: IContent
@@ -68,6 +69,9 @@ const Home: NextPage<IHome> = ({ content, schedules, devotionals, series, banner
           goTo={goTo}
           series={series}
         />
+      </>
+      <>
+        <HomeDesktop />
       </>
     </Website>
   )

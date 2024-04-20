@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <>
           <Loading />
           <Component {...pageProps} />
-          <Modal />
+          {/* <Modal /> */}
           <ModalGetApp/>
         </>
       </Contexts>
