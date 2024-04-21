@@ -22,11 +22,11 @@ export const Container = styled.main`
 export const Handler = styled.div<{ isApp?: boolean }>`
 
   ${({ isApp }) => isApp && css`
-    &:first-child {
+    > *:first-child {
       display: block;
     }
 
-    &:last-child {
+    > *:last-child {
       display:none;
     }
   `}
