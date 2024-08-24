@@ -19,7 +19,7 @@ export class Api {
 
   constructor() {
     this.client = axios.create({
-      baseURL: "http://ec2-52-207-255-226.compute-1.amazonaws.com/"
+      baseURL: "http://api.pibpam.org"
     })
   }
 
