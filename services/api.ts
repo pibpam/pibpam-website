@@ -19,7 +19,7 @@ export class Api {
 
   constructor() {
     this.client = axios.create({
-      baseURL: "http://api.pibpam.org"
+      baseURL: process.env.API
     })
   }
 
