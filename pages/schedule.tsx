@@ -13,7 +13,7 @@ export interface ISchedule {
 }
 
 const Schedule: NextPage<ISchedule> = ({ highlighted, schedules, churchSchedules }) => {
-  return <ScheduleContainer {...{highlighted, schedules, churchSchedules}} />
+  return <ScheduleContainer {...{ highlighted, schedules, churchSchedules }} />
 }
 
 export async function getStaticProps() {
@@ -29,8 +29,18 @@ export async function getStaticProps() {
     }
   })
 
+  const selectedHighlighted: IScheduleDate[] = []
+
+  highlighted.forEach(item => {
+    const has = selectedHighlighted.find(sel => sel.schedule.uuid === item.schedule.uuid)
+    if (!has) {
+      selectedHighlighted.push(item)
+    }
+  })
+
+
   const churchSchedules = await api.getChurchSchedule()
-  return { props: { highlighted, schedules: schedules, churchSchedules } }
+  return { props: { highlighted: selectedHighlighted, schedules: schedules, churchSchedules } }
 }
 
 export default Schedule
