@@ -155,50 +155,6 @@ const About: NextPage<IAbout> = ({data}) => {
                     </>
                 )}
 
-                <Title>Congregações</Title>
-                <div className={styles.congragations}>
-                    <p>Congregação Batista em Ascensão</p>
-                    <button className={styles.congragation_preach}>
-                        <FiUser/>
-                        <div>
-                            <div>Pastor</div>
-                            <div>
-                                Aparecido de Oliveira
-                            </div>
-                        </div>
-                    </button>
-                    <button className={styles.button_link_location}>
-                        <FiMapPin/>
-                        <div>
-                            <div>
-                                <span>Localização</span>
-                            </div>
-                            <div>
-                                Rua Pompéu, 49 - Ascensão
-                            </div>
-                        </div>
-                    </button>
-                </div>
-
-                <Title>Horários - Ascensão</Title>
-                <div className={styles.scheduleCongragations}>
-                    <ScheduleItem data={{
-                        uuid: '',
-                        created_at: '',
-                        text: 'Escola Bíblica',
-                        day: 'Quarta-feira',
-                        time: '19:30'
-                    }}/>
-
-                    <ScheduleItem data={{
-                        uuid: '',
-                        created_at: '',
-                        text: 'Exposição Bíblica',
-                        day: 'Domingo',
-                        time: '19:30'
-                    }}/>
-                </div>
-
                 <FooterPage
                     options={[
                         {
