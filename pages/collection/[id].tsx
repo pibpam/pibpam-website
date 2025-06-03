@@ -41,7 +41,8 @@ const Collection: NextPage<ICollectionPage> = ({ data }) => {
 
   const saveImageUser = (image: string) => {
     const imageDownload = 'https://pibpam.org/api/download?image=' + image
-    saveImage(image, imageDownload)
+    // saveImage(image, imageDownload)
+    openLink(imageDownload)
   }
 
   return (
