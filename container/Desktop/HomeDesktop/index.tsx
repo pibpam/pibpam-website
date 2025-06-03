@@ -11,7 +11,7 @@ const HomeDesktop: React.FC = () => {
     <Container>
       <BackgroundPlayer>
         <div>
-          <YTPlayer videoId="UEiSGcEvyk8" autoplay controls={0} loop mute />
+          <YTPlayer videoId="yTYRGwnJ1_g" autoplay controls={0} loop mute start={6} />
         </div>
       </BackgroundPlayer>
       <Welcome>
