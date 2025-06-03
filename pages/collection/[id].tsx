@@ -33,15 +33,15 @@ const Collection: NextPage<ICollectionPage> = ({ data }) => {
   const { scrollActive, changeScroll } = useHeader()
   const [selected, setSelected] = useState(0)
   const [photos] = useState(data.photos.map((item, index) => ({ ...item, index: index + 1 })))
-  const { openLink } = usePostMessage()
+  const { openLink, saveImage } = usePostMessage()
 
   const selectedPhoto = useMemo(() => {
     return photos.find(item => item.index === selected)
   }, [selected, photos])
 
-  const saveImage = (image: string) => {
+  const saveImageUser = (image: string) => {
     const imageDownload = 'https://pibpam.org/api/download?image=' + image
-    saveImage(imageDownload)
+    saveImage(image, imageDownload)
   }
 
   return (
@@ -57,7 +57,7 @@ const Collection: NextPage<ICollectionPage> = ({ data }) => {
           <div className={styles.modal} >
             <div className={styles.headerModal} >
               {/* <a download href={selectedPhoto?.image} ><FiDownload /> Salvar</a> */}
-              <a onClick={() => saveImage(selectedPhoto?.image || '')} ><FiDownload /> Salvar</a>
+              <a onClick={() => saveImageUser(selectedPhoto?.image || '')} ><FiDownload /> Salvar</a>
               <button onClick={() => setSelected(0)} ><FiX /></button>
             </div>
             <div className={styles.view} style={{backgroundImage: `url('${selectedPhoto?.image}')`}} ></div>

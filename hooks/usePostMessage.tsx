@@ -20,9 +20,9 @@ const usePostMessage = () => {
 
   }
 
-  const saveImage = (url: string) => {
+  const saveImage = (url: string, fallback: string) => {
     if (isApp) {
-      sendMessage({ action: "saveImage", url })
+      sendMessage({ action: "saveImage", url, fallback })
       return
     }
 
