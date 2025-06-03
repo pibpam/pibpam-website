@@ -10,9 +10,10 @@ interface YTPlayerProps {
   controls?: number
   loop?: boolean
   mute?: boolean
+  start?: number
 }
 
-const YTPlayer: React.FC<YTPlayerProps> = ({ videoId, autoplay = false, thumb, controls = 2, loop = false, mute = false }: YTPlayerProps) => {
+const YTPlayer: React.FC<YTPlayerProps> = ({ videoId, autoplay = false, thumb, controls = 2, loop = false, mute = false, start = 0 }: YTPlayerProps) => {
   const [player, setPlayer] = useState<YouTubePlayer>();
 
   const playerRef = useRef<YouTubePlayer | undefined>()
@@ -27,6 +28,7 @@ const YTPlayer: React.FC<YTPlayerProps> = ({ videoId, autoplay = false, thumb, c
   const handleOnEnd = () => {
     if (playerRef.current && loop) {
       playerRef.current?.playVideo()
+      start && playerRef.current?.seekTo(start)
     }
   }
 
@@ -67,7 +69,8 @@ const YTPlayer: React.FC<YTPlayerProps> = ({ videoId, autoplay = false, thumb, c
               controls,
               loop: +loop,
               playsinline: 1,
-              mute: +mute
+              mute: +mute,
+              start
             },
           }}
           className="container"
