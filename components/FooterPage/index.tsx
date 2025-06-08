@@ -1,35 +1,35 @@
-import React, {ReactElement} from "react";
-import DividerMobile, {EDividerColors} from "../DividerMobile";
+import React, { ReactElement } from "react";
+import DividerMobile, { EDividerColors } from "../DividerMobile";
 import styles from "../../styles/components/FooterPage.module.scss"
 
 interface IOption {
-    text: string
-    icon: ReactElement
-    action: () => void
+  text: string
+  icon: ReactElement
+  action: () => void
+  title?: string
 }
 
 interface IFooterPage {
-    options?: IOption[]
+  options?: IOption[]
 }
 
-const FooterPage: React.FC<IFooterPage> = ({options}) => {
-    return (
-        <div className={styles.container}>
-            <DividerMobile color={EDividerColors.yellow}/>
-            <div className={styles.content}>
-
-                {options?.map(option => (
-                    <button key={option.text} onClick={option.action}>
-                        {option.icon}
-                        <div>
-                            <span>Ver também:</span>
-                            <span>{option.text}</span>
-                        </div>
-                    </button>
-                ))}
+const FooterPage: React.FC<IFooterPage> = ({ options }) => {
+  return (
+    <div className={styles.container}>
+      <DividerMobile color={EDividerColors.yellow} />
+      <div className={styles.content}>
+        {options?.map(option => (
+          <button key={option.text} onClick={option.action}>
+            {option.icon}
+            <div>
+              <span>{option.title || 'Ver também:'}</span>
+              <span>{option.text}</span>
             </div>
-        </div>
-    )
+          </button>
+        ))}
+      </div>
+    </div>
+  )
 }
 
 export default FooterPage

@@ -10,6 +10,8 @@ import { useAppNavigation } from "../../hooks/useAppNavigation";
 import useHeader from "../../hooks/useHeader";
 import HeaderContainer from "../../components/HeaderContainer";
 import ContentPage from '../../components/ContentPage';
+import FooterPage from '../../components/FooterPage';
+import { FiBookOpen, FiList } from 'react-icons/fi';
 
 interface IEventPage {
   data: IContent
@@ -23,8 +25,12 @@ interface IParams {
 
 const Event: NextPage<IEventPage> = ({ data }) => {
   const { open, toggleMenu } = useMenu()
-  const { goBack } = useAppNavigation()
+  const { goBack, goTo: goToHook } = useAppNavigation()
   const { scrollActive, changeScroll } = useHeader()
+
+  const goTo = async (pathname: string) => {
+    await goToHook({ pathname, showLoading: true })
+  }
 
   return (
     <Website title={`${data.name} - ${data.author?.name}`} img={data.image} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
@@ -35,6 +41,16 @@ const Event: NextPage<IEventPage> = ({ data }) => {
         <HeaderPage background={data.image} />
         <DividerMobile color={EDividerColors.white} />
         <ContentPage content={data} />
+        <FooterPage
+          options={
+            data.series_contents?.map(item => ({
+              text: `${item.series.title}`,
+              title: 'Assista a série completa',
+              icon: <FiList />,
+              action: () => goTo(`/series/${item.series.uuid}`)
+            }))
+          }
+        />
       </>
     </Website>
   )
@@ -50,6 +66,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export async function getStaticProps({ params }: IParams) {
   const api = new Api()
   const data = await api.getContent(params.id)
+
   if (!data) {
     return {
       notFound: true,

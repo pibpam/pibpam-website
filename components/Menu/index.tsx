@@ -26,7 +26,7 @@ interface IMenu {
 
 const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
   const [isClosing, setIsClosing] = useState(false)
-  const {user} = useContext(UserContext)
+  const { user } = useContext(UserContext)
   const { lives } = useContext(LivesContext)
   const { goTo: goToHook } = useAppNavigation()
 
@@ -57,9 +57,9 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
               </div>
               <FiChevronRight />
             </button>
-          </li> 
+          </li>
         )}
-       <li>
+        <li>
           <button onClick={() => goTo("/about")}>
             <FiHome />
             <div>
@@ -89,7 +89,7 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
             <FiChevronRight />
           </button>
         </li>
-        <li>
+        {/* <li>
           <button onClick={() => goTo("/groups")}>
             <FiUsers />
             <div>
@@ -97,7 +97,7 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
             </div>
             <FiChevronRight />
           </button>
-        </li>
+        </li> */}
         {/* <li>
           <button onClick={() => goTo("/preaches")}>
             <FiBookmark />
@@ -194,7 +194,7 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
         <p>
           {/*Desenvolvido por Ljtech Desenvolvimento de Sistemas LTDA.*/}
         </p>
-        <p>Todos os direitos pertencem a Primeira Igreja Batista em Pará de Minas. © 2023</p>
+        <p>Todos os direitos pertencem a Primeira Igreja Batista em Pará de Minas. © 2025</p>
       </div>
     </div>
   )
