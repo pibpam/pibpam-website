@@ -8,14 +8,16 @@ import { Api } from "../../services/api";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import useHeader from "../../hooks/useHeader";
 import HeaderContainer from "../../components/HeaderContainer";
-import { FiCalendar, FiChevronLeft, FiChevronRight, FiDownload, FiImage, FiX } from "react-icons/fi";
+import { FiCalendar, FiChevronLeft, FiChevronRight, FiDownload, FiImage, FiLoader, FiX } from "react-icons/fi";
 import styles from "../../styles/Collection.module.scss"
 import { GetStaticPaths } from "next";
 import { ICollection } from '../../interfaces/Collection';
-import { useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { DateUtils } from '../../utils/Date';
 import usePostMessage from '../../hooks/usePostMessage';
 import ShareButton from '../../components/ShareButton';
+import { PostMessageContext } from '../../contexts/postMessage';
+import { AppContext } from '../../contexts/app';
 
 interface ICollectionPage {
   data: ICollection
@@ -29,20 +31,41 @@ interface IParams {
 
 const Collection: NextPage<ICollectionPage> = ({ data }) => {
   const { open, toggleMenu } = useMenu()
+  const { isApp } = useContext(AppContext)
+  const { isLoadingDownload, setLoadingDownload } = useContext(PostMessageContext)
   const { goBack } = useAppNavigation()
   const { scrollActive, changeScroll } = useHeader()
   const [selected, setSelected] = useState(0)
   const [photos] = useState(data.photos.map((item, index) => ({ ...item, index: index + 1 })))
   const { saveImage } = usePostMessage()
+  const currentImage = useRef('')
 
   const selectedPhoto = useMemo(() => {
     return photos.find(item => item.index === selected)
   }, [selected, photos])
 
+  useEffect(() => {
+    if (!isLoadingDownload) {
+      currentImage.current = ''
+    }
+  }, [isLoadingDownload])
+
   const saveImageUser = (image: string) => {
+    if (isLoadingDownload && image === currentImage.current) {
+      return
+    }
+
+    isApp && (currentImage.current = image)
+    isApp && setLoadingDownload(true)
     const imageDownload = 'https://pibpam.org/api/download?image=' + image
     saveImage(image, imageDownload)
     // openLink(imageDownload)
+
+    if (isApp) {
+      setTimeout(() => {
+        setLoadingDownload(false)
+      }, 10000)
+    }
   }
 
   return (
@@ -58,10 +81,12 @@ const Collection: NextPage<ICollectionPage> = ({ data }) => {
           <div className={styles.modal} >
             <div className={styles.headerModal} >
               {/* <a download href={selectedPhoto?.image} ><FiDownload /> Salvar</a> */}
-              <a onClick={() => saveImageUser(selectedPhoto?.image || '')} ><FiDownload /> Salvar</a>
+              <a onClick={() => saveImageUser(selectedPhoto?.image || '')} >
+                {isLoadingDownload ? (<FiLoader className={styles.loading} />) : (<FiDownload />)}
+                Salvar</a>
               <button onClick={() => setSelected(0)} ><FiX /></button>
             </div>
-            <div className={styles.view} style={{backgroundImage: `url('${selectedPhoto?.image}')`}} ></div>
+            <div className={styles.view} style={{ backgroundImage: `url('${selectedPhoto?.image}')` }} ></div>
             <div className={styles.controller} >
               <button disabled={selected === 1} onClick={() => setSelected(state => state - 1)} >
                 <FiChevronLeft />

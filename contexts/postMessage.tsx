@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import { ApiLocal } from "../services/apiLocal";
 
 interface Context {
+  isLoadingDownload: boolean
+  setLoadingDownload: (data: boolean) => void
 }
 
 export const PostMessageContext = createContext<Context>({} as Context)
@@ -17,7 +19,9 @@ enum EActions {
   GOBACK = 'goBack',
   LINKING = 'linking',
   EXPO_TOKEN = 'expoToken',
-  NOTIFICATION = 'notification'
+  NOTIFICATION = 'notification',
+  IMAGE_SAVED = 'imageSaved',
+  ERROR_IMAGE_SAVE = 'errorImageSave'
 }
 
 interface DataLink {
@@ -42,6 +46,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
   const started = useRef(false)
   const { goBack, goTo } = useAppNavigation()
   const { sendMessage } = usePostMessage()
+  const [isLoadingDownload, setLoadingDownload] = useState(false)
 
   const [action, setAction] = useState("")
   const [dataLink, setDataLink] = useState<DataLink>({} as DataLink)
@@ -54,6 +59,12 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
       goBack({}).then()
       setAction("")
     }
+
+    if (action === EActions.ERROR_IMAGE_SAVE || action === EActions.IMAGE_SAVED) {
+      setLoadingDownload(false)
+      setAction("")
+    }
+
 
     if (action === EActions.LINKING) {
       const route = dataLink.route ? `/${dataLink.route}` : '/'
@@ -73,8 +84,8 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
     if (action === EActions.NOTIFICATION) {
       const notifiationData = notification?.notification?.request?.content?.data
 
-      if (notifiationData?.route){
-        goTo({ pathname: `/${notifiationData.route}`, showLoading: true, query: {...query, from: 'push'} as Record<string, string> }).then()
+      if (notifiationData?.route) {
+        goTo({ pathname: `/${notifiationData.route}`, showLoading: true, query: { ...query, from: 'push' } as Record<string, string> }).then()
       }
 
       setAction("")
@@ -141,7 +152,10 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
 
   return (
     <PostMessageContext.Provider
-      value={{}}
+      value={{
+        isLoadingDownload,
+        setLoadingDownload
+      }}
     >
       {children}
     </PostMessageContext.Provider>
