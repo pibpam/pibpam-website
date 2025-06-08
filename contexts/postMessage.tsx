@@ -60,12 +60,6 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
       setAction("")
     }
 
-    if (action === EActions.ERROR_IMAGE_SAVE || action === EActions.IMAGE_SAVED) {
-      setLoadingDownload(false)
-      setAction("")
-    }
-
-
     if (action === EActions.LINKING) {
       const route = dataLink.route ? `/${dataLink.route}` : '/'
       goTo({ pathname: route, showLoading: true, query: { ...query, from: 'linking' } as Record<string, string> }).then()
@@ -103,6 +97,11 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IC
     const data = JSON.parse(event.data)
 
     if (!data.pibpam || !data.pibpam.action) {
+      return
+    }
+
+    if (data.pibpam.action === EActions.ERROR_IMAGE_SAVE || data.pibpam.action === EActions.IMAGE_SAVED) {
+      setLoadingDownload(false)
       return
     }
 
