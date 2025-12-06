@@ -1,0 +1,18 @@
+.container {
+  padding: 100px 24px 120px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  height: 100%;
+
+  h2 {
+    margin-bottom: 16px;
+    color: #3D3D3D;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+}

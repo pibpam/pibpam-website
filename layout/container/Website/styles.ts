@@ -3,19 +3,23 @@ import responsive from '../../../utils/responsive';
 
 const showUp = keyframes`
   0% {
-    //top: -100px;
+    top: 100px;
     opacity: 0;
   }
   100% {
-    //top: 0;
+    top: 0;
     opacity: 1;
   }
 `
 
 export const Container = styled.main`
   position: relative;
-  //top: -100px;
+  top: 100px;
   animation: ${showUp} .4s ease-in-out forwards;
+  min-height: 100vh;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 `;
 
 

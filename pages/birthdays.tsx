@@ -29,7 +29,6 @@ const Birthdays: NextPage<IBirthdays> = ({ data }) => {
         <HeaderContainer active={scrollActive}>
           <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
         </HeaderContainer>
-        {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Aniversariantes</>} />
         <DividerMobile color={EDividerColors.white} />
         <div className={styles.container}>

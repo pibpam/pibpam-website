@@ -4,9 +4,11 @@
     top: 100%;
     border-radius: 16px;
   }
+
   60% {
     border-radius: 16px;
   }
+
   100% {
     opacity: 1;
     top: 0;
@@ -20,13 +22,40 @@
     top: 100%;
     border-radius: 0;
   }
+
   40% {
     border-radius: 16px;
   }
+
   0% {
     opacity: 1;
     top: 0;
     border-radius: 16px;
+  }
+}
+
+.signIn {
+  margin-bottom: 8px;
+  background: #e1fafd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  a {
+    font-size: 16px;
+    font-weight: 700;
+    color: #5FD9DA;
+    text-decoration: underline;
   }
 }
 
@@ -40,14 +69,13 @@
   padding: 48px 24px 32px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
   opacity: 0;
   border-radius: 16px;
   overflow: auto;
 
   animation: showUp .5s ease-out forwards;
 
-  > div:last-child {
+  >div:last-child {
     margin-top: auto;
     display: flex;
     flex-direction: column;
@@ -64,7 +92,7 @@
       color: #494949;
     }
 
-    p:last-child{
+    p:last-child {
       font-weight: 400;
       font-size: 10px;
       line-height: 12px;
@@ -75,15 +103,14 @@
     }
   }
 
-  > ul {
+  >ul {
     padding: 0;
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 8px;
 
-    > li {
-
+    >li {
       button {
         background: #5FD9DA;
         width: 100%;
@@ -94,7 +121,7 @@
         align-items: center;
         border-radius: 4px;
 
-        > div {
+        >div {
           display: flex;
           flex-direction: column;
           text-align: left;
@@ -112,12 +139,12 @@
           }
         }
 
-        > svg:first-child {
+        >svg:first-child {
           min-width: 24px;
           height: auto;
         }
 
-        > svg:last-child {
+        >svg:last-child {
           min-width: 30px;
           height: auto;
           margin-left: auto;

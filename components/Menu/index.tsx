@@ -19,6 +19,7 @@ import Header from "../Header";
 import { LivesContext } from "../../contexts/lives";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { UserContext } from "../../contexts/user";
+import Link from "next/link";
 
 interface IMenu {
   toggleMenu: () => void
@@ -46,6 +47,16 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
   return (
     <div className={`${styles.container} ${isClosing && styles.animation_out}`}>
       <Header isOpen toggleMenu={handleCloseMenu} />
+      <div className={`${styles.signIn}`}>
+        <h3>
+          Você está acessando como visitante.
+        </h3>
+        <p>
+          <Link href={'signin'}>
+            Entre ou   cadastre-se
+          </Link> para ter acesso a todo o conteúdo.
+        </p>
+      </div>
       <ul>
         {!!user?.id && (
           <li>

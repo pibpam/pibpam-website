@@ -1,6 +1,7 @@
 import React from "react";
 import PrimaryButton from "../../Button/Primary";
-import { FiArrowRight, FiHome, FiUsers } from "react-icons/fi";
+import { FiHome, FiStar, FiUsers } from "react-icons/fi";
+import { PiCross, PiLink } from "react-icons/pi";
 import styles from "../../../styles/components/Home/Intro.module.scss"
 import CarouselAutoPlay from "../../CarouselAutoPlay";
 import { IBanner } from "../../../interfaces/Banner";
@@ -13,11 +14,16 @@ interface IIntro {
 
 const Intro: React.FC<IIntro> = ({ goTo, banners, userName }) => {
 
-  
-
   return (
     <>
       <div className={styles.container}>
+        <button className={styles.memberarea} onClick={() => goTo("/signin")}  >
+          <FiStar  />
+          <div>
+            <h3>Área de membros</h3>
+            <p>Clique aqui para acessar recursos exclusivos para membresia.</p>
+          </div>
+        </button>
         {!!userName && (
           <button className={styles.memberarea} onClick={() => goTo("/member")}  >
             <FiUsers />
@@ -29,9 +35,11 @@ const Intro: React.FC<IIntro> = ({ goTo, banners, userName }) => {
         )}
         <div className={styles.buttons}>
           <PrimaryButton onClick={() => goTo("/about")}>
-            <><FiHome />Conheça a nossa igreja</>
+            <><PiCross />Conheça a nossa igreja</>
           </PrimaryButton>
-
+          <PrimaryButton onClick={() => goTo("/form")}>
+            <><PiLink />Quero fazer parte</>
+          </PrimaryButton>
           {/*<PrimaryButton onClick={() => goTo("/about")}>*/}
           {/*    <><FiUser/>Conheça o nosso pastor</>*/}
           {/*</PrimaryButton>*/}
@@ -39,22 +47,12 @@ const Intro: React.FC<IIntro> = ({ goTo, banners, userName }) => {
         <p>
           Faça-nos uma visita! Será um prazer receber você!
         </p>
+
         {banners && !!banners.length && (
           <div className={styles.bannerContainer}>
             <CarouselAutoPlay banners={banners} />
           </div>
         )}
-
-        {/* <button onClick={() => goTo("/groups")} className={styles.pgmContainer}>
-          <div></div>
-          <div>
-            <div>
-             <FiUsers/> <h1>Participe de um Pequeno Grupo Multiplicador</h1>
-            </div>
-            <p>Encontre o pequeno grupo mais perto de você!</p>
-            <button> <FiArrowRight /> acesse aqui</button>
-          </div>
-        </button> */}
       </div >
     </>
   )

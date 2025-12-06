@@ -1,6 +1,6 @@
 .container {
   background: #5FD9DA;
-  padding: 32px 24px calc(32px + 90px);
+  padding: 16px 24px calc(32px + 90px);
 
   >p {
     font-weight: 400;
@@ -17,8 +17,8 @@
   align-items: center;
   gap: 8px;
   color: #fff;
-  background: transparent;
-  border: 2px solid #fff;
+  background: #b6da352e;
+  border: 2px solid #B5DA35;
   border-radius: 8px;
   width: 100%;
   margin-bottom: 24px;
@@ -38,85 +38,13 @@
   }
 
   >svg {
-    width: 40px;
+    min-width: 40px;
     height: auto;
   }
 }
 
 .bannerContainer {
   margin-top: 48px;
-}
-
-.pgmContainer {
-  margin-top: 48px;
-  position: relative;
-  width: 100%;
-  // aspect-ratio: 16/9;
-  border-radius: 8px;
-  overflow: hidden;
-  text-align: left;
-
-  >div:first-child {
-    background: url('https://1.bp.blogspot.com/-68U-XOqIUzs/XiNT_X_TDLI/AAAAAAAAH3w/f-OyX6OE9F077XTpLrJddosi6MrCCJxGgCLcBGAsYHQ/s640/pequeno-grupo-multiplicador.jpg') center/cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    z-index: 0;
-
-    &::after {
-      content: '';
-      background: rgba($color: #222, $alpha: .9);
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-  }
-
-  >div:last-child {
-    padding: 16px;
-    color: #5FD9DA;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    gap: 8px;
-    position: relative;
-
-    >div {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-
-      >svg {
-        height: auto;
-        width: 60px;
-      }
-    }
-
-    h1 {
-      font-size: 20px;
-    }
-
-    p {
-      font-size: 16px;
-      color: #fff;
-    }
-
-    button {
-      background: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #B5DA35;
-      font-size: 16px;
-      padding: 0;
-      margin: 0;
-      margin-top: 16px;
-    }
-  }
 }
 
 .buttons {

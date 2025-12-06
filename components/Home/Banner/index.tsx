@@ -8,7 +8,7 @@ const Banner: React.FC = () => {
     <div className={styles.banner}>
       <div className={styles.videoContainer}>
         <div>
-          <YTPlayer videoId="yTYRGwnJ1_g" autoplay controls={0} loop mute start={6} />
+          <YTPlayer videoId="J9xJfyTiDrU" autoplay controls={0} loop mute />
         </div>
       </div>
       <div className={styles.content} >
