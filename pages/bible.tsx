@@ -47,6 +47,7 @@ const Bible: NextPage<IBible> = ({ books }) => {
   )
 }
 
+
 export async function getStaticProps() {
   const books = getBooks(EBible.NVI)
   return { props: { books } }

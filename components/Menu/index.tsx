@@ -13,6 +13,7 @@ import {
   FiRadio,
   FiUsers,
 } from "react-icons/fi";
+import {PiBookBookmark} from "react-icons/pi"
 import { BiParty } from "react-icons/bi";
 import styles from "../../styles/components/Menu.module.scss"
 import Header from "../Header";
@@ -65,6 +66,17 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
             <div>
               <span>Sobre a PIBPAM</span>
               <span>História // Contatos // Localização</span>
+            </div>
+            <FiChevronRight />
+          </button>
+        </li>
+        <li onClick={() => goTo("/reading-plan")}>
+          <button>
+            <PiBookBookmark />
+
+            <div>
+              <span>Plano de Leitura</span>
+              <span>Comentada e devocional</span>
             </div>
             <FiChevronRight />
           </button>
@@ -191,13 +203,14 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
         </li>
       </ul>
       <div>
+        <p>{/*Desenvolvido por Ljtech Desenvolvimento de Sistemas LTDA.*/}</p>
         <p>
-          {/*Desenvolvido por Ljtech Desenvolvimento de Sistemas LTDA.*/}
+          Todos os direitos pertencem a Primeira Igreja Batista em Pará de
+          Minas. © 2025
         </p>
-        <p>Todos os direitos pertencem a Primeira Igreja Batista em Pará de Minas. © 2025</p>
       </div>
     </div>
-  )
+  );
 }
 
 export default Menu;

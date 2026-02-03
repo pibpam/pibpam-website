@@ -1,399 +1,466 @@
 {
-"book": [
-	{
-		"id" : 1,
-		"book_reference_id" : 1,
-		"testament_reference_id" : 1,
-		"name" : "Gênesis"
-	},
-	{
-		"id" : 2,
-		"book_reference_id" : 2,
-		"testament_reference_id" : 1,
-		"name" : "Êxodo"
-	},
-	{
-		"id" : 3,
-		"book_reference_id" : 3,
-		"testament_reference_id" : 1,
-		"name" : "Levítico"
-	},
-	{
-		"id" : 4,
-		"book_reference_id" : 4,
-		"testament_reference_id" : 1,
-		"name" : "Números"
-	},
-	{
-		"id" : 5,
-		"book_reference_id" : 5,
-		"testament_reference_id" : 1,
-		"name" : "Deuteronômio"
-	},
-	{
-		"id" : 6,
-		"book_reference_id" : 6,
-		"testament_reference_id" : 1,
-		"name" : "Josué"
-	},
-	{
-		"id" : 7,
-		"book_reference_id" : 7,
-		"testament_reference_id" : 1,
-		"name" : "Juízes"
-	},
-	{
-		"id" : 8,
-		"book_reference_id" : 8,
-		"testament_reference_id" : 1,
-		"name" : "Rute"
-	},
-	{
-		"id" : 9,
-		"book_reference_id" : 9,
-		"testament_reference_id" : 1,
-		"name" : "1 Samuel"
-	},
-	{
-		"id" : 10,
-		"book_reference_id" : 10,
-		"testament_reference_id" : 1,
-		"name" : "2 Samuel"
-	},
-	{
-		"id" : 11,
-		"book_reference_id" : 11,
-		"testament_reference_id" : 1,
-		"name" : "1 Reis"
-	},
-	{
-		"id" : 12,
-		"book_reference_id" : 12,
-		"testament_reference_id" : 1,
-		"name" : "2 Reis"
-	},
-	{
-		"id" : 13,
-		"book_reference_id" : 13,
-		"testament_reference_id" : 1,
-		"name" : "1 Crônicas"
-	},
-	{
-		"id" : 14,
-		"book_reference_id" : 14,
-		"testament_reference_id" : 1,
-		"name" : "2 Crônicas"
-	},
-	{
-		"id" : 15,
-		"book_reference_id" : 15,
-		"testament_reference_id" : 1,
-		"name" : "Esdras"
-	},
-	{
-		"id" : 16,
-		"book_reference_id" : 16,
-		"testament_reference_id" : 1,
-		"name" : "Neemias"
-	},
-	{
-		"id" : 17,
-		"book_reference_id" : 17,
-		"testament_reference_id" : 1,
-		"name" : "Ester"
-	},
-	{
-		"id" : 18,
-		"book_reference_id" : 18,
-		"testament_reference_id" : 1,
-		"name" : "Jó"
-	},
-	{
-		"id" : 19,
-		"book_reference_id" : 19,
-		"testament_reference_id" : 1,
-		"name" : "Salmos"
-	},
-	{
-		"id" : 20,
-		"book_reference_id" : 20,
-		"testament_reference_id" : 1,
-		"name" : "Provérbios"
-	},
-	{
-		"id" : 21,
-		"book_reference_id" : 21,
-		"testament_reference_id" : 1,
-		"name" : "Eclesiastes"
-	},
-	{
-		"id" : 22,
-		"book_reference_id" : 22,
-		"testament_reference_id" : 1,
-		"name" : "Cânticos"
-	},
-	{
-		"id" : 23,
-		"book_reference_id" : 23,
-		"testament_reference_id" : 1,
-		"name" : "Isaías"
-	},
-	{
-		"id" : 24,
-		"book_reference_id" : 24,
-		"testament_reference_id" : 1,
-		"name" : "Jeremias"
-	},
-	{
-		"id" : 25,
-		"book_reference_id" : 25,
-		"testament_reference_id" : 1,
-		"name" : "Lamentações"
-	},
-	{
-		"id" : 26,
-		"book_reference_id" : 26,
-		"testament_reference_id" : 1,
-		"name" : "Ezequiel"
-	},
-	{
-		"id" : 27,
-		"book_reference_id" : 27,
-		"testament_reference_id" : 1,
-		"name" : "Daniel"
-	},
-	{
-		"id" : 28,
-		"book_reference_id" : 28,
-		"testament_reference_id" : 1,
-		"name" : "Oséias"
-	},
-	{
-		"id" : 29,
-		"book_reference_id" : 29,
-		"testament_reference_id" : 1,
-		"name" : "Joel"
-	},
-	{
-		"id" : 30,
-		"book_reference_id" : 30,
-		"testament_reference_id" : 1,
-		"name" : "Amós"
-	},
-	{
-		"id" : 31,
-		"book_reference_id" : 31,
-		"testament_reference_id" : 1,
-		"name" : "Obadias"
-	},
-	{
-		"id" : 32,
-		"book_reference_id" : 32,
-		"testament_reference_id" : 1,
-		"name" : "Jonas"
-	},
-	{
-		"id" : 33,
-		"book_reference_id" : 33,
-		"testament_reference_id" : 1,
-		"name" : "Miquéias"
-	},
-	{
-		"id" : 34,
-		"book_reference_id" : 34,
-		"testament_reference_id" : 1,
-		"name" : "Naum"
-	},
-	{
-		"id" : 35,
-		"book_reference_id" : 35,
-		"testament_reference_id" : 1,
-		"name" : "Habacuque"
-	},
-	{
-		"id" : 36,
-		"book_reference_id" : 36,
-		"testament_reference_id" : 1,
-		"name" : "Sofonias"
-	},
-	{
-		"id" : 37,
-		"book_reference_id" : 37,
-		"testament_reference_id" : 1,
-		"name" : "Ageu"
-	},
-	{
-		"id" : 38,
-		"book_reference_id" : 38,
-		"testament_reference_id" : 1,
-		"name" : "Zacarias"
-	},
-	{
-		"id" : 39,
-		"book_reference_id" : 39,
-		"testament_reference_id" : 1,
-		"name" : "Malaquias"
-	},
-	{
-		"id" : 40,
-		"book_reference_id" : 40,
-		"testament_reference_id" : 2,
-		"name" : "Mateus"
-	},
-	{
-		"id" : 41,
-		"book_reference_id" : 41,
-		"testament_reference_id" : 2,
-		"name" : "Marcos"
-	},
-	{
-		"id" : 42,
-		"book_reference_id" : 42,
-		"testament_reference_id" : 2,
-		"name" : "Lucas"
-	},
-	{
-		"id" : 43,
-		"book_reference_id" : 43,
-		"testament_reference_id" : 2,
-		"name" : "João"
-	},
-	{
-		"id" : 44,
-		"book_reference_id" : 44,
-		"testament_reference_id" : 2,
-		"name" : "Atos dos Apóstolos"
-	},
-	{
-		"id" : 45,
-		"book_reference_id" : 45,
-		"testament_reference_id" : 2,
-		"name" : "Romanos"
-	},
-	{
-		"id" : 46,
-		"book_reference_id" : 46,
-		"testament_reference_id" : 2,
-		"name" : "1 Coríntios"
-	},
-	{
-		"id" : 47,
-		"book_reference_id" : 47,
-		"testament_reference_id" : 2,
-		"name" : "2 Coríntios"
-	},
-	{
-		"id" : 48,
-		"book_reference_id" : 48,
-		"testament_reference_id" : 2,
-		"name" : "Gálatas"
-	},
-	{
-		"id" : 49,
-		"book_reference_id" : 49,
-		"testament_reference_id" : 2,
-		"name" : "Efésios"
-	},
-	{
-		"id" : 50,
-		"book_reference_id" : 50,
-		"testament_reference_id" : 2,
-		"name" : "Filipenses"
-	},
-	{
-		"id" : 51,
-		"book_reference_id" : 51,
-		"testament_reference_id" : 2,
-		"name" : "Colossenses"
-	},
-	{
-		"id" : 52,
-		"book_reference_id" : 52,
-		"testament_reference_id" : 2,
-		"name" : "1 Tessalonicenses"
-	},
-	{
-		"id" : 53,
-		"book_reference_id" : 53,
-		"testament_reference_id" : 2,
-		"name" : "2 Tessalonicenses"
-	},
-	{
-		"id" : 54,
-		"book_reference_id" : 54,
-		"testament_reference_id" : 2,
-		"name" : "1 Timóteo"
-	},
-	{
-		"id" : 55,
-		"book_reference_id" : 55,
-		"testament_reference_id" : 2,
-		"name" : "2 Timóteo"
-	},
-	{
-		"id" : 56,
-		"book_reference_id" : 56,
-		"testament_reference_id" : 2,
-		"name" : "Tito"
-	},
-	{
-		"id" : 57,
-		"book_reference_id" : 57,
-		"testament_reference_id" : 2,
-		"name" : "Filemom"
-	},
-	{
-		"id" : 58,
-		"book_reference_id" : 58,
-		"testament_reference_id" : 2,
-		"name" : "Hebreus"
-	},
-	{
-		"id" : 59,
-		"book_reference_id" : 59,
-		"testament_reference_id" : 2,
-		"name" : "Tiago"
-	},
-	{
-		"id" : 60,
-		"book_reference_id" : 60,
-		"testament_reference_id" : 2,
-		"name" : "1 Pedro"
-	},
-	{
-		"id" : 61,
-		"book_reference_id" : 61,
-		"testament_reference_id" : 2,
-		"name" : "2 Pedro"
-	},
-	{
-		"id" : 62,
-		"book_reference_id" : 62,
-		"testament_reference_id" : 2,
-		"name" : "1 João"
-	},
-	{
-		"id" : 63,
-		"book_reference_id" : 63,
-		"testament_reference_id" : 2,
-		"name" : "2 João"
-	},
-	{
-		"id" : 64,
-		"book_reference_id" : 64,
-		"testament_reference_id" : 2,
-		"name" : "3 João"
-	},
-	{
-		"id" : 65,
-		"book_reference_id" : 65,
-		"testament_reference_id" : 2,
-		"name" : "Judas"
-	},
-	{
-		"id" : 66,
-		"book_reference_id" : 66,
-		"testament_reference_id" : 2,
-		"name" : "Apocalipse"
-	}
-]}
+  "book": [
+    {
+      "id": 1,
+      "book_reference_id": 1,
+      "testament_reference_id": 1,
+      "name": "Gênesis",
+      "abbreviation": "GN"
+    },
+    {
+      "id": 2,
+      "book_reference_id": 2,
+      "testament_reference_id": 1,
+      "name": "Êxodo",
+      "abbreviation": "EX"
+    },
+    {
+      "id": 3,
+      "book_reference_id": 3,
+      "testament_reference_id": 1,
+      "name": "Levítico",
+      "abbreviation": "LV"
+    },
+    {
+      "id": 4,
+      "book_reference_id": 4,
+      "testament_reference_id": 1,
+      "name": "Números",
+      "abbreviation": "NM"
+    },
+    {
+      "id": 5,
+      "book_reference_id": 5,
+      "testament_reference_id": 1,
+      "name": "Deuteronômio",
+      "abbreviation": "DT"
+    },
+    {
+      "id": 6,
+      "book_reference_id": 6,
+      "testament_reference_id": 1,
+      "name": "Josué",
+      "abbreviation": "JS"
+    },
+    {
+      "id": 7,
+      "book_reference_id": 7,
+      "testament_reference_id": 1,
+      "name": "Juízes",
+      "abbreviation": "JZ"
+    },
+    {
+      "id": 8,
+      "book_reference_id": 8,
+      "testament_reference_id": 1,
+      "name": "Rute",
+      "abbreviation": "RT"
+    },
+    {
+      "id": 9,
+      "book_reference_id": 9,
+      "testament_reference_id": 1,
+      "name": "1 Samuel",
+      "abbreviation": "1SM"
+    },
+    {
+      "id": 10,
+      "book_reference_id": 10,
+      "testament_reference_id": 1,
+      "name": "2 Samuel",
+      "abbreviation": "2SM"
+    },
+    {
+      "id": 11,
+      "book_reference_id": 11,
+      "testament_reference_id": 1,
+      "name": "1 Reis",
+      "abbreviation": "1RS"
+    },
+    {
+      "id": 12,
+      "book_reference_id": 12,
+      "testament_reference_id": 1,
+      "name": "2 Reis",
+      "abbreviation": "2RS"
+    },
+    {
+      "id": 13,
+      "book_reference_id": 13,
+      "testament_reference_id": 1,
+      "name": "1 Crônicas",
+      "abbreviation": "1CR"
+    },
+    {
+      "id": 14,
+      "book_reference_id": 14,
+      "testament_reference_id": 1,
+      "name": "2 Crônicas",
+      "abbreviation": "2CR"
+    },
+    {
+      "id": 15,
+      "book_reference_id": 15,
+      "testament_reference_id": 1,
+      "name": "Esdras",
+      "abbreviation": "ED"
+    },
+    {
+      "id": 16,
+      "book_reference_id": 16,
+      "testament_reference_id": 1,
+      "name": "Neemias",
+      "abbreviation": "NE"
+    },
+    {
+      "id": 17,
+      "book_reference_id": 17,
+      "testament_reference_id": 1,
+      "name": "Ester",
+      "abbreviation": "ET"
+    },
+    {
+      "id": 18,
+      "book_reference_id": 18,
+      "testament_reference_id": 1,
+      "name": "Jó",
+      "abbreviation": "JO"
+    },
+    {
+      "id": 19,
+      "book_reference_id": 19,
+      "testament_reference_id": 1,
+      "name": "Salmos",
+      "abbreviation": "SL"
+    },
+    {
+      "id": 20,
+      "book_reference_id": 20,
+      "testament_reference_id": 1,
+      "name": "Provérbios",
+      "abbreviation": "PV"
+    },
+    {
+      "id": 21,
+      "book_reference_id": 21,
+      "testament_reference_id": 1,
+      "name": "Eclesiastes",
+      "abbreviation": "EC"
+    },
+    {
+      "id": 22,
+      "book_reference_id": 22,
+      "testament_reference_id": 1,
+      "name": "Cânticos",
+      "abbreviation": "CT"
+    },
+    {
+      "id": 23,
+      "book_reference_id": 23,
+      "testament_reference_id": 1,
+      "name": "Isaías",
+      "abbreviation": "IS"
+    },
+    {
+      "id": 24,
+      "book_reference_id": 24,
+      "testament_reference_id": 1,
+      "name": "Jeremias",
+      "abbreviation": "JR"
+    },
+    {
+      "id": 25,
+      "book_reference_id": 25,
+      "testament_reference_id": 1,
+      "name": "Lamentações",
+      "abbreviation": "LM"
+    },
+    {
+      "id": 26,
+      "book_reference_id": 26,
+      "testament_reference_id": 1,
+      "name": "Ezequiel",
+      "abbreviation": "EZ"
+    },
+    {
+      "id": 27,
+      "book_reference_id": 27,
+      "testament_reference_id": 1,
+      "name": "Daniel",
+      "abbreviation": "DN"
+    },
+    {
+      "id": 28,
+      "book_reference_id": 28,
+      "testament_reference_id": 1,
+      "name": "Oséias",
+      "abbreviation": "OS"
+    },
+    {
+      "id": 29,
+      "book_reference_id": 29,
+      "testament_reference_id": 1,
+      "name": "Joel",
+      "abbreviation": "JL"
+    },
+    {
+      "id": 30,
+      "book_reference_id": 30,
+      "testament_reference_id": 1,
+      "name": "Amós",
+      "abbreviation": "AM"
+    },
+    {
+      "id": 31,
+      "book_reference_id": 31,
+      "testament_reference_id": 1,
+      "name": "Obadias",
+      "abbreviation": "OB"
+    },
+    {
+      "id": 32,
+      "book_reference_id": 32,
+      "testament_reference_id": 1,
+      "name": "Jonas",
+      "abbreviation": "JN"
+    },
+    {
+      "id": 33,
+      "book_reference_id": 33,
+      "testament_reference_id": 1,
+      "name": "Miquéias",
+      "abbreviation": "MQ"
+    },
+    {
+      "id": 34,
+      "book_reference_id": 34,
+      "testament_reference_id": 1,
+      "name": "Naum",
+      "abbreviation": "NA"
+    },
+    {
+      "id": 35,
+      "book_reference_id": 35,
+      "testament_reference_id": 1,
+      "name": "Habacuque",
+      "abbreviation": "HC"
+    },
+    {
+      "id": 36,
+      "book_reference_id": 36,
+      "testament_reference_id": 1,
+      "name": "Sofonias",
+      "abbreviation": "SF"
+    },
+    {
+      "id": 37,
+      "book_reference_id": 37,
+      "testament_reference_id": 1,
+      "name": "Ageu",
+      "abbreviation": "AG"
+    },
+    {
+      "id": 38,
+      "book_reference_id": 38,
+      "testament_reference_id": 1,
+      "name": "Zacarias",
+      "abbreviation": "ZC"
+    },
+    {
+      "id": 39,
+      "book_reference_id": 39,
+      "testament_reference_id": 1,
+      "name": "Malaquias",
+      "abbreviation": "ML"
+    },
+    {
+      "id": 40,
+      "book_reference_id": 40,
+      "testament_reference_id": 2,
+      "name": "Mateus",
+      "abbreviation": "MT"
+    },
+    {
+      "id": 41,
+      "book_reference_id": 41,
+      "testament_reference_id": 2,
+      "name": "Marcos",
+      "abbreviation": "MC"
+    },
+    {
+      "id": 42,
+      "book_reference_id": 42,
+      "testament_reference_id": 2,
+      "name": "Lucas",
+      "abbreviation": "LC"
+    },
+    {
+      "id": 43,
+      "book_reference_id": 43,
+      "testament_reference_id": 2,
+      "name": "João",
+      "abbreviation": "JO"
+    },
+    {
+      "id": 44,
+      "book_reference_id": 44,
+      "testament_reference_id": 2,
+      "name": "Atos dos Apóstolos",
+      "abbreviation": "AT"
+    },
+    {
+      "id": 45,
+      "book_reference_id": 45,
+      "testament_reference_id": 2,
+      "name": "Romanos",
+      "abbreviation": "RM"
+    },
+    {
+      "id": 46,
+      "book_reference_id": 46,
+      "testament_reference_id": 2,
+      "name": "1 Coríntios",
+      "abbreviation": "1CO"
+    },
+    {
+      "id": 47,
+      "book_reference_id": 47,
+      "testament_reference_id": 2,
+      "name": "2 Coríntios",
+      "abbreviation": "2CO"
+    },
+    {
+      "id": 48,
+      "book_reference_id": 48,
+      "testament_reference_id": 2,
+      "name": "Gálatas",
+      "abbreviation": "GL"
+    },
+    {
+      "id": 49,
+      "book_reference_id": 49,
+      "testament_reference_id": 2,
+      "name": "Efésios",
+      "abbreviation": "EF"
+    },
+    {
+      "id": 50,
+      "book_reference_id": 50,
+      "testament_reference_id": 2,
+      "name": "Filipenses",
+      "abbreviation": "FP"
+    },
+    {
+      "id": 51,
+      "book_reference_id": 51,
+      "testament_reference_id": 2,
+      "name": "Colossenses",
+      "abbreviation": "CL"
+    },
+    {
+      "id": 52,
+      "book_reference_id": 52,
+      "testament_reference_id": 2,
+      "name": "1 Tessalonicenses",
+      "abbreviation": "1TS"
+    },
+    {
+      "id": 53,
+      "book_reference_id": 53,
+      "testament_reference_id": 2,
+      "name": "2 Tessalonicenses",
+      "abbreviation": "2TS"
+    },
+    {
+      "id": 54,
+      "book_reference_id": 54,
+      "testament_reference_id": 2,
+      "name": "1 Timóteo",
+      "abbreviation": "1TM"
+    },
+    {
+      "id": 55,
+      "book_reference_id": 55,
+      "testament_reference_id": 2,
+      "name": "2 Timóteo",
+      "abbreviation": "2TM"
+    },
+    {
+      "id": 56,
+      "book_reference_id": 56,
+      "testament_reference_id": 2,
+      "name": "Tito",
+      "abbreviation": "TT"
+    },
+    {
+      "id": 57,
+      "book_reference_id": 57,
+      "testament_reference_id": 2,
+      "name": "Filemom",
+      "abbreviation": "FM"
+    },
+    {
+      "id": 58,
+      "book_reference_id": 58,
+      "testament_reference_id": 2,
+      "name": "Hebreus",
+      "abbreviation": "HB"
+    },
+    {
+      "id": 59,
+      "book_reference_id": 59,
+      "testament_reference_id": 2,
+      "name": "Tiago",
+      "abbreviation": "TG"
+    },
+    {
+      "id": 60,
+      "book_reference_id": 60,
+      "testament_reference_id": 2,
+      "name": "1 Pedro",
+      "abbreviation": "1PE"
+    },
+    {
+      "id": 61,
+      "book_reference_id": 61,
+      "testament_reference_id": 2,
+      "name": "2 Pedro",
+      "abbreviation": "2PE"
+    },
+    {
+      "id": 62,
+      "book_reference_id": 62,
+      "testament_reference_id": 2,
+      "name": "1 João",
+      "abbreviation": "1JO"
+    },
+    {
+      "id": 63,
+      "book_reference_id": 63,
+      "testament_reference_id": 2,
+      "name": "2 João",
+      "abbreviation": "2JO"
+    },
+    {
+      "id": 64,
+      "book_reference_id": 64,
+      "testament_reference_id": 2,
+      "name": "3 João",
+      "abbreviation": "3JO"
+    },
+    {
+      "id": 65,
+      "book_reference_id": 65,
+      "testament_reference_id": 2,
+      "name": "Judas",
+      "abbreviation": "JD"
+    },
+    {
+      "id": 66,
+      "book_reference_id": 66,
+      "testament_reference_id": 2,
+      "name": "Apocalipse",
+      "abbreviation": "AP"
+    }
+  ]
+}

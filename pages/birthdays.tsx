@@ -53,7 +53,7 @@ const Birthdays: NextPage<IBirthdays> = ({ data }) => {
 
 export async function getStaticProps() {
   const api = new Api()
-  const data = await api.getMonthBithDateMembers()
+  const data = await api.getMonthBirthDateMembers()
   return { props: { data } }
 }
 
