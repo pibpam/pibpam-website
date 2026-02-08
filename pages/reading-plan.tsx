@@ -17,12 +17,7 @@ export async function getStaticProps() {
   const data = await api.getReadingPlans();
 
   data.data = data.data.map((item) => {
-    let total = 0;
-    item.readingPlanItems?.forEach((read) => {
-      total = total + (read.dailyReading?.audio ? 1 : 0);
-      total = total + read.dailyReading?.reference ? read.dailyReading?.reference?.split(";").length : 1;
-    });
-    item.itemsQtd = total;
+    item.itemsQtd = item.readingPlanItems?.length || 0;
     return item;
   });
 
