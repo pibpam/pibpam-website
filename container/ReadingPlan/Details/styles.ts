@@ -277,8 +277,9 @@ export const Transcription = styled.div`
   }
 
   > div {
-    h3 {
+    h3, h1, h2, h4, h5, h6 {
       margin: 16px 0;
+      font-size: 20px;
     }
     p {
       text-align: justify;
