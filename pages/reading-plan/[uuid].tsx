@@ -17,7 +17,21 @@ const ReadingPlanPage: NextPage<IReadingPlanProps> = ({ data }) => {
   return <Details readingPlan={data} />;
 };
 
-export async function getServerSideProps({
+export async function getStaticPaths() {
+  const api = new Api();
+  const data = await api.getReadingPlans();
+
+  const paths = data.data.map((item) => ({
+    params: { uuid: item.uuid },
+  }));
+
+  return {
+    paths,
+    fallback: "blocking",
+  };
+}
+
+export async function getStaticProps({
   params,
 }: {
   params: { uuid: string };
