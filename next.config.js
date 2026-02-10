@@ -1,15 +1,24 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const withWorkbox = require('next-with-workbox')
+
+module.exports = withWorkbox({
   reactStrictMode: false,
   swcMinify: true,
+
+  images: {
+    unoptimized: true,
+  },
+
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
-      use: ["@svgr/webpack"]
-    });
+      use: ['@svgr/webpack'],
+    })
+    return config
+  },
 
-    return config;
-  }
-}
-
-module.exports = nextConfig
+  workbox: {
+    swSrc: 'public/sw.js',
+    swDest: 'public/sw.js',
+  },
+})
