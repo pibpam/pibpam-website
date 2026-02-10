@@ -39,7 +39,9 @@ const Details: React.FC<{ readingPlan: IReadingPlan }> = ({
         <HeaderContainer active={scrollActive}>
           <>
             {!selectedBible && !selectedAudio && (
-              <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+              <Header goBack={() => goBack({
+                fallback: "/reading-plan",
+              })} toggleMenu={toggleMenu} />
             )}
           </>
         </HeaderContainer>
