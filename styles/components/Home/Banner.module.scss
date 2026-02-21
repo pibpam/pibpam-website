@@ -79,6 +79,11 @@
     aspect-ratio: 16/9;
     height: 100%;
     width: auto;
+
+    >video {
+      width: 100%;
+      height: auto;
+    }
   }
 }
 
