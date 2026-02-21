@@ -14,14 +14,14 @@ const Banner: React.FC<{ readingPlan?: IReadingPlan }> = ({readingPlan}) => {
     <div className={styles.banner}>
       <div className={styles.videoContainer}>
         <div>
-          {/* <YTPlayer
+          <YTPlayer
             videoId="H0SiysdHN40"
             autoplay
             controls={0}
             loop
             mute
             start={6}
-          /> */}
+          />
         </div>
       </div>
       <div className={styles.content}>
