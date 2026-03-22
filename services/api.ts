@@ -178,9 +178,13 @@ export class Api {
     return data;
   }
 
-  async getReadingPlans() {
+  async getReadingPlans(date?: Date) {
     const { data } = await this.client.get<IGetAllReadingPlan>(
-      "v1/reading-plan"
+      "v1/reading-plan", {
+        params: {
+          date: date?.toISOString()
+        }
+      }
     );
     return data;
   }

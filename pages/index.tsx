@@ -100,7 +100,7 @@ export async function getStaticProps() {
   const devotionals = await api.getDevotionals(5);
   const series = await api.getSeries(1, 5);
   const collections = await api.getCollections();
-  const readingPlan = await api.getReadingPlans();
+  const readingPlan = await api.getReadingPlans(new Date());
   const lastReadingPlan = readingPlan.data.at(0)
 
   return {
