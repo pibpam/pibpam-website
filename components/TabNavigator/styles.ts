@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import responsive from '../../utils/responsive';
 
-export const Container = styled.div`
+export const Container = styled.div<{bottom?: number}>`
   background: #fff;
   overflow: hidden;
   padding: 16px 0;
+  padding-bottom: ${({ bottom }) => bottom ? bottom + 16 : 16}px;
   position: fixed;
   bottom: 0;
   z-index: 10;

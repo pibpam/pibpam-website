@@ -1,31 +1,49 @@
-import React, { createContext, ReactElement, useEffect, useRef, useState } from "react";
+import React, {
+  createContext,
+  ReactElement,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useAppNavigation } from "../hooks/useAppNavigation";
 import usePostMessage from "../hooks/usePostMessage";
 import { useRouter } from "next/router";
 import { ApiLocal } from "../services/apiLocal";
+import { set } from "date-fns";
 
 interface Context {
-  isLoadingDownload: boolean
-  setLoadingDownload: (data: boolean) => void
+  isLoadingDownload: boolean;
+  setLoadingDownload: (data: boolean) => void;
+  deviceInfo: DeviceInfo | null;
 }
 
-export const PostMessageContext = createContext<Context>({} as Context)
+export const PostMessageContext = createContext<Context>({} as Context);
 
 export interface IChildren {
-  children: ReactElement
+  children: ReactElement;
 }
 
 enum EActions {
-  GOBACK = 'goBack',
-  LINKING = 'linking',
-  EXPO_TOKEN = 'expoToken',
-  NOTIFICATION = 'notification',
-  IMAGE_SAVED = 'imageSaved',
-  ERROR_IMAGE_SAVE = 'errorImageSave'
+  GOBACK = "goBack",
+  LINKING = "linking",
+  EXPO_TOKEN = "expoToken",
+  NOTIFICATION = "notification",
+  IMAGE_SAVED = "imageSaved",
+  ERROR_IMAGE_SAVE = "errorImageSave",
+  DEVICE_INFO = "deviceInfo",
 }
 
 interface DataLink {
-  route: string, params: Record<string, string>
+  route: string;
+  params: Record<string, string>;
+}
+
+interface DeviceInfo {
+  bottom: number;
+  top: number;
+  left: number;
+  right: number;
+  platform: "ios" | "android";
 }
 
 interface INotification {
@@ -33,130 +51,157 @@ interface INotification {
     request?: {
       content?: {
         data?: {
-          route?: string
-          params?: Record<string, string>
-        }
-      }
-    }
-  }
+          route?: string;
+          params?: Record<string, string>;
+        };
+      };
+    };
+  };
 }
 
+export const PostMessageContextProvider: React.FC<IChildren> = ({
+  children,
+}: IChildren) => {
+  const started = useRef(false);
+  const { goBack, goTo } = useAppNavigation();
+  const { sendMessage } = usePostMessage();
+  const [isLoadingDownload, setLoadingDownload] = useState(false);
 
-export const PostMessageContextProvider: React.FC<IChildren> = ({ children }: IChildren) => {
-  const started = useRef(false)
-  const { goBack, goTo } = useAppNavigation()
-  const { sendMessage } = usePostMessage()
-  const [isLoadingDownload, setLoadingDownload] = useState(false)
-
-  const [action, setAction] = useState("")
-  const [dataLink, setDataLink] = useState<DataLink>({} as DataLink)
-  const [expoToken, setExpoToken] = useState('')
-  const [notification, setNotification] = useState<INotification>({} as INotification)
-  const { query } = useRouter()
+  const [action, setAction] = useState("");
+  const [dataLink, setDataLink] = useState<DataLink>({} as DataLink);
+  const [expoToken, setExpoToken] = useState("");
+  const [notification, setNotification] = useState<INotification>(
+    {} as INotification,
+  );
+  const { query } = useRouter();
+  const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
 
   useEffect(() => {
     if (action === EActions.GOBACK) {
-      goBack({}).then()
-      setAction("")
+      goBack({}).then();
+      setAction("");
     }
 
     if (action === EActions.LINKING) {
-      const route = dataLink.route ? `/${dataLink.route}` : '/'
-      goTo({ pathname: route, showLoading: true, query: { ...query, from: 'linking' } as Record<string, string> }).then()
-      setAction("")
-      setDataLink({} as DataLink)
+      const route = dataLink.route ? `/${dataLink.route}` : "/";
+      goTo({
+        pathname: route,
+        showLoading: true,
+        query: { ...query, from: "linking" } as Record<string, string>,
+      }).then();
+      setAction("");
+      setDataLink({} as DataLink);
     }
 
     if (action === EActions.EXPO_TOKEN) {
-      const api = new ApiLocal()
+      const api = new ApiLocal();
       if (expoToken) {
-        api.savePushToken(expoToken)
+        api.savePushToken(expoToken);
       }
-      setAction("")
+      setAction("");
     }
 
     if (action === EActions.NOTIFICATION) {
-      const notifiationData = notification?.notification?.request?.content?.data
+      const notifiationData =
+        notification?.notification?.request?.content?.data;
 
       if (notifiationData?.route) {
-        goTo({ pathname: `/${notifiationData.route}`, showLoading: true, query: { ...query, from: 'push' } as Record<string, string> }).then()
+        goTo({
+          pathname: `/${notifiationData.route}`,
+          showLoading: true,
+          query: { ...query, from: "push" } as Record<string, string>,
+        }).then();
       }
 
-      setAction("")
-      setNotification({} as INotification)
+      setAction("");
+      setNotification({} as INotification);
     }
 
     // eslint-disable-next-line
-  }, [action])
+  }, [action]);
 
   const handleEventPostMessage = (event: MessageEvent) => {
-    if (["http://localhost:3000", "https://pibpam-website.vercel.app", "https://pibpam.org", "https://www.pibpam.org"].includes(event.origin)) {
-      return
+    if (
+      [
+        "http://localhost:3000",
+        "https://pibpam-website.vercel.app",
+        "https://pibpam.org",
+        "https://www.pibpam.org",
+      ].includes(event.origin)
+    ) {
+      return;
     }
 
-    const data = JSON.parse(event.data)
+    const data = JSON.parse(event.data);
 
     if (!data.pibpam || !data.pibpam.action) {
-      return
+      return;
     }
 
-    if (data.pibpam.action === EActions.ERROR_IMAGE_SAVE || data.pibpam.action === EActions.IMAGE_SAVED) {
-      setLoadingDownload(false)
-      return
+    if (
+      data.pibpam.action === EActions.ERROR_IMAGE_SAVE ||
+      data.pibpam.action === EActions.IMAGE_SAVED
+    ) {
+      setLoadingDownload(false);
+      return;
     }
 
     if (data.pibpam.action === EActions.GOBACK) {
-      setAction(EActions.GOBACK)
+      setAction(EActions.GOBACK);
     }
-
 
     if (data.pibpam.action === EActions.EXPO_TOKEN) {
-      setExpoToken(data.pibpam.token)
-      setAction(EActions.EXPO_TOKEN)
+      setExpoToken(data.pibpam.token);
+      setAction(EActions.EXPO_TOKEN);
     }
 
+    if (data.pibpam.action === EActions.DEVICE_INFO) {
+      setAction(EActions.DEVICE_INFO);
+      setDeviceInfo(data.pibpam);
+    }
 
     if (data.pibpam.action === EActions.NOTIFICATION) {
-      setNotification(data.pibpam.notification)
-      setAction(EActions.NOTIFICATION)
+      setNotification(data.pibpam.notification);
+      setAction(EActions.NOTIFICATION);
     }
 
     if (data.pibpam.action === EActions.LINKING) {
       setDataLink({
         route: data.pibpam.route,
         params: data.pibpam.params,
-      })
+      });
 
-      setAction(EActions.LINKING)
+      setAction(EActions.LINKING);
     }
-  }
+  };
 
   const init = () => {
     if (started.current) {
-      return
+      return;
     }
-    started.current = true
+    started.current = true;
     window.addEventListener("message", handleEventPostMessage);
     // @ts-ignore
     document.addEventListener("message", handleEventPostMessage);
     setTimeout(() => {
-      sendMessage({ action: 'ok' })
-    }, 1000)
-  }
+      sendMessage({ action: "ok" });
+    }, 1000);
+  };
 
   useEffect(() => {
-    init()
+    init();
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <PostMessageContext.Provider
       value={{
         isLoadingDownload,
-        setLoadingDownload
+        setLoadingDownload,
+        deviceInfo,
       }}
     >
       {children}
     </PostMessageContext.Provider>
-  )
-}
+  );
+};

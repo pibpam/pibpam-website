@@ -4,11 +4,13 @@ import { useRouter } from "next/router";
 import { LivesContext } from "../../contexts/lives";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { Container } from "./styles";
+import { PostMessageContext } from "../../contexts/postMessage";
 
 const TabNavigator: React.FC = () => {
   const router = useRouter()
   const { pathname } = router
   const { lives } = useContext(LivesContext)
+  const { deviceInfo } = useContext(PostMessageContext)
   const { goTo: goToHook } = useAppNavigation()
 
   const goTo = async (pathname: string) => {
@@ -16,7 +18,7 @@ const TabNavigator: React.FC = () => {
   }
 
   return (
-    <Container>
+    <Container bottom={deviceInfo?.bottom}>
       <ul>
         <li>
           <button className={`${pathname === "/events" && 'active'}`} onClick={() => goTo("/events")}>
