@@ -13,7 +13,7 @@ const HeaderContainer: React.FC<IHeaderContainer> = ({ children, active }) => {
   return (
     <div
       className={`${styles.container} ${active && styles.active}`}
-      style={{ paddingTop: `${deviceInfo?.top || 56}px` }}
+      style={{ paddingTop: `${(deviceInfo?.top || 0) + 24}px` }}
     >
       {children}
     </div>
