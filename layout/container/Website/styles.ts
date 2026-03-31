@@ -12,9 +12,10 @@ const showUp = keyframes`
   }
 `
 
-export const Container = styled.main`
+export const Container = styled.main<{bottom?: number}>`
   position: relative;
   //top: -100px;
+  padding-bottom: ${({ bottom }) => bottom || 0}px;
   animation: ${showUp} .4s ease-in-out forwards;
 `;
 

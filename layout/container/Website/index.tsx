@@ -4,6 +4,7 @@ import TabNavigator from "../../../components/TabNavigator";
 import Menu from "../../../components/Menu";
 import { Container, Handler } from './styles';
 import { AppContext } from '../../../contexts/app';
+import { PostMessageContext } from '../../../contexts/postMessage';
 
 interface IWebsiteProps {
   children: ReactElement | ReactElement[]
@@ -30,6 +31,7 @@ const Website: React.FC<IWebsiteProps> = ({
   }
 
   const { isApp } = useContext(AppContext)
+  const { deviceInfo } = useContext(PostMessageContext)
 
   useEffect(() => {
     window.addEventListener("scroll", () => handleChangeScroll())
@@ -48,11 +50,10 @@ const Website: React.FC<IWebsiteProps> = ({
         <link rel="icon" href="/favicon.png" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content="Primeira Igreja Batista em Pará de Minas" />
-        {/*<meta property="og:url" content="https://exemplo.com/"/>*/}
         {img && (<meta property="og:image" content={img} />)}
         <meta property="og:type" content="website" />
       </Head>
-      <Container>
+      <Container bottom={deviceInfo?.bottom}>
         {Array.isArray(children) && <Handler isApp={isApp}>
           <div>
             {children[0] || 'Ops! Algo deu errado'}
