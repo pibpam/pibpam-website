@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   padding: 0 24px 32px;
@@ -11,8 +11,9 @@ export const Grid = styled.div`
   margin-bottom: 48px;
 `;
 
-export const ContainerModal = styled.div`
+export const ContainerModal = styled.div<{ bottom?: number }>`
   padding: 32px 0;
+  padding-bottom: ${({ bottom }) => (bottom || 0) + 32}px;
 `;
 
 export const Description = styled.div`
@@ -26,7 +27,7 @@ export const Description = styled.div`
     font-size: 16px;
     line-height: 20px;
     text-align: justify;
-    color: #3D3D3D;
+    color: #3d3d3d;
     margin-bottom: 24px;
   }
 `;
@@ -38,14 +39,14 @@ export const Begin = styled.div`
     font-weight: 700;
     font-size: 24px;
     line-height: 30px;
-    color: #3D3D3D;
+    color: #3d3d3d;
   }
 
   > h2 {
     font-weight: 500;
     font-size: 16px;
     line-height: 20px;
-    color: #3D3D3D;
+    color: #3d3d3d;
     margin-bottom: 16px;
   }
 `;
@@ -55,7 +56,7 @@ export const Location = styled.div`
   font-weight: 400;
   font-size: 16px;
   line-height: 20px;
-  color: #5FD9DA;
+  color: #5fd9da;
   margin-bottom: 16px;
   align-items: center;
 
@@ -77,9 +78,10 @@ export const Location = styled.div`
       display: flex;
       margin-right: auto;
       padding: 4px 4px 4px 0;
-      color: #5FD9DA;
+      color: #5fd9da;
 
-      &:focus, &:active {
+      &:focus,
+      &:active {
         outline: none;
       }
     }

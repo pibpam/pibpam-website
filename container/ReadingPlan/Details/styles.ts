@@ -168,8 +168,9 @@ export const ContentItem = styled.a`
   }
 `;
 
-export const ModalBible = styled.div`
+export const ModalBible = styled.div<{ bottom?: number }>`
   padding: 24px;
+  padding-bottom: ${({ bottom }) => (bottom ? bottom + 24 : 24)}px;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -192,8 +193,9 @@ export const ModalBible = styled.div`
   }
 `;
 
-export const ModalAudio = styled.div`
+export const ModalAudio = styled.div<{ bottom?: number }>`
   padding: 24px;
+  padding-bottom: ${({ bottom }) => (bottom ? bottom + 24 : 24)}px;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -277,7 +279,12 @@ export const Transcription = styled.div`
   }
 
   > div {
-    h3, h1, h2, h4, h5, h6 {
+    h3,
+    h1,
+    h2,
+    h4,
+    h5,
+    h6 {
       margin: 16px 0;
       font-size: 20px;
     }

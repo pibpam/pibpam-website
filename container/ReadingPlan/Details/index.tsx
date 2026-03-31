@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { DailyReading, IReadingPlan, IReference } from "../../../interfaces/ReadingPlan";
+import {
+  DailyReading,
+  IReadingPlan,
+  IReference,
+} from "../../../interfaces/ReadingPlan";
 import Website from "../../../layout/container/Website";
 import HeaderContainer from "../../../components/HeaderContainer";
 import Header from "../../../components/Header";
@@ -9,23 +13,40 @@ import { EDividerColors } from "../../../components/Divider";
 import useMenu from "../../../hooks/useMenu";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import useHeader from "../../../hooks/useHeader";
-import { AudioContainer, AuthorLine, Container, ContainerVerse, ContentItem, HeaderContainerPage, List, ModalAudio, ModalBible, Transcription } from "./styles";
-import { PiArrowLeft, PiBook, PiFile, PiFileArchive, PiFileAudio, PiSubtitles } from "react-icons/pi";
+import {
+  AudioContainer,
+  AuthorLine,
+  Container,
+  ContainerVerse,
+  ContentItem,
+  HeaderContainerPage,
+  List,
+  ModalAudio,
+  ModalBible,
+  Transcription,
+} from "./styles";
+import {
+  PiArrowLeft,
+  PiBook,
+  PiFile,
+  PiFileArchive,
+  PiFileAudio,
+  PiSubtitles,
+} from "react-icons/pi";
 import { FiArrowRight } from "react-icons/fi";
 import ShareButton from "../../../components/ShareButton";
 import { AudioPlayer } from "react-audio-play";
 import Modal from "../../../components/Modal";
+import { PostMessageContext } from "../../../contexts/postMessage";
 
-
-const Details: React.FC<{ readingPlan: IReadingPlan }> = ({
-  readingPlan,
-}) => {
+const Details: React.FC<{ readingPlan: IReadingPlan }> = ({ readingPlan }) => {
   const { open, toggleMenu } = useMenu();
   const { goBack } = useAppNavigation();
   const { scrollActive, changeScroll } = useHeader();
+  const { deviceInfo } = React.useContext(PostMessageContext);
 
   const [selectedBible, setSelectedBible] = useState<IReference>();
-   const [selectedAudio, setSelectedAudio] = useState<DailyReading>();
+  const [selectedAudio, setSelectedAudio] = useState<DailyReading>();
 
   return (
     <Website
@@ -39,9 +60,14 @@ const Details: React.FC<{ readingPlan: IReadingPlan }> = ({
         <HeaderContainer active={scrollActive}>
           <>
             {!selectedBible && !selectedAudio && (
-              <Header goBack={() => goBack({
-                fallback: "/reading-plan",
-              })} toggleMenu={toggleMenu} />
+              <Header
+                goBack={() =>
+                  goBack({
+                    fallback: "/reading-plan",
+                  })
+                }
+                toggleMenu={toggleMenu}
+              />
             )}
           </>
         </HeaderContainer>
@@ -71,9 +97,7 @@ const Details: React.FC<{ readingPlan: IReadingPlan }> = ({
                 {item.dailyReading.references?.map((reference) => (
                   <button
                     key={reference.chapter}
-                    onClick={() =>
-                      setSelectedBible(reference)
-                    }
+                    onClick={() => setSelectedBible(reference)}
                   >
                     <div>
                       <PiBook />
@@ -81,8 +105,7 @@ const Details: React.FC<{ readingPlan: IReadingPlan }> = ({
                     <div>
                       <p>Leitura Bíblica</p>
                       <h3>
-                        {reference?.book.name}{" "}
-                        {reference?.chapter}
+                        {reference?.book.name} {reference?.chapter}
                       </h3>
                     </div>
                     <FiArrowRight />
@@ -111,7 +134,7 @@ const Details: React.FC<{ readingPlan: IReadingPlan }> = ({
           isOpen={!!selectedBible}
           onClose={() => setSelectedBible(undefined)}
         >
-          <ModalBible>
+          <ModalBible bottom={deviceInfo?.bottom}>
             <h2>
               <button onClick={() => setSelectedBible(undefined)}>
                 <PiArrowLeft />
@@ -133,7 +156,7 @@ const Details: React.FC<{ readingPlan: IReadingPlan }> = ({
           isOpen={!!selectedAudio}
           onClose={() => setSelectedAudio(undefined)}
         >
-          <ModalAudio>
+          <ModalAudio bottom={deviceInfo?.bottom}>
             <h2>
               <button onClick={() => setSelectedAudio(undefined)}>
                 <PiArrowLeft />

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
- padding: 0 24px 90px;
+  padding: 0 24px 90px;
 `;
 
 export const Content = styled.div`
@@ -22,6 +22,7 @@ export const Grid = styled.div`
   }
 `;
 
-export const ContainerModal = styled.div`
+export const ContainerModal = styled.div<{ bottom?: number }>`
   padding: 32px 0 0;
+  padding-bottom: ${({ bottom }) => bottom || 0}px;
 `;

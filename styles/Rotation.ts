@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import theme from './theme';
+import styled from "styled-components";
+import theme from "./theme";
 
 export const Container = styled.div`
   padding: 0 24px 90px;
@@ -7,8 +7,8 @@ export const Container = styled.div`
   flex-direction: column;
   width: 100%;
 
-  >p {
-    color: #3D3D3D;
+  > p {
+    color: #3d3d3d;
     margin-top: 8px;
   }
 `;
@@ -27,7 +27,7 @@ export const MemberRotation = styled.div`
   border: 2px solid ${theme.colors.primary};
   padding: 16px;
   border-radius: 8px;
-  
+
   > div:first-child {
     display: flex;
     flex-direction: column;
@@ -53,7 +53,7 @@ export const MemberRotation = styled.div`
       border-radius: 4px;
       flex-direction: column;
       gap: 8px;
-      color: #3D3D3D;
+      color: #3d3d3d;
 
       > div:first-child {
         font-size: 24px;
@@ -61,7 +61,7 @@ export const MemberRotation = styled.div`
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        color: #3D3D3D;
+        color: #3d3d3d;
       }
 
       > div:last-child {
@@ -72,7 +72,7 @@ export const MemberRotation = styled.div`
         width: 100%;
         text-align: left;
         gap: 8px;
-        color: #3D3D3D;
+        color: #3d3d3d;
 
         > svg {
           min-width: 24px;
@@ -80,10 +80,11 @@ export const MemberRotation = styled.div`
       }
     }
   }
-`
+`;
 
-export const ModalOpen = styled.div`
+export const ModalOpen = styled.div<{ bottom?: number }>`
   padding: 24px 24px;
+  padding-bottom: ${({ bottom }) => (bottom ? bottom + 24 : 24)}px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -100,7 +101,7 @@ export const ModalOpen = styled.div`
       font-size: 24px;
     }
     p {
-      color: #3D3D3D;
+      color: #3d3d3d;
     }
   }
 `;
@@ -110,7 +111,7 @@ export const ListItems = styled.div`
   flex-direction: column;
   gap: 8px;
 
- > div {
+  > div {
     & + div {
       border-top: 2px solid #eee;
     }
@@ -118,72 +119,72 @@ export const ListItems = styled.div`
 `;
 
 export const HeaderItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0px;
+
+  > div:first-child {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 0px;
+    flex-direction: column;
 
     > div:first-child {
-      display: flex;
-      flex-direction: column;
+      color: #3d3d3d;
+      font-size: 20px;
+    }
 
-      > div:first-child {
-        color: #3D3D3D;
-        font-size: 20px;
+    > div:last-child {
+      color: #3d3d3d;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
+
+  .buttonsActions {
+    display: flex;
+    border: 2px solid ${theme.colors.primary};
+    border-radius: 8px;
+    overflow: hidden;
+
+    > button {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 16px;
+      padding: 16px 8px;
+      background: transparent;
+      transition: ease 0.2s all;
+      margin: 0;
+
+      &.active {
+        background: ${theme.colors.primary};
+        color: #fff;
       }
 
-      > div:last-child {
-        color: #3D3D3D;
-        font-size: 16px;
-        font-weight: bold;
+      & + button {
+        border-left: 2px solid ${theme.colors.primary};
       }
     }
 
-    .buttonsActions {
-      display: flex;
-      border: 2px solid ${theme.colors.primary};
-      border-radius: 8px;
-      overflow: hidden;
+    &.selected {
+      border: 2px solid #ddd;
 
       > button {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        font-size: 16px;
-        padding: 16px 8px;
         background: transparent;
-        transition: ease .2s all;
-        margin: 0;
+        cursor: not-allowed;
 
         &.active {
-          background: ${theme.colors.primary};
-          color: #fff;
+          background: #ddd;
+          color: #222;
         }
-        
+
         & + button {
-          border-left:  2px solid ${theme.colors.primary};
-        }
-      }
-
-      &.selected {
-         border: 2px solid #ddd;
-
-         > button {
-          background: transparent;
-          cursor: not-allowed;
-
-          &.active {
-            background: #ddd;
-            color: #222;
-          }
-
-          & + button {
-            border-left:  2px solid #ddd;
-          }
+          border-left: 2px solid #ddd;
         }
       }
     }
-  `
+  }
+`;
 
 export const MembersSelecteds = styled.div`
   > div {
@@ -230,4 +231,3 @@ export const ButtonSave = styled.div`
     border-radius: 8px;
   }
 `;
-
