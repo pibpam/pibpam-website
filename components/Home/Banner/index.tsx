@@ -1,28 +1,20 @@
 import React from "react";
 
 import styles from '../../../styles/components/Home/Banner.module.scss'
-import YTPlayer from "../../YTPlayer";
 import { PiBookBookmarkThin } from "react-icons/pi";
 import { IReadingPlan } from "../../../interfaces/ReadingPlan";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
+import { PostMessageContext } from "../../../contexts/postMessage";
 
 const Banner: React.FC<{ readingPlan?: IReadingPlan }> = ({readingPlan}) => {
-
    const {goTo} = useAppNavigation()
+   const {deviceInfo} = React.useContext(PostMessageContext)
 
   return (
     <div className={styles.banner}>
       <div className={styles.videoContainer}>
         <div>
           <video src="https://pibpam.s3.us-east-1.amazonaws.com/settings/background-ano-novo.mp4" autoPlay loop muted></video>
-          {/* <YTPlayer
-            videoId="H0SiysdHN40"
-            autoplay
-            controls={0}
-            loop
-            mute
-            start={6}
-          /> */}
         </div>
       </div>
       <div className={styles.content}>
@@ -30,7 +22,7 @@ const Banner: React.FC<{ readingPlan?: IReadingPlan }> = ({readingPlan}) => {
           <button onClick={() => goTo({
             pathname: `/reading-plan/${readingPlan.uuid}`,
             showLoading: true
-          })} className={styles.dailyReading}>
+          })} className={styles.dailyReading} style={{ top: `${(deviceInfo?.top || 0) + 24}px` }}>
             <div>
               <PiBookBookmarkThin />
             </div>
