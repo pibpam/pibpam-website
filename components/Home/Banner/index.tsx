@@ -22,7 +22,7 @@ const Banner: React.FC<{ readingPlan?: IReadingPlan }> = ({readingPlan}) => {
           <button onClick={() => goTo({
             pathname: `/reading-plan/${readingPlan.uuid}`,
             showLoading: true
-          })} className={styles.dailyReading} style={{ top: `${(deviceInfo?.top || 0) + 24}px` }}>
+          })} className={styles.dailyReading} style={{ marginTop: `${(deviceInfo?.top || 0) + 24}px` }}>
             <div>
               <PiBookBookmarkThin />
             </div>
