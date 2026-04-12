@@ -52,7 +52,7 @@ const AuthCode: React.FC<{ execute: boolean }> = ({ execute }) => {
 
   const openApp = () => {
     try {
-      window.location.href = "pibpamapp://path/auth/code/?token=" + accessToken;
+      window.location.href = "pibpamapp:///auth/code?token=" + accessToken;
       // window.location.href =
       //   "http://localhost:3000/auth/code/?token=" + accessToken;
     } catch (err: any) {
