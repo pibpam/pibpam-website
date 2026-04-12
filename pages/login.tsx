@@ -9,11 +9,15 @@ import ThirdButton from "../components/Button/Third";
 import { UserContext } from "../contexts/user";
 import styles from "../styles/Auth.module.scss";
 import { PostMessageContext } from "../contexts/postMessage";
+import { AppContext } from "../contexts/app";
 
 const Login: NextPage = () => {
   const router = useRouter();
-  const { login, loginGoogle, isLoadingAuth, authError, token } = useContext(UserContext);
-  const { blockPostMessage, unblockPostMessage } = useContext(PostMessageContext);
+  const { login, loginGoogle, isLoadingAuth, authError, token } =
+    useContext(UserContext);
+  const { blockPostMessage, unblockPostMessage } =
+    useContext(PostMessageContext);
+  const { isApp } = useContext(AppContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,6 +52,11 @@ const Login: NextPage = () => {
   };
 
   const handleLoginGoogle = async () => {
+    if (isApp) {
+      window.open(window.location.origin + "/auth/google", "_blank");
+      return;
+    }
+
     setError(undefined);
 
     try {
@@ -69,9 +78,13 @@ const Login: NextPage = () => {
         </div>
 
         <h1 className={styles.title}>Entrar</h1>
-        <p className={styles.description}>Acesse sua conta da área de membros.</p>
+        <p className={styles.description}>
+          Acesse sua conta da área de membros.
+        </p>
 
-        {(error || authError) && <div className={styles.error}>{error || authError}</div>}
+        {(error || authError) && (
+          <div className={styles.error}>{error || authError}</div>
+        )}
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>
@@ -102,7 +115,11 @@ const Login: NextPage = () => {
           </div>
 
           <div className={styles.buttons}>
-            <SecondaryButton text={isLoadingAuth ? "Entrando..." : "Entrar"} disabled={isLoadingAuth} type="submit" />
+            <SecondaryButton
+              text={isLoadingAuth ? "Entrando..." : "Entrar"}
+              disabled={isLoadingAuth}
+              type="submit"
+            />
             <ThirdButton
               type="button"
               disabled={isLoadingAuth}
@@ -110,7 +127,9 @@ const Login: NextPage = () => {
             >
               <span className={styles.googleContent}>
                 <FcGoogle />
-                <span>{isLoadingAuth ? "Aguarde..." : "Entrar com Google"}</span>
+                <span>
+                  {isLoadingAuth ? "Aguarde..." : "Entrar com Google"}
+                </span>
               </span>
             </ThirdButton>
           </div>

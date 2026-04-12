@@ -9,11 +9,15 @@ import ThirdButton from "../components/Button/Third";
 import { UserContext } from "../contexts/user";
 import styles from "../styles/Auth.module.scss";
 import { PostMessageContext } from "../contexts/postMessage";
+import { AppContext } from "../contexts/app";
 
-const Cadastro: NextPage = () => {
+const SignUp: NextPage = () => {
   const router = useRouter();
-  const { register, loginGoogle, isLoadingAuth, authError, token } = useContext(UserContext);
-  const { blockPostMessage, unblockPostMessage } = useContext(PostMessageContext);
+  const { register, loginGoogle, isLoadingAuth, authError, token } =
+    useContext(UserContext);
+  const { blockPostMessage, unblockPostMessage } =
+    useContext(PostMessageContext);
+  const { isApp } = useContext(AppContext);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -49,6 +53,11 @@ const Cadastro: NextPage = () => {
   };
 
   const handleLoginGoogle = async () => {
+    if (isApp) {
+      window.open(window.location.origin + "/auth/google", "_blank");
+      return;
+    }
+
     setError(undefined);
 
     try {
@@ -56,7 +65,9 @@ const Cadastro: NextPage = () => {
       await loginGoogle();
       router.push("/member");
     } catch (err: any) {
-      setError(err?.message || "Nao foi possivel concluir o cadastro com Google.");
+      setError(
+        err?.message || "Nao foi possivel concluir o cadastro com Google.",
+      );
     } finally {
       unblockPostMessage();
     }
@@ -70,9 +81,13 @@ const Cadastro: NextPage = () => {
         </div>
 
         <h1 className={styles.title}>Criar conta</h1>
-        <p className={styles.description}>Cadastre-se para acessar os recursos da membresia.</p>
+        <p className={styles.description}>
+          Cadastre-se para acessar os recursos da membresia.
+        </p>
 
-        {(error || authError) && <div className={styles.error}>{error || authError}</div>}
+        {(error || authError) && (
+          <div className={styles.error}>{error || authError}</div>
+        )}
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>
@@ -116,11 +131,21 @@ const Cadastro: NextPage = () => {
           </div>
 
           <div className={styles.buttons}>
-            <SecondaryButton text={isLoadingAuth ? "Criando..." : "Criar conta"} disabled={isLoadingAuth} type="submit" />
-            <ThirdButton type="button" disabled={isLoadingAuth} onClick={handleLoginGoogle}>
+            <SecondaryButton
+              text={isLoadingAuth ? "Criando..." : "Criar conta"}
+              disabled={isLoadingAuth}
+              type="submit"
+            />
+            <ThirdButton
+              type="button"
+              disabled={isLoadingAuth}
+              onClick={handleLoginGoogle}
+            >
               <span className={styles.googleContent}>
                 <FcGoogle />
-                <span>{isLoadingAuth ? "Aguarde..." : "Cadastrar com Google"}</span>
+                <span>
+                  {isLoadingAuth ? "Aguarde..." : "Cadastrar com Google"}
+                </span>
               </span>
             </ThirdButton>
           </div>
@@ -134,4 +159,4 @@ const Cadastro: NextPage = () => {
   );
 };
 
-export default Cadastro;
+export default SignUp;

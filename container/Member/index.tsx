@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import React, { FC, useContext } from "react";
 import Website from "../../layout/container/Website";
 import useMenu from "../../hooks/useMenu";
@@ -20,9 +19,16 @@ const Member: FC = () => {
   const hasMember = !!user?.member;
 
   const handleLogout = () => {
+    goTo({ pathname: "/login", showLoading: true, resetHistory: true });
     logout();
-    goTo({ pathname: "/" });
   };
+
+  const nameFormatted = (user?.member?.name || user?.name)
+    ?.split(" ")[0]
+    .toLowerCase();
+  const nameCapitalized = nameFormatted
+    ? nameFormatted.charAt(0).toUpperCase() + nameFormatted.slice(1)
+    : "";
 
   return (
     <Website
@@ -37,7 +43,7 @@ const Member: FC = () => {
           <Header toggleMenu={toggleMenu} />
         </HeaderContainer>
         <S.Container>
-          <h1>Olá, {(user?.member?.name || user?.name)?.split(" ")[0]}</h1>
+          <h1>Olá, {nameCapitalized}!</h1>
           <p>
             Nesta área você irá encontrar recursos destinados a membresia da sua
             igreja.
@@ -78,4 +84,4 @@ const Member: FC = () => {
 };
 
 export default Member;
-``
+``;

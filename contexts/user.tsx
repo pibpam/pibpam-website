@@ -10,15 +10,16 @@ import {
 } from "../services/auth";
 
 interface Context {
-  user?: IUser,
-  token?: string
-  initUser: () => void
-  isLoadingAuth: boolean
-  authError?: string
-  login: (email: string, password: string) => Promise<void>
-  register: (name: string, email: string, password: string) => Promise<void>
-  loginGoogle: () => Promise<void>
-  logout: () => void
+  user?: IUser;
+  token?: string;
+  initUser: () => void;
+  isLoadingAuth: boolean;
+  authError?: string;
+  login: (email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<void>;
+  loginGoogle: () => Promise<string>;
+  logout: () => void;
+  authenticateByToken: (accessToken: string) => Promise<void>;
 }
 
 export const UserContext = createContext<Context>({} as Context)
@@ -94,6 +95,7 @@ export const UserContextProvider: React.FC<IChildren> = ({ children }: IChildren
     try {
       const accessToken = await loginWithGoogle()
       await authenticateByToken(accessToken)
+      return accessToken
     } catch (err: any) {
       setAuthError(err?.message || "Nao foi possivel autenticar com Google")
       throw err
@@ -126,6 +128,7 @@ export const UserContextProvider: React.FC<IChildren> = ({ children }: IChildren
         register,
         loginGoogle,
         logout,
+        authenticateByToken,
       }}
     >
       {children}
