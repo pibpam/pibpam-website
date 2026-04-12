@@ -8,6 +8,7 @@ import {
   FiFilm,
   FiHome,
   FiImage,
+  FiLogIn,
   FiMusic,
   FiPlay,
   FiRadio,
@@ -55,6 +56,18 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
               <div>
                 <span>Área de Membros</span>
                 <span>Recursos para membresia e ministérios</span>
+              </div>
+              <FiChevronRight />
+            </button>
+          </li>
+        )}
+        {!user?.id && (
+          <li>
+            <button onClick={() => goTo("/login")}>
+              <FiLogIn />
+              <div>
+                <span>Entrar / Cadastrar</span>
+                <span>Acesse a área de membros</span>
               </div>
               <FiChevronRight />
             </button>
