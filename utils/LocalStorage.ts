@@ -9,3 +9,7 @@ export const saveToken = (accessToken: string) => {
 export const getToken = () => {
   return localStorage.getItem(TOKEN)
 }
+
+export const clearToken = () => {
+  localStorage.removeItem(TOKEN)
+}

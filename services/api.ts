@@ -15,6 +15,17 @@ import { IGetMemberRotations } from "../interfaces/Rotation";
 import { IGetAllGroupResponse } from "../interfaces/Group";
 import { IGetAllReadingPlan, IReadingPlan } from "../interfaces/ReadingPlan";
 
+export interface ICreateAccountPayload {
+  email: string;
+  password: string;
+  name: string;
+}
+
+export interface IThirdPartyAuthPayload {
+  idToken: string;
+  provider: "google";
+}
+
 export class Api {
   private client;
 
@@ -251,11 +262,26 @@ export class Api {
     return data;
   }
 
-  // Public Route
-  async authByToken(code: string) {
-    const { data } = await this.client.post("auth/member/code", {
-      code,
+  async authByFirebaseIdToken(idToken: string) {
+    const { data } = await this.client.post<{ accessToken: string }>("auth", {
+      idToken,
     });
+    return data;
+  }
+
+  async createAccount(payload: ICreateAccountPayload) {
+    const { data } = await this.client.post("account", payload);
+    return data;
+  }
+
+  async authWithThirdParty(payload: IThirdPartyAuthPayload) {
+    const { data } = await this.client.post<{ accessToken: string }>(
+      "auth/third-party",
+      payload
+    );
+
+    console.log("Third-party auth response:", data); // Log the authentication response for debugging
+
     return data;
   }
 

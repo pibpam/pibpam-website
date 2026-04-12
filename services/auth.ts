@@ -7,13 +7,13 @@ const getFriendlyFirebaseError = (errorCode?: string) => {
     case "auth/invalid-credential":
     case "auth/wrong-password":
     case "auth/user-not-found":
-      return "E-mail ou senha invalidos.";
+      return "E-mail ou senha inválidos.";
     case "auth/popup-closed-by-user":
       return "Login com Google cancelado.";
     case "auth/network-request-failed":
-      return "Falha de conexao. Tente novamente.";
+      return "Falha de conexão. Tente novamente.";
     default:
-      return "Nao foi possivel autenticar. Tente novamente.";
+      return "Não foi possível autenticar. Tente novamente.";
   }
 };
 
@@ -40,7 +40,7 @@ export const loginWithEmailAndPassword = async (email: string, password: string)
       throw new Error(getFriendlyFirebaseError(error.code));
     }
 
-    throw new Error(getApiError(error, "Nao foi possivel concluir o login."));
+    throw new Error(getApiError(error, "Não foi possível concluir o login."));
   }
 };
 
@@ -50,7 +50,7 @@ export const registerWithEmailAndPassword = async (name: string, email: string, 
   try {
     await api.createAccount({ name, email, password });
   } catch (error: any) {
-    throw new Error(getApiError(error, "Nao foi possivel criar sua conta."));
+    throw new Error(getApiError(error, "Não foi possível criar sua conta."));
   }
 
   return loginWithEmailAndPassword(email, password);
@@ -74,7 +74,7 @@ export const loginWithGoogle = async () => {
       throw new Error(getFriendlyFirebaseError(error.code));
     }
 
-    throw new Error(getApiError(error, "Nao foi possivel concluir o login com Google."));
+    throw new Error(getApiError(error, "Não foi possível concluir o login com Google."));
   }
 };
 

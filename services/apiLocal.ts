@@ -4,6 +4,7 @@ import { IGetAllSeries } from "../interfaces/Series";
 import { INotice } from "../interfaces/Notice";
 import { IUser } from "../interfaces/User";
 import { IGetMemberRotations } from "../interfaces/Rotation";
+import { ICreateAccountPayload, IThirdPartyAuthPayload } from "./api";
 
 export class ApiLocal {
   private client
@@ -43,6 +44,21 @@ export class ApiLocal {
 
   async authByCode(token: string) {
     const { data } = await this.client.post<{ accessToken: string }>("/auth/code", { token })
+    return data
+  }
+
+  async authByIdToken(idToken: string) {
+    const { data } = await this.client.post<{ accessToken: string }>("/auth", { idToken })
+    return data
+  }
+
+  async createAccount(payload: ICreateAccountPayload) {
+    const { data } = await this.client.post("/account", payload)
+    return data
+  }
+
+  async authWithThirdParty(payload: IThirdPartyAuthPayload) {
+    const { data } = await this.client.post<{ accessToken: string }>("/auth/third-party", payload)
     return data
   }
 

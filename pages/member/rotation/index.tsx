@@ -40,6 +40,7 @@ const Member: NextPage = () => {
   const getRotations = async (token: string) => {
     const api = new ApiLocal();
     const data = await api.getRotations(token);
+    console.log("Rotations data in component:", data) // Log the rotations data for debugging
     setTeams(data);
   };
 

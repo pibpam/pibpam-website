@@ -15,6 +15,8 @@ interface Context {
   isLoadingDownload: boolean;
   setLoadingDownload: (data: boolean) => void;
   deviceInfo: DeviceInfo | null;
+  blockPostMessage: () => void;
+  unblockPostMessage: () => void;
 }
 
 export const PostMessageContext = createContext<Context>({} as Context);
@@ -127,6 +129,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
         "https://pibpam-website.vercel.app",
         "https://pibpam.org",
         "https://www.pibpam.org",
+        "https://pibpam.firebaseapp.com",
       ].includes(event.origin)
     ) {
       return;
@@ -193,12 +196,28 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
     // eslint-disable-next-line
   }, []);
 
+  const blockPostMessage = () => {
+    window.removeEventListener("message", handleEventPostMessage);
+    // @ts-ignore
+    document.removeEventListener("message", handleEventPostMessage);
+  };
+
+  const unblockPostMessage = () => {
+    window.addEventListener("message", handleEventPostMessage);
+    // @ts-ignore
+    document.addEventListener("message", handleEventPostMessage);
+  };
+
+
   return (
     <PostMessageContext.Provider
       value={{
         isLoadingDownload,
         setLoadingDownload,
         deviceInfo,
+        blockPostMessage,
+        unblockPostMessage,
+
       }}
     >
       {children}
