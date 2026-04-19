@@ -79,9 +79,6 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
 
   useEffect(() => {
-
-    alert(action);
-
     if (action === EActions.GOBACK) {
       goBack({}).then();
       setAction("");
