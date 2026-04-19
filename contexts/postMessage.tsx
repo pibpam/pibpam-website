@@ -86,8 +86,12 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
 
     if (action === EActions.LINKING) {
       const route = dataLink.route ? `/${dataLink.route}` : "/";
+      const searchParams = new URLSearchParams(dataLink.params).toString();
+
+      // {"pibpam":{"action":"linking","route":"","params":{"route":"auth/code","token":" sfsfdsfsdfs"}}}
+
       goTo({
-        pathname: route,
+        pathname: `${route}?${searchParams}`,
         showLoading: true,
         query: { ...query, from: "linking" } as Record<string, string>,
       }).then();
@@ -130,6 +134,7 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
         "https://pibpam.org",
         "https://www.pibpam.org",
         "https://pibpam.firebaseapp.com",
+        "http://10.0.2.2:3000",
       ].includes(event.origin)
     ) {
       return;
@@ -168,9 +173,9 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
       setAction(EActions.NOTIFICATION);
     }
 
-    if (data.pibpam.action === EActions.LINKING) {
+    if (data.pibpam.action === EActions.LINKING && data.pibpam?.params?.route) {
       setDataLink({
-        route: data.pibpam.route,
+        route: data.pibpam.params.route,
         params: data.pibpam.params,
       });
 
@@ -208,7 +213,6 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
     document.addEventListener("message", handleEventPostMessage);
   };
 
-
   return (
     <PostMessageContext.Provider
       value={{
@@ -217,7 +221,6 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
         deviceInfo,
         blockPostMessage,
         unblockPostMessage,
-
       }}
     >
       {children}

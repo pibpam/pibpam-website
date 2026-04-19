@@ -69,7 +69,10 @@ const Member: FC = () => {
                 <span>Escalas</span>
               </button>
 
-              <button disabled={!hasMember}>
+              <button
+                disabled={!hasMember}
+                onClick={() => goTo({ pathname: "/member/cohorts" })}
+              >
                 <PiUsers />
                 <span>Turmas</span>
               </button>
@@ -84,4 +87,3 @@ const Member: FC = () => {
 };
 
 export default Member;
-``;

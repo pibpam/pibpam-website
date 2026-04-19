@@ -4,6 +4,11 @@ import { IGetAllSeries } from "../interfaces/Series";
 import { INotice } from "../interfaces/Notice";
 import { IUser } from "../interfaces/User";
 import { IGetMemberRotations } from "../interfaces/Rotation";
+import {
+  IAttendanceBatchPayload,
+  ICohort,
+  ICohortLesson,
+} from "../interfaces/Cohort";
 import { ICreateAccountPayload, IThirdPartyAuthPayload } from "./api";
 
 export class ApiLocal {
@@ -75,5 +80,26 @@ export class ApiLocal {
   async saveAvailability(token: string, data: { status: string, rotationItem: string }) {
     const result = await this.client.post("/rotation/availability", data, { headers: { Authorization: token } })
     return result
+  }
+
+  async getMemberCohorts(token: string) {
+    const { data } = await this.client.get<ICohort[]>("/member/cohorts", {
+      headers: { Authorization: token },
+    })
+    return data
+  }
+
+  async getCohortLessons(token: string, cohortUuid: string) {
+    const { data } = await this.client.get<ICohortLesson[]>(`/member/cohorts/${cohortUuid}/lessons`, {
+      headers: { Authorization: token },
+    })
+    return data
+  }
+
+  async saveAttendanceBatch(token: string, payload: IAttendanceBatchPayload) {
+    const { data } = await this.client.post("/member/attendance/batch", payload, {
+      headers: { Authorization: token },
+    })
+    return data
   }
 }

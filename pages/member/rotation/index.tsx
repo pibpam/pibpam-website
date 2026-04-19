@@ -40,7 +40,7 @@ const Member: NextPage = () => {
   const getRotations = async (token: string) => {
     const api = new ApiLocal();
     const data = await api.getRotations(token);
-    console.log("Rotations data in component:", data) // Log the rotations data for debugging
+    console.log("Rotations data in component:", data); // Log the rotations data for debugging
     setTeams(data);
   };
 
@@ -143,30 +143,32 @@ const Member: NextPage = () => {
               participa.
             </p>
             <List>
-              {team?.map((item) => (
-                <MemberRotation key={item.uuid}>
-                  <div>
-                    <div>Ministério</div>
-                    <div>{item.name}</div>
-                  </div>
-                  <div>
-                    {item?.rotations.map((item) => (
-                      <button
-                        onClick={() => setSelectedRotation(item)}
-                        key={item.uuid}
-                      >
-                        <div>
-                          {item.title} <FiArrowRight />{" "}
-                        </div>
-                        <div>
-                          <FiInfo />{" "}
-                          {statusMessage[item.status] || "Sem detalhes."}
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </MemberRotation>
-              ))}
+              {team
+                ?.filter((item) => item.rotations.length)
+                .map((item) => (
+                  <MemberRotation key={item.uuid}>
+                    <div>
+                      <div>Ministério</div>
+                      <div>{item.name}</div>
+                    </div>
+                    <div>
+                      {item?.rotations.map((item) => (
+                        <button
+                          onClick={() => setSelectedRotation(item)}
+                          key={item.uuid}
+                        >
+                          <div>
+                            {item.title} <FiArrowRight />{" "}
+                          </div>
+                          <div>
+                            <FiInfo />{" "}
+                            {statusMessage[item.status] || "Sem detalhes."}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </MemberRotation>
+                ))}
             </List>
           </Container>
         </>
@@ -276,7 +278,6 @@ const Member: NextPage = () => {
           </ListItems>
           <ButtonSave>
             <button onClick={() => setSelectedRotation(undefined)}>
-              {" "}
               <FiUpload /> Salvar
             </button>
           </ButtonSave>

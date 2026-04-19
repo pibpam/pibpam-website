@@ -14,6 +14,11 @@ import { IBroadcast } from "../interfaces/Broadcast";
 import { IGetMemberRotations } from "../interfaces/Rotation";
 import { IGetAllGroupResponse } from "../interfaces/Group";
 import { IGetAllReadingPlan, IReadingPlan } from "../interfaces/ReadingPlan";
+import {
+  IAttendanceBatchPayload,
+  ICohort,
+  ICohortLesson,
+} from "../interfaces/Cohort";
 
 export interface ICreateAccountPayload {
   email: string;
@@ -251,6 +256,34 @@ export class Api {
       "v1/member/rotations/availability",
       { rotationItem, status },
       { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  }
+
+  async getMemberCohorts(token: string) {
+    const { data } = await this.client.get<ICohort[]>("v1/member/cohorts", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return data;
+  }
+
+  async getCohortLessons(token: string, cohortUuid: string) {
+    const { data } = await this.client.get<ICohortLesson[]>(
+      `v1/member/cohorts/${cohortUuid}/lessons`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return data;
+  }
+
+  async saveAttendanceBatch(token: string, payload: IAttendanceBatchPayload) {
+    const { data } = await this.client.post(
+      "v1/member/attendance/batch",
+      payload,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     return data;
   }
