@@ -73,10 +73,6 @@ const AuthCode: React.FC<{ execute: boolean }> = ({ execute }) => {
           </div>
         )}
 
-        <SecondaryButton onClick={openApp}>
-          <>Abrir Aplicativo</>
-        </SecondaryButton>
-
         {hasError && (
           <div>
             <PiWarning />

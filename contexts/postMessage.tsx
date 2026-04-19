@@ -88,6 +88,8 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
       const route = dataLink.route ? `/${dataLink.route}` : "/";
       const searchParams = new URLSearchParams(dataLink.params).toString();
 
+      alert(JSON.stringify({ route, searchParams, dataLink }));
+
       // {"pibpam":{"action":"linking","route":"","params":{"route":"auth/code","token":" sfsfdsfsdfs"}}}
 
       goTo({
