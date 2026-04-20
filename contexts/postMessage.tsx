@@ -33,6 +33,7 @@ enum EActions {
   IMAGE_SAVED = "imageSaved",
   ERROR_IMAGE_SAVE = "errorImageSave",
   DEVICE_INFO = "deviceInfo",
+  PAGE_HANDLER = "page-handler"
 }
 
 interface DataLink {
@@ -84,13 +85,11 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
       setAction("");
     }
 
-    if (action === EActions.LINKING) {
+    if (action === EActions.PAGE_HANDLER) {
       const route = dataLink.route ? `/${dataLink.route}` : "/";
       const searchParams = new URLSearchParams(dataLink.params).toString();
 
       alert(JSON.stringify({ route, searchParams, dataLink }));
-
-      // {"pibpam":{"action":"linking","route":"","params":{"route":"auth/code","token":" sfsfdsfsdfs"}}}
 
       goTo({
         pathname: `${route}?${searchParams}`,
@@ -175,13 +174,13 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
       setAction(EActions.NOTIFICATION);
     }
 
-    if (data.pibpam.action === EActions.LINKING && data.pibpam?.params?.route) {
+    if (data.pibpam.action === EActions.PAGE_HANDLER && data.pibpam?.params?.page) {
       setDataLink({
-        route: data.pibpam.params.route,
+        route: data.pibpam.params.page,
         params: data.pibpam.params,
       });
 
-      setAction(EActions.LINKING);
+      setAction(EActions.PAGE_HANDLER);
     }
   };
 
