@@ -10,11 +10,13 @@ import { UserContext } from "../contexts/user";
 import styles from "../styles/Auth.module.scss";
 import { PostMessageContext } from "../contexts/postMessage";
 import { AppContext } from "../contexts/app";
+import usePostMessage from "../hooks/usePostMessage";
 
 const Login: NextPage = () => {
   const router = useRouter();
   const { login, loginGoogle, isLoadingAuth, authError, token } =
     useContext(UserContext);
+  const [statedGoogleLogin, setStatedGoogleLogin] = useState(false);
   const { blockPostMessage, unblockPostMessage } =
     useContext(PostMessageContext);
   const { isApp } = useContext(AppContext);
@@ -22,6 +24,7 @@ const Login: NextPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | undefined>();
+  const { googleLogin } = usePostMessage();
 
   const runInvisibleCaptcha = async () => {
     return true;
@@ -53,7 +56,9 @@ const Login: NextPage = () => {
 
   const handleLoginGoogle = async () => {
     if (isApp) {
-      window.open(window.location.origin + "/auth/google", "_blank");
+      setStatedGoogleLogin(true);
+      googleLogin();
+      // window.open(window.location.origin + "/auth/google", "_blank");
       return;
     }
 
@@ -128,7 +133,9 @@ const Login: NextPage = () => {
               <span className={styles.googleContent}>
                 <FcGoogle />
                 <span>
-                  {isLoadingAuth ? "Aguarde..." : "Entrar com Google"}
+                  {isLoadingAuth || statedGoogleLogin
+                    ? "Aguarde..."
+                    : "Entrar com Google"}
                 </span>
               </span>
             </ThirdButton>

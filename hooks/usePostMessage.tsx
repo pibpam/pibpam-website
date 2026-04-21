@@ -43,7 +43,11 @@ const usePostMessage = () => {
 
   }
 
-  return { sendMessage, openLink, share, saveImage }
+  const googleLogin = () => {
+    sendMessage({ action: "signInWithGoogle" });
+  }
+
+  return { sendMessage, openLink, share, saveImage, googleLogin }
 }
 
 export default usePostMessage
