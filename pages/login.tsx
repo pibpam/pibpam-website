@@ -1,9 +1,9 @@
 import type { NextPage } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { FcGoogle } from "react-icons/fc";
+import PasswordInput from "../components/PasswordInput";
 import SecondaryButton from "../components/Button/Secondary";
 import ThirdButton from "../components/Button/Third";
 import { UserContext } from "../contexts/user";
@@ -11,6 +11,12 @@ import styles from "../styles/Auth.module.scss";
 import { PostMessageContext } from "../contexts/postMessage";
 import { AppContext } from "../contexts/app";
 import usePostMessage from "../hooks/usePostMessage";
+import Website from "../layout/container/Website";
+import Header from "../components/Header";
+import HeaderContainer from "../components/HeaderContainer";
+import useMenu from "../hooks/useMenu";
+import { useAppNavigation } from "../hooks/useAppNavigation";
+import useHeader from "../hooks/useHeader";
 
 const Login: NextPage = () => {
   const router = useRouter();
@@ -25,6 +31,9 @@ const Login: NextPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | undefined>();
   const { googleLogin } = usePostMessage();
+  const { open, toggleMenu } = useMenu();
+  const { goBack } = useAppNavigation();
+  const { scrollActive, changeScroll } = useHeader();
 
   const runInvisibleCaptcha = async () => {
     return true;
@@ -76,80 +85,91 @@ const Login: NextPage = () => {
   };
 
   return (
-    <main className={styles.page}>
-      <section className={styles.card}>
-        <div className={styles.brand}>
-          <Image src="/pibpam-logo.svg" alt="PIBPam" width={132} height={44} />
-        </div>
+    <Website
+      title="Entrar"
+      hasTabNavigator={false}
+      changeScroll={changeScroll}
+      openMenu={open}
+      toggleMenu={toggleMenu}
+    >
+      <>
+        <HeaderContainer active={scrollActive}>
+          <Header
+            goBack={() => goBack({ fallback: "/" })}
+            toggleMenu={toggleMenu}
+          />
+        </HeaderContainer>
+        <main className={styles.page}>
+          <section className={styles.card}>
+            <h1 className={styles.title}>Entrar</h1>
+            <p className={styles.description}>
+              Acesse sua conta da área de membros.
+            </p>
 
-        <h1 className={styles.title}>Entrar</h1>
-        <p className={styles.description}>
-          Acesse sua conta da área de membros.
-        </p>
-
-        {(error || authError) && (
-          <div className={styles.error}>{error || authError}</div>
-        )}
-
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.field}>
-            <label htmlFor="email">E-mail</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              autoComplete="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-          </div>
-
-          <div className={styles.field}>
-            <label htmlFor="password">Senha</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              required
-              minLength={6}
-              autoComplete="current-password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-            />
-          </div>
-
-          <div className={styles.buttons}>
-            <SecondaryButton
-              text={isLoadingAuth ? "Entrando..." : "Entrar"}
-              disabled={isLoadingAuth}
-              type="submit"
-            />
-
-            {!isApp && (
-              <ThirdButton
-                type="button"
-                disabled={isLoadingAuth}
-                onClick={handleLoginGoogle}
-              >
-                <span className={styles.googleContent}>
-                  <FcGoogle />
-                  <span>
-                    {isLoadingAuth || statedGoogleLogin
-                      ? "Aguarde..."
-                      : "Entrar com Google"}
-                  </span>
-                </span>
-              </ThirdButton>
+            {(error || authError) && (
+              <div className={styles.error}>{error || authError}</div>
             )}
-          </div>
-        </form>
 
-        <p className={styles.helper}>
-          Ainda não possui conta? <Link href="/cadastro">Crie agora</Link>
-        </p>
-      </section>
-    </main>
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <div className={styles.field}>
+                <label htmlFor="email">E-mail</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                />
+              </div>
+
+              <div className={styles.field}>
+                <label htmlFor="password">Senha</label>
+                <PasswordInput
+                  id="password"
+                  name="password"
+                  required
+                  minLength={6}
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+              </div>
+
+              <div className={styles.buttons}>
+                <SecondaryButton
+                  text={isLoadingAuth ? "Entrando..." : "Entrar"}
+                  disabled={isLoadingAuth}
+                  type="submit"
+                />
+
+                {!isApp && (
+                  <ThirdButton
+                    type="button"
+                    disabled={isLoadingAuth}
+                    onClick={handleLoginGoogle}
+                  >
+                    <span className={styles.googleContent}>
+                      <FcGoogle />
+                      <span>
+                        {isLoadingAuth || statedGoogleLogin
+                          ? "Aguarde..."
+                          : "Entrar com Google"}
+                      </span>
+                    </span>
+                  </ThirdButton>
+                )}
+              </div>
+            </form>
+
+            <p className={styles.helper}>
+              Ainda não possui conta? <Link href="/cadastro">Crie agora</Link>
+            </p>
+          </section>
+        </main>
+      </>
+    </Website>
   );
 };
 
