@@ -125,20 +125,23 @@ const Login: NextPage = () => {
               disabled={isLoadingAuth}
               type="submit"
             />
-            <ThirdButton
-              type="button"
-              disabled={isLoadingAuth}
-              onClick={handleLoginGoogle}
-            >
-              <span className={styles.googleContent}>
-                <FcGoogle />
-                <span>
-                  {isLoadingAuth || statedGoogleLogin
-                    ? "Aguarde..."
-                    : "Entrar com Google"}
+
+            {!isApp && (
+              <ThirdButton
+                type="button"
+                disabled={isLoadingAuth}
+                onClick={handleLoginGoogle}
+              >
+                <span className={styles.googleContent}>
+                  <FcGoogle />
+                  <span>
+                    {isLoadingAuth || statedGoogleLogin
+                      ? "Aguarde..."
+                      : "Entrar com Google"}
+                  </span>
                 </span>
-              </span>
-            </ThirdButton>
+              </ThirdButton>
+            )}
           </div>
         </form>
 
