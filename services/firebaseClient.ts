@@ -3,6 +3,7 @@ import {
   GoogleAuthProvider,
   UserCredential,
   getAuth,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
@@ -48,4 +49,9 @@ export const loginWithGooglePopup = (): Promise<UserCredential> => {
   const firebaseApp = getFirebaseApp();
   const provider = new GoogleAuthProvider();
   return signInWithPopup(getAuth(firebaseApp), provider);
+};
+
+export const sendFirebasePasswordReset = (email: string): Promise<void> => {
+  const firebaseApp = getFirebaseApp();
+  return sendPasswordResetEmail(getAuth(firebaseApp), email);
 };

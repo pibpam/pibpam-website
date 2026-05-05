@@ -1,5 +1,5 @@
 import { ApiLocal } from "./apiLocal";
-import { loginWithFirebaseEmail, loginWithGooglePopup } from "./firebaseClient";
+import { loginWithFirebaseEmail, loginWithGooglePopup, sendFirebasePasswordReset } from "./firebaseClient";
 import { clearToken, saveToken } from "../utils/LocalStorage";
 
 const getFriendlyFirebaseError = (errorCode?: string) => {
@@ -80,4 +80,15 @@ export const loginWithGoogle = async () => {
 
 export const logoutUser = () => {
   clearToken();
+};
+
+export const sendPasswordReset = async (email: string): Promise<void> => {
+  try {
+    await sendFirebasePasswordReset(email);
+  } catch (error: any) {
+    if (error?.code) {
+      throw new Error(getFriendlyFirebaseError(error.code));
+    }
+    throw new Error("Não foi possível enviar o e-mail de recuperação. Tente novamente.");
+  }
 };

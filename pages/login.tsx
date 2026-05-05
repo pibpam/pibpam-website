@@ -137,6 +137,10 @@ const Login: NextPage = () => {
                 />
               </div>
 
+              <a className={styles.forgotPassword}>
+                <Link href="/recuperar-senha">Esqueceu sua senha?</Link>
+              </a>
+              
               <div className={styles.buttons}>
                 <SecondaryButton
                   text={isLoadingAuth ? "Entrando..." : "Entrar"}
