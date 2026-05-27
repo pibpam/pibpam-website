@@ -69,7 +69,12 @@ const ReadingPlan: React.FC<{ readingPlans: IGetAllReadingPlan }> = ({
         <DividerMobile color={EDividerColors.white} />
         <Container>
           {readingPlans.data
-            .sort((a, b) => (a.title < b.title ? 1 : -1))
+            .sort((a, b) =>
+              b.title.localeCompare(a.title, "pt-BR", {
+                numeric: true,
+                sensitivity: "base",
+              }),
+            )
             .map((item) => (
               <ContentItem
                 key={item.uuid}

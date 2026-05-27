@@ -198,7 +198,8 @@ export class Api {
     const { data } = await this.client.get<IGetAllReadingPlan>(
       "v1/reading-plan", {
         params: {
-          date: date?.toISOString()
+          date: date?.toISOString(),
+          limit: 200
         }
       }
     );
