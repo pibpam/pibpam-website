@@ -5,10 +5,33 @@ import { PiBookBookmarkThin } from "react-icons/pi";
 import { IReadingPlan } from "../../../interfaces/ReadingPlan";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import { PostMessageContext } from "../../../contexts/postMessage";
+import { IMemberBasic } from "../../../interfaces/Member";
+import BirthdayWidget from "../BirthdayWidget";
 
-const Banner: React.FC<{ readingPlan?: IReadingPlan }> = ({readingPlan}) => {
+const Banner: React.FC<{ readingPlan?: IReadingPlan; birthdaysMonth?: IMemberBasic[] }> = ({
+  readingPlan,
+  birthdaysMonth,
+}) => {
    const {goTo} = useAppNavigation()
    const {deviceInfo} = React.useContext(PostMessageContext)
+
+  const [todayDay, setTodayDay] = React.useState<number | null>(null);
+
+  React.useEffect(() => {
+    setTodayDay(new Date().getDate());
+  }, []);
+
+  const birthdaysToday = React.useMemo(() => {
+    if (todayDay === null) {
+      return [];
+    }
+
+    return (birthdaysMonth || []).filter((member) => {
+      return typeof member.birthday === "number" && member.birthday === todayDay;
+    });
+  }, [birthdaysMonth, todayDay]);
+
+  const showWidgets = !!readingPlan || birthdaysToday.length > 0;
 
   return (
     <div className={styles.banner}>
@@ -18,20 +41,26 @@ const Banner: React.FC<{ readingPlan?: IReadingPlan }> = ({readingPlan}) => {
         </div>
       </div>
       <div className={styles.content}>
-        {!!readingPlan && (
-          <button onClick={() => goTo({
-            pathname: `/reading-plan/${readingPlan.uuid}`,
-            showLoading: true
-          })} className={styles.dailyReading} style={{ marginTop: `${(deviceInfo?.top || 0) + 24}px` }}>
-            <div>
-              <PiBookBookmarkThin />
-            </div>
-            <div>
-              <h2>Já fez a leitura Biblíca de hoje?</h2>
-              <h3>{readingPlan.title}</h3>
-              <h4>{readingPlan.description}</h4>
-            </div>
-          </button>
+        {showWidgets && (
+          <div className={styles.widgets} style={{ marginTop: `${(deviceInfo?.top || 0) + 24}px` }}>
+            {!!readingPlan && (
+              <button onClick={() => goTo({
+                pathname: `/reading-plan/${readingPlan.uuid}`,
+                showLoading: true
+              })} className={styles.dailyReading}>
+                <div>
+                  <PiBookBookmarkThin />
+                </div>
+                <div>
+                  <h2>Já fez a leitura Bíblica de hoje?</h2>
+                  <h3>{readingPlan.title}</h3>
+                  <h4>{readingPlan.description}</h4>
+                </div>
+              </button>
+            )}
+
+            <BirthdayWidget birthdays={birthdaysToday} />
+          </div>
         )}
 
         <div className={styles.headerTitle}>

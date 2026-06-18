@@ -63,6 +63,14 @@
   }
 }
 
+.widgets {
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 
 .videoContainer {
   position: absolute;

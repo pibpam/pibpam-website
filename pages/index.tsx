@@ -25,6 +25,7 @@ import Collections from "../components/Home/Collections";
 import { UserContext } from "../contexts/user";
 import HomeDesktop from "../container/Desktop/HomeDesktop";
 import { IReadingPlan } from "../interfaces/ReadingPlan";
+import { IMemberBasic } from "../interfaces/Member";
 
 interface IHome {
   content?: IContent;
@@ -33,7 +34,8 @@ interface IHome {
   series: ISeries[];
   banners: IBanner[];
   collections: ICollection[];
-  readingPlan?: IReadingPlan
+  readingPlan?: IReadingPlan;
+  birthdaysMonth: IMemberBasic[];
 }
 
 const Home: NextPage<IHome> = ({
@@ -43,7 +45,8 @@ const Home: NextPage<IHome> = ({
   series,
   banners,
   collections,
-  readingPlan
+  readingPlan,
+  birthdaysMonth,
 }) => {
   const { open, toggleMenu } = useMenu();
   const { lives } = useContext(LivesContext);
@@ -65,7 +68,7 @@ const Home: NextPage<IHome> = ({
         <HeaderContainer active={scrollActive}>
           <Header toggleMenu={toggleMenu} />
         </HeaderContainer>
-        <Banner readingPlan={readingPlan} />
+        <Banner readingPlan={readingPlan} birthdaysMonth={birthdaysMonth} />
         <DividerMobile />
         <Intro userName={user?.member.name} banners={banners} goTo={goTo} />
         <DividerMobile color={EDividerColors.white} />
@@ -101,7 +104,8 @@ export async function getStaticProps() {
   const series = await api.getSeries(1, 5);
   const collections = await api.getCollections();
   const readingPlan = await api.getReadingPlans(new Date());
-  const lastReadingPlan = readingPlan.data.at(0)
+  const birthdaysMonth = await api.getMonthBirthDateMembers();
+  const lastReadingPlan = readingPlan.data.at(0);
 
   return {
     props: {
@@ -111,7 +115,8 @@ export async function getStaticProps() {
       series: series.data,
       banners,
       collections: collections.slice(0, 5),
-      readingPlan: lastReadingPlan
+      readingPlan: lastReadingPlan,
+      birthdaysMonth,
     },
   };
 }
