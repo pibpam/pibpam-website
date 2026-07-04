@@ -5,6 +5,7 @@ import {
   FiBookOpen,
   FiCalendar,
   FiChevronRight,
+  FiClipboard,
   FiFilm,
   FiHome,
   FiImage,
@@ -201,6 +202,16 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
             <FiImage />
             <div>
               <span>Galeria</span>
+            </div>
+            <FiChevronRight />
+          </button>
+        </li>
+        <li>
+          <button onClick={() => goTo("/inscricoes")}>
+            <FiClipboard />
+            <div>
+              <span>Inscrições</span>
+              <span>Eventos e inscrições da igreja</span>
             </div>
             <FiChevronRight />
           </button>

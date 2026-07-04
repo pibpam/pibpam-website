@@ -15,6 +15,15 @@ import { IGetMemberRotations } from "../interfaces/Rotation";
 import { IGetAllGroupResponse } from "../interfaces/Group";
 import { IGetAllReadingPlan, IReadingPlan } from "../interfaces/ReadingPlan";
 import {
+  IGetAllEventsResponse,
+  IEventDetail,
+  ICreateRegistrationPayload,
+  ICreateRegistrationResponse,
+  ICreateInstallmentProofResponse,
+  IRegistrationSearchParams,
+  IRegistrationSearchResult,
+} from "../interfaces/Event";
+import {
   IAttendanceBatchPayload,
   ICohort,
   ICohortLesson,
@@ -209,6 +218,56 @@ export class Api {
   async getReadingPlan(uuid: string) {
     const { data } = await this.client.get<IReadingPlan>(
       "v1/reading-plan/" + uuid
+    );
+    return data;
+  }
+
+  async getEvents(page?: number, pageSize?: number) {
+    const params = {} as { page?: number; pageSize?: number };
+    if (page) {
+      params.page = page;
+    }
+    if (pageSize) {
+      params.pageSize = pageSize;
+    }
+    const { data } = await this.client.get<IGetAllEventsResponse>("v1/events", {
+      params,
+    });
+    return data;
+  }
+
+  async getEvent(uuid: string) {
+    const { data } = await this.client.get<IEventDetail>("v1/events/" + uuid);
+    return data;
+  }
+
+  async createRegistration(
+    eventUuid: string,
+    payload: ICreateRegistrationPayload
+  ) {
+    const { data } = await this.client.post<ICreateRegistrationResponse>(
+      `v1/events/${eventUuid}/registrations`,
+      payload
+    );
+    return data;
+  }
+
+  async searchRegistrations(params: IRegistrationSearchParams) {
+    const { data } = await this.client.get<IRegistrationSearchResult[]>(
+      "v1/events/registrations/search",
+      { params }
+    );
+    return data;
+  }
+
+  async createInstallmentProof(
+    registrationUuid: string,
+    installmentUuid: string,
+    fileName: string
+  ) {
+    const { data } = await this.client.post<ICreateInstallmentProofResponse>(
+      `v1/events/registrations/${registrationUuid}/installments/${installmentUuid}/proof`,
+      { fileName }
     );
     return data;
   }

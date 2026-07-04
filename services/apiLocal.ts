@@ -10,6 +10,15 @@ import {
   ICohortLesson,
 } from "../interfaces/Cohort";
 import { ICreateAccountPayload, IThirdPartyAuthPayload } from "./api";
+import {
+  IGetAllEventsResponse,
+  IEventDetail,
+  ICreateRegistrationPayload,
+  ICreateRegistrationResponse,
+  ICreateInstallmentProofResponse,
+  IRegistrationSearchParams,
+  IRegistrationSearchResult,
+} from "../interfaces/Event";
 
 export class ApiLocal {
   private client
@@ -100,6 +109,46 @@ export class ApiLocal {
     const { data } = await this.client.post("/member/attendance/batch", payload, {
       headers: { Authorization: token },
     })
+    return data
+  }
+
+  async getEvents(page: number, pageSize: number) {
+    const { data } = await this.client.get<IGetAllEventsResponse>("/events", {
+      params: { page, pageSize },
+    })
+    return data
+  }
+
+  async getEvent(uuid: string) {
+    const { data } = await this.client.get<IEventDetail>("/events/" + uuid)
+    return data
+  }
+
+  async createRegistration(eventUuid: string, payload: ICreateRegistrationPayload) {
+    const { data } = await this.client.post<ICreateRegistrationResponse>(
+      `/events/${eventUuid}/registrations`,
+      payload
+    )
+    return data
+  }
+
+  async searchRegistrations(params: IRegistrationSearchParams) {
+    const { data } = await this.client.get<IRegistrationSearchResult[]>(
+      "/registrations/search",
+      { params }
+    )
+    return data
+  }
+
+  async createInstallmentProof(
+    registrationUuid: string,
+    installmentUuid: string,
+    fileName: string
+  ) {
+    const { data } = await this.client.post<ICreateInstallmentProofResponse>(
+      `/registrations/${registrationUuid}/installments/${installmentUuid}/proof`,
+      { fileName }
+    )
     return data
   }
 }
