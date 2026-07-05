@@ -1,6 +1,5 @@
 import React, { useContext, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { AnimatePresence, motion } from "framer-motion";
 import {
   FiCalendar,
   FiCheck,
@@ -31,13 +30,6 @@ import {
   IEventDetail,
   IEventProduct,
 } from "../../interfaces/Event";
-
-// Direção da animação: 1 = avançar, -1 = voltar.
-const stepVariants = {
-  enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 40 : -40 }),
-  center: { opacity: 1, x: 0 },
-  exit: (dir: number) => ({ opacity: 0, x: dir > 0 ? -40 : 40 }),
-};
 
 const paymentIcon = (type: string) => {
   switch (type) {
@@ -332,7 +324,6 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
       await goTo({
         pathname: `/inscricoes/acompanhamento/${response?.code || ""}`,
         showLoading: true,
-        query: { eventUuid: event.uuid },
       });
     } catch (err: any) {
       setError(
@@ -443,15 +434,15 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
       </div>
 
       <div className={styles.stepViewport}>
-        <AnimatePresence mode="wait" custom={direction} initial={false}>
-        <motion.div
+        <div
           key={currentStep}
-          custom={direction}
-          variants={stepVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ duration: 0.28, ease: "easeInOut" }}
+          className={`${styles.step} ${
+            stepIndex === 0
+              ? ""
+              : direction > 0
+              ? styles.step_forward
+              : styles.step_back
+          }`}
         >
 
       {/* ---------- ETAPA: detalhes do evento ---------- */}
@@ -905,7 +896,7 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                         {method.label}
                       </span>
                     </span>
-                    {method.feeType !== "none" && method.feeValue > 0 && (
+                    {method.feeType !== "none" && +method.feeValue > 0 && (
                       <span className={styles.choice__desc}>
                         Taxa:{" "}
                         {method.feeType === "percent"
@@ -1008,8 +999,7 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
           )}
         </div>
       )}
-        </motion.div>
-        </AnimatePresence>
+        </div>
       </div>
 
       {error && <div className={styles.error}>{error}</div>}

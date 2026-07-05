@@ -185,6 +185,9 @@ export interface IRegistrationSearchResult {
   installmentsCount: number;
   totalAmount: number | string;
   status: "pending" | "confirmed" | "cancelled" | string;
+  // Meio de pagamento escolhido na inscrição, com os dados (PIX EMV/manual,
+  // responsável do dinheiro etc.) para exibir na tela de acompanhamento.
+  paymentMethod: IEventPaymentMethod | null;
   paymentUrl: string | null;
   mpPreferenceId: string | null;
   participants: IRegistrationSearchParticipant[];

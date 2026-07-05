@@ -7,6 +7,13 @@
       "runtimeArgs": ["dev"],
       "port": 3000,
       "autoPort": true
+    },
+    {
+      "name": "pibpam-prod",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["start"],
+      "port": 3000,
+      "autoPort": true
     }
   ]
 }

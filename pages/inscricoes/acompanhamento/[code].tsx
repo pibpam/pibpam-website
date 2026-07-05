@@ -19,8 +19,6 @@ import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import { DateUtils } from "../../../utils/Date";
 import { Api } from "../../../services/api";
 import {
-  ICashPaymentInfo,
-  IEventPixManualKey,
   IRegistrationInstallment,
   IRegistrationSearchResult,
 } from "../../../interfaces/Event";
@@ -28,11 +26,6 @@ import {
 interface ITrackingPage {
   code: string;
   registration: IRegistrationSearchResult | null;
-  // Fallback de chave PIX manual, obtido do evento quando navegado com
-  // ?eventUuid= (ex.: vindo da tela de sucesso da inscrição).
-  pixManualFallback: IEventPixManualKey | null;
-  // Dados do responsável pelo recebimento em dinheiro, obtidos do evento.
-  cashFallback: ICashPaymentInfo | null;
 }
 
 const formatPrice = (price?: number | string | null) => {
@@ -60,12 +53,7 @@ const statusLabel = (status?: string) => {
   return STATUS_LABELS[status] || status;
 };
 
-const TrackingPage: NextPage<ITrackingPage> = ({
-  code,
-  registration,
-  pixManualFallback,
-  cashFallback,
-}) => {
+const TrackingPage: NextPage<ITrackingPage> = ({ code, registration }) => {
   const { open, toggleMenu } = useMenu();
   const { scrollActive, changeScroll } = useHeader();
   const { goBack } = useAppNavigation();
@@ -83,6 +71,17 @@ const TrackingPage: NextPage<ITrackingPage> = ({
     installments.find((i) => i.uuid === activeInstallmentUuid) || null;
 
   const total = formatPrice(registration?.totalAmount);
+
+  // Meio de pagamento vem direto na inscrição.
+  const paymentMethod = registration?.paymentMethod || null;
+  const isPix = paymentMethod?.type === "PIX";
+  const isCash = paymentMethod?.type === "CASH";
+  const cashInfo = isCash
+    ? {
+        name: paymentMethod?.cashResponsibleName ?? null,
+        phone: paymentMethod?.cashResponsiblePhone ?? null,
+      }
+    : null;
 
   // Não usamos await: o writeText pode ficar pendente quando a aba não está
   // focada, o que travaria o feedback visual.
@@ -111,15 +110,6 @@ const TrackingPage: NextPage<ITrackingPage> = ({
     setCodeCopied(true);
     setTimeout(() => setCodeCopied(false), 2000);
   };
-
-  // Sem um campo explícito de meio de pagamento na inscrição, inferimos o
-  // método pela presença do copia-e-cola/chave PIX ou dos dados de dinheiro
-  // do evento (nessa ordem de prioridade).
-  const isPixInstallment = (inst: IRegistrationInstallment) =>
-    !!inst.pixCopyPaste || !!pixManualFallback;
-
-  const isCashInstallment = (inst: IRegistrationInstallment) =>
-    !isPixInstallment(inst) && !!cashFallback;
 
   const isPayable = (inst: IRegistrationInstallment) =>
     inst.status === "pending" || inst.status === "overdue";
@@ -248,9 +238,7 @@ const TrackingPage: NextPage<ITrackingPage> = ({
                     {[...installments]
                       .sort((a, b) => a.number - b.number)
                       .map((inst) => {
-                        const pix = isPixInstallment(inst);
-                        const cash = isCashInstallment(inst);
-                        const clickable = (pix || cash) && isPayable(inst);
+                        const clickable = (isPix || isCash) && isPayable(inst);
                         return (
                           <div
                             className={`${styles.track__item} ${
@@ -284,9 +272,9 @@ const TrackingPage: NextPage<ITrackingPage> = ({
                                       : ""
                                   }`}
                                 >
-                                  {pix ? (
+                                  {isPix ? (
                                     <FaPix />
-                                  ) : cash ? (
+                                  ) : isCash ? (
                                     <FiDollarSign />
                                   ) : (
                                     <FiCreditCard />
@@ -338,8 +326,8 @@ const TrackingPage: NextPage<ITrackingPage> = ({
           open={!!activeInstallment}
           onClose={() => setActiveInstallmentUuid(null)}
           pixCopyPaste={activeInstallment?.pixCopyPaste}
-          manualKey={pixManualFallback}
-          cashInfo={cashFallback}
+          manualKey={isPix ? paymentMethod?.pixManualKey : null}
+          cashInfo={cashInfo}
           registrationUuid={registration?.uuid}
           installmentUuid={activeInstallment?.uuid}
           proofUrl={activeInstallment?.proofUrl}
@@ -356,10 +344,7 @@ const TrackingPage: NextPage<ITrackingPage> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({
-  params,
-  query,
-}) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const code = params?.code;
 
   if (!code || typeof code !== "string") {
@@ -377,31 +362,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     registration = null;
   }
 
-  let pixManualFallback: IEventPixManualKey | null = null;
-  let cashFallback: ICashPaymentInfo | null = null;
-  const eventUuid = query?.eventUuid;
-  if (eventUuid && typeof eventUuid === "string") {
-    try {
-      const event = await api.getEvent(eventUuid);
-      const pixMethod = event.paymentMethods.find(
-        (m) => m.type === "PIX" && m.pixManualKey
-      );
-      pixManualFallback = pixMethod?.pixManualKey || null;
-
-      const cashMethod = event.paymentMethods.find((m) => m.type === "CASH");
-      cashFallback = cashMethod
-        ? {
-            name: cashMethod.cashResponsibleName,
-            phone: cashMethod.cashResponsiblePhone,
-          }
-        : null;
-    } catch (error) {
-      pixManualFallback = null;
-      cashFallback = null;
-    }
-  }
-
-  return { props: { code, registration, pixManualFallback, cashFallback } };
+  return { props: { code, registration } };
 };
 
 export default TrackingPage;

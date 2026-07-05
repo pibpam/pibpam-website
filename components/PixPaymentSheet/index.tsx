@@ -12,6 +12,7 @@ import { ImSpinner2 } from "react-icons/im";
 import Modal from "../Modal";
 import styles from "../../styles/components/PixPaymentSheet.module.scss";
 import { ApiLocal } from "../../services/apiLocal";
+import StringUtils from "../../utils/StringUtils";
 import { ICashPaymentInfo, IEventPixManualKey } from "../../interfaces/Event";
 
 interface IPixPaymentSheet {
@@ -278,8 +279,7 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
         ) : cashInfo ? (
           <>
             <p className={styles.subtitle}>
-              Entregue o valor combinado ao responsável abaixo e envie o
-              comprovante, se houver.
+              Entregue o valor combinado ao responsável abaixo.
             </p>
             <div className={styles.manualBox}>
               <span className={styles.manualLabel}>
@@ -289,10 +289,11 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
                 {cashInfo.name || "Não informado"}
               </strong>
               {cashInfo.phone && (
-                <span className={styles.manualName}>{cashInfo.phone}</span>
+                <span className={styles.manualName}>
+                  {StringUtils.maskPhone(cashInfo.phone)}
+                </span>
               )}
             </div>
-            {renderProofSection()}
           </>
         ) : (
           <p className={styles.subtitle}>
