@@ -508,6 +508,10 @@
   margin: 4px 0 8px;
 }
 
+.addonGroups {
+  margin-top: 16px;
+}
+
 /* ---- summary / total ---- */
 .summary {
   border: 1px solid #e2eeee;
@@ -771,6 +775,50 @@
 
 .track__item_sub {
   font-size: 13px;
+  color: #5e5b5b;
+}
+
+.track__addons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.track__addon {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #d7ecec;
+  border-radius: 12px;
+  padding: 8px 10px;
+  background: #f7fdfd;
+}
+
+.track__addon_img {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #eef4f4;
+}
+
+.track__addon_info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.track__addon_name {
+  font-weight: 600;
+  color: #2f2a2a;
+  font-size: 13px;
+}
+
+.track__addon_desc {
+  font-size: 12px;
   color: #5e5b5b;
 }
 

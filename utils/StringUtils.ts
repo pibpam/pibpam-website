@@ -17,6 +17,18 @@ class StringUtils {
     }
     return digits.replace(/^(\d{2})(\d{5})(\d{0,4})/, "($1) $2-$3");
   }
+
+  // Máscara de data BR: 99/99/9999
+  static maskDate(value: string) {
+    const digits = value.replace(/\D/g, "").slice(0, 8);
+    if (digits.length <= 2) {
+      return digits;
+    }
+    if (digits.length <= 4) {
+      return digits.replace(/^(\d{2})(\d{0,2})/, "$1/$2");
+    }
+    return digits.replace(/^(\d{2})(\d{2})(\d{0,4})/, "$1/$2/$3");
+  }
 }
 
 export default StringUtils

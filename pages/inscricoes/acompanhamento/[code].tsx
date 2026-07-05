@@ -221,11 +221,35 @@ const TrackingPage: NextPage<ITrackingPage> = ({ code, registration }) => {
                             {p.responsiblePhone ? ` · ${p.responsiblePhone}` : ""}
                           </span>
                         )}
-                        {p.addons.map((a) => (
-                          <span className={styles.track__item_sub} key={a.uuid}>
-                            Adicional: {a.addon.name}
-                          </span>
-                        ))}
+                        {!!p.addons.length && (
+                          <div className={styles.track__addons}>
+                            {p.addons.map((a) => (
+                              <div
+                                className={styles.track__addon}
+                                key={a.uuid}
+                              >
+                                {a.addon.image && (
+                                  // eslint-disable-next-line @next/next/no-img-element
+                                  <img
+                                    src={a.addon.image}
+                                    alt={a.addon.name}
+                                    className={styles.track__addon_img}
+                                  />
+                                )}
+                                <div className={styles.track__addon_info}>
+                                  <span className={styles.track__addon_name}>
+                                    {a.addon.name}
+                                  </span>
+                                  {a.addon.description && (
+                                    <span className={styles.track__addon_desc}>
+                                      {a.addon.description}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     ))}
                   </>
