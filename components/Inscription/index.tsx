@@ -26,6 +26,7 @@ import { UserContext } from "../../contexts/user";
 import { PostMessageContext } from "../../contexts/postMessage";
 import {
   IEventAddon,
+  IEventAddonGroup,
   IEventCustomField,
   IEventDetail,
   IEventProduct,
@@ -66,7 +67,8 @@ interface ParticipantForm {
   guardianName: string;
   guardianPhone: string;
   customFields: Record<string, string>;
-  addonUuid?: string;
+  // Adicionais selecionados por grupo: groupUuid -> addonUuid[].
+  selections: Record<string, string[]>;
   productUuid?: string;
   productVariation?: string;
 }
@@ -95,6 +97,7 @@ const emptyParticipant = (): ParticipantForm => ({
   guardianName: "",
   guardianPhone: "",
   customFields: {},
+  selections: {},
 });
 
 const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
@@ -156,9 +159,11 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
 
   const addonsByUuid = useMemo(() => {
     const map: Record<string, IEventAddon> = {};
-    event.addons?.forEach((a) => (map[a.uuid] = a));
+    event.addonGroups?.forEach((group) =>
+      group.addons.forEach((a) => (map[a.uuid] = a))
+    );
     return map;
-  }, [event.addons]);
+  }, [event.addonGroups]);
 
   const selectedPayment = useMemo(
     () => event.paymentMethods.find((m) => m.uuid === paymentMethodUuid),
@@ -172,8 +177,14 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
     return acc + toNumber(product?.price);
   }, 0);
   const addonsTotal = participants.reduce((acc, p) => {
-    const addon = p.addonUuid ? addonsByUuid[p.addonUuid] : undefined;
-    return acc + toNumber(addon?.price);
+    const selectedUuids = Object.values(p.selections).flat();
+    return (
+      acc +
+      selectedUuids.reduce(
+        (a, uuid) => a + toNumber(addonsByUuid[uuid]?.price),
+        0
+      )
+    );
   }, 0);
   const subtotal =
     basePrice * participants.length + productsTotal + addonsTotal;
@@ -230,8 +241,18 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
               return `Participante ${i + 1}: preencha "${field.label}".`;
             }
           }
-          if (event.addons?.length && !p.addonUuid) {
-            return `Participante ${i + 1}: selecione um adicional.`;
+          for (const group of event.addonGroups || []) {
+            const selected = p.selections[group.uuid] || [];
+            if (
+              selected.length < group.minSelection ||
+              selected.length > group.maxSelection
+            ) {
+              return `Participante ${i + 1}: selecione entre ${
+                group.minSelection
+              } e ${group.maxSelection} adicional(is) do grupo "${
+                group.title
+              }".`;
+            }
           }
           if (event.products.length && !p.productUuid) {
             return `Participante ${i + 1}: selecione um produto.`;
@@ -299,7 +320,10 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
           responsiblePhone: isMinorParticipant
             ? p.guardianPhone
             : responsible.phone,
-          addonUuid: p.addonUuid,
+          selections: Object.entries(p.selections).flatMap(
+            ([groupUuid, addonUuids]) =>
+              addonUuids.map((addonUuid) => ({ groupUuid, addonUuid }))
+          ),
           products: p.productUuid
             ? [
                 {
@@ -339,6 +363,30 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
   const updateParticipant = (id: string, patch: Partial<ParticipantForm>) => {
     setParticipants((state) =>
       state.map((p) => (p.id === id ? { ...p, ...patch } : p))
+    );
+  };
+
+  const toggleAddon = (
+    id: string,
+    group: IEventAddonGroup,
+    addonUuid: string
+  ) => {
+    setParticipants((state) =>
+      state.map((p) => {
+        if (p.id !== id) return p;
+        const current = p.selections[group.uuid] || [];
+        let next: string[];
+        if (current.includes(addonUuid)) {
+          next = current.filter((u) => u !== addonUuid);
+        } else if (group.maxSelection <= 1) {
+          next = [addonUuid];
+        } else if (current.length >= group.maxSelection) {
+          next = current;
+        } else {
+          next = [...current, addonUuid];
+        }
+        return { ...p, selections: { ...p.selections, [group.uuid]: next } };
+      })
     );
   };
 
@@ -733,70 +781,81 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                 )}
               </div>
 
-              {!!event.addons?.length && (
-                <>
-                  <p className={styles.section__label}>
-                    Adicional<span className={styles.required}> *</span>
-                  </p>
-                  <div className={styles.choices}>
-                    {event.addons.map((addon) => {
-                      const selected = p.addonUuid === addon.uuid;
-                      const disabled = addon.soldOut || !addon.active;
-                      return (
-                        <button
-                          key={addon.uuid}
-                          type="button"
-                          disabled={disabled}
-                          className={`${styles.addon} ${
-                            selected ? styles.addon__selected : ""
-                          } ${disabled ? styles.addon__disabled : ""}`}
-                          onClick={() =>
-                            updateParticipant(p.id, { addonUuid: addon.uuid })
-                          }
-                        >
-                          {addon.image && (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={addon.image}
-                              alt={addon.name}
-                              className={styles.addon__img}
-                            />
-                          )}
-                          <span className={styles.addon__info}>
-                            <span className={styles.addon__name}>
-                              {addon.name}
-                            </span>
-                            {addon.description && (
-                              <span className={styles.addon__desc}>
-                                {addon.description}
-                              </span>
+              {event.addonGroups?.map((group) => {
+                const selectedUuids = p.selections[group.uuid] || [];
+                return (
+                  <React.Fragment key={group.uuid}>
+                    <p className={styles.section__label}>
+                      {group.title}
+                      {group.minSelection > 0 && (
+                        <span className={styles.required}> *</span>
+                      )}
+                    </p>
+                    {group.description && (
+                      <p className={styles.step__subtitle}>
+                        {group.description}
+                      </p>
+                    )}
+                    <div className={styles.choices}>
+                      {group.addons.map((addon) => {
+                        const selected = selectedUuids.includes(addon.uuid);
+                        const disabled = addon.soldOut || !addon.active;
+                        return (
+                          <button
+                            key={addon.uuid}
+                            type="button"
+                            disabled={disabled}
+                            className={`${styles.addon} ${
+                              selected ? styles.addon__selected : ""
+                            } ${disabled ? styles.addon__disabled : ""}`}
+                            onClick={() =>
+                              toggleAddon(p.id, group, addon.uuid)
+                            }
+                          >
+                            {addon.image && (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img
+                                src={addon.image}
+                                alt={addon.name}
+                                className={styles.addon__img}
+                              />
                             )}
-                            <span className={styles.addon__meta}>
-                              <span className={styles.choice__price}>
-                                {formatPrice(addon.price)}
+                            <span className={styles.addon__info}>
+                              <span className={styles.addon__name}>
+                                {addon.name}
                               </span>
-                              {disabled ? (
-                                <span className={styles.addon__soldout}>
-                                  Esgotado
+                              {addon.description && (
+                                <span className={styles.addon__desc}>
+                                  {addon.description}
                                 </span>
-                              ) : (
-                                addon.available !== null && (
-                                  <span className={styles.addon__avail}>
-                                    {addon.available} disponíveis
-                                  </span>
-                                )
                               )}
+                              <span className={styles.addon__meta}>
+                                <span className={styles.choice__price}>
+                                  {formatPrice(addon.price)}
+                                </span>
+                                {disabled ? (
+                                  <span className={styles.addon__soldout}>
+                                    Esgotado
+                                  </span>
+                                ) : (
+                                  addon.available !== null && (
+                                    <span className={styles.addon__avail}>
+                                      {addon.available} disponíveis
+                                    </span>
+                                  )
+                                )}
+                              </span>
                             </span>
-                          </span>
-                          {selected && (
-                            <FiCheck className={styles.addon__check} />
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </>
-              )}
+                            {selected && (
+                              <FiCheck className={styles.addon__check} />
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </React.Fragment>
+                );
+              })}
 
               {event.products.length > 0 && (
                 <>

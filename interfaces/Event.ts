@@ -99,12 +99,21 @@ export interface IEventAddon {
   soldOut: boolean;
 }
 
+export interface IEventAddonGroup {
+  uuid: string;
+  title: string;
+  description: string | null;
+  minSelection: number;
+  maxSelection: number;
+  addons: IEventAddon[];
+}
+
 export interface IEventDetail extends IEvent {
   batches: IEventBatch[];
   customFields: IEventCustomField[];
   paymentMethods: IEventPaymentMethod[];
   products: IEventProduct[];
-  addons: IEventAddon[];
+  addonGroups: IEventAddonGroup[];
 }
 
 // ---- Registration payload (POST /v1/events/{eventUuid}/registrations) ----
@@ -115,7 +124,7 @@ export interface IRegistrationParticipant {
   responsibleName: string;
   responsiblePhone: string;
   products: { productUuid: string; variation: string }[];
-  addonUuid?: string;
+  selections?: { groupUuid: string; addonUuid: string }[];
   customFieldValues: { customFieldUuid: string; value: string }[];
 }
 
