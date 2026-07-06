@@ -12,6 +12,9 @@
 /.next/
 /out/
 
+# storybook
+/storybook-static/
+
 # production
 /build
 
@@ -36,3 +39,4 @@ yarn-error.log*
 next-env.d.ts
 /.idea/
 .env
+public/public/sw.js

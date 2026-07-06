@@ -1,0 +1,25 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Overlays/ModalGetApp (docs only)" />
+
+# ModalGetApp
+
+Banner que sugere abrir o app nativo quando o site é acessado pelo navegador mobile.
+
+Este componente **não tem uma story interativa** porque, no código atual
+([components/ModalGetApp/index.tsx](../ModalGetApp/index.tsx)), o estado interno `isOpen`
+só é definido como `false` (botão "Fechar") — não existe nenhum caminho no código que o
+defina como `true` (a chamada `openApp()` que faria isso está comentada dentro do
+`useEffect`). Ou seja, com o código como está hoje, o banner nunca aparece de fato.
+
+## Props
+
+Nenhuma — o componente não recebe props; ele deriva tudo de `AppContext` (`isApp`, `isMobile`)
+e de `useRouter()`.
+
+## Comportamento
+
+- Só é elegível para aparecer quando `isMobile` é verdadeiro e `isApp` é falso (ou seja,
+  navegador mobile fora do WebView do app).
+- Ao clicar em "Abrir no App", tenta redirecionar para `pibpamapp://path<rota-atual>`.
+- Tem links de download para a Play Store e a App Store.
