@@ -7,7 +7,19 @@ import PasswordInput from "../components/PasswordInput";
 import SecondaryButton from "../components/Button/Secondary";
 import ThirdButton from "../components/Button/Third";
 import { UserContext } from "../contexts/user";
-import styles from "../styles/Auth.module.scss";
+import {
+  Buttons,
+  Card,
+  Description,
+  Error,
+  Field,
+  ForgotPassword,
+  Form,
+  GoogleContent,
+  Helper,
+  Page,
+  Title,
+} from "../styles/Auth";
 import { PostMessageContext } from "../contexts/postMessage";
 import { AppContext } from "../contexts/app";
 import usePostMessage from "../hooks/usePostMessage";
@@ -99,19 +111,19 @@ const Login: NextPage = () => {
             toggleMenu={toggleMenu}
           />
         </HeaderContainer>
-        <main className={styles.page}>
-          <section className={styles.card}>
-            <h1 className={styles.title}>Entrar</h1>
-            <p className={styles.description}>
+        <Page as="main">
+          <Card as="section">
+            <Title>Entrar</Title>
+            <Description>
               Acesse sua conta da área de membros.
-            </p>
+            </Description>
 
             {(error || authError) && (
-              <div className={styles.error}>{error || authError}</div>
+              <Error>{error || authError}</Error>
             )}
 
-            <form className={styles.form} onSubmit={handleSubmit}>
-              <div className={styles.field}>
+            <Form onSubmit={handleSubmit}>
+              <Field>
                 <label htmlFor="email">E-mail</label>
                 <input
                   id="email"
@@ -122,9 +134,9 @@ const Login: NextPage = () => {
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                 />
-              </div>
+              </Field>
 
-              <div className={styles.field}>
+              <Field>
                 <label htmlFor="password">Senha</label>
                 <PasswordInput
                   id="password"
@@ -135,13 +147,13 @@ const Login: NextPage = () => {
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                 />
-              </div>
+              </Field>
 
-              <a className={styles.forgotPassword}>
+              <ForgotPassword>
                 <Link href="/recuperar-senha">Esqueceu sua senha?</Link>
-              </a>
-              
-              <div className={styles.buttons}>
+              </ForgotPassword>
+
+              <Buttons>
                 <SecondaryButton
                   text={isLoadingAuth ? "Entrando..." : "Entrar"}
                   disabled={isLoadingAuth}
@@ -154,24 +166,24 @@ const Login: NextPage = () => {
                     disabled={isLoadingAuth}
                     onClick={handleLoginGoogle}
                   >
-                    <span className={styles.googleContent}>
+                    <GoogleContent>
                       <FcGoogle />
                       <span>
                         {isLoadingAuth || statedGoogleLogin
                           ? "Aguarde..."
                           : "Entrar com Google"}
                       </span>
-                    </span>
+                    </GoogleContent>
                   </ThirdButton>
                 )}
-              </div>
-            </form>
+              </Buttons>
+            </Form>
 
-            <p className={styles.helper}>
+            <Helper as="p">
               Ainda não possui conta? <Link href="/cadastro">Crie agora</Link>
-            </p>
-          </section>
-        </main>
+            </Helper>
+          </Card>
+        </Page>
       </>
     </Website>
   );

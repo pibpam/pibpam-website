@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Website from '../../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
-import Header from "../../components/Header";
+import HeaderComp from "../../components/Header";
 import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
 import { Api } from "../../services/api";
@@ -10,7 +10,7 @@ import useHeader from "../../hooks/useHeader";
 import HeaderContainer from "../../components/HeaderContainer";
 import { ISeries } from "../../interfaces/Series";
 import { FiList } from "react-icons/fi";
-import styles from "../../styles/SeriesPage.module.scss"
+import { Container, Grid, Header } from "../../styles/SeriesPage"
 import EventCard from "../../components/EventCard";
 import { GetStaticPaths } from "next";
 import ShareButton from '../../components/ShareButton';
@@ -40,12 +40,12 @@ const Event: NextPage<IEventPage> = ({ data }) => {
       toggleMenu={toggleMenu}>
       <>
         <HeaderContainer active={scrollActive}>
-          <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <HeaderComp goBack={() => goBack({})} toggleMenu={toggleMenu} />
         </HeaderContainer>
         <HeaderPage background={data.image} />
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container}>
-          <div className={styles.header}>
+        <Container>
+          <Header>
             <h2>{data.title}</h2>
             <p>{data.description}</p>
             <div>
@@ -54,8 +54,8 @@ const Event: NextPage<IEventPage> = ({ data }) => {
               </div>
               <ShareButton url={`https://pibpam.org/series/${data.uuid}`} message={`${data.title}, ${data.description}.`} />
             </div>
-          </div>
-          <div className={styles.grid}>
+          </Header>
+          <Grid>
             {data.series_contents.map(item => (
               <EventCard
                 key={item.content.uuid} hideDate
@@ -63,8 +63,8 @@ const Event: NextPage<IEventPage> = ({ data }) => {
                 data={item.content}
               />
             ))}
-          </div>
-        </div>
+          </Grid>
+        </Container>
       </>
     </Website>
   )

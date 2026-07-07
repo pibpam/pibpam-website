@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import styles from "../../../../styles/Bible.module.scss";
+import { ContainerVerse, HeaderWrap } from "../../../../styles/Bible";
 import Website from "../../../../layout/container/Website";
 import DividerMobile, {
   EDividerColors,
@@ -35,22 +35,22 @@ const BibleVerses: NextPage<IBible> = ({ chapter, book, verses }) => {
       toggleMenu={toggleMenu}
     >
       <>
-        <div className={styles.header_container}>
+        <HeaderWrap>
           <Header
             goBack={() => goBack({})}
             title={`${book.name}, ${chapter}`}
             toggleMenu={toggleMenu}
           />
-        </div>
+        </HeaderWrap>
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container_verse}>
+        <ContainerVerse>
           {verses &&
             verses.map((item) => (
               <p key={item.verse}>
                 <sup>{item.verse} </sup> {item.text}
               </p>
             ))}
-        </div>
+        </ContainerVerse>
       </>
     </Website>
   );

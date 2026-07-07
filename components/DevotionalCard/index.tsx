@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "../../styles/components/DevotionalCard.module.scss"
 import {IDevotinal} from "../../interfaces/Devotinal";
 import {DateUtils} from "../../utils/Date";
+import { Backdrop, Container, Content, TagDate, Thumb } from "./styles";
 
 interface IDevotionalCard {
     onClick: () => void
@@ -10,21 +10,21 @@ interface IDevotionalCard {
 
 const DevotionalCard: React.FC<IDevotionalCard> = ({onClick, devotional}) => {
     return (
-        <div className={styles.container} onClick={onClick}>
-            <div className={styles.tag__date}>
+        <Container onClick={onClick}>
+            <TagDate>
                 {DateUtils.formatDateDefault(devotional.contentDate)}
-            </div>
-            <div className={styles.thumb}>
-                <div className={styles.content}>
+            </TagDate>
+            <Thumb>
+                <Content>
                     <p>{devotional.title}</p>
                     {devotional?.author && (
                         <p>{devotional.author.name}</p>
                     )}
-                </div>
+                </Content>
 
-                <div className={styles.backdrop} style={{background: "url('" + devotional.image + "') center/cover"}}/>
-            </div>
-        </div>
+                <Backdrop style={{background: "url('" + devotional.image + "') center/cover"}}/>
+            </Thumb>
+        </Container>
     )
 }
 

@@ -1,5 +1,5 @@
 import type {NextPage} from 'next'
-import styles from '../styles/Events.module.scss'
+import { Container, Grid } from '../styles/Events'
 import Website from '../layout/container/Website'
 import DividerMobile, {EDividerColors} from "../components/DividerMobile";
 import Header from "../components/Header";
@@ -39,13 +39,13 @@ const Ministries: NextPage<IMinistries> = ({data}) => {
 
                 <DividerMobile color={EDividerColors.white}/>
 
-                <div className={styles.container}>
-                    <div className={styles.grid}>
+                <Container>
+                    <Grid>
                         {data.map(item => (
                             <MinistriesItem data={item} key={item.uuid} onClick={() => goTo("/ministry/" + item.uuid)}/>
                         ))}
-                    </div>
-                </div>
+                    </Grid>
+                </Container>
                 {/*<FooterPage*/}
                 {/*    options={[*/}
                 {/*        {*/}

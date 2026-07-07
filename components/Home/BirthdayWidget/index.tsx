@@ -1,9 +1,7 @@
 import React from "react";
-import { FiGift } from "react-icons/fi";
 import { IMemberBasic } from "../../../interfaces/Member";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
-
-import styles from "../../../styles/components/Home/BirthdayWidget.module.scss";
+import { Badge, BadgeIcon, Texts, Widget } from "./styles"
 
 interface IBirthdayWidget {
   birthdays: IMemberBasic[];
@@ -57,9 +55,8 @@ const BirthdayWidget: React.FC<IBirthdayWidget> = ({ birthdays }) => {
   const safeNamesText = namesText || "aniversariantes de hoje";
 
   return (
-    <button
+    <Widget
       type="button"
-      className={styles.widget}
       onClick={() =>
         goTo({
           pathname: "/birthdays",
@@ -68,15 +65,15 @@ const BirthdayWidget: React.FC<IBirthdayWidget> = ({ birthdays }) => {
       }
       aria-label="Ver lista de aniversariantes"
     >
-      <div className={styles.badge} aria-label="Comemoração de aniversário">
-        <FiGift className={styles.badgeIcon} />
-      </div>
+      <Badge aria-label="Comemoração de aniversário">
+        <BadgeIcon />
+      </Badge>
 
-      <div className={styles.texts}>
+      <Texts>
         <h2>Aniversariantes do dia:</h2>
         <h3>{safeNamesText}</h3>
-      </div>
-    </button>
+      </Texts>
+    </Widget>
   );
 };
 

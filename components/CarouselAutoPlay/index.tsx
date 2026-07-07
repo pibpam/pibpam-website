@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 
-import styles from '../../styles/components/CarouselAutoPlay.module.scss'
 import Carousel from "nuka-carousel"
 import {EBannerType, IBanner} from "../../interfaces/Banner";
 import Banner from "../Banner";
 import usePostMessage from "../../hooks/usePostMessage";
 import {useAppNavigation} from "../../hooks/useAppNavigation";
+import { Container, Item, StepFill, Stepper, StepTrack } from './styles'
 
 type CarouselAutoPlay = {
     banners: IBanner[]
@@ -34,7 +34,7 @@ const CarouselAutoPlay: React.FC<CarouselAutoPlay> = ({banners}) => {
 
     return (
         <>
-            <div className={styles.container}>
+            <Container>
                 <Carousel
                     autoplay
                     slideIndex={0}
@@ -45,18 +45,18 @@ const CarouselAutoPlay: React.FC<CarouselAutoPlay> = ({banners}) => {
                     wrapAround
                     afterSlide={(index) => setActive(index)}
                 >
-                    {banners.map(banner => (<div key={banner.uuid} className={styles.item}>
+                    {banners.map(banner => (<Item key={banner.uuid}>
                         <Banner data={banner} onClick={() => handleOpenLink(banner)}/>
-                    </div>))}
+                    </Item>))}
                 </Carousel>
-            </div>
-            <div className={styles.stepper}>
+            </Container>
+            <Stepper>
                 {banners.map((banner, index) => (
-                    <div key={banner.uuid}>
-                        <div className={`${active === index && styles.activeStep}`}/>
-                    </div>
+                    <StepTrack key={banner.uuid}>
+                        <StepFill $active={active === index} />
+                    </StepTrack>
                 ))}
-            </div>
+            </Stepper>
         </>
     );
 }

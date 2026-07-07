@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import styles from '../../../../styles/Lyrics.module.scss'
+import { ContainerLyric, HeaderWrap } from '../../../../styles/Lyrics'
 import Website from '../../../../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../../../../components/DividerMobile";
 import Header from "../../../../components/Header";
@@ -21,16 +21,16 @@ const BibleVerses: NextPage<IBible> = ({ lyric, type }) => {
     <Website title={`${lyric.name}`} hasTabNavigator={false} openMenu={open}
       toggleMenu={toggleMenu}>
       <>
-        <div className={styles.header_container}>
+        <HeaderWrap>
           <Header goBack={() => goBack({})} title={`${type.toUpperCase()} - ${lyric.number}`}
             toggleMenu={toggleMenu} />
-        </div>
+        </HeaderWrap>
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container_lyric}>
+        <ContainerLyric>
           <h4> <span>{lyric.number}</span> {lyric.name}</h4>
           <h5>{lyric.author}</h5>
           <div dangerouslySetInnerHTML={{ __html: lyric.lyric }} ></div>
-        </div>
+        </ContainerLyric>
       </>
     </Website>
   )

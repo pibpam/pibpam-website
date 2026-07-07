@@ -2,15 +2,15 @@ import styled from "styled-components";
 import theme from "./theme";
 
 export const Container = styled.div`
-  padding: 0 24px 90px;
+  padding: 0 ${theme.spacing.lg} 90px;
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 16px;
+  gap: ${theme.spacing.base};
 
   > p {
-    color: #3d3d3d;
-    margin-top: 8px;
+    color: ${theme.colors.gray700};
+    margin-top: ${theme.spacing.sm};
   }
 `;
 
@@ -18,36 +18,36 @@ export const List = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 8px;
+  gap: ${theme.spacing.sm};
 `;
 
 export const Card = styled.button`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: ${theme.spacing.sm};
   border: 2px solid ${theme.colors.primary};
-  border-radius: 8px;
-  background: #fff;
-  padding: 16px;
+  border-radius: ${theme.radius.md};
+  background: ${theme.colors.white};
+  padding: ${theme.spacing.base};
   text-align: left;
 
   > div:first-child {
     color: #6a6a6a;
     font-size: 14px;
-    border: 1px solid ${theme.colors.secundary};
-    padding: 4px 8px;
+    border: 1px solid ${theme.colors.secondary};
+    padding: ${theme.spacing.xs} ${theme.spacing.sm};
     border-radius: 20px;
     margin-right: auto;
   }
 
   > div:nth-child(2) {
-    color: #3d3d3d;
+    color: ${theme.colors.gray700};
     font-size: 22px;
     font-weight: 600;
   }
 
   > div:last-child {
-    color: #3d3d3d;
+    color: ${theme.colors.gray700};
     font-size: 16px;
   }
 `;
@@ -55,25 +55,25 @@ export const Card = styled.button`
 export const LessonCard = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: ${theme.spacing.sm};
   border: 2px solid ${theme.colors.primary};
-  border-radius: 8px;
-  background: #fff;
-  padding: 16px;
+  border-radius: ${theme.radius.md};
+  background: ${theme.colors.white};
+  padding: ${theme.spacing.base};
 
   > div:first-child {
-    color: #3d3d3d;
+    color: ${theme.colors.gray700};
     font-size: 14px;
   }
 
   > div:nth-child(2) {
-    color: #3d3d3d;
+    color: ${theme.colors.gray700};
     font-size: 20px;
     font-weight: 600;
   }
 
   > p {
-    color: #3d3d3d;
+    color: ${theme.colors.gray700};
     margin: 0;
   }
 `;
@@ -82,13 +82,13 @@ export const ActionButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: ${theme.spacing.sm};
   width: 100%;
   background: ${theme.colors.primary};
-  color: #fff;
-  border-radius: 8px;
+  color: ${theme.colors.white};
+  border-radius: ${theme.radius.md};
   font-size: 16px;
-  padding: 12px;
+  padding: ${theme.spacing.md};
   font-weight: 700;
 
   &:disabled {
@@ -97,18 +97,18 @@ export const ActionButton = styled.button`
 `;
 
 export const ModalContent = styled.div<{ bottom?: number }>`
-  padding: 24px;
+  padding: ${theme.spacing.lg};
   padding-bottom: ${({ bottom }) => (bottom ? bottom + 24 : 24)}px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: ${theme.spacing.base};
 
   > h1 {
     color: ${theme.colors.primary};
     font-size: 22px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: ${theme.spacing.sm};
 
     > button {
       display: flex;
@@ -121,14 +121,14 @@ export const ModalContent = styled.div<{ bottom?: number }>`
   }
 
   > p {
-    color: #3d3d3d;
+    color: ${theme.colors.gray700};
     margin: 0;
     font-size: 20px;
     font-weight: 600;
     display: flex;
     flex-direction: column;
-    border-radius: 8px;
-    padding: 12px;
+    border-radius: ${theme.radius.md};
+    padding: ${theme.spacing.md};
     border: 2px solid #a1e56b;
 
     span {
@@ -141,21 +141,21 @@ export const ModalContent = styled.div<{ bottom?: number }>`
 export const ParticipantList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: ${theme.spacing.md};
 `;
 
 export const ParticipantItem = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding-top: 12px;
+  gap: ${theme.spacing.sm};
+  padding-top: ${theme.spacing.md};
 
   & + div {
-    border-top: 2px solid #eee;
+    border-top: 2px solid ${theme.colors.gray100};
   }
 
   > div:first-child {
-    color: #3d3d3d;
+    color: ${theme.colors.gray700};
     font-size: 16px;
     font-weight: 600;
   }
@@ -164,17 +164,17 @@ export const ParticipantItem = styled.div`
 export const PresenceGroup = styled.div`
   display: flex;
   border: 2px solid ${theme.colors.primary};
-  border-radius: 8px;
+  border-radius: ${theme.radius.md};
   overflow: hidden;
 
   > button {
     flex: 1;
-    padding: 12px 8px;
+    padding: ${theme.spacing.md} ${theme.spacing.sm};
     background: transparent;
-    color: #3d3d3d;
+    color: ${theme.colors.gray700};
     font-size: 15px;
     font-weight: 600;
-    gap: 4px;
+    gap: ${theme.spacing.xs};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -182,7 +182,7 @@ export const PresenceGroup = styled.div`
 
     &.active {
       background: ${theme.colors.primary};
-      color: #fff;
+      color: ${theme.colors.white};
     }
 
     & + button {

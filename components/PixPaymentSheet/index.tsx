@@ -8,12 +8,28 @@ import {
   FiUpload,
   FiX,
 } from "react-icons/fi";
-import { ImSpinner2 } from "react-icons/im";
 import Modal from "../Modal";
-import styles from "../../styles/components/PixPaymentSheet.module.scss";
 import { ApiLocal } from "../../services/apiLocal";
 import StringUtils from "../../utils/StringUtils";
 import { ICashPaymentInfo, IEventPixManualKey } from "../../interfaces/Event";
+import {
+  CloseButton,
+  Container,
+  CopyButton,
+  FileInput,
+  ManualBox,
+  ManualLabel,
+  ManualName,
+  ManualValue,
+  ProofButton,
+  ProofError,
+  ProofSection,
+  ProofSuccess,
+  Qr,
+  Spinner,
+  Subtitle,
+  Title,
+} from "./styles";
 
 interface IPixPaymentSheet {
   open: boolean;
@@ -152,84 +168,79 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
     if (!registrationUuid || !installmentUuid) return null;
 
     return (
-      <div className={styles.proofSection}>
+      <ProofSection>
         {justUploaded && (
-          <div className={styles.proofSuccess}>
+          <ProofSuccess>
             <FiCheckCircle /> Comprovante enviado com sucesso!
-          </div>
+          </ProofSuccess>
         )}
         {proofUrl ? (
-          <a
+          <ProofButton
+            as="a"
             href={proofUrl}
             download
             target="_blank"
             rel="noreferrer"
-            className={styles.proofButton}
           >
             <FiDownload /> Baixar comprovante
-          </a>
+          </ProofButton>
         ) : (
           <>
-            <input
+            <FileInput
               ref={fileInputRef}
               type="file"
               accept="image/*,.pdf"
-              className={styles.fileInput}
               onChange={handleFileSelected}
             />
-            <button
+            <ProofButton
               type="button"
-              className={styles.proofButton}
               disabled={uploading}
               onClick={() => fileInputRef.current?.click()}
             >
               {uploading ? (
-                <ImSpinner2 className={styles.spinner} />
+                <Spinner />
               ) : (
                 <>
                   <FiUpload /> Enviar comprovante
                 </>
               )}
-            </button>
+            </ProofButton>
             {uploadError && (
-              <span className={styles.proofError}>{uploadError}</span>
+              <ProofError>{uploadError}</ProofError>
             )}
           </>
         )}
-      </div>
+      </ProofSection>
     );
   };
 
   return (
     <Modal isOpen={open} onClose={onClose}>
-      <div className={styles.container}>
-        <button
+      <Container>
+        <CloseButton
           type="button"
-          className={styles.closeButton}
           onClick={onClose}
           aria-label="Fechar"
         >
           <FiX />
-        </button>
-        <h2 className={styles.title}>
+        </CloseButton>
+        <Title>
           {!pixCopyPaste && !manualKey && cashInfo
             ? "Pagamento em dinheiro"
             : "Pagamento via PIX"}
-        </h2>
+        </Title>
 
         {pixCopyPaste ? (
           <>
-            <p className={styles.subtitle}>
+            <Subtitle>
               Escaneie o QR code ou copie o código para pagar no app do seu
               banco.
-            </p>
+            </Subtitle>
             {qrCode && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={qrCode} alt="QR Code PIX" className={styles.qr} />
+              <Qr src={qrCode} alt="QR Code PIX" />
             )}
-            <button
+            <CopyButton
               type="button"
-              className={styles.copyButton}
               onClick={() => copyToClipboard(pixCopyPaste)}
             >
               {copied ? (
@@ -241,27 +252,26 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
                   <FiCopy /> Copiar código PIX
                 </>
               )}
-            </button>
+            </CopyButton>
             {renderProofSection()}
           </>
         ) : manualKey ? (
           <>
-            <p className={styles.subtitle}>
+            <Subtitle>
               Pague usando a chave PIX abaixo e envie o comprovante à
               organização do evento.
-            </p>
-            <div className={styles.manualBox}>
-              <span className={styles.manualLabel}>
+            </Subtitle>
+            <ManualBox>
+              <ManualLabel>
                 {MANUAL_KEY_TYPE_LABELS[manualKey.type] || manualKey.type}
-              </span>
-              <strong className={styles.manualValue}>{manualKey.key}</strong>
+              </ManualLabel>
+              <ManualValue>{manualKey.key}</ManualValue>
               {manualKey.name && (
-                <span className={styles.manualName}>{manualKey.name}</span>
+                <ManualName>{manualKey.name}</ManualName>
               )}
-            </div>
-            <button
+            </ManualBox>
+            <CopyButton
               type="button"
-              className={styles.copyButton}
               onClick={() => copyToClipboard(manualKey.key)}
             >
               {copied ? (
@@ -273,34 +283,34 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
                   <FiCopy /> Copiar chave PIX
                 </>
               )}
-            </button>
+            </CopyButton>
             {renderProofSection()}
           </>
         ) : cashInfo ? (
           <>
-            <p className={styles.subtitle}>
+            <Subtitle>
               Entregue o valor combinado ao responsável abaixo.
-            </p>
-            <div className={styles.manualBox}>
-              <span className={styles.manualLabel}>
+            </Subtitle>
+            <ManualBox>
+              <ManualLabel>
                 Responsável pelo recebimento
-              </span>
-              <strong className={styles.manualValue}>
+              </ManualLabel>
+              <ManualValue>
                 {cashInfo.name || "Não informado"}
-              </strong>
+              </ManualValue>
               {cashInfo.phone && (
-                <span className={styles.manualName}>
+                <ManualName>
                   {StringUtils.maskPhone(cashInfo.phone)}
-                </span>
+                </ManualName>
               )}
-            </div>
+            </ManualBox>
           </>
         ) : (
-          <p className={styles.subtitle}>
+          <Subtitle>
             Dados do pagamento não disponíveis no momento.
-          </p>
+          </Subtitle>
         )}
-      </div>
+      </Container>
     </Modal>
   );
 };

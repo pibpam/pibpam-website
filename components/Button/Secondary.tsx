@@ -1,5 +1,5 @@
 import React, { ButtonHTMLAttributes, ReactElement } from 'react';
-import styles from '../../styles/components/Button/Button.module.scss'
+import { SecondaryContainer } from './styles'
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactElement
@@ -8,9 +8,9 @@ interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const SecondaryButton: React.FC<IButtonProps> = ({ children, text, ...props }: IButtonProps) => {
   return (
-    <button {...props} className={styles.secondary} >
+    <SecondaryContainer {...props} >
       {children || text}
-    </button>
+    </SecondaryContainer>
   );
 }
 

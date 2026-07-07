@@ -4,7 +4,6 @@ import theme from './theme'
 const ColorGrid = () => (
   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
     {Object.entries(theme.colors)
-      .filter(([name]) => name !== 'secundary')
       .map(([name, value]) => (
         <div key={name} style={{ width: 140 }}>
           <div

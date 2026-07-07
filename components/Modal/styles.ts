@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import theme from '../../styles/theme';
 
 export const BlockClick = styled.div`
   height: 100%;
@@ -41,8 +42,8 @@ export const DesktopOverlay = styled.div`
 
 export const DesktopDialog = styled.div`
   position: relative;
-  background: #fff;
-  border-radius: 20px;
+  background: ${theme.colors.white};
+  border-radius: ${theme.radius.dialog};
   width: 90%;
   max-width: 560px;
   max-height: 90vh;
@@ -53,17 +54,17 @@ export const DesktopDialog = styled.div`
 
 export const DesktopCloseButton = styled.button`
   position: absolute;
-  top: 24px;
-  right: 24px;
+  top: ${theme.spacing.lg};
+  right: ${theme.spacing.lg};
   width: 32px;
   height: 32px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: 50%;
-  background: #eef4f4;
-  color: #3d3d3d;
+  border-radius: ${theme.radius.circle};
+  background: ${theme.colors.tealTint};
+  color: ${theme.colors.gray700};
   cursor: pointer;
   z-index: 1;
 

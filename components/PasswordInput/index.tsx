@@ -1,6 +1,6 @@
 import React, { InputHTMLAttributes, useState } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import styles from "./PasswordInput.module.scss";
+import { Wrapper } from "./styles";
 
 type PasswordInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type">;
 
@@ -8,7 +8,7 @@ const PasswordInput: React.FC<PasswordInputProps> = (props) => {
   const [show, setShow] = useState(false);
 
   return (
-    <div className={styles.wrapper}>
+    <Wrapper>
       <input {...props} type={show ? "text" : "password"} />
       <button
         type="button"
@@ -17,7 +17,7 @@ const PasswordInput: React.FC<PasswordInputProps> = (props) => {
       >
         {show ? <HiEyeOff /> : <HiEye />}
       </button>
-    </div>
+    </Wrapper>
   );
 };
 

@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import styles from "../styles/Events.module.scss";
+import { Container, Grid } from "../styles/Events";
 import Website from "../layout/container/Website";
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
@@ -42,8 +42,8 @@ const Devotionals: NextPage<IDevotionalsPage> = ({ data }) => {
         </HeaderContainer>
         <HeaderPage title={"Devocionais"} />
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container}>
-          <div className={styles.grid}>
+        <Container>
+          <Grid>
             {data.map((item) => (
               <DevotionalCard
                 devotional={item}
@@ -53,11 +53,11 @@ const Devotionals: NextPage<IDevotionalsPage> = ({ data }) => {
             ))}
 
             {!data.length && <EmptyState />}
-          </div>
+          </Grid>
           {/*<ThirdButton>*/}
           {/*    <><FiPlus/> ver mais</>*/}
           {/*</ThirdButton>*/}
-        </div>
+        </Container>
         <FooterPage
           options={[
             {

@@ -5,10 +5,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-yarn dev      # Start dev server at http://localhost:3000
-yarn build    # Production build (Next.js)
-yarn start    # Serve the production build
-yarn lint     # ESLint (next lint)
+yarn dev              # Start dev server at http://localhost:3000
+yarn build            # Production build (Next.js)
+yarn start            # Serve the production build
+yarn lint             # ESLint (next lint)
+yarn storybook        # Storybook dev server at http://localhost:6006 (design system catalog)
+yarn build-storybook  # Static Storybook build
 ```
 
 There is no test suite in this project. Package manager is **yarn** (see `yarn.lock`).
@@ -50,21 +52,29 @@ Global state is React Context only (no Redux). Providers are nested in `contexts
 Pages use `getStaticProps` (mostly, e.g. `index.tsx`) or `getServerSideProps` to fetch initial data through the `Api` class server-side. Client-side data fetching goes through `ApiLocal`.
 
 ### Directory layout
-- `pages/` — routes + `pages/api/*` (the BFF handlers).
-- `components/` — reusable presentational components (each usually a folder with `index.tsx` + styles).
-- `container/` — larger composed/screen-level pieces (e.g. `Desktop/HomeDesktop`, `ReadingPlan`, `Schedule`), often with desktop/mobile split.
+- `pages/` — routes + `pages/api/*` (the BFF handlers). Files here are routes, so page-level styled-components live in `styles/<PageName>.ts`, not colocated.
+- `components/` — reusable presentational components, each a folder with `index.tsx` + `styles.ts`.
+- `container/` — larger composed/screen-level pieces (e.g. `Desktop/HomeDesktop`, `ReadingPlan`, `Schedule`, `Tracking`), often with desktop/mobile split or extracted from a specific page's distinct sections (e.g. `About/Contacts`, `Tracking/ParticipantItem`).
 - `layout/` — page shells (e.g. `Website`).
 - `contexts/`, `hooks/`, `services/`, `utils/`, `enum/`.
 - `interfaces/` — TypeScript interfaces for API/domain models. These are imported broadly by `Api`/`ApiLocal`; keep them in sync when changing API shapes.
 - `data/bibles/` — bundled offline Bible text (NVI translation) as JSON.
 
 ### Styling
-Two systems coexist:
-- **SCSS modules** (`styles/*.module.scss`) — used by most pages.
-- **styled-components** — used by many components/containers (`styles.ts`/`styles.tsx` files alongside the component).
-Match whichever the file/area already uses.
+The app is **100% styled-components** — there is no CSS/SCSS anywhere in the codebase.
+
+- **Component pattern**: every component is a folder with `index.tsx` + a colocated `styles.ts` that exports the styled elements, imported into `index.tsx` (e.g. `components/Button/`, `components/Header/`).
+- **Page-level styles**: since every file directly under `pages/` is a route, styles for a page (or a group of pages sharing one visual language, e.g. `Events.ts` used by 7 list pages) live in `styles/<PageName>.ts` instead of being colocated.
+- **Design tokens**: `styles/theme.ts` exports `colors`, `fontFamily`, `spacing`, and `radius`. Consume it via a direct `import theme from '.../styles/theme'` and reference `theme.colors.x` / `theme.spacing.x` / `theme.radius.x` inside template literals — there is **no** `ThemeProvider`. Reuse an existing token instead of hardcoding a hex/px value; only add a new token when a color/size is genuinely distinct or repeats 3+ times.
+- **Global styles**: `styles/GlobalStyle.ts` (a `createGlobalStyle`) replaces what would be a global stylesheet, rendered once in `pages/_app.tsx` and again in `.storybook/preview.tsx`.
+- **Conditional styling**: use styled-components' transient prop convention (`$propName`) for props that control CSS but shouldn't leak to the DOM. Wrap any conditional block that references a `keyframes` result in the `css` helper (an untagged template string containing a keyframes interpolation throws at runtime in styled-components v6).
+- **Page-internal sections**: when a page has a section with real visual/logical identity (not a trivial 1–2 line wrapper), extract it into its own `container/<Page>/<Section>/` component (`index.tsx` + `styles.ts`) rather than inlining it in the page file.
+- `next.config.js` sets `compiler: { styledComponents: true }` — required for stable SSR/CSR className hashing; do not remove it.
+
+### Design system (Storybook)
+`styles/*.stories.tsx` (`Colors`, `Spacing`, `Typography`) document the design tokens, and most `components/*` have an `index.stories.tsx`. Run `yarn storybook` to browse the catalog. When adding a new reusable component, add a matching story.
 
 ### Notable config
-- `next.config.js` wraps config with `next-with-workbox` (PWA service worker, source `public/sw.js`), enables SVG-as-component imports via `@svgr/webpack` (`import Icon from './x.svg'`), sets `images.unoptimized`, and `reactStrictMode: false`.
+- `next.config.js` wraps config with `next-with-workbox` (PWA service worker, source `public/sw.js`), enables SVG-as-component imports via `@svgr/webpack` (`import Icon from './x.svg'`), sets `images.unoptimized`, `reactStrictMode: false`, and `compiler.styledComponents: true` (see Styling above).
 - Google Analytics and Microsoft Clarity are initialized in `pages/_app.tsx`.
 - The codebase is primarily in **Portuguese** (user-facing strings, commit messages, some identifiers). `tsconfig.json` targets ES5 with `strict: true`.

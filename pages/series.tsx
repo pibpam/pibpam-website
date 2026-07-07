@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import styles from '../styles/Events.module.scss'
+import { Container, Grid, LoadMore } from '../styles/Events'
 import Website from '../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
@@ -54,8 +54,8 @@ const Series: NextPage<ISeriesPage> = ({ data }) => {
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Séries</>} />
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container}>
-          <div className={styles.grid}>
+        <Container>
+          <Grid>
             {
               contents.map(item => (
                 <SeriesCard data={item} key={item.uuid} onClick={() => goTo("/series/" + item.uuid)} />
@@ -69,15 +69,15 @@ const Series: NextPage<ISeriesPage> = ({ data }) => {
             {!data.data.length && (
               <EmptyState />
             )}
-          </div>
+          </Grid>
           {paginator.page < paginator.totalPage && (
-            <div className={styles.load_more}>
+            <LoadMore>
               <ThirdButton loading={loading} onClick={handleGetAll}>
                 {loading ? <ImSpinner2 /> : (<><FiPlus /> ver mais</>)}
               </ThirdButton>
-            </div>
+            </LoadMore>
           )}
-        </div>
+        </Container>
         <FooterPage
           options={[
             {

@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import styles from '../styles/Bible.module.scss'
+import { ContainerBooks, HeaderWrap } from '../styles/Bible'
 import Website from '../layout/container/Website'
 import Header from "../components/Header";
 import useMenu from "../hooks/useMenu";
@@ -17,17 +17,17 @@ const Lyrics: NextPage = () => {
   return (
     <Website title={"Hinários"} openMenu={open} hasTabNavigator={false} toggleMenu={toggleMenu}>
       <>
-        <div className={styles.header_container}>
+        <HeaderWrap>
           <Header goBack={() => goBack({})} title={"Hinários"} toggleMenu={toggleMenu} />
-        </div>
-        <div className={styles.container_books}>
+        </HeaderWrap>
+        <ContainerBooks>
           <button onClick={() => goTo("/lyrics/cc")}>
             Cantor Cristão <FiChevronRight />
           </button>
           <button onClick={() => goTo("/lyrics/hcc")}>
             Hinário para o Culto Cristão <FiChevronRight />
           </button>
-        </div>
+        </ContainerBooks>
         {/* <FooterPage
           options={[
             {

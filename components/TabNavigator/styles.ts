@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import responsive from '../../utils/responsive';
+import theme from '../../styles/theme';
 
 export const Container = styled.div<{bottom?: number}>`
-  background: #fff;
+  background: ${theme.colors.white};
   overflow: hidden;
-  padding: 16px 0;
+  padding: ${theme.spacing.base} 0;
   padding-bottom: ${({ bottom }) => bottom ? bottom + 16 : 16}px;
   position: fixed;
   bottom: 0;
@@ -16,16 +17,16 @@ export const Container = styled.div<{bottom?: number}>`
     display: none;
   `}
 
-  >ul {
+  > ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: space-around;
 
-    >li {
-      >button {
-        color: #5FD9DA;
+    > li {
+      > button {
+        color: ${theme.colors.primary};
         background: none;
         display: flex;
         flex-direction: column;
@@ -34,14 +35,14 @@ export const Container = styled.div<{bottom?: number}>`
         transition: all .2s ease;
 
         &:focus {
-          color: #B5DA35 !important;
+          color: ${theme.colors.secondary} !important;
         }
 
-        >svg {
+        > svg {
           font-size: 28px;
         }
 
-        >span {
+        > span {
           font-weight: 400;
           font-size: 14px;
           line-height: 15px;
@@ -51,9 +52,7 @@ export const Container = styled.div<{bottom?: number}>`
     }
   }
 
- .active {
-   color: #B5DA35 !important;
- }
+  .active {
+    color: ${theme.colors.secondary} !important;
+  }
 `;
-
-

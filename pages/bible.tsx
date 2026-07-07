@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import styles from '../styles/Bible.module.scss'
+import { ContainerBooks, HeaderWrap } from '../styles/Bible'
 import Website from '../layout/container/Website'
 import Header from "../components/Header";
 import useMenu from "../hooks/useMenu";
@@ -23,16 +23,16 @@ const Bible: NextPage<IBible> = ({ books }) => {
   return (
     <Website title={"Bíblia"} openMenu={open} toggleMenu={toggleMenu}>
       <>
-        <div className={styles.header_container}>
+        <HeaderWrap>
           <Header title={"Bíblia"} toggleMenu={toggleMenu} />
-        </div>
-        <div className={styles.container_books}>
+        </HeaderWrap>
+        <ContainerBooks>
           {books && books.map(item => (
             <button key={item.book_reference_id} onClick={() => goTo("/bible/" + item.book_reference_id)}>
               {item.name} <FiChevronRight />
             </button>
           ))}
-        </div>
+        </ContainerBooks>
         <FooterPage
           options={[
             {

@@ -1,10 +1,11 @@
 import React from "react";
-import styles from "../../../styles/components/Home/Devotionals.module.scss";
 import BlockHeader from "../BlockHeader";
 import { FiBookOpen } from "react-icons/fi";
 import Carousel from "../../Carousel";
 import { IDevotinal } from "../../../interfaces/Devotinal";
 import DevotionalCard from "../../DevotionalCard";
+import theme from "../../../styles/theme";
+import { CardContainer, CarousselControlls, Container, Content } from "./styles"
 
 interface IDevotionals {
   devotionals?: IDevotinal[]
@@ -13,33 +14,33 @@ interface IDevotionals {
 
 const Devotionals: React.FC<IDevotionals> = ({ devotionals, goTo }) => {
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
+    <Container>
+      <Content>
         <BlockHeader
-          icon={<FiBookOpen color={"#383838"} />}
+          icon={<FiBookOpen color={theme.colors.gray750} />}
           title="Últimos Devocionais"
         />
-        <div className={styles.caroussel_controlls}>
+        <CarousselControlls>
           <p>
             Todo dia um novo devocional para você! <a onClick={() => goTo("/devotionals")}>Ver tudo.</a>
           </p>
-        </div>
-      </div>
+        </CarousselControlls>
+      </Content>
       <div>
         <Carousel>
           <>
             {devotionals && devotionals.map(item => (
-              <div key={item.uuid} className={styles.card_container}>
+              <CardContainer key={item.uuid}>
                 <DevotionalCard
                   onClick={() => goTo("/devotional/" + item.uuid)}
                   devotional={item} />
-              </div>
+              </CardContainer>
             )
             )}
           </>
         </Carousel>
       </div>
-    </div>
+    </Container>
   )
 }
 

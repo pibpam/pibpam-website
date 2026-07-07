@@ -1,5 +1,5 @@
 import React, {ReactElement} from "react";
-import styles from "../../styles/components/Title.module.scss"
+import { Container } from "./styles"
 
 interface ITitle {
     children?: ReactElement | string
@@ -7,9 +7,9 @@ interface ITitle {
 
 const Title: React.FC<ITitle> = ({children}) => {
     return (
-        <div className={styles.container}>
+        <Container>
             <div>{children}</div>
-        </div>
+        </Container>
     )
 }
 

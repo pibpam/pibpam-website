@@ -17,11 +17,11 @@ import {
 } from "react-icons/fi";
 import {PiBookBookmark} from "react-icons/pi"
 import { BiParty } from "react-icons/bi";
-import styles from "../../styles/components/Menu.module.scss"
 import Header from "../Header";
 import { LivesContext } from "../../contexts/lives";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { UserContext } from "../../contexts/user";
+import { Container } from "./styles"
 
 interface IMenu {
   toggleMenu: () => void
@@ -47,7 +47,7 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
   }
 
   return (
-    <div className={`${styles.container} ${isClosing && styles.animation_out}`}>
+    <Container $animationOut={isClosing}>
       <Header isOpen toggleMenu={handleCloseMenu} />
       <ul>
         {!!user?.id && (
@@ -233,7 +233,7 @@ const Menu: React.FC<IMenu> = ({ toggleMenu }) => {
           Minas. © 2025
         </p>
       </div>
-    </div>
+    </Container>
   );
 }
 

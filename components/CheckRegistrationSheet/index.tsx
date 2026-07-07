@@ -1,10 +1,19 @@
 import React, { useState } from "react";
 import { FiSearch, FiX } from "react-icons/fi";
-import { ImSpinner2 } from "react-icons/im";
 import Modal from "../Modal";
-import styles from "../../styles/components/CheckRegistrationSheet.module.scss";
 import { ApiLocal } from "../../services/apiLocal";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
+import {
+  CloseButton,
+  Container,
+  Error,
+  Field,
+  Form,
+  Spinner,
+  Subtitle,
+  SubmitButton,
+  Title,
+} from "./styles";
 
 interface ICheckRegistrationSheet {
   open: boolean;
@@ -64,22 +73,21 @@ const CheckRegistrationSheet: React.FC<ICheckRegistrationSheet> = ({
 
   return (
     <Modal isOpen={open} onClose={handleClose}>
-      <div className={styles.container}>
-        <button
+      <Container>
+        <CloseButton
           type="button"
-          className={styles.closeButton}
           onClick={handleClose}
           aria-label="Fechar"
         >
           <FiX />
-        </button>
-        <h2 className={styles.title}>Verificar inscrição</h2>
-        <p className={styles.subtitle}>
+        </CloseButton>
+        <Title>Verificar inscrição</Title>
+        <Subtitle>
           Digite o código recebido para acompanhar sua inscrição.
-        </p>
+        </Subtitle>
 
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.field}>
+        <Form onSubmit={handleSubmit}>
+          <Field>
             <label htmlFor="registration-code">Código da inscrição</label>
             <input
               id="registration-code"
@@ -88,21 +96,21 @@ const CheckRegistrationSheet: React.FC<ICheckRegistrationSheet> = ({
               placeholder="Ex.: ENERGY-2026-XY7Q"
               autoCapitalize="characters"
             />
-          </div>
+          </Field>
 
-          {error && <div className={styles.error}>{error}</div>}
+          {error && <Error>{error}</Error>}
 
-          <button type="submit" className={styles.submitButton} disabled={loading}>
+          <SubmitButton type="submit" disabled={loading}>
             {loading ? (
-              <ImSpinner2 className={styles.spinner} />
+              <Spinner />
             ) : (
               <>
                 <FiSearch /> Buscar inscrição
               </>
             )}
-          </button>
-        </form>
-      </div>
+          </SubmitButton>
+        </Form>
+      </Container>
     </Modal>
   );
 };

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import theme from '../../styles/theme';
 
 export const Container = styled.div`
   width: 100%;
@@ -6,41 +7,41 @@ export const Container = styled.div`
   aspect-ratio: 16/9;
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
-  padding: 16px;
-  border: 2px solid #5FD9DA;
+  border-radius: ${theme.radius.md};
+  padding: ${theme.spacing.base};
+  border: 2px solid ${theme.colors.primary};
 
   button {
     margin: 0 0 auto auto;
-    background: #5FD9DA;
-    color: #fff;
-    padding: 8px;
-    border-radius: 16px;
+    background: ${theme.colors.primary};
+    color: ${theme.colors.white};
+    padding: ${theme.spacing.sm};
+    border-radius: ${theme.radius.xxl};
     display: flex;
     gap: 4px;
     align-items: center;
   }
 
-  h1{
-    color: #5FD9DA;
+  h1 {
+    color: ${theme.colors.primary};
     font-size: 24px;
   }
 
-  h2{
-    color: #5FD9DA;
+  h2 {
+    color: ${theme.colors.primary};
     font-size: 18px;
     font-weight: 400;
-    margin-bottom: 8px;
+    margin-bottom: ${theme.spacing.sm};
   }
 
   > div {
     display: flex;
     align-items: center;
     font-size: 18px;
-    gap: 16px;
-    color: #5FD9DA;
+    gap: ${theme.spacing.base};
+    color: ${theme.colors.primary};
 
-    >div:last-child {
+    > div:last-child {
       font-weight: 700;
     }
   }

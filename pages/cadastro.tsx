@@ -7,7 +7,18 @@ import PasswordInput from "../components/PasswordInput";
 import SecondaryButton from "../components/Button/Secondary";
 import ThirdButton from "../components/Button/Third";
 import { UserContext } from "../contexts/user";
-import styles from "../styles/Auth.module.scss";
+import {
+  Buttons,
+  Card,
+  Description,
+  Error,
+  Field,
+  Form,
+  GoogleContent,
+  Helper,
+  Page,
+  Title,
+} from "../styles/Auth";
 import { PostMessageContext } from "../contexts/postMessage";
 import { AppContext } from "../contexts/app";
 import Website from "../layout/container/Website";
@@ -104,19 +115,19 @@ const SignUp: NextPage = () => {
             toggleMenu={toggleMenu}
           />
         </HeaderContainer>
-        <main className={styles.page}>
-          <section className={styles.card}>
-            <h1 className={styles.title}>Criar conta</h1>
-            <p className={styles.description}>
+        <Page as="main">
+          <Card as="section">
+            <Title>Criar conta</Title>
+            <Description>
               Cadastre-se para acessar os recursos da membresia.
-            </p>
+            </Description>
 
             {(error || authError) && (
-              <div className={styles.error}>{error || authError}</div>
+              <Error>{error || authError}</Error>
             )}
 
-            <form className={styles.form} onSubmit={handleSubmit}>
-              <div className={styles.field}>
+            <Form onSubmit={handleSubmit}>
+              <Field>
                 <label htmlFor="name">Nome</label>
                 <input
                   id="name"
@@ -127,9 +138,9 @@ const SignUp: NextPage = () => {
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                 />
-              </div>
+              </Field>
 
-              <div className={styles.field}>
+              <Field>
                 <label htmlFor="email">E-mail</label>
                 <input
                   id="email"
@@ -140,9 +151,9 @@ const SignUp: NextPage = () => {
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                 />
-              </div>
+              </Field>
 
-              <div className={styles.field}>
+              <Field>
                 <label htmlFor="password">Senha</label>
                 <PasswordInput
                   id="password"
@@ -153,9 +164,9 @@ const SignUp: NextPage = () => {
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                 />
-              </div>
+              </Field>
 
-              <div className={styles.field}>
+              <Field>
                 <label htmlFor="confirmPassword">Confirmar senha</label>
                 <PasswordInput
                   id="confirmPassword"
@@ -166,9 +177,9 @@ const SignUp: NextPage = () => {
                   value={confirmPassword}
                   onChange={(event) => setConfirmPassword(event.target.value)}
                 />
-              </div>
+              </Field>
 
-              <div className={styles.buttons}>
+              <Buttons>
                 <SecondaryButton
                   text={isLoadingAuth ? "Criando..." : "Criar conta"}
                   disabled={isLoadingAuth}
@@ -179,21 +190,21 @@ const SignUp: NextPage = () => {
                   disabled={isLoadingAuth}
                   onClick={handleLoginGoogle}
                 >
-                  <span className={styles.googleContent}>
+                  <GoogleContent>
                     <FcGoogle />
                     <span>
                       {isLoadingAuth ? "Aguarde..." : "Cadastrar com Google"}
                     </span>
-                  </span>
+                  </GoogleContent>
                 </ThirdButton>
-              </div>
-            </form>
+              </Buttons>
+            </Form>
 
-            <p className={styles.helper}>
+            <Helper as="p">
               Ja possui conta? <Link href="/login">Entrar</Link>
-            </p>
-          </section>
-        </main>
+            </Helper>
+          </Card>
+        </Page>
       </>
     </Website>
   );

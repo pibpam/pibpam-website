@@ -3,7 +3,7 @@ import type { Preview } from '@storybook/react'
 import { ThemeProvider } from 'styled-components'
 import Contexts from '../contexts'
 import theme from '../styles/theme'
-import '../styles/globals.css'
+import GlobalStyle from '../styles/GlobalStyle'
 
 const preview: Preview = {
   parameters: {
@@ -25,6 +25,7 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <ThemeProvider theme={theme}>
+        <GlobalStyle />
         <Contexts>
           <Story />
         </Contexts>

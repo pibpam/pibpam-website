@@ -1,10 +1,10 @@
 import type {NextPage} from 'next'
 import React from "react";
-import styles from "../styles/Privacy.module.scss"
+import { Container } from "../styles/Privacy"
 
 const Privacy: NextPage = () => {
     return (
-        <div className={styles.container}>
+        <Container>
             <h1>Política de Privacidade</h1>
             <p>O aplicativo da Primeira Igreja Batista de Pará de Minas é projetado para ser usado por pessoas com idade
                 igual ou superior a 13 anos. Esta política de privacidade descreve como coletamos, usamos e divulgamos
@@ -33,7 +33,7 @@ const Privacy: NextPage = () => {
             <p>Se você tiver alguma dúvida ou preocupação sobre esta política de privacidade ou sobre nossas práticas de
                 coleta e uso de informações pessoais, entre em contato conosco através do endereço de e-mail fornecido
                 no aplicativo.</p>
-        </div>
+        </Container>
     )
 }
 

@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "../../styles/components/CollectionCard.module.scss"
 import { DateUtils } from "../../utils/Date";
 import { ICollection } from "../../interfaces/Collection";
+import { Backdrop, Container, Content, TagDate, Thumb } from "./styles";
 
 interface ICollectionCard {
   onClick: () => void
@@ -10,23 +10,23 @@ interface ICollectionCard {
 
 const CollectionCard: React.FC<ICollectionCard> = ({ onClick, data }) => {
   return (
-    <div className={styles.container} onClick={onClick}>
-      <div className={styles.tag__date}>
+    <Container onClick={onClick}>
+      <TagDate>
         {DateUtils.formatDateDefault(data.collectionDate)}
-      </div>
+      </TagDate>
 
-      <div className={styles.thumb}>
-        <div className={styles.content}>
+      <Thumb>
+        <Content>
           <p>{data.title}</p>
           {data.photos && (
             <p>{data.photos.length} Fotos</p>
           )}
-        </div>
+        </Content>
 
-        <div className={styles.backdrop} style={{ background: "url('" + data.image + "') center/cover" }}>
-        </div>
-      </div>
-    </div>
+        <Backdrop style={{ background: "url('" + data.image + "') center/cover" }}>
+        </Backdrop>
+      </Thumb>
+    </Container>
   )
 }
 

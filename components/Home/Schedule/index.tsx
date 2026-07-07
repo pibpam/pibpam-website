@@ -1,10 +1,10 @@
 import React from "react";
 import BlockHeader from "../BlockHeader";
-import styles from "../../../styles/components/Home/Schedule.module.scss"
 import {FiArrowLeft, FiArrowRight, FiCalendar} from "react-icons/fi";
 import Carousel from "../../Carousel";
 import ProgramCard from "../../ProgramCard";
 import {IScheduleDate} from "../../../interfaces/Schedule";
+import { CarousselControlls, Container, Content } from "./styles"
 
 interface ISchedule {
     goTo: (pathname: string) => void
@@ -13,13 +13,13 @@ interface ISchedule {
 
 const Schedule: React.FC<ISchedule> = ({goTo, schedules}) => {
     return (
-        <div className={styles.container}>
-            <div className={styles.content}>
+        <Container>
+            <Content>
                 <BlockHeader
                     icon={<FiCalendar/>}
                     title="Programação da Semana"
                 />
-                <div className={styles.caroussel_controlls}>
+                <CarousselControlls>
                     <p>
                         Selecione o evento para mais detalhes. <a onClick={() => goTo("/schedule")} >Ver tudo.</a>
                     </p>
@@ -31,8 +31,8 @@ const Schedule: React.FC<ISchedule> = ({goTo, schedules}) => {
                     {/*        <FiArrowRight/>*/}
                     {/*    </button>*/}
                     {/*</div>*/}
-                </div>
-            </div>
+                </CarousselControlls>
+            </Content>
             <div>
                 <Carousel>
                     <>
@@ -46,7 +46,7 @@ const Schedule: React.FC<ISchedule> = ({goTo, schedules}) => {
                     </>
                 </Carousel>
             </div>
-        </div>
+        </Container>
     )
 }
 

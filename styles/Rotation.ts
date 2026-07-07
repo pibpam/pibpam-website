@@ -2,15 +2,15 @@ import styled from "styled-components";
 import theme from "./theme";
 
 export const Container = styled.div`
-  padding: 0 24px 90px;
+  padding: 0 ${theme.spacing.lg} 90px;
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 16px;
+  gap: ${theme.spacing.base};
 
   > p {
-    color: #3d3d3d;
-    margin-top: 8px;
+    color: ${theme.colors.gray700};
+    margin-top: ${theme.spacing.sm};
   }
 `;
 
@@ -18,16 +18,16 @@ export const List = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 8px;
+  gap: ${theme.spacing.sm};
 `;
 
 export const MemberRotation = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: ${theme.spacing.base};
   border: 2px solid ${theme.colors.primary};
-  padding: 16px;
-  border-radius: 8px;
+  padding: ${theme.spacing.base};
+  border-radius: ${theme.radius.md};
 
   > div:first-child {
     display: flex;
@@ -45,16 +45,16 @@ export const MemberRotation = styled.div`
   > div:last-child {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: ${theme.spacing.sm};
 
     > button {
-      padding: 16px;
+      padding: ${theme.spacing.base};
       display: flex;
       align-items: start;
-      border-radius: 4px;
+      border-radius: ${theme.radius.sm};
       flex-direction: column;
-      gap: 8px;
-      color: #3d3d3d;
+      gap: ${theme.spacing.sm};
+      color: ${theme.colors.gray700};
 
       > div:first-child {
         font-size: 24px;
@@ -62,7 +62,7 @@ export const MemberRotation = styled.div`
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        color: #3d3d3d;
+        color: ${theme.colors.gray700};
       }
 
       > div:last-child {
@@ -72,8 +72,8 @@ export const MemberRotation = styled.div`
         justify-content: space-between;
         width: 100%;
         text-align: left;
-        gap: 8px;
-        color: #3d3d3d;
+        gap: ${theme.spacing.sm};
+        color: ${theme.colors.gray700};
 
         > svg {
           min-width: 24px;
@@ -84,25 +84,25 @@ export const MemberRotation = styled.div`
 `;
 
 export const ModalOpen = styled.div<{ bottom?: number }>`
-  padding: 24px 24px;
+  padding: ${theme.spacing.lg} ${theme.spacing.lg};
   padding-bottom: ${({ bottom }) => (bottom ? bottom + 24 : 24)}px;
   display: flex;
   flex-direction: column;
   width: 100%;
 
   > div:first-child {
-    margin-bottom: 24px;
+    margin-bottom: ${theme.spacing.lg};
     h1 {
       color: ${theme.colors.primary};
       font-size: 20px;
     }
     h2 {
       color: ${theme.colors.primary};
-      margin-bottom: 16px;
+      margin-bottom: ${theme.spacing.base};
       font-size: 24px;
     }
     p {
-      color: #3d3d3d;
+      color: ${theme.colors.gray700};
     }
   }
 `;
@@ -110,11 +110,11 @@ export const ModalOpen = styled.div<{ bottom?: number }>`
 export const ListItems = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: ${theme.spacing.sm};
 
   > div {
     & + div {
-      border-top: 2px solid #eee;
+      border-top: 2px solid ${theme.colors.gray100};
     }
   }
 `;
@@ -123,19 +123,19 @@ export const HeaderItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 0px;
+  padding: ${theme.spacing.base} 0px;
 
   > div:first-child {
     display: flex;
     flex-direction: column;
 
     > div:first-child {
-      color: #3d3d3d;
+      color: ${theme.colors.gray700};
       font-size: 20px;
     }
 
     > div:last-child {
-      color: #3d3d3d;
+      color: ${theme.colors.gray700};
       font-size: 16px;
       font-weight: bold;
     }
@@ -144,22 +144,22 @@ export const HeaderItem = styled.div`
   .buttonsActions {
     display: flex;
     border: 2px solid ${theme.colors.primary};
-    border-radius: 8px;
+    border-radius: ${theme.radius.md};
     overflow: hidden;
 
     > button {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: ${theme.spacing.xs};
       font-size: 16px;
-      padding: 16px 8px;
+      padding: ${theme.spacing.base} ${theme.spacing.sm};
       background: transparent;
       transition: ease 0.2s all;
       margin: 0;
 
       &.active {
         background: ${theme.colors.primary};
-        color: #fff;
+        color: ${theme.colors.white};
       }
 
       & + button {
@@ -168,19 +168,19 @@ export const HeaderItem = styled.div`
     }
 
     &.selected {
-      border: 2px solid #ddd;
+      border: 2px solid ${theme.colors.gray225};
 
       > button {
         background: transparent;
         cursor: not-allowed;
 
         &.active {
-          background: #ddd;
-          color: #222;
+          background: ${theme.colors.gray225};
+          color: ${theme.colors.gray900};
         }
 
         & + button {
-          border-left: 2px solid #ddd;
+          border-left: 2px solid ${theme.colors.gray225};
         }
       }
     }
@@ -191,12 +191,12 @@ export const MembersSelecteds = styled.div`
   > div {
     display: flex;
     flex-direction: column;
-    background: #eee;
-    padding: 8px;
-    border-radius: 8px;
+    background: ${theme.colors.gray100};
+    padding: ${theme.spacing.sm};
+    border-radius: ${theme.radius.md};
 
     &.active {
-      background: ${theme.colors.secundary};
+      background: ${theme.colors.secondary};
     }
 
     > div:first-child {
@@ -217,18 +217,18 @@ export const MembersSelecteds = styled.div`
 export const ButtonSave = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 24px;
+  margin-top: ${theme.spacing.lg};
 
   > button {
     display: flex;
     width: 100%;
     align-items: center;
-    gap: 8px;
+    gap: ${theme.spacing.sm};
     justify-content: center;
     font-size: 20px;
     padding: 10px;
     background: ${theme.colors.primary};
-    color: #fff;
-    border-radius: 8px;
+    color: ${theme.colors.white};
+    border-radius: ${theme.radius.md};
   }
 `;

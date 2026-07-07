@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import styles from '../../styles/Lyrics.module.scss'
+import { ContainerBooks, HeaderWrap } from '../../styles/Lyrics'
 import Website from '../../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
 import Header from "../../components/Header";
@@ -27,11 +27,11 @@ const LyricsList: NextPage<ILyricsList> = ({ lyrics, type }) => {
   return (
     <Website title={type} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
       <>
-        <div className={styles.header_container}>
+        <HeaderWrap>
           <Header goBack={() => goBack({})} title={type} toggleMenu={toggleMenu} />
-        </div>
+        </HeaderWrap>
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container_books}>
+        <ContainerBooks>
           {lyrics && lyrics.map(item => (
             <button
               key={item.number}
@@ -40,7 +40,7 @@ const LyricsList: NextPage<ILyricsList> = ({ lyrics, type }) => {
               <span>{item.number}</span> {item.name} <FiChevronRight />
             </button>
           ))}
-        </div>
+        </ContainerBooks>
         <FooterPage
           options={[
             {

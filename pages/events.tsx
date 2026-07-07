@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import styles from '../styles/Events.module.scss'
+import { ButtonOnLine, Container, Grid, LoadMore } from '../styles/Events'
 import Website from '../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
@@ -56,16 +56,16 @@ const Events: NextPage<IEventsPage> = ({ data, lives }) => {
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Cultos <span>//</span> Eventos </>} />
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container}>
+        <Container>
           {!!lives && !!lives.length && (
-            <div className={styles.button__on_line}>
+            <ButtonOnLine>
               <SecondaryButton onClick={() => goTo("/event/" + lives[0].uuid)}>
                 <><FiPlay /> Assistir Culto On-line</>
               </SecondaryButton>
-            </div>
+            </ButtonOnLine>
           )}
 
-          <div className={styles.grid}>
+          <Grid>
             {
               data.data.map(item => (
                 <EventCard data={item} key={item.uuid} onClick={() => goTo("/event/" + item.uuid)} />
@@ -80,15 +80,15 @@ const Events: NextPage<IEventsPage> = ({ data, lives }) => {
             {!data.data.length && (
               <EmptyState />
             )}
-          </div>
+          </Grid>
           {paginator.page < paginator.totalPage && (
-            <div className={styles.load_more}>
+            <LoadMore>
               <ThirdButton loading={loading} onClick={handleGetAll}>
                 {loading ? <ImSpinner2 /> : (<><FiPlus /> ver mais</>)}
               </ThirdButton>
-            </div>
+            </LoadMore>
           )}
-        </div>
+        </Container>
         <FooterPage
           options={[
             {

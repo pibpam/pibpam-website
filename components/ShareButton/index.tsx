@@ -1,7 +1,7 @@
 import React, {ButtonHTMLAttributes} from 'react';
-import styles from '../../styles/components/ShareButton.module.scss';
 import {FiShare2} from "react-icons/fi";
 import usePostMessage from "../../hooks/usePostMessage";
+import { Container } from "./styles"
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     url: string,
@@ -11,11 +11,9 @@ interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const ShareButton: React.FC<IButtonProps> = ({url, message}: IButtonProps) => {
     const {share} = usePostMessage()
     return (
-        <button
-            onClick={() => share(message, url)}
-            className={styles.container}>
+        <Container onClick={() => share(message, url)}>
             <FiShare2/> Compartilhar
-        </button>
+        </Container>
     );
 }
 

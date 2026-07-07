@@ -1,22 +1,17 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { useState } from "react";
-import {
-  FiArrowRight,
-  FiCheck,
-  FiCopy,
-  FiCreditCard,
-  FiDollarSign,
-} from "react-icons/fi";
-import { FaPix } from "react-icons/fa6";
+import { FiArrowRight, FiCheck, FiCopy } from "react-icons/fi";
 import Website from "../../../layout/container/Website";
 import Header from "../../../components/Header";
 import HeaderContainer from "../../../components/HeaderContainer";
 import PixPaymentSheet from "../../../components/PixPaymentSheet";
-import styles from "../../../styles/Inscription.module.scss";
+import { Closed, EventName, PixCopy, SectionLabel, Page, Summary, SummaryRow, SummaryTotal, Wrapper } from "../../../styles/Inscription";
+import { CodeBox, CodeLabel, CodeValue, CtaLink, SuccessActions, TrackBadge } from "../../../styles/Tracking";
+import ParticipantItem from "../../../container/Tracking/ParticipantItem";
+import InstallmentItem from "../../../container/Tracking/InstallmentItem";
 import useMenu from "../../../hooks/useMenu";
 import useHeader from "../../../hooks/useHeader";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
-import { DateUtils } from "../../../utils/Date";
 import { Api } from "../../../services/api";
 import {
   IRegistrationInstallment,
@@ -129,27 +124,19 @@ const TrackingPage: NextPage<ITrackingPage> = ({ code, registration }) => {
             toggleMenu={toggleMenu}
           />
         </HeaderContainer>
-        <main className={styles.page}>
-          <div className={styles.wrapper} style={{ paddingTop: 96 }}>
-            <h1 className={styles.event__name}>Acompanhamento</h1>
+        <Page>
+          <Wrapper style={{ paddingTop: 96 }}>
+            <EventName>Acompanhamento</EventName>
 
-            <div className={styles.code__box} style={{ maxWidth: "100%" }}>
-              <span className={styles.code__label}>Código da inscrição</span>
-              <strong className={styles.code__value}>{code}</strong>
+            <CodeBox style={{ maxWidth: "100%" }}>
+              <CodeLabel>Código da inscrição</CodeLabel>
+              <CodeValue>{code}</CodeValue>
               {registration?.status && (
-                <span
-                  className={`${styles.track__badge} ${
-                    styles[`track__badge_${registration.status}`] || ""
-                  }`}
-                >
+                <TrackBadge $status={registration.status}>
                   {statusLabel(registration.status)}
-                </span>
+                </TrackBadge>
               )}
-              <button
-                type="button"
-                className={styles.pix__copy}
-                onClick={copyCode}
-              >
+              <PixCopy type="button" onClick={copyCode}>
                 {codeCopied ? (
                   <>
                     <FiCheck /> Copiado!
@@ -159,41 +146,37 @@ const TrackingPage: NextPage<ITrackingPage> = ({ code, registration }) => {
                     <FiCopy /> Copiar código
                   </>
                 )}
-              </button>
-            </div>
+              </PixCopy>
+            </CodeBox>
 
             {registration ? (
               <>
                 {/* Resumo */}
-                <div className={styles.summary} style={{ marginTop: 16 }}>
-                  <div className={styles.summary__row}>
+                <Summary style={{ marginTop: 16 }}>
+                  <SummaryRow>
                     <span>Responsável</span>
                     <span>{registration.responsibleName}</span>
-                  </div>
-                  <div className={styles.summary__row}>
+                  </SummaryRow>
+                  <SummaryRow>
                     <span>E-mail</span>
                     <span>{registration.responsibleEmail}</span>
-                  </div>
-                  <div className={styles.summary__row}>
+                  </SummaryRow>
+                  <SummaryRow>
                     <span>Participantes</span>
                     <span>{registration.participants.length}</span>
-                  </div>
+                  </SummaryRow>
                   {total && (
-                    <div className={styles.summary__total}>
+                    <SummaryTotal>
                       <span>Total</span>
                       <span>{total}</span>
-                    </div>
+                    </SummaryTotal>
                   )}
-                </div>
+                </Summary>
 
                 {registration.paymentUrl && (
-                  <div
-                    className={styles.success__actions}
-                    style={{ maxWidth: "100%" }}
-                  >
-                    <button
+                  <SuccessActions style={{ maxWidth: "100%" }}>
+                    <CtaLink
                       type="button"
-                      className={styles.cta__link}
                       onClick={() => {
                         if (typeof window !== "undefined") {
                           window.location.href = registration.paymentUrl as string;
@@ -201,56 +184,20 @@ const TrackingPage: NextPage<ITrackingPage> = ({ code, registration }) => {
                       }}
                     >
                       Ir para o pagamento <FiArrowRight />
-                    </button>
-                  </div>
+                    </CtaLink>
+                  </SuccessActions>
                 )}
 
                 {/* Participantes */}
                 {!!registration.participants.length && (
                   <>
-                    <p className={styles.section__label}>Participantes</p>
+                    <SectionLabel>Participantes</SectionLabel>
                     {registration.participants.map((p) => (
-                      <div className={styles.track__item} key={p.uuid}>
-                        <div className={styles.track__item_head}>
-                          <strong>{p.name}</strong>
-                          <span>{formatPrice(p.price)}</span>
-                        </div>
-                        {p.isMinor && p.responsibleName && (
-                          <span className={styles.track__item_sub}>
-                            Responsável: {p.responsibleName}
-                            {p.responsiblePhone ? ` · ${p.responsiblePhone}` : ""}
-                          </span>
-                        )}
-                        {!!p.addons.length && (
-                          <div className={styles.track__addons}>
-                            {p.addons.map((a) => (
-                              <div
-                                className={styles.track__addon}
-                                key={a.uuid}
-                              >
-                                {a.addon.image && (
-                                  // eslint-disable-next-line @next/next/no-img-element
-                                  <img
-                                    src={a.addon.image}
-                                    alt={a.addon.name}
-                                    className={styles.track__addon_img}
-                                  />
-                                )}
-                                <div className={styles.track__addon_info}>
-                                  <span className={styles.track__addon_name}>
-                                    {a.addon.name}
-                                  </span>
-                                  {a.addon.description && (
-                                    <span className={styles.track__addon_desc}>
-                                      {a.addon.description}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                      <ParticipantItem
+                        key={p.uuid}
+                        participant={p}
+                        formatPrice={formatPrice}
+                      />
                     ))}
                   </>
                 )}
@@ -258,93 +205,33 @@ const TrackingPage: NextPage<ITrackingPage> = ({ code, registration }) => {
                 {/* Parcelas */}
                 {!!installments.length && (
                   <>
-                    <p className={styles.section__label}>Parcelas</p>
+                    <SectionLabel>Parcelas</SectionLabel>
                     {[...installments]
                       .sort((a, b) => a.number - b.number)
-                      .map((inst) => {
-                        const clickable = (isPix || isCash) && isPayable(inst);
-                        return (
-                          <div
-                            className={`${styles.track__item} ${
-                              clickable ? styles.track__item_clickable : ""
-                            }`}
-                            key={inst.uuid}
-                            role={clickable ? "button" : undefined}
-                            tabIndex={clickable ? 0 : undefined}
-                            onClick={
-                              clickable
-                                ? () => setActiveInstallmentUuid(inst.uuid)
-                                : undefined
-                            }
-                            onKeyDown={
-                              clickable
-                                ? (e) => {
-                                    if (e.key === "Enter" || e.key === " ") {
-                                      e.preventDefault();
-                                      setActiveInstallmentUuid(inst.uuid);
-                                    }
-                                  }
-                                : undefined
-                            }
-                          >
-                            <div className={styles.track__item_head}>
-                              <div className={styles.track__item_title}>
-                                <span
-                                  className={`${styles.track__method_icon} ${
-                                    clickable
-                                      ? styles.track__method_icon_active
-                                      : ""
-                                  }`}
-                                >
-                                  {isPix ? (
-                                    <FaPix />
-                                  ) : isCash ? (
-                                    <FiDollarSign />
-                                  ) : (
-                                    <FiCreditCard />
-                                  )}
-                                </span>
-                                <strong>
-                                  {registration.installmentsCount > 1
-                                    ? `Parcela ${inst.number}/${registration.installmentsCount}`
-                                    : "Pagamento"}
-                                </strong>
-                              </div>
-                              <span>{formatPrice(inst.amount)}</span>
-                            </div>
-                            <span className={styles.track__item_sub}>
-                              {inst.dueDate
-                                ? `Vencimento: ${DateUtils.formatDateDefault(
-                                    inst.dueDate
-                                  )} · `
-                                : ""}
-                              {statusLabel(inst.status)}
-                            </span>
-                            {inst.proofUrl && (
-                              <a
-                                className={styles.track__proof}
-                                href={inst.proofUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                Ver comprovante
-                              </a>
-                            )}
-                          </div>
-                        );
-                      })}
+                      .map((inst) => (
+                        <InstallmentItem
+                          key={inst.uuid}
+                          installment={inst}
+                          installmentsCount={registration.installmentsCount}
+                          isPix={isPix}
+                          isCash={isCash}
+                          clickable={(isPix || isCash) && isPayable(inst)}
+                          formatPrice={formatPrice}
+                          statusLabel={statusLabel}
+                          onSelect={() => setActiveInstallmentUuid(inst.uuid)}
+                        />
+                      ))}
                   </>
                 )}
               </>
             ) : (
-              <div className={styles.closed} style={{ marginTop: 16 }}>
+              <Closed style={{ marginTop: 16 }}>
                 Nenhuma inscrição encontrada para este código. Confira o código e
                 tente novamente.
-              </div>
+              </Closed>
             )}
-          </div>
-        </main>
+          </Wrapper>
+        </Page>
 
         <PixPaymentSheet
           open={!!activeInstallment}

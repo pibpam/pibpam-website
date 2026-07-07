@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
-import styles from '../../styles/Devotional.module.scss'
+import { Container, Header } from '../../styles/Devotional'
 import Website from '../../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
-import Header from "../../components/Header";
+import HeaderComp from "../../components/Header";
 import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
 import { FiCalendar } from "react-icons/fi";
@@ -30,13 +30,13 @@ const Devotional: NextPage<IDevotionalPage> = ({ data }) => {
       hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
       <>
         <HeaderContainer active={scrollActive}>
-          <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <HeaderComp goBack={() => goBack({})} toggleMenu={toggleMenu} />
         </HeaderContainer>
         <HeaderPage background={data.image} />
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container}>
+        <Container>
           <h1>{data.title}</h1>
-          <div className={styles.header}>
+          <Header>
             <div>
               {data.author && (
                 <>
@@ -47,11 +47,11 @@ const Devotional: NextPage<IDevotionalPage> = ({ data }) => {
               )}
             </div>
             <div><FiCalendar />{DateUtils.formatDateDefault(data.contentDate)}</div>
-          </div>
+          </Header>
           <div dangerouslySetInnerHTML={{ __html: data.content || "" }}></div>
           <ShareButton url={`https://pibpam.org/devotional/${data.uuid}`}
             message={`Devocional: ${data.title} - ${data.author?.name}`} />
-        </div>
+        </Container>
       </>
     </Website>
   )

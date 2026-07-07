@@ -2,7 +2,18 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import SecondaryButton from "../components/Button/Secondary";
-import styles from "../styles/Auth.module.scss";
+import {
+  Buttons,
+  Card,
+  Description,
+  Error,
+  Field,
+  Form,
+  Helper,
+  Page,
+  Success,
+  Title,
+} from "../styles/Auth";
 import Website from "../layout/container/Website";
 import Header from "../components/Header";
 import HeaderContainer from "../components/HeaderContainer";
@@ -51,29 +62,29 @@ const RecuperarSenha: NextPage = () => {
             toggleMenu={toggleMenu}
           />
         </HeaderContainer>
-        <main className={styles.page}>
-          <section className={styles.card}>
-            <h1 className={styles.title}>Recuperar senha</h1>
-            <p className={styles.description}>
+        <Page as="main">
+          <Card as="section">
+            <Title>Recuperar senha</Title>
+            <Description>
               Informe seu e-mail e enviaremos um link para redefinir sua senha.
-            </p>
+            </Description>
 
-            {error && <div className={styles.error}>{error}</div>}
+            {error && <Error>{error}</Error>}
 
             {sent ? (
               <>
-                <div className={styles.success}>
+                <Success>
                   E-mail enviado! Verifique sua caixa de entrada e siga o link
                   para redefinir sua senha.
-                </div>
-                <p className={styles.helper}>
+                </Success>
+                <Helper as="p">
                   <Link href="/login">Voltar para o login</Link>
-                </p>
+                </Helper>
               </>
             ) : (
               <>
-                <form className={styles.form} onSubmit={handleSubmit}>
-                  <div className={styles.field}>
+                <Form onSubmit={handleSubmit}>
+                  <Field>
                     <label htmlFor="email">E-mail</label>
                     <input
                       id="email"
@@ -84,24 +95,24 @@ const RecuperarSenha: NextPage = () => {
                       value={email}
                       onChange={(event) => setEmail(event.target.value)}
                     />
-                  </div>
+                  </Field>
 
-                  <div className={styles.buttons}>
+                  <Buttons>
                     <SecondaryButton
                       text={isLoading ? "Enviando..." : "Enviar link"}
                       disabled={isLoading}
                       type="submit"
                     />
-                  </div>
-                </form>
+                  </Buttons>
+                </Form>
 
-                <p className={styles.helper}>
+                <Helper as="p">
                   Lembrou a senha? <Link href="/login">Entrar</Link>
-                </p>
+                </Helper>
               </>
             )}
-          </section>
-        </main>
+          </Card>
+        </Page>
       </>
     </Website>
   );

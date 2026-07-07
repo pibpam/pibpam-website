@@ -1,12 +1,20 @@
 import React from "react";
 
-import styles from '../../../styles/components/Home/Banner.module.scss'
 import { PiBookBookmarkThin } from "react-icons/pi";
 import { IReadingPlan } from "../../../interfaces/ReadingPlan";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import { PostMessageContext } from "../../../contexts/postMessage";
 import { IMemberBasic } from "../../../interfaces/Member";
 import BirthdayWidget from "../BirthdayWidget";
+import {
+  Backdrop,
+  BannerEl,
+  Content,
+  DailyReading,
+  HeaderTitle,
+  VideoContainer,
+  Widgets,
+} from "./styles"
 
 const Banner: React.FC<{ readingPlan?: IReadingPlan; birthdaysMonth?: IMemberBasic[] }> = ({
   readingPlan,
@@ -34,20 +42,20 @@ const Banner: React.FC<{ readingPlan?: IReadingPlan; birthdaysMonth?: IMemberBas
   const showWidgets = !!readingPlan || birthdaysToday.length > 0;
 
   return (
-    <div className={styles.banner}>
-      <div className={styles.videoContainer}>
+    <BannerEl>
+      <VideoContainer>
         <div>
           <video src="https://pibpam.s3.us-east-1.amazonaws.com/settings/background-ano-novo.mp4" autoPlay loop muted></video>
         </div>
-      </div>
-      <div className={styles.content}>
+      </VideoContainer>
+      <Content>
         {showWidgets && (
-          <div className={styles.widgets} style={{ marginTop: `${(deviceInfo?.top || 0) + 24}px` }}>
+          <Widgets style={{ marginTop: `${(deviceInfo?.top || 0) + 24}px` }}>
             {!!readingPlan && (
-              <button onClick={() => goTo({
+              <DailyReading onClick={() => goTo({
                 pathname: `/reading-plan/${readingPlan.uuid}`,
                 showLoading: true
-              })} className={styles.dailyReading}>
+              })}>
                 <div>
                   <PiBookBookmarkThin />
                 </div>
@@ -56,20 +64,20 @@ const Banner: React.FC<{ readingPlan?: IReadingPlan; birthdaysMonth?: IMemberBas
                   <h3>{readingPlan.title}</h3>
                   <h4>{readingPlan.description}</h4>
                 </div>
-              </button>
+              </DailyReading>
             )}
 
             <BirthdayWidget birthdays={birthdaysToday} />
-          </div>
+          </Widgets>
         )}
 
-        <div className={styles.headerTitle}>
+        <HeaderTitle>
           <h1>Bem-vindo à Primeira Igreja Batista em Pará de Minas.</h1>
           <h2>Um lugar para você e sua família!</h2>
-        </div>
-      </div>
-      <div className={styles.backdrop} />
-    </div>
+        </HeaderTitle>
+      </Content>
+      <Backdrop />
+    </BannerEl>
   );
 };
 

@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import styles from "../styles/Events.module.scss";
+import { Container, Grid, LoadMore } from "../styles/Events";
 import Website from "../layout/container/Website";
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
@@ -59,8 +59,8 @@ const Inscricoes: NextPage<IEventsPage> = ({ data }) => {
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Inscrições</>} />
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container}>
-          <div className={styles.grid}>
+        <Container>
+          <Grid>
             {data.data.map((item) => (
               <EventTicketCard
                 data={item}
@@ -77,9 +77,9 @@ const Inscricoes: NextPage<IEventsPage> = ({ data }) => {
             ))}
 
             {!data.data.length && <EmptyState />}
-          </div>
+          </Grid>
           {paginator.page < paginator.totalPage && (
-            <div className={styles.load_more}>
+            <LoadMore>
               <ThirdButton loading={loading} onClick={handleGetAll}>
                 {loading ? (
                   <ImSpinner2 />
@@ -89,9 +89,9 @@ const Inscricoes: NextPage<IEventsPage> = ({ data }) => {
                   </>
                 )}
               </ThirdButton>
-            </div>
+            </LoadMore>
           )}
-        </div>
+        </Container>
         <FooterPage
           options={[
             {

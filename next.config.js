@@ -5,6 +5,10 @@ module.exports = withWorkbox({
   reactStrictMode: false,
   swcMinify: true,
 
+  compiler: {
+    styledComponents: true,
+  },
+
   images: {
     unoptimized: true,
   },

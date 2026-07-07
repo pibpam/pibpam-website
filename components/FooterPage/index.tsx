@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import DividerMobile, { EDividerColors } from "../DividerMobile";
-import styles from "../../styles/components/FooterPage.module.scss"
+import { Content } from "./styles"
 
 interface IOption {
   text: string
@@ -15,9 +15,9 @@ interface IFooterPage {
 
 const FooterPage: React.FC<IFooterPage> = ({ options }) => {
   return (
-    <div className={styles.container}>
+    <div>
       <DividerMobile color={EDividerColors.yellow} />
-      <div className={styles.content}>
+      <Content>
         {options?.map(option => (
           <button key={option.text} onClick={option.action}>
             {option.icon}
@@ -27,7 +27,7 @@ const FooterPage: React.FC<IFooterPage> = ({ options }) => {
             </div>
           </button>
         ))}
-      </div>
+      </Content>
     </div>
   )
 }

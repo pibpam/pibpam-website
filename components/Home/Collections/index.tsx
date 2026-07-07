@@ -1,10 +1,11 @@
 import React from "react";
-import styles from "../../../styles/components/Home/Collections.module.scss";
 import BlockHeader from "../BlockHeader";
 import { FiImage } from "react-icons/fi";
 import Carousel from "../../Carousel";
 import { ICollection } from "../../../interfaces/Collection";
 import CollectionCard from "../../CollectionCard";
+import theme from "../../../styles/theme";
+import { CardContainer, CarousselControlls, Container, Content } from "./styles"
 
 interface ICollections {
   collections?: ICollection[]
@@ -13,33 +14,33 @@ interface ICollections {
 
 const Collections: React.FC<ICollections> = ({ collections, goTo }) => {
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
+    <Container>
+      <Content>
         <BlockHeader
-          icon={<FiImage color={"#383838"} />}
+          icon={<FiImage color={theme.colors.gray750} />}
           title="Nossos Últimos Registros"
         />
-        <div className={styles.caroussel_controlls}>
+        <CarousselControlls>
           <p>
             Acompanhe tudo que acontece em nossa igreja! <a onClick={() => goTo("/collections")}>Ver tudo.</a>
           </p>
-        </div>
-      </div>
+        </CarousselControlls>
+      </Content>
       <div>
         <Carousel>
           <>
             {collections && collections.map(item => (
-              <div key={item.uuid} className={styles.card_container}>
+              <CardContainer key={item.uuid}>
                 <CollectionCard
                   onClick={() => goTo("/collection/" + item.uuid)}
                   data={item}/>
-              </div>
+              </CardContainer>
             )
             )}
           </>
         </Carousel>
       </div>
-    </div>
+    </Container>
   )
 }
 

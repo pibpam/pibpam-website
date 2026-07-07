@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import styles from '../styles/Birthdays.module.scss'
+import { Container, Item } from '../styles/Birthdays'
 import Website from '../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
@@ -32,20 +32,20 @@ const Birthdays: NextPage<IBirthdays> = ({ data }) => {
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Aniversariantes</>} />
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container}>
+        <Container>
           <h2>{StringUtils.capitalizeFirstLetter(DateUtils.getMonthStr(new Date().toISOString()))}</h2>
 
           {data.map(member => (
-            <div className={styles.item} key={member.name}>
+            <Item key={member.name}>
               <div>
                 {member.birthday}
               </div>
               <div>
                 {member.name}
               </div>
-            </div>
+            </Item>
           ))}
-        </div>
+        </Container>
       </>
     </Website>
   )

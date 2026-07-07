@@ -3,7 +3,7 @@ import Website from "../../layout/container/Website";
 import Header from "../../components/Header";
 import HeaderContainer from "../../components/HeaderContainer";
 import InscriptionFlow from "../../components/Inscription";
-import inscriptionStyles from "../../styles/Inscription.module.scss";
+import { Page, Wrapper } from "../../styles/Inscription";
 import useMenu from "../../hooks/useMenu";
 import useHeader from "../../hooks/useHeader";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
@@ -34,11 +34,11 @@ const InscriptionPage: NextPage<IInscriptionPage> = ({ event }) => {
             toggleMenu={toggleMenu}
           />
         </HeaderContainer>
-        <main className={inscriptionStyles.page}>
-          <div className={inscriptionStyles.wrapper}>
+        <Page>
+          <Wrapper>
             <InscriptionFlow event={event} />
-          </div>
-        </main>
+          </Wrapper>
+        </Page>
       </>
     </Website>
   );

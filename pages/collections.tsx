@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import styles from '../styles/Events.module.scss'
+import { Container, Grid } from '../styles/Events'
 import Website from '../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
@@ -38,8 +38,8 @@ const Collections: NextPage<ICollectionsPage> = ({ collections }) => {
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Galeria de Fotos</>} />
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container}>
-          <div className={styles.grid}>
+        <Container>
+          <Grid>
             {
               collections.map(item => (
                 <CollectionCard data={item} key={item.uuid} onClick={() => goTo("/collection/" + item.uuid)} />
@@ -49,8 +49,8 @@ const Collections: NextPage<ICollectionsPage> = ({ collections }) => {
             {!collections.length && (
               <EmptyState />
             )}
-          </div>
-        </div>
+          </Grid>
+        </Container>
         <FooterPage
           options={[
             {

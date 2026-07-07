@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import ThirdButton from "../Button/Third";
 import {FiPlus} from "react-icons/fi";
-import styles from "../../styles/components/TextCollapse.module.scss"
+import { Description } from "./styles"
 
 interface ITextCollapse {
     text: string
@@ -39,7 +39,7 @@ export const TextCollapse: React.FC<ITextCollapse> = ({text}) => {
     }
 
     return (
-        <div className={styles.description}>
+        <Description>
             <div style={{maxHeight: maxHeight && seeAll ? maxHeight + "px" : "300px"}}>
                 {/* @ts-ignore*/}
                 <div ref={pRef} dangerouslySetInnerHTML={{__html: text || ""}}></div>
@@ -51,6 +51,6 @@ export const TextCollapse: React.FC<ITextCollapse> = ({text}) => {
                     </ThirdButton>
                 </div>
             )}
-        </div>
+        </Description>
     )
 }

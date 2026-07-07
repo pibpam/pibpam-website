@@ -1,8 +1,20 @@
 import React from "react";
 import { FiArrowRight, FiCalendar, FiMapPin } from "react-icons/fi";
-import styles from "../../styles/components/EventTicketCard.module.scss";
 import { IEvent } from "../../interfaces/Event";
 import { DateUtils } from "../../utils/Date";
+import {
+  Backdrop,
+  Container,
+  Content,
+  Cta,
+  Footer,
+  FooterInfo,
+  Meta,
+  Price,
+  Spots,
+  TagStatus,
+  Thumb,
+} from "./styles";
 
 interface IEventTicketCard {
   data: IEvent;
@@ -41,17 +53,17 @@ const EventTicketCard: React.FC<IEventTicketCard> = ({
   };
 
   return (
-    <div className={styles.container} onClick={onClick}>
+    <Container onClick={onClick}>
       {data.soldOut && (
-        <div className={`${styles.tag__status} ${styles.tag__sold_out}`}>
+        <TagStatus $soldOut>
           Esgotado
-        </div>
+        </TagStatus>
       )}
 
-      <div className={styles.thumb}>
-        <div className={styles.content}>
+      <Thumb>
+        <Content>
           <p>{data.name}</p>
-          <div className={styles.meta}>
+          <Meta>
             {data.startDate && (
               <span>
                 <FiCalendar />
@@ -64,40 +76,32 @@ const EventTicketCard: React.FC<IEventTicketCard> = ({
                 {data.location}
               </span>
             )}
-          </div>
-        </div>
+          </Meta>
+        </Content>
 
-        <div
-          className={styles.backdrop}
+        <Backdrop
           style={
             data.image
               ? { background: `url('${data.image}') center/cover` }
               : undefined
           }
         />
-      </div>
+      </Thumb>
 
-      <div className={styles.footer}>
-        <div className={styles.footer__info}>
-          <span className={styles.price}>
+      <Footer>
+        <FooterInfo>
+          <Price>
             {formatPrice(data.activeBatch?.price)}
-          </span>
+          </Price>
           {spotsLabel && (
-            <span
-              className={`${styles.spots} ${
-                data.soldOut ? styles.spots__sold_out : ""
-              }`}
-            >
+            <Spots $soldOut={data.soldOut}>
               {spotsLabel}
-            </span>
+            </Spots>
           )}
-        </div>
+        </FooterInfo>
 
-        <button
+        <Cta
           type="button"
-          className={`${styles.cta} ${
-            data.soldOut ? styles.cta__disabled : ""
-          }`}
           onClick={handleSubscribe}
           disabled={data.soldOut}
         >
@@ -108,9 +112,9 @@ const EventTicketCard: React.FC<IEventTicketCard> = ({
               Fazer inscrição <FiArrowRight />
             </>
           )}
-        </button>
-      </div>
-    </div>
+        </Cta>
+      </Footer>
+    </Container>
   );
 };
 

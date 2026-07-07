@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import type { NextPage } from 'next'
 import React, { useContext, useEffect } from "react";
-import styles from "../styles/Privacy.module.scss"
+import { Container } from "../styles/Privacy"
 import { AppContext } from '../contexts/app';
 
 const Privacy: NextPage = () => {
@@ -14,9 +14,9 @@ const Privacy: NextPage = () => {
   }, [])
 
   return (
-    <div className={styles.container}>
+    <Container>
       <a href="pibpamapp://path/">Teste</a>
-    </div>
+    </Container>
   )
 }
 

@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
-import styles from '../styles/Notices.module.scss'
+import { Container, Header, NoticeItem } from '../styles/Notices'
 import Website from '../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
-import Header from "../components/Header";
+import HeaderComp from "../components/Header";
 import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
 import React, { useContext, useEffect } from "react";
@@ -31,12 +31,12 @@ const Notices: NextPage = () => {
     <Website title={"Avisos"} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
       <>
         <HeaderContainer active={scrollActive}>
-          <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <HeaderComp goBack={() => goBack({})} toggleMenu={toggleMenu} />
         </HeaderContainer>
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Avisos</>} />
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container}>
+        <Container>
 
           {!notices.length && (
             <EmptyState />
@@ -44,24 +44,24 @@ const Notices: NextPage = () => {
 
           {notices.map(notice => (
             <>
-              <div className={styles.header}>
+              <Header>
                 <div>
                   {DateUtils.formatDateTimeWithWeekDay(notice.notice[0].publishDate)}
                 </div>
-              </div>
+              </Header>
               {notice.notice.map(item => (
-                <div key={item.uuid} className={`${styles.noticeItem} ${!item.seem && styles.addAnimation}`}>
+                <NoticeItem key={item.uuid} $addAnimation={!item.seem}>
                   <p>
                     {item.notice}
                   </p>
                   <span>
                     {DateUtils.formatTime(item.publishDate)} <FiCheck />
                   </span>
-                </div>
+                </NoticeItem>
               ))}
             </>
           ))}
-        </div>
+        </Container>
       </>
     </Website>
   )

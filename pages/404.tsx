@@ -10,7 +10,7 @@ import useHeader from "../hooks/useHeader";
 import HeaderPage from "../components/HeaderPage";
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import EmptyState from "../components/EmptyState";
-import styles from "../styles/404.module.scss";
+import { Container } from "../styles/404";
 
 const NotFound: NextPage = () => {
   const { open, toggleMenu } = useMenu();
@@ -30,11 +30,11 @@ const NotFound: NextPage = () => {
         </HeaderContainer>
         <HeaderPage title={"404"} />
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container}>
+        <Container>
           <EmptyState
             description={"Ops! O que você procura não está mais aqui!"}
           />
-        </div>
+        </Container>
       </>
     </Website>
   );

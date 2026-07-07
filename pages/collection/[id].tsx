@@ -1,15 +1,15 @@
 import type { NextPage } from 'next'
 import Website from '../../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
-import Header from "../../components/Header";
+import HeaderComp from "../../components/Header";
 import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
 import { Api } from "../../services/api";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import useHeader from "../../hooks/useHeader";
 import HeaderContainer from "../../components/HeaderContainer";
-import { FiCalendar, FiChevronLeft, FiChevronRight, FiDownload, FiImage, FiLoader, FiX } from "react-icons/fi";
-import styles from "../../styles/Collection.module.scss"
+import { FiCalendar, FiChevronLeft, FiChevronRight, FiDownload, FiImage, FiX } from "react-icons/fi";
+import { Controller, Grid, Header, HeaderModal, Loading, Modal, Container, View } from "../../styles/Collection"
 import { GetStaticPaths } from "next";
 import { ICollection } from '../../interfaces/Collection';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
@@ -73,32 +73,32 @@ const Collection: NextPage<ICollectionPage> = ({ data }) => {
       toggleMenu={toggleMenu}>
       <>
         <HeaderContainer active={scrollActive}>
-          <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <HeaderComp goBack={() => goBack({})} toggleMenu={toggleMenu} />
         </HeaderContainer>
         <HeaderPage background={data.image} />
         <DividerMobile color={EDividerColors.white} />
         {!!selected && (
-          <div className={styles.modal} >
-            <div className={styles.headerModal} >
+          <Modal>
+            <HeaderModal>
               {/* <a download href={selectedPhoto?.image} ><FiDownload /> Salvar</a> */}
               <a onClick={() => saveImageUser(selectedPhoto?.image || '')} >
-                {isLoadingDownload ? (<FiLoader className={styles.loading} />) : (<FiDownload />)}
+                {isLoadingDownload ? (<Loading />) : (<FiDownload />)}
                 Salvar</a>
               <button onClick={() => setSelected(0)} ><FiX /></button>
-            </div>
-            <div className={styles.view} style={{ backgroundImage: `url('${selectedPhoto?.image}')` }} ></div>
-            <div className={styles.controller} >
+            </HeaderModal>
+            <View style={{ backgroundImage: `url('${selectedPhoto?.image}')` }} ></View>
+            <Controller>
               <button disabled={selected === 1} onClick={() => setSelected(state => state - 1)} >
                 <FiChevronLeft />
               </button>
               <button disabled={selected >= photos.length} onClick={() => setSelected(state => state + 1)} >
                 <FiChevronRight />
               </button>
-            </div>
-          </div>
+            </Controller>
+          </Modal>
         )}
-        <div className={styles.container}>
-          <div className={styles.header}>
+        <Container>
+          <Header>
             <h2>{data.title}</h2>
             <div>
               <p>
@@ -108,16 +108,16 @@ const Collection: NextPage<ICollectionPage> = ({ data }) => {
                 <FiCalendar /> {DateUtils.formatDateDayAndMonth(data.collectionDate)}
               </p>
             </div>
-          </div>
-          <div className={styles.grid}>
+          </Header>
+          <Grid>
             {photos.map(item => (
               // eslint-disable-next-line @next/next/no-img-element
               <div onClick={() => setSelected(item.index)} key={item.uuid} style={{ background: `url('${item.image}') center/cover` }} />
             ))}
-          </div>
+          </Grid>
           <ShareButton url={`https://pibpam.org/collection/${data.uuid}`}
             message={`Fotos: ${data.title}`} />
-        </div>
+        </Container>
       </>
     </Website>
   )

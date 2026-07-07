@@ -1,7 +1,7 @@
 import React from "react";
 import {FiCalendar, FiClock, FiUsers} from "react-icons/fi";
-import styles from "../../styles/components/ScheduleItem.module.scss"
 import {IChurchSchedule} from "../../interfaces/Church";
+import { Container, Left, Right } from "./styles"
 
 interface IScheduleItem {
     data: IChurchSchedule
@@ -9,16 +9,16 @@ interface IScheduleItem {
 
 const ScheduleItem: React.FC<IScheduleItem> = ({data}) => {
     return (
-        <div className={styles.container}>
-            <div className={styles.left}>
+        <Container>
+            <Left>
                 <FiUsers/>
                 <div>{data.text}</div>
-            </div>
-            <div className={styles.right}>
+            </Left>
+            <Right>
                 <span><FiCalendar/>{data.day}</span>
                 <span><FiClock/>{data.time}</span>
-            </div>
-        </div>
+            </Right>
+        </Container>
     )
 }
 

@@ -1,8 +1,8 @@
 import React from "react";
-import styles from "../../styles/components/ScheduleEvent.module.scss"
 import {FiCalendar, FiClock, FiExternalLink} from "react-icons/fi";
 import {IScheduleDate} from "../../interfaces/Schedule";
 import {DateUtils} from "../../utils/Date";
+import { Backdrop, Container, Content, ExternalLink, Thumb } from "./styles"
 
 interface IScheduleEvent {
     onClick: () => void
@@ -11,10 +11,10 @@ interface IScheduleEvent {
 
 const ScheduleEvent: React.FC<IScheduleEvent> = ({onClick, schedule}) => {
     return (
-        <div onClick={onClick} className={styles.container}>
-            <div className={styles.external_link}><FiExternalLink/></div>
-            <div className={styles.thumb}>
-                <div className={styles.content}>
+        <Container onClick={onClick}>
+            <ExternalLink><FiExternalLink/></ExternalLink>
+            <Thumb>
+                <Content>
                     <h4>{schedule.schedule.title}</h4>
                     <p>{schedule.schedule.shortDescription}</p>
                     <div>
@@ -24,11 +24,11 @@ const ScheduleEvent: React.FC<IScheduleEvent> = ({onClick, schedule}) => {
                             <span><FiClock/> {DateUtils.formatTime(schedule.scheduleDate)}</span>
                         </div>
                     </div>
-                </div>
-                <div className={styles.backdrop}
+                </Content>
+                <Backdrop
                      style={{background: "url('" + schedule.schedule.image + "') center/cover"}}/>
-            </div>
-        </div>
+            </Thumb>
+        </Container>
     )
 }
 

@@ -1,4 +1,3 @@
-import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Contexts from "../contexts";
 import Loading from "../components/Loading";
@@ -7,6 +6,7 @@ import Script from "next/script";
 import Modal from '../components/ModalDesktopWarn';
 import ModalGetApp from '../components/ModalGetApp';
 import { clarity } from 'react-microsoft-clarity';
+import GlobalStyle from "../styles/GlobalStyle";
 
 function MyApp({ Component, pageProps }: AppProps) {
 
@@ -28,6 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
+      <GlobalStyle />
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-7HTJQHF1X6"
         strategy="afterInteractive"

@@ -1,0 +1,57 @@
+import { createGlobalStyle } from 'styled-components'
+import theme from './theme'
+
+const GlobalStyle = createGlobalStyle`
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+      Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    height: 100%;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  * {
+    box-sizing: border-box;
+    font-family: ${theme.fontFamily};
+  }
+
+  button {
+    border: none;
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  #__next {
+    height: 100%;
+  }
+
+  #globalLoader {
+    position: fixed;
+    z-index: 9999;
+    top: 50%;
+    left: 50%;
+    background-color: ${theme.colors.white};
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+`
+
+export default GlobalStyle

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import styles from '../../styles/components/Header.module.scss'
 import Image from "next/image";
 import { FiBell, FiChevronLeft, FiMenu, FiX } from "react-icons/fi";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { NoticesContext } from "../../contexts/notices";
+import { Container, GoBack, Notifications, Title } from "./styles"
 
 interface IHeader {
   toggleMenu: () => void
@@ -21,25 +21,25 @@ const Header: React.FC<IHeader> = ({ toggleMenu, isOpen = false, title, goBack }
   }
 
   return (
-    <div className={`${styles.container}`}>
+    <Container>
       <div>
         {goBack && (
-          <button className={styles.go_back} onClick={goBack}>
+          <GoBack onClick={goBack}>
             <FiChevronLeft />
-          </button>
+          </GoBack>
         )}
-        {title ? <div className={styles.title}>{title}</div> :
+        {title ? <Title>{title}</Title> :
           <button onClick={goToHome}>
             <Image src="/pibpam-logo.svg" alt="PIBPM logo" width={120} height={31} />
           </button>
         }
       </div>
-      <button onClick={() => goToHook({ pathname: '/notices', showLoading: true })} className={styles.notifications}>
-        {!!totalUnsee && (<span>{totalUnsee}</span>)}<FiBell /></button>
-      <button onClick={toggleMenu} className={styles.go_back}>
+      <Notifications onClick={() => goToHook({ pathname: '/notices', showLoading: true })}>
+        {!!totalUnsee && (<span>{totalUnsee}</span>)}<FiBell /></Notifications>
+      <GoBack onClick={toggleMenu}>
         {isOpen ? <FiX /> : <FiMenu />}
-      </button>
-    </div>
+      </GoBack>
+    </Container>
   );
 }
 

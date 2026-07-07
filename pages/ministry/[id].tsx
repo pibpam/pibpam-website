@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
-import styles from '../../styles/Ministry.module.scss'
+import { Container, Team, TeamItem } from '../../styles/Ministry'
 import Website from '../../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
-import Header from "../../components/Header";
+import HeaderComp from "../../components/Header";
 import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
 import React from "react";
@@ -33,28 +33,28 @@ const Ministry: NextPage<IMinistry> = ({ data }) => {
       toggleMenu={toggleMenu}>
       <>
         <HeaderContainer active={scrollActive}>
-          <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <HeaderComp goBack={() => goBack({})} toggleMenu={toggleMenu} />
         </HeaderContainer>
         <HeaderPage background={data.image} />
         <DividerMobile color={EDividerColors.white} />
-        <div className={styles.container}>
+        <Container>
           <h1>{data.name}</h1>
           <h2>{data.shortDescription}</h2>
           <p>{data.description}</p>
-        </div>
+        </Container>
         {!!data.teamMember.length && (
           <>
             <Title>Equipe</Title>
-            <div className={styles.team}>
+            <Team>
               {data.teamMember.map(item => (
-                <div key={item.uuid} className={styles.team_item}>
+                <TeamItem key={item.uuid}>
                   <div
                     style={{ background: "url('" + (item.member?.image || "/user.jpg") + "') center/cover" }}></div>
                   <div>{item.member?.name}</div>
                   <div>{item.role}</div>
-                </div>
+                </TeamItem>
               ))}
-            </div>
+            </Team>
           </>
         )}
       </>

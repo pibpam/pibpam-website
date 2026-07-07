@@ -1,5 +1,5 @@
 import React, { ButtonHTMLAttributes, ReactElement } from 'react';
-import styles from '../../styles/components/Button/Button.module.scss'
+import { ThirdContainer } from './styles'
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactElement
@@ -9,9 +9,9 @@ interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const ThirdButton: React.FC<IButtonProps> = ({ children, text, loading, ...props }: IButtonProps) => {
   return (
-    <button {...props} className={`${styles.third} ${loading && styles.loading}`} >
+    <ThirdContainer {...props} $loading={loading} >
       {children || text}
-    </button>
+    </ThirdContainer>
   );
 }
 

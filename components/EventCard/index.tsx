@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "../../styles/components/EventCard.module.scss"
 import { IContent } from "../../interfaces/Contens";
 import { DateUtils } from "../../utils/Date";
+import { Backdrop, Container, Content, TagDate, Thumb } from "./styles";
 
 interface IEventCard {
   onClick: () => void
@@ -11,28 +11,24 @@ interface IEventCard {
 
 const EventCard: React.FC<IEventCard> = ({ onClick, data, hideDate = false }) => {
   return (
-    <div className={styles.container} onClick={onClick}>
+    <Container onClick={onClick}>
       {!hideDate && (
-        <div className={styles.tag__date}>
+        <TagDate>
           {DateUtils.formatDateDefault(data.contentDate)}
-        </div>
+        </TagDate>
       )}
-      <div className={styles.thumb}>
-        <div className={styles.content}>
+      <Thumb>
+        <Content>
           <p>{data.name}</p>
           {data.author && (
             <p>{data.author.name}</p>
           )}
-        </div>
+        </Content>
 
-        <div className={styles.backdrop} style={{ background: "url('" + data.image + "') center/cover" }}>
-          {/*<FiPlayCircle/>*/}
-        </div>
-      </div>
-      {/*<div className={styles.description}>*/}
-      {/*    <p>{data.description}</p>*/}
-      {/*</div>*/}
-    </div>
+        <Backdrop style={{ background: "url('" + data.image + "') center/cover" }}>
+        </Backdrop>
+      </Thumb>
+    </Container>
   )
 }
 

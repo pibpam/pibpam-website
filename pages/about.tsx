@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import styles from "../styles/About.module.scss";
+import { Description } from "../styles/About";
 import Website from "../layout/container/Website";
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
@@ -7,17 +7,12 @@ import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
 import Title from "../components/Title";
 import FooterPage from "../components/FooterPage";
-import ScheduleItem from "../components/ScheduleItem";
+import Contacts from "../container/About/Contacts";
+import SocialMedia from "../container/About/SocialMedia";
+import ChurchSchedule from "../container/About/ChurchSchedule";
 import {
-  FiArrowRight,
   FiCalendar,
-  FiGlobe,
-  FiInstagram,
-  FiMail,
-  FiMapPin,
-  FiPhone,
   FiPlay,
-  FiYoutube,
 } from "react-icons/fi";
 import { Api } from "../services/api";
 import { IChurchInfo } from "../interfaces/Church";
@@ -27,7 +22,6 @@ import { TextCollapse } from "../components/TextCollapse";
 import HeaderContainer from "../components/HeaderContainer";
 import useHeader from "../hooks/useHeader";
 import useOpenMap from "../hooks/useOpenMap";
-import { FaSpotify } from "react-icons/fa";
 
 import usePostMessage from "../hooks/usePostMessage";
 
@@ -51,25 +45,6 @@ const About: NextPage<IAbout> = ({ data }) => {
     setMapUrl(data.address ? getHref(data.address) : "");
   }, [data.address, getHref]);
 
-  const phonesStr = () => {
-    if (data.phoneNumber && data.whatsAppNumber) {
-      return `${data.phoneNumber} // ${data.whatsAppNumber}`;
-    }
-
-    if (data.phoneNumber) {
-      return data.phoneNumber;
-    }
-    return data.whatsAppNumber;
-  };
-
-  const getCallableNumber = () => {
-    if (data.phoneNumber) {
-      const justNumbers = data.phoneNumber.match(/\d/g)?.join("");
-      return `+55${justNumbers}`;
-    }
-    return "";
-  };
-
   return (
     <Website
       title={"Sobre a PIPPAM"}
@@ -87,91 +62,23 @@ const About: NextPage<IAbout> = ({ data }) => {
         <DividerMobile color={EDividerColors.white} />
         <Title>História</Title>
 
-        <div className={styles.description}>
+        <Description>
           <TextCollapse text={data.history || ""} />
-        </div>
-
-        {/*<Title>Pastor</Title>*/}
-
-        {/*<div className={styles.description}>*/}
-        {/*    <div className={styles.description}>*/}
-        {/*        <TextCollapse text={data.shepherdText || ""}/>*/}
-        {/*    </div>*/}
-        {/*</div>*/}
+        </Description>
 
         <Title>Contatos</Title>
-        <div className={styles.social_media}>
-          <p>{data.name}</p>
-
-          <button
-            onClick={() => openLink(`mailto:${data.email}`)}
-            className={styles.button_link}
-          >
-            <FiMail /> {data.email}
-          </button>
-          {!!phonesStr() && (
-            <button
-              onClick={() => openLink(`tel:${getCallableNumber()}`)}
-              className={styles.button_link}
-            >
-              <FiPhone /> {phonesStr()}
-            </button>
-          )}
-          {!!data.site && (
-            <button className={styles.button_link}>
-              <FiGlobe /> {data.site}
-            </button>
-          )}
-          <button className={styles.button_link_location}>
-            <FiMapPin />
-            <div>
-              <div>
-                <span>Localização</span>
-                {mapUrl && (
-                  <button onClick={() => openLink(mapUrl)}>Como chegar</button>
-                )}
-              </div>
-              <div>{data.address}</div>
-            </div>
-          </button>
-        </div>
+        <Contacts data={data} mapUrl={mapUrl} openLink={openLink} />
 
         <Title>Redes sociais</Title>
-        <div className={styles.social_media}>
-          <button
-            onClick={() => openLink(data.youTubeUrl || "")}
-            className={styles.button_link}
-          >
-            <FiYoutube /> {data.youTubeName}
-          </button>
-          <button
-            onClick={() => openLink(data.instagramUrl || "")}
-            className={styles.button_link}
-          >
-            <FiInstagram /> {data.instagramName}
-          </button>
-          <button
-            onClick={() => openLink(data.spotifyUrl || "")}
-            className={styles.button_link}
-          >
-            <FaSpotify /> {data.spotifyName}
-          </button>
-        </div>
+        <SocialMedia data={data} openLink={openLink} />
 
         {data?.church_schedules && !!data.church_schedules.length && (
           <>
             <Title>Horários</Title>
-            <div className={styles.schedule}>
-              {data.church_schedules.map((item) => (
-                <ScheduleItem key={item.uuid} data={item} />
-              ))}
-              <button
-                onClick={() => goTo("/schedule")}
-                className={styles.seeAllButton}
-              >
-                Ver agenda completa <FiArrowRight />
-              </button>
-            </div>
+            <ChurchSchedule
+              schedules={data.church_schedules}
+              onSeeAll={() => goTo("/schedule")}
+            />
           </>
         )}
 

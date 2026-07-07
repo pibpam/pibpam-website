@@ -13,8 +13,51 @@ import {
   FiUser,
 } from "react-icons/fi";
 import { FaPix } from "react-icons/fa6";
-import { ImSpinner2 } from "react-icons/im";
-import styles from "../../styles/Inscription.module.scss";
+import {
+  Addon,
+  AddonAvail,
+  AddonCheck,
+  AddonDesc,
+  AddonGroups,
+  AddonImg,
+  AddonInfo,
+  AddonMeta,
+  AddonName,
+  AddonSoldout,
+  AddParticipantBtn,
+  Choice,
+  ChoiceDesc,
+  Choices,
+  ChoicePrice,
+  ChoiceTitle,
+  CheckRegistration,
+  CheckRegistrationLink,
+  ErrorBox,
+  EventDescription,
+  EventMeta,
+  Field,
+  Flow,
+  Form,
+  Hero,
+  Nav,
+  Participant,
+  ParticipantHead,
+  ParticipantRemove,
+  PaymentIcon,
+  PaymentLabel,
+  Progress,
+  ProgressStep,
+  Required,
+  SelfNote,
+  Spinner,
+  Step,
+  StepTitle,
+  StepSubtitle,
+  Stepper,
+  StepperLabel,
+  StepViewport,
+} from "./styles";
+import { Closed, EventName, SectionLabel, Summary, SummaryRow, SummaryTotal } from "../../styles/Inscription";
 import SecondaryButton from "../Button/Secondary";
 import ThirdButton from "../Button/Third";
 import CheckRegistrationSheet from "../CheckRegistrationSheet";
@@ -420,10 +463,10 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
     const options = field.options || [];
 
     return (
-      <div className={styles.field} key={field.uuid}>
+      <Field key={field.uuid}>
         <label>
           {field.label}
-          {field.required && <span className={styles.required}> *</span>}
+          {field.required && <Required> *</Required>}
         </label>
         {options.length > 0 ? (
           <select value={value} onChange={(e) => onChange(e.target.value)}>
@@ -449,61 +492,46 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
             onChange={(e) => onChange(e.target.value)}
           />
         )}
-      </div>
+      </Field>
     );
   };
 
   return (
-    <div
-      className={styles.flow}
+    <Flow
       style={{
         paddingTop: topOffset,
         minHeight: `calc(100vh - ${topOffset + 40}px)`,
       }}
     >
-      <div className={styles.stepper} style={{ top: topOffset }}>
-        <div className={styles.progress}>
+      <Stepper style={{ top: topOffset }}>
+        <Progress>
           {steps.map((s, i) => (
-            <div
+            <ProgressStep
               key={s}
-              className={`${styles.progress__step} ${
-                i === stepIndex
-                  ? styles.progress__step_active
-                  : i < stepIndex
-                  ? styles.progress__step_done
-                  : ""
-              }`}
+              $active={i === stepIndex}
+              $done={i < stepIndex}
             />
           ))}
-        </div>
-        <span className={styles.stepper__label}>
+        </Progress>
+        <StepperLabel>
           Passo {stepIndex + 1} de {steps.length}
-        </span>
-      </div>
+        </StepperLabel>
+      </Stepper>
 
-      <div className={styles.stepViewport}>
-        <div
+      <StepViewport>
+        <Step
           key={currentStep}
-          className={`${styles.step} ${
-            stepIndex === 0
-              ? ""
-              : direction > 0
-              ? styles.step_forward
-              : styles.step_back
-          }`}
+          $direction={stepIndex === 0 ? undefined : direction > 0 ? "forward" : "back"}
         >
 
       {/* ---------- ETAPA: detalhes do evento ---------- */}
       {currentStep === "details" && (
         <div>
           {event.image && (
-            <div
-              className={styles.hero}
-              style={{ backgroundImage: `url('${event.image}')` }}
-            />
+            <Hero style={{ backgroundImage: `url('${event.image}')` }} />
           )}
-          <h1 className={styles.event__name}>{event.name}</h1>
-          <div className={styles.event__meta}>
+          <EventName>{event.name}</EventName>
+          <EventMeta>
             {event.startDate && (
               <span>
                 <FiCalendar />
@@ -519,33 +547,31 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                 {event.location}
               </span>
             )}
-          </div>
+          </EventMeta>
 
-          <div className={styles.check__registration}>
+          <CheckRegistration>
             <span>Já se inscreveu neste evento?</span>
-            <button
+            <CheckRegistrationLink
               type="button"
-              className={styles.check__registration_link}
               onClick={() => setCheckOpen(true)}
             >
               <FiSearch /> Verificar inscrição
-            </button>
-          </div>
+            </CheckRegistrationLink>
+          </CheckRegistration>
 
           {(event.descriptionHtml || event.description) && (
-            <div
-              className={styles.event__description}
+            <EventDescription
               dangerouslySetInnerHTML={{
                 __html: event.descriptionHtml || event.description || "",
               }}
             />
           )}
           {registrationClosed && (
-            <div className={styles.closed}>
+            <Closed>
               {event.soldOut
                 ? "As vagas para este evento estão esgotadas."
                 : "As inscrições para este evento não estão disponíveis no momento."}
-            </div>
+            </Closed>
           )}
         </div>
       )}
@@ -553,71 +579,65 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
       {/* ---------- ETAPA: papel (eventos para menores) ---------- */}
       {currentStep === "role" && (
         <div>
-          <h2 className={styles.step__title}>Quem está se inscrevendo?</h2>
-          <p className={styles.step__subtitle}>
+          <StepTitle>Quem está se inscrevendo?</StepTitle>
+          <StepSubtitle>
             Evento para menores de idade. Para inscrever menores, escolha
             &quot;Sou o responsável&quot;.
-          </p>
-          <div className={styles.choices}>
-            <button
+          </StepSubtitle>
+          <Choices>
+            <Choice
               type="button"
-              className={`${styles.choice} ${
-                role === "responsible" ? styles.choice__selected : ""
-              }`}
+              $selected={role === "responsible"}
               onClick={() => setRole("responsible")}
             >
-              <span className={styles.choice__title}>Sou o responsável</span>
-              <span className={styles.choice__desc}>
+              <ChoiceTitle>Sou o responsável</ChoiceTitle>
+              <ChoiceDesc>
                 Vou inscrever um ou mais menores sob minha responsabilidade.
-              </span>
-            </button>
-            <button
+              </ChoiceDesc>
+            </Choice>
+            <Choice
               type="button"
-              className={`${styles.choice} ${
-                role === "participant_adult" ? styles.choice__selected : ""
-              }`}
+              $selected={role === "participant_adult"}
               onClick={() => setRole("participant_adult")}
             >
-              <span className={styles.choice__title}>
+              <ChoiceTitle>
                 Sou participante · maior de idade
-              </span>
-              <span className={styles.choice__desc}>
+              </ChoiceTitle>
+              <ChoiceDesc>
                 Vou participar do evento e tenho mais de 18 anos.
-              </span>
-            </button>
-            <button
+              </ChoiceDesc>
+            </Choice>
+            <Choice
               type="button"
-              className={`${styles.choice} ${
-                role === "participant_minor" ? styles.choice__selected : ""
-              }`}
+              $selected={role === "participant_minor"}
               onClick={() => {
                 setRole("participant_minor");
                 // Menor: apenas um participante.
                 setParticipants((state) => state.slice(0, 1));
               }}
             >
-              <span className={styles.choice__title}>
+              <ChoiceTitle>
                 Sou participante · menor de idade
-              </span>
-              <span className={styles.choice__desc}>
+              </ChoiceTitle>
+              <ChoiceDesc>
                 Vou participar do evento e tenho menos de 18 anos.
-              </span>
-            </button>
-          </div>
+              </ChoiceDesc>
+            </Choice>
+          </Choices>
         </div>
       )}
 
       {/* ---------- ETAPA: responsável financeiro ---------- */}
       {currentStep === "responsible" && (
         <div>
-          <h2 className={styles.step__title}>Responsável financeiro</h2>
-          <p className={styles.step__subtitle}>
+          <StepTitle>Responsável financeiro</StepTitle>
+          <StepSubtitle>
             Dados de quem ficará responsável pelo pagamento da inscrição.
-          </p>
-          <div className={styles.form}>
-            <div className={styles.field}>
+          </StepSubtitle>
+          <Form>
+            <Field>
               <label>
-                Nome completo<span className={styles.required}> *</span>
+                Nome completo<Required> *</Required>
               </label>
               <input
                 value={responsible.name}
@@ -625,10 +645,10 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                   setResponsible({ ...responsible, name: e.target.value })
                 }
               />
-            </div>
-            <div className={styles.field}>
+            </Field>
+            <Field>
               <label>
-                E-mail<span className={styles.required}> *</span>
+                E-mail<Required> *</Required>
               </label>
               <input
                 type="email"
@@ -637,10 +657,10 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                   setResponsible({ ...responsible, email: e.target.value })
                 }
               />
-            </div>
-            <div className={styles.field}>
+            </Field>
+            <Field>
               <label>
-                Telefone<span className={styles.required}> *</span>
+                Telefone<Required> *</Required>
               </label>
               <input
                 type="tel"
@@ -654,50 +674,49 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                   })
                 }
               />
-            </div>
-          </div>
+            </Field>
+          </Form>
         </div>
       )}
 
       {/* ---------- ETAPA: participantes ---------- */}
       {currentStep === "participants" && (
         <div>
-          <h2 className={styles.step__title}>
+          <StepTitle>
             {isMinorParticipant ? "Participante" : "Participantes"}
-          </h2>
-          <p className={styles.step__subtitle}>
+          </StepTitle>
+          <StepSubtitle>
             {isMinorParticipant
               ? "Preencha os dados do participante e do responsável."
               : "Preencha os dados de cada participante e escolha o adicional."}
-          </p>
+          </StepSubtitle>
           {participants.map((p, index) => (
-            <div className={styles.participant} key={p.id}>
-              <div className={styles.participant__head}>
+            <Participant key={p.id}>
+              <ParticipantHead>
                 <strong>
                   <FiUser />{" "}
                   {isMinorParticipant ? "Participante" : `Participante ${index + 1}`}
                 </strong>
                 {participants.length > 1 && (
-                  <button
+                  <ParticipantRemove
                     type="button"
-                    className={styles.participant__remove}
                     onClick={() => removeParticipant(p.id)}
                   >
                     <FiTrash2 /> remover
-                  </button>
+                  </ParticipantRemove>
                 )}
-              </div>
+              </ParticipantHead>
 
-              <div className={styles.form}>
+              <Form>
                 {isSelfParticipant(index) ? (
-                  <div className={styles.self__note}>
+                  <SelfNote>
                     Usaremos seu nome e telefone informados no responsável
                     financeiro.
-                  </div>
+                  </SelfNote>
                 ) : (
-                  <div className={styles.field}>
+                  <Field>
                     <label>
-                      Nome completo<span className={styles.required}> *</span>
+                      Nome completo<Required> *</Required>
                     </label>
                     <input
                       value={p.name}
@@ -705,12 +724,12 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                         updateParticipant(p.id, { name: e.target.value })
                       }
                     />
-                  </div>
+                  </Field>
                 )}
-                <div className={styles.field}>
+                <Field>
                   <label>
                     Data de nascimento
-                    <span className={styles.required}> *</span>
+                    <Required> *</Required>
                   </label>
                   <input
                     type="text"
@@ -723,9 +742,9 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                       })
                     }
                   />
-                </div>
+                </Field>
                 {!isSelfParticipant(index) && (
-                  <div className={styles.field}>
+                  <Field>
                     <label>Telefone</label>
                     <input
                       type="tel"
@@ -738,7 +757,7 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                         })
                       }
                     />
-                  </div>
+                  </Field>
                 )}
                 {event.customFields
                   .slice()
@@ -747,13 +766,13 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
 
                 {isMinorParticipant && (
                   <>
-                    <p className={styles.section__label}>
+                    <SectionLabel>
                       Responsável pelo menor
-                    </p>
-                    <div className={styles.field}>
+                    </SectionLabel>
+                    <Field>
                       <label>
                         Nome do responsável
-                        <span className={styles.required}> *</span>
+                        <Required> *</Required>
                       </label>
                       <input
                         value={p.guardianName}
@@ -763,11 +782,11 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                           })
                         }
                       />
-                    </div>
-                    <div className={styles.field}>
+                    </Field>
+                    <Field>
                       <label>
                         Telefone do responsável
-                        <span className={styles.required}> *</span>
+                        <Required> *</Required>
                       </label>
                       <input
                         type="tel"
@@ -780,106 +799,101 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                           })
                         }
                       />
-                    </div>
+                    </Field>
                   </>
                 )}
-              </div>
+              </Form>
 
               {!!event.addonGroups?.length && (
-                <div className={styles.addonGroups}>
+                <AddonGroups>
                   {event.addonGroups.map((group) => {
                     const selectedUuids = p.selections[group.uuid] || [];
                     return (
                       <React.Fragment key={group.uuid}>
-                        <p className={styles.section__label}>
+                        <SectionLabel>
                           {group.title}
                           {group.minSelection > 0 && (
-                            <span className={styles.required}> *</span>
+                            <Required> *</Required>
                           )}
-                        </p>
+                        </SectionLabel>
                         {group.description && (
-                          <p className={styles.step__subtitle}>
+                          <StepSubtitle>
                             {group.description}
-                          </p>
+                          </StepSubtitle>
                         )}
-                        <div className={styles.choices}>
+                        <Choices>
                           {group.addons.map((addon) => {
                             const selected = selectedUuids.includes(
                               addon.uuid
                             );
                             const disabled = addon.soldOut || !addon.active;
                             return (
-                              <button
+                              <Addon
                                 key={addon.uuid}
                                 type="button"
                                 disabled={disabled}
-                                className={`${styles.addon} ${
-                                  selected ? styles.addon__selected : ""
-                                } ${disabled ? styles.addon__disabled : ""}`}
+                                $selected={selected}
+                                $disabled={disabled}
                                 onClick={() =>
                                   toggleAddon(p.id, group, addon.uuid)
                                 }
                               >
                                 {addon.image && (
-                                  // eslint-disable-next-line @next/next/no-img-element
-                                  <img
+                                  <AddonImg
                                     src={addon.image}
                                     alt={addon.name}
-                                    className={styles.addon__img}
                                   />
                                 )}
-                                <span className={styles.addon__info}>
-                                  <span className={styles.addon__name}>
+                                <AddonInfo>
+                                  <AddonName>
                                     {addon.name}
-                                  </span>
+                                  </AddonName>
                                   {addon.description && (
-                                    <span className={styles.addon__desc}>
+                                    <AddonDesc>
                                       {addon.description}
-                                    </span>
+                                    </AddonDesc>
                                   )}
-                                  <span className={styles.addon__meta}>
-                                    <span className={styles.choice__price}>
+                                  <AddonMeta>
+                                    <ChoicePrice>
                                       {formatPrice(addon.price)}
-                                    </span>
+                                    </ChoicePrice>
                                     {disabled ? (
-                                      <span className={styles.addon__soldout}>
+                                      <AddonSoldout>
                                         Esgotado
-                                      </span>
+                                      </AddonSoldout>
                                     ) : (
                                       addon.available !== null && (
-                                        <span className={styles.addon__avail}>
+                                        <AddonAvail>
                                           {addon.available} disponíveis
-                                        </span>
+                                        </AddonAvail>
                                       )
                                     )}
-                                  </span>
-                                </span>
+                                  </AddonMeta>
+                                </AddonInfo>
                                 {selected && (
-                                  <FiCheck className={styles.addon__check} />
+                                  <AddonCheck />
                                 )}
-                              </button>
+                              </Addon>
                             );
                           })}
-                        </div>
+                        </Choices>
                       </React.Fragment>
                     );
                   })}
-                </div>
+                </AddonGroups>
               )}
 
               {event.products.length > 0 && (
                 <>
-                  <p className={styles.section__label}>Produtos</p>
-                  <div className={styles.choices}>
+                  <SectionLabel>Produtos</SectionLabel>
+                  <Choices>
                     {event.products.map((product) => {
                       const selected = p.productUuid === product.uuid;
                       return (
                         <div key={product.uuid}>
-                          <button
+                          <Choice
                             type="button"
-                            className={`${styles.choice} ${
-                              selected ? styles.choice__selected : ""
-                            }`}
+                            $selected={selected}
                             onClick={() =>
                               updateParticipant(p.id, {
                                 productUuid: product.uuid,
@@ -887,16 +901,15 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                               })
                             }
                           >
-                            <span className={styles.choice__title}>
+                            <ChoiceTitle>
                               {product.name}
-                              <span className={styles.choice__price}>
+                              <ChoicePrice>
                                 {formatPrice(product.price)}
-                              </span>
-                            </span>
-                          </button>
+                              </ChoicePrice>
+                            </ChoiceTitle>
+                          </Choice>
                           {selected && product.hasVariation && (
-                            <div
-                              className={styles.field}
+                            <Field
                               style={{ marginTop: 8 }}
                             >
                               <label>Variação</label>
@@ -915,25 +928,24 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                                   </option>
                                 ))}
                               </select>
-                            </div>
+                            </Field>
                           )}
                         </div>
                       );
                     })}
-                  </div>
+                  </Choices>
                 </>
               )}
-            </div>
+            </Participant>
           ))}
 
           {canAddParticipants && (
-            <button
+            <AddParticipantBtn
               type="button"
-              className={styles.add__participant}
               onClick={addParticipant}
             >
               <FiPlus /> Adicionar participante
-            </button>
+            </AddParticipantBtn>
           )}
         </div>
       )}
@@ -941,42 +953,40 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
       {/* ---------- ETAPA: pagamento ---------- */}
       {currentStep === "payment" && (
         <div>
-          <h2 className={styles.step__title}>Forma de pagamento</h2>
-          <p className={styles.step__subtitle}>
+          <StepTitle>Forma de pagamento</StepTitle>
+          <StepSubtitle>
             Escolha como deseja pagar a inscrição.
-          </p>
-          <div className={styles.choices}>
+          </StepSubtitle>
+          <Choices>
             {event.paymentMethods.map((method) => {
               const selected = paymentMethodUuid === method.uuid;
               return (
                 <div key={method.uuid}>
-                  <button
+                  <Choice
                     type="button"
-                    className={`${styles.choice} ${
-                      selected ? styles.choice__selected : ""
-                    }`}
+                    $selected={selected}
                     onClick={() => setPaymentMethodUuid(method.uuid)}
                   >
-                    <span className={styles.choice__title}>
-                      <span className={styles.payment__label}>
-                        <span className={styles.payment__icon}>
+                    <ChoiceTitle>
+                      <PaymentLabel>
+                        <PaymentIcon>
                           {paymentIcon(method.type)}
-                        </span>
+                        </PaymentIcon>
                         {method.label}
-                      </span>
-                    </span>
+                      </PaymentLabel>
+                    </ChoiceTitle>
                     {method.feeType !== "none" && +method.feeValue > 0 && (
-                      <span className={styles.choice__desc}>
+                      <ChoiceDesc>
                         Taxa:{" "}
                         {method.feeType === "percent"
                           ? `${toNumber(method.feeValue)}%`
                           : formatPrice(method.feeValue)}
-                      </span>
+                      </ChoiceDesc>
                     )}
-                  </button>
+                  </Choice>
 
                   {selected && method.maxInstallments > 1 && (
-                    <div className={styles.field} style={{ marginTop: 8 }}>
+                    <Field style={{ marginTop: 8 }}>
                       <label>Parcelas</label>
                       <select
                         value={installments}
@@ -993,69 +1003,69 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                           </option>
                         ))}
                       </select>
-                    </div>
+                    </Field>
                   )}
                 </div>
               );
             })}
-          </div>
+          </Choices>
         </div>
       )}
 
       {/* ---------- ETAPA: revisão ---------- */}
       {currentStep === "review" && (
         <div>
-          <h2 className={styles.step__title}>Revise sua inscrição</h2>
-          <p className={styles.step__subtitle}>
+          <StepTitle>Revise sua inscrição</StepTitle>
+          <StepSubtitle>
             Confira os dados antes de confirmar.
-          </p>
-          <div className={styles.summary}>
-            <div className={styles.summary__row}>
+          </StepSubtitle>
+          <Summary>
+            <SummaryRow>
               <span>Evento</span>
               <strong>{event.name}</strong>
-            </div>
-            <div className={styles.summary__row}>
+            </SummaryRow>
+            <SummaryRow>
               <span>Responsável</span>
               <span>{responsible.name}</span>
-            </div>
-            <div className={styles.summary__row}>
+            </SummaryRow>
+            <SummaryRow>
               <span>Participantes</span>
               <span>{participants.length}</span>
-            </div>
+            </SummaryRow>
             {event.activeBatch && (
-              <div className={styles.summary__row}>
+              <SummaryRow>
                 <span>
                   {event.activeBatch.name} ({participants.length}x)
                 </span>
                 <span>{formatPrice(basePrice * participants.length)}</span>
-              </div>
+              </SummaryRow>
             )}
             {addonsTotal > 0 && (
-              <div className={styles.summary__row}>
+              <SummaryRow>
                 <span>Adicionais</span>
                 <span>{formatPrice(addonsTotal)}</span>
-              </div>
+              </SummaryRow>
             )}
             {productsTotal > 0 && (
-              <div className={styles.summary__row}>
+              <SummaryRow>
                 <span>Produtos</span>
                 <span>{formatPrice(productsTotal)}</span>
-              </div>
+              </SummaryRow>
             )}
             {fee > 0 && (
-              <div className={styles.summary__row}>
+              <SummaryRow>
                 <span>Taxa ({selectedPayment?.label})</span>
                 <span>{formatPrice(fee)}</span>
-              </div>
+              </SummaryRow>
             )}
-            <div className={styles.summary__total}>
+            <SummaryTotal>
               <span>Total</span>
               <span>{formatPrice(total)}</span>
-            </div>
-          </div>
+            </SummaryTotal>
+          </Summary>
           {selectedPayment && (
-            <div className={styles.summary}>
-              <div className={styles.summary__row}>
+            <Summary>
+              <SummaryRow>
                 <span>Pagamento</span>
                 <span>
                   {selectedPayment.label}
@@ -1063,24 +1073,24 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                     ? ` · ${installments}x`
                     : ""}
                 </span>
-              </div>
-            </div>
+              </SummaryRow>
+            </Summary>
           )}
         </div>
       )}
-        </div>
-      </div>
+        </Step>
+      </StepViewport>
 
-      {error && <div className={styles.error}>{error}</div>}
+      {error && <ErrorBox>{error}</ErrorBox>}
 
-      <div className={styles.nav}>
+      <Nav>
         {stepIndex > 0 && (
           <ThirdButton onClick={goBack} text="Voltar" />
         )}
         {currentStep === "review" ? (
           <SecondaryButton onClick={handleSubmit} disabled={submitting}>
             {submitting ? (
-              <ImSpinner2 className={styles.spinner} />
+              <Spinner />
             ) : (
               <>Confirmar inscrição</>
             )}
@@ -1092,13 +1102,13 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
             </SecondaryButton>
           )
         )}
-      </div>
+      </Nav>
 
       <CheckRegistrationSheet
         open={checkOpen}
         onClose={() => setCheckOpen(false)}
       />
-    </div>
+    </Flow>
   );
 };
 

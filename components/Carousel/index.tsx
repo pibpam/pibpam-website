@@ -1,7 +1,7 @@
 import React, {ReactElement, useEffect, useRef, useState} from 'react';
 import {v4 as uuidv4} from 'uuid';
 
-import styles from '../../styles/components/Carousel.module.scss'
+import { Slider, SliderInner, SliderWrap } from './styles'
 
 type Carousel = {
     children: ReactElement
@@ -57,10 +57,9 @@ const Carousel: React.FC<Carousel> = ({children}: Carousel) => {
     }
 
     return (
-        <div className={styles.sliderWrap}>
-            <div className={styles.slider}>
-                <div
-                    className={styles.sliderInner}
+        <SliderWrap>
+            <Slider>
+                <SliderInner
                     ref={slider}
                     id={id}
                     onMouseMove={onMouseMove}
@@ -72,9 +71,9 @@ const Carousel: React.FC<Carousel> = ({children}: Carousel) => {
                     <div>
                         {children}
                     </div>
-                </div>
-            </div>
-        </div>
+                </SliderInner>
+            </Slider>
+        </SliderWrap>
     );
 }
 

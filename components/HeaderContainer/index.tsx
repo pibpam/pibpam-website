@@ -1,6 +1,6 @@
-import React, { ReactElement, useContext, useMemo } from "react";
-import styles from "../../styles/components/HeaderContainer.module.scss";
+import React, { ReactElement, useContext } from "react";
 import { PostMessageContext } from "../../contexts/postMessage";
+import { Container } from "./styles"
 
 interface IHeaderContainer {
   children: ReactElement
@@ -11,12 +11,12 @@ const HeaderContainer: React.FC<IHeaderContainer> = ({ children, active }) => {
   const {deviceInfo} = useContext(PostMessageContext)
 
   return (
-    <div
-      className={`${styles.container} ${active && styles.active}`}
+    <Container
+      $active={active}
       style={{ paddingTop: `${(deviceInfo?.top || 0) + 24}px` }}
     >
       {children}
-    </div>
+    </Container>
   );
 }
 
