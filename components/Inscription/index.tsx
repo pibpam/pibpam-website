@@ -396,11 +396,8 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
       }
 
       // Sucesso: manda o usuário direto para o acompanhamento da inscrição.
-      // O uuid do evento vai na query para a tela de acompanhamento poder
-      // buscar os dados do evento (responsáveis, faqs).
       await goTo({
         pathname: `/inscricoes/acompanhamento/${response?.code || ""}`,
-        query: { event: event.uuid },
         showLoading: true,
       });
     } catch (err: any) {

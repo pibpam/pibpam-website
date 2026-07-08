@@ -18,8 +18,7 @@ import {
 interface ICheckRegistrationSheet {
   open: boolean;
   onClose: () => void;
-  // Quando informado, restringe a busca ao evento atual e é propagado para
-  // a tela de acompanhamento (usado para exibir os dados do evento lá).
+  // Quando informado, restringe a busca ao evento atual.
   eventUuid?: string;
 }
 
@@ -65,7 +64,6 @@ const CheckRegistrationSheet: React.FC<ICheckRegistrationSheet> = ({
 
       await goTo({
         pathname: `/inscricoes/acompanhamento/${found.code}`,
-        query: eventUuid ? { event: eventUuid } : undefined,
         showLoading: true,
       });
       handleClose();

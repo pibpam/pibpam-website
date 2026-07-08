@@ -26,8 +26,8 @@ import {
 interface ITrackingPage {
   code: string;
   registration: IRegistrationSearchResult | null;
-  // Só disponível quando a navegação até aqui informou o evento (query
-  // `?event=`) — a busca por código/e-mail não retorna os dados do evento.
+  // Só disponível quando a busca por código encontra a inscrição (o uuid do
+  // evento vem em `registration.event`).
   event: IEventDetail | null;
 }
 
@@ -281,7 +281,6 @@ const TrackingPage: NextPage<ITrackingPage> = ({ code, registration, event }) =>
 
 export const getServerSideProps: GetServerSideProps = async ({
   params,
-  query,
 }) => {
   const code = params?.code;
 
@@ -300,11 +299,11 @@ export const getServerSideProps: GetServerSideProps = async ({
     registration = null;
   }
 
-  // O uuid do evento só chega via query (propagado pelo fluxo de
-  // inscrição/verificação), pois a busca por código não retorna o evento.
-  const eventUuid = query?.event;
+  // O uuid do evento vem no retorno da busca por código; buscamos o detalhe
+  // completo (faqs, responsáveis etc.) a partir dele.
+  const eventUuid = registration?.event?.uuid;
   let event: IEventDetail | null = null;
-  if (typeof eventUuid === "string") {
+  if (eventUuid) {
     try {
       event = await api.getEvent(eventUuid);
     } catch (error) {

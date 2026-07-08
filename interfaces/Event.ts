@@ -215,6 +215,9 @@ export interface IRegistrationInstallment {
 export interface IRegistrationSearchResult {
   uuid: string;
   code: string;
+  // Evento da inscrição (dados básicos) — usado para buscar o detalhe
+  // completo (faqs, responsáveis etc.) na tela de acompanhamento.
+  event: { uuid: string } | null;
   responsibleName: string;
   responsiblePhone: string;
   responsibleEmail: string;
