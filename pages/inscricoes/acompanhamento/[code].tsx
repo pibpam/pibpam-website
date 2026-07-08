@@ -32,9 +32,8 @@ interface ITrackingPage {
   // Só disponível quando a busca por código encontra a inscrição (o uuid do
   // evento vem em `registration.event`).
   event: IEventDetail | null;
-  // Derivado do `?status=` que o Mercado Pago devolve no redirect do
-  // checkout ("approved" -> success, "rejected" -> failure). "pending"/
-  // "in_process" não têm banner próprio — o status da parcela já cobre isso.
+  // Vem do redirect do checkout: `?status=success|pending|failure`.
+  // "pending" não tem banner próprio — o status da parcela já cobre esse caso.
   checkoutStatus: CheckoutStatus | null;
 }
 
@@ -314,16 +313,11 @@ export const getServerSideProps: GetServerSideProps = async ({
     return { notFound: true };
   }
 
-  // Mercado Pago redireciona para a back_url com `?status=` preenchido pelo
-  // próprio checkout ("approved", "pending", "in_process", "rejected" etc.) —
-  // não é um valor que definimos, por isso mapeamos para o banner aqui.
+  // Vem do redirect do checkout (Mercado Pago): `?status=success|pending|failure`.
+  // "pending" não tem banner próprio — o status da parcela já cobre esse caso.
   const rawStatus = query?.status;
   const checkoutStatus: CheckoutStatus | null =
-    rawStatus === "approved"
-      ? "success"
-      : rawStatus === "rejected"
-      ? "failure"
-      : null;
+    rawStatus === "success" || rawStatus === "failure" ? rawStatus : null;
 
   const api = new Api();
 
