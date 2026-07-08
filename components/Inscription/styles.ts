@@ -213,12 +213,12 @@ export const Choices = styled.div`
 export const Choice = styled.button<{ $selected?: boolean }>`
   width: 100%;
   text-align: left;
-  border: 1px solid ${theme.colors.tealBorderSoft};
+  border: 2px solid ${theme.colors.tealBorderSoft};
   border-radius: ${theme.radius.xxl};
   padding: ${theme.spacing.base};
   background: ${theme.colors.white};
   cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -229,8 +229,23 @@ export const Choice = styled.button<{ $selected?: boolean }>`
 
   ${({ $selected }) => $selected && css`
     border-color: ${theme.colors.primary};
-    box-shadow: 0 0 0 3px rgba(95, 217, 218, 0.18);
+    background: ${theme.colors.tealTintLight};
+    box-shadow: 0 0 0 4px rgba(95, 217, 218, 0.28);
   `}
+`
+
+// Layout ícone à esquerda + título/subtítulo empilhados à direita.
+export const ChoiceRow = styled.span`
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing.md};
+`
+
+export const ChoiceBody = styled.span`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
 `
 
 export const ChoiceTitle = styled.span`
@@ -346,6 +361,7 @@ export const ParticipantRemove = styled.button`
 
 export const AddonGroups = styled.div`
   margin-top: ${theme.spacing.base};
+  margin-bottom: ${theme.spacing.lg};
 `
 
 export const Addon = styled.button<{ $selected?: boolean, $disabled?: boolean }>`
@@ -388,6 +404,23 @@ export const AddonImg = styled.img`
   object-fit: cover;
   flex-shrink: 0;
   background: ${theme.colors.tealTint};
+`
+
+// Usado no lugar de AddonImg quando o item (adicional/produto) não tem imagem.
+export const AddonImgPlaceholder = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: ${theme.radius.lg};
+  flex-shrink: 0;
+  background: ${theme.colors.tealTint};
+  color: ${theme.colors.tealDark};
+
+  > svg {
+    font-size: 22px;
+  }
 `
 
 export const AddonInfo = styled.span`
@@ -433,6 +466,32 @@ export const AddonCheck = styled(FiCheck)`
   flex-shrink: 0;
 `
 
+// Badge de "+/✓" para itens opcionais (ex. produtos), deixando claro que o
+// card inteiro é clicável mesmo antes de qualquer seleção.
+export const AddonToggle = styled.span<{ $selected?: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid ${theme.colors.tealBorderSoft};
+  color: ${theme.colors.tealDark};
+  background: ${theme.colors.white};
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+
+  ${({ $selected }) => $selected && css`
+    background: ${theme.colors.primary};
+    border-color: ${theme.colors.primary};
+    color: ${theme.colors.white};
+  `}
+
+  > svg {
+    font-size: 16px;
+  }
+`
+
 export const AddParticipantBtn = styled.button`
   width: 100%;
   border: 1px dashed ${theme.colors.secondary};
@@ -454,7 +513,7 @@ export const PaymentLabel = styled.span`
   gap: ${theme.spacing.md};
 `
 
-export const PaymentIcon = styled.span`
+export const PaymentIcon = styled.span<{ $selected?: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -464,20 +523,20 @@ export const PaymentIcon = styled.span`
   background: ${theme.colors.tealHover};
   color: ${theme.colors.tealDark};
   flex-shrink: 0;
+  transition: background 0.2s ease, color 0.2s ease;
+
+  ${({ $selected }) => $selected && css`
+    background: ${theme.colors.primary};
+    color: ${theme.colors.white};
+  `}
 
   > svg {
     font-size: 20px;
   }
 `
 
-export const ErrorBox = styled.div`
-  background: ${theme.colors.errorTint};
-  color: ${theme.colors.errorText};
-  border: 1px solid ${theme.colors.errorBorder};
-  border-radius: ${theme.radius.lg};
-  padding: 10px ${theme.spacing.md};
-  font-size: 14px;
-  margin: ${theme.spacing.base} 0 0;
+export const DetailsExtra = styled.div`
+  margin-top: ${theme.spacing.lg};
 `
 
 export const Nav = styled.div`

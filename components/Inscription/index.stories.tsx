@@ -16,6 +16,10 @@ const event: IEventDetail = {
   maxParticipants: 100,
   forMinors: true,
   status: 'published',
+  responsibles: [
+    { name: 'Maria Oliveira', phone: '37999999999', whatsapp: true },
+    { name: 'Secretaria', phone: '3735551234', whatsapp: false },
+  ],
   created_at: '2026-07-01T00:00:00',
   updated_at: '2026-07-01T00:00:00',
   activeBatch: {
@@ -62,7 +66,26 @@ const event: IEventDetail = {
       cashResponsiblePhone: '37999999999',
     },
   ],
-  products: [],
+  products: [
+    {
+      uuid: '1',
+      name: 'Camiseta do evento',
+      description: 'Camiseta oficial do EnergyCamp 26',
+      imageUrl: null,
+      price: '45.00',
+      hasVariation: true,
+      variations: ['P', 'M', 'G', 'GG'],
+    },
+    {
+      uuid: '2',
+      name: 'Condução',
+      description: 'Transporte ida e volta de ônibus fretado',
+      imageUrl: null,
+      price: '25.00',
+      hasVariation: false,
+      variations: [],
+    },
+  ],
   addonGroups: [
     {
       uuid: '1',
@@ -74,6 +97,20 @@ const event: IEventDetail = {
         { uuid: '1', name: 'P', description: null, image: null, price: '30.00', maxQuantity: null, active: true, reserved: 0, available: null, soldOut: false },
         { uuid: '2', name: 'M', description: null, image: null, price: '30.00', maxQuantity: null, active: true, reserved: 0, available: null, soldOut: false },
       ],
+    },
+  ],
+  faqs: [
+    {
+      uuid: '1',
+      question: 'Posso levar acompanhante?',
+      anwser: '<p>Sim, basta adicionar mais um participante na inscrição.</p>',
+      order: 1,
+    },
+    {
+      uuid: '2',
+      question: 'Qual a política de cancelamento?',
+      anwser: '<p>Cancelamentos podem ser feitos até 7 dias antes do evento, entre em contato com a secretaria.</p>',
+      order: 2,
     },
   ],
 }

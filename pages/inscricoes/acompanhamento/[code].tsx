@@ -6,6 +6,9 @@ import Header from "../../../components/Header";
 import HeaderContainer from "../../../components/HeaderContainer";
 import PixPaymentSheet from "../../../components/PixPaymentSheet";
 import ShareButton from "../../../components/ShareButton";
+import InscriptionResponsibles from "../../../components/Inscription/Responsibles";
+import InscriptionFaqs from "../../../components/Inscription/Faqs";
+import { DetailsExtra } from "../../../components/Inscription/styles";
 import { Closed, EventName, PixCopy, SectionLabel, Page, Summary, SummaryRow, SummaryTotal, Wrapper } from "../../../styles/Inscription";
 import { CodeBox, CodeLabel, CodeValue, CtaLink, SuccessActions, TrackBadge } from "../../../styles/Tracking";
 import ParticipantItem from "../../../container/Tracking/ParticipantItem";
@@ -15,6 +18,7 @@ import useHeader from "../../../hooks/useHeader";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import { Api } from "../../../services/api";
 import {
+  IEventDetail,
   IRegistrationInstallment,
   IRegistrationSearchResult,
 } from "../../../interfaces/Event";
@@ -22,6 +26,9 @@ import {
 interface ITrackingPage {
   code: string;
   registration: IRegistrationSearchResult | null;
+  // Só disponível quando a navegação até aqui informou o evento (query
+  // `?event=`) — a busca por código/e-mail não retorna os dados do evento.
+  event: IEventDetail | null;
 }
 
 const formatPrice = (price?: number | string | null) => {
@@ -49,7 +56,7 @@ const statusLabel = (status?: string) => {
   return STATUS_LABELS[status] || status;
 };
 
-const TrackingPage: NextPage<ITrackingPage> = ({ code, registration }) => {
+const TrackingPage: NextPage<ITrackingPage> = ({ code, registration, event }) => {
   const { open, toggleMenu } = useMenu();
   const { scrollActive, changeScroll } = useHeader();
   const { goBack } = useAppNavigation();
@@ -237,6 +244,16 @@ const TrackingPage: NextPage<ITrackingPage> = ({ code, registration }) => {
               url={`https://pibpam.org/inscricoes/acompanhamento/${code}`}
               message={`Acompanhamento da inscrição ${code}`}
             />
+
+            {event && (
+              <DetailsExtra>
+                <InscriptionResponsibles
+                  responsibles={event.responsibles || []}
+                  eventName={event.name}
+                />
+                <InscriptionFaqs faqs={event.faqs || []} />
+              </DetailsExtra>
+            )}
           </Wrapper>
         </Page>
 
@@ -262,7 +279,10 @@ const TrackingPage: NextPage<ITrackingPage> = ({ code, registration }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  params,
+  query,
+}) => {
   const code = params?.code;
 
   if (!code || typeof code !== "string") {
@@ -280,7 +300,19 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     registration = null;
   }
 
-  return { props: { code, registration } };
+  // O uuid do evento só chega via query (propagado pelo fluxo de
+  // inscrição/verificação), pois a busca por código não retorna o evento.
+  const eventUuid = query?.event;
+  let event: IEventDetail | null = null;
+  if (typeof eventUuid === "string") {
+    try {
+      event = await api.getEvent(eventUuid);
+    } catch (error) {
+      event = null;
+    }
+  }
+
+  return { props: { code, registration, event } };
 };
 
 export default TrackingPage;

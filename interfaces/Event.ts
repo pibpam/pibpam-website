@@ -11,6 +11,13 @@ export interface IEventBatch {
   maxQuantity: number | null;
 }
 
+export interface IEventResponsible {
+  name: string;
+  phone: string;
+  // Indica se o telefone informado é WhatsApp.
+  whatsapp: boolean;
+}
+
 export interface IEvent {
   uuid: string;
   name: string;
@@ -24,6 +31,7 @@ export interface IEvent {
   maxParticipants: number | null;
   forMinors: boolean;
   status: "draft" | "published" | string;
+  responsibles: IEventResponsible[] | null;
   created_at: string;
   updated_at: string;
   activeBatch: IEventBatch | null;
@@ -81,6 +89,8 @@ export interface IEventPaymentMethod {
 export interface IEventProduct {
   uuid: string;
   name: string;
+  description: string | null;
+  imageUrl: string | null;
   price: number | string;
   hasVariation: boolean;
   variations: string[];
@@ -108,12 +118,21 @@ export interface IEventAddonGroup {
   addons: IEventAddon[];
 }
 
+export interface IEventFaq {
+  uuid: string;
+  question: string;
+  // Resposta em HTML.
+  anwser: string;
+  order: number;
+}
+
 export interface IEventDetail extends IEvent {
   batches: IEventBatch[];
   customFields: IEventCustomField[];
   paymentMethods: IEventPaymentMethod[];
   products: IEventProduct[];
   addonGroups: IEventAddonGroup[];
+  faqs: IEventFaq[];
 }
 
 // ---- Registration payload (POST /v1/events/{eventUuid}/registrations) ----
@@ -160,6 +179,13 @@ export interface IRegistrationParticipantAddon {
   addon: IEventAddon;
 }
 
+export interface IRegistrationParticipantProduct {
+  uuid: string;
+  price: number | string;
+  variation: string | null;
+  product: IEventProduct;
+}
+
 export interface IRegistrationSearchParticipant {
   uuid: string;
   name: string;
@@ -170,6 +196,7 @@ export interface IRegistrationSearchParticipant {
   responsiblePhone: string | null;
   price: number | string;
   addons: IRegistrationParticipantAddon[];
+  products: IRegistrationParticipantProduct[];
 }
 
 export interface IRegistrationInstallment {

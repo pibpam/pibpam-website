@@ -1,8 +1,10 @@
 import React from "react";
+import { FiShoppingBag } from "react-icons/fi";
 import {
   TrackAddon,
   TrackAddonDesc,
   TrackAddonImg,
+  TrackAddonImgPlaceholder,
   TrackAddonInfo,
   TrackAddonName,
   TrackAddons,
@@ -43,6 +45,32 @@ const ParticipantItem: React.FC<IParticipantItem> = ({ participant, formatPrice 
                 {a.addon.description && (
                   <TrackAddonDesc>{a.addon.description}</TrackAddonDesc>
                 )}
+              </TrackAddonInfo>
+            </TrackAddon>
+          ))}
+        </TrackAddons>
+      )}
+      {!!participant.products.length && (
+        <TrackAddons>
+          {participant.products.map((item) => (
+            <TrackAddon key={item.uuid}>
+              {item.product.imageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <TrackAddonImg
+                  src={item.product.imageUrl}
+                  alt={item.product.name}
+                />
+              ) : (
+                <TrackAddonImgPlaceholder>
+                  <FiShoppingBag />
+                </TrackAddonImgPlaceholder>
+              )}
+              <TrackAddonInfo>
+                <TrackAddonName>
+                  {item.product.name}
+                  {item.variation ? ` · ${item.variation}` : ""}
+                </TrackAddonName>
+                <TrackAddonDesc>{formatPrice(item.price)}</TrackAddonDesc>
               </TrackAddonInfo>
             </TrackAddon>
           ))}

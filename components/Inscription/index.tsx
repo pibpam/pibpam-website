@@ -8,9 +8,12 @@ import {
   FiMapPin,
   FiPlus,
   FiSearch,
+  FiShoppingBag,
   FiShoppingCart,
+  FiSmile,
   FiTrash2,
   FiUser,
+  FiUserCheck,
 } from "react-icons/fi";
 import { FaPix } from "react-icons/fa6";
 import {
@@ -20,19 +23,23 @@ import {
   AddonDesc,
   AddonGroups,
   AddonImg,
+  AddonImgPlaceholder,
   AddonInfo,
   AddonMeta,
   AddonName,
   AddonSoldout,
+  AddonToggle,
   AddParticipantBtn,
   Choice,
+  ChoiceBody,
   ChoiceDesc,
   Choices,
   ChoicePrice,
+  ChoiceRow,
   ChoiceTitle,
   CheckRegistration,
   CheckRegistrationLink,
-  ErrorBox,
+  DetailsExtra,
   EventDescription,
   EventMeta,
   Field,
@@ -57,6 +64,9 @@ import {
   StepperLabel,
   StepViewport,
 } from "./styles";
+import InscriptionResponsibles from "./Responsibles";
+import InscriptionFaqs from "./Faqs";
+import Toast from "../Toast";
 import { Closed, EventName, SectionLabel, Summary, SummaryRow, SummaryTotal } from "../../styles/Inscription";
 import SecondaryButton from "../Button/Secondary";
 import ThirdButton from "../Button/Third";
@@ -112,8 +122,8 @@ interface ParticipantForm {
   customFields: Record<string, string>;
   // Adicionais selecionados por grupo: groupUuid -> addonUuid[].
   selections: Record<string, string[]>;
-  productUuid?: string;
-  productVariation?: string;
+  // Produtos comprados: productUuid -> variação escolhida ("" se não se aplica).
+  products: Record<string, string>;
 }
 
 const toNumber = (value?: number | string | null) => {
@@ -141,6 +151,7 @@ const emptyParticipant = (): ParticipantForm => ({
   guardianPhone: "",
   customFields: {},
   selections: {},
+  products: {},
 });
 
 const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
@@ -216,8 +227,11 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
   // ---- totais ----
   const basePrice = toNumber(event.activeBatch?.price);
   const productsTotal = participants.reduce((acc, p) => {
-    const product = p.productUuid ? productsByUuid[p.productUuid] : undefined;
-    return acc + toNumber(product?.price);
+    const uuids = Object.keys(p.products);
+    return (
+      acc +
+      uuids.reduce((a, uuid) => a + toNumber(productsByUuid[uuid]?.price), 0)
+    );
   }, 0);
   const addonsTotal = participants.reduce((acc, p) => {
     const selectedUuids = Object.values(p.selections).flat();
@@ -297,16 +311,15 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
               }".`;
             }
           }
-          if (event.products.length && !p.productUuid) {
-            return `Participante ${i + 1}: selecione um produto.`;
-          }
-          const product = p.productUuid
-            ? productsByUuid[p.productUuid]
-            : undefined;
-          if (product?.hasVariation && !p.productVariation) {
-            return `Participante ${i + 1}: selecione a variação de "${
-              product.name
-            }".`;
+          for (const [productUuid, variation] of Object.entries(
+            p.products
+          )) {
+            const product = productsByUuid[productUuid];
+            if (product?.hasVariation && !variation) {
+              return `Participante ${i + 1}: selecione a variação de "${
+                product.name
+              }".`;
+            }
           }
         }
         return null;
@@ -367,14 +380,9 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
             ([groupUuid, addonUuids]) =>
               addonUuids.map((addonUuid) => ({ groupUuid, addonUuid }))
           ),
-          products: p.productUuid
-            ? [
-                {
-                  productUuid: p.productUuid,
-                  variation: p.productVariation || "",
-                },
-              ]
-            : [],
+          products: Object.entries(p.products).map(
+            ([productUuid, variation]) => ({ productUuid, variation })
+          ),
           customFieldValues: Object.entries(p.customFields).map(
             ([customFieldUuid, value]) => ({ customFieldUuid, value })
           ),
@@ -388,8 +396,11 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
       }
 
       // Sucesso: manda o usuário direto para o acompanhamento da inscrição.
+      // O uuid do evento vai na query para a tela de acompanhamento poder
+      // buscar os dados do evento (responsáveis, faqs).
       await goTo({
         pathname: `/inscricoes/acompanhamento/${response?.code || ""}`,
+        query: { event: event.uuid },
         showLoading: true,
       });
     } catch (err: any) {
@@ -430,6 +441,35 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
         }
         return { ...p, selections: { ...p.selections, [group.uuid]: next } };
       })
+    );
+  };
+
+  const toggleProduct = (id: string, productUuid: string) => {
+    setParticipants((state) =>
+      state.map((p) => {
+        if (p.id !== id) return p;
+        const next = { ...p.products };
+        if (productUuid in next) {
+          delete next[productUuid];
+        } else {
+          next[productUuid] = "";
+        }
+        return { ...p, products: next };
+      })
+    );
+  };
+
+  const updateProductVariation = (
+    id: string,
+    productUuid: string,
+    variation: string
+  ) => {
+    setParticipants((state) =>
+      state.map((p) =>
+        p.id === id
+          ? { ...p, products: { ...p.products, [productUuid]: variation } }
+          : p
+      )
     );
   };
 
@@ -590,22 +630,35 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
               $selected={role === "responsible"}
               onClick={() => setRole("responsible")}
             >
-              <ChoiceTitle>Sou o responsável</ChoiceTitle>
-              <ChoiceDesc>
-                Vou inscrever um ou mais menores sob minha responsabilidade.
-              </ChoiceDesc>
+              <ChoiceRow>
+                <PaymentIcon $selected={role === "responsible"}>
+                  <FiUserCheck />
+                </PaymentIcon>
+                <ChoiceBody>
+                  <ChoiceTitle>Sou o Responsável</ChoiceTitle>
+                  <ChoiceDesc>
+                    Vou inscrever um ou mais menores sob minha
+                    responsabilidade.
+                  </ChoiceDesc>
+                </ChoiceBody>
+              </ChoiceRow>
             </Choice>
             <Choice
               type="button"
               $selected={role === "participant_adult"}
               onClick={() => setRole("participant_adult")}
             >
-              <ChoiceTitle>
-                Sou participante · maior de idade
-              </ChoiceTitle>
-              <ChoiceDesc>
-                Vou participar do evento e tenho mais de 18 anos.
-              </ChoiceDesc>
+              <ChoiceRow>
+                <PaymentIcon $selected={role === "participant_adult"}>
+                  <FiUser />
+                </PaymentIcon>
+                <ChoiceBody>
+                  <ChoiceTitle>Sou Participante Maior de Idade</ChoiceTitle>
+                  <ChoiceDesc>
+                    Vou participar do evento e tenho mais de 18 anos.
+                  </ChoiceDesc>
+                </ChoiceBody>
+              </ChoiceRow>
             </Choice>
             <Choice
               type="button"
@@ -616,12 +669,17 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                 setParticipants((state) => state.slice(0, 1));
               }}
             >
-              <ChoiceTitle>
-                Sou participante · menor de idade
-              </ChoiceTitle>
-              <ChoiceDesc>
-                Vou participar do evento e tenho menos de 18 anos.
-              </ChoiceDesc>
+              <ChoiceRow>
+                <PaymentIcon $selected={role === "participant_minor"}>
+                  <FiSmile />
+                </PaymentIcon>
+                <ChoiceBody>
+                  <ChoiceTitle>Sou Participante Menor de Idade</ChoiceTitle>
+                  <ChoiceDesc>
+                    Vou participar do evento e tenho menos de 18 anos.
+                  </ChoiceDesc>
+                </ChoiceBody>
+              </ChoiceRow>
             </Choice>
           </Choices>
         </div>
@@ -886,39 +944,53 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
               {event.products.length > 0 && (
                 <>
                   <SectionLabel>Produtos</SectionLabel>
+                  <StepSubtitle>Selecione para adicionar</StepSubtitle>
                   <Choices>
                     {event.products.map((product) => {
-                      const selected = p.productUuid === product.uuid;
+                      const selected = product.uuid in p.products;
                       return (
                         <div key={product.uuid}>
-                          <Choice
+                          <Addon
                             type="button"
                             $selected={selected}
-                            onClick={() =>
-                              updateParticipant(p.id, {
-                                productUuid: product.uuid,
-                                productVariation: undefined,
-                              })
-                            }
+                            onClick={() => toggleProduct(p.id, product.uuid)}
                           >
-                            <ChoiceTitle>
-                              {product.name}
-                              <ChoicePrice>
-                                {formatPrice(product.price)}
-                              </ChoicePrice>
-                            </ChoiceTitle>
-                          </Choice>
+                            {product.imageUrl ? (
+                              <AddonImg
+                                src={product.imageUrl}
+                                alt={product.name}
+                              />
+                            ) : (
+                              <AddonImgPlaceholder>
+                                <FiShoppingBag />
+                              </AddonImgPlaceholder>
+                            )}
+                            <AddonInfo>
+                              <AddonName>{product.name}</AddonName>
+                              {product.description && (
+                                <AddonDesc>{product.description}</AddonDesc>
+                              )}
+                              <AddonMeta>
+                                <ChoicePrice>
+                                  {formatPrice(product.price)}
+                                </ChoicePrice>
+                              </AddonMeta>
+                            </AddonInfo>
+                            <AddonToggle $selected={selected}>
+                              {selected ? <FiCheck /> : <FiPlus />}
+                            </AddonToggle>
+                          </Addon>
                           {selected && product.hasVariation && (
-                            <Field
-                              style={{ marginTop: 8 }}
-                            >
+                            <Field style={{ marginTop: 8 }}>
                               <label>Variação</label>
                               <select
-                                value={p.productVariation || ""}
+                                value={p.products[product.uuid] || ""}
                                 onChange={(e) =>
-                                  updateParticipant(p.id, {
-                                    productVariation: e.target.value,
-                                  })
+                                  updateProductVariation(
+                                    p.id,
+                                    product.uuid,
+                                    e.target.value
+                                  )
                                 }
                               >
                                 <option value="">Selecione...</option>
@@ -1081,7 +1153,7 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
         </Step>
       </StepViewport>
 
-      {error && <ErrorBox>{error}</ErrorBox>}
+      {error && <Toast message={error} onClose={() => setError(null)} />}
 
       <Nav>
         {stepIndex > 0 && (
@@ -1104,9 +1176,20 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
         )}
       </Nav>
 
+      {currentStep === "details" && (
+        <DetailsExtra>
+          <InscriptionResponsibles
+            responsibles={event.responsibles || []}
+            eventName={event.name}
+          />
+          <InscriptionFaqs faqs={event.faqs || []} />
+        </DetailsExtra>
+      )}
+
       <CheckRegistrationSheet
         open={checkOpen}
         onClose={() => setCheckOpen(false)}
+        eventUuid={event.uuid}
       />
     </Flow>
   );

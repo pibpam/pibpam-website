@@ -18,11 +18,15 @@ import {
 interface ICheckRegistrationSheet {
   open: boolean;
   onClose: () => void;
+  // Quando informado, restringe a busca ao evento atual e é propagado para
+  // a tela de acompanhamento (usado para exibir os dados do evento lá).
+  eventUuid?: string;
 }
 
 const CheckRegistrationSheet: React.FC<ICheckRegistrationSheet> = ({
   open,
   onClose,
+  eventUuid,
 }) => {
   const { goTo } = useAppNavigation();
   const [code, setCode] = useState("");
@@ -48,7 +52,10 @@ const CheckRegistrationSheet: React.FC<ICheckRegistrationSheet> = ({
     setError(null);
     try {
       const apiLocal = new ApiLocal();
-      const results = await apiLocal.searchRegistrations({ code: trimmed });
+      const results = await apiLocal.searchRegistrations({
+        code: trimmed,
+        eventUuid,
+      });
       const found = results.find((r) => r.code === trimmed) || results[0];
 
       if (!found) {
@@ -58,6 +65,7 @@ const CheckRegistrationSheet: React.FC<ICheckRegistrationSheet> = ({
 
       await goTo({
         pathname: `/inscricoes/acompanhamento/${found.code}`,
+        query: eventUuid ? { event: eventUuid } : undefined,
         showLoading: true,
       });
       handleClose();

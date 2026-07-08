@@ -213,6 +213,23 @@ export const TrackAddonImg = styled.img`
   background: ${theme.colors.tealTint};
 `
 
+// Usado no lugar de TrackAddonImg quando o item (adicional/produto) não tem imagem.
+export const TrackAddonImgPlaceholder = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: ${theme.radius.md};
+  flex-shrink: 0;
+  background: ${theme.colors.tealTint};
+  color: ${theme.colors.tealDark};
+
+  > svg {
+    font-size: 18px;
+  }
+`
+
 export const TrackAddonInfo = styled.div`
   display: flex;
   flex-direction: column;
