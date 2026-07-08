@@ -55,6 +55,7 @@ const STATUS_LABELS: Record<string, string> = {
   overdue: "Atrasada",
   cancelled: "Cancelada",
   canceled: "Cancelada",
+  refunded: "Reembolsada",
 };
 
 const statusLabel = (status?: string) => {
@@ -202,7 +203,7 @@ const TrackingPage: NextPage<ITrackingPage> = ({
                   )}
                 </Summary>
 
-                {registration.paymentUrl && (
+                {registration.paymentUrl && registration.status !== "refunded" && (
                   <SuccessActions style={{ maxWidth: "100%" }}>
                     <CtaLink
                       type="button"
