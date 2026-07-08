@@ -79,7 +79,7 @@ export const TrackBadge = styled.span<{ $status?: string }>`
 `
 
 export const SuccessActions = styled.div`
-  margin-top: ${theme.spacing.lg};
+  margin: ${theme.spacing.lg} 0;
   width: 100%;
 `
 

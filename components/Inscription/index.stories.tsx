@@ -65,6 +65,18 @@ const event: IEventDetail = {
       cashResponsibleName: 'Maria Oliveira',
       cashResponsiblePhone: '37999999999',
     },
+    {
+      uuid: '3',
+      type: 'MERCADO_PAGO',
+      label: 'Cartão de crédito',
+      feeType: 'percent',
+      feeValue: 4.99,
+      maxInstallments: 3,
+      pixEmvConfig: null,
+      pixManualKey: null,
+      cashResponsibleName: null,
+      cashResponsiblePhone: null,
+    },
   ],
   products: [
     {

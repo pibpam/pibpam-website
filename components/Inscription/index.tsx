@@ -9,7 +9,6 @@ import {
   FiPlus,
   FiSearch,
   FiShoppingBag,
-  FiShoppingCart,
   FiSmile,
   FiTrash2,
   FiUser,
@@ -92,7 +91,6 @@ const paymentIcon = (type: string) => {
     case "CASH":
       return <FiDollarSign />;
     case "MERCADO_PAGO":
-      return <FiShoppingCart />;
     case "CARD":
     default:
       return <FiCreditCard />;
@@ -1074,6 +1072,16 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                       </select>
                     </Field>
                   )}
+
+                  {selected &&
+                    (method.type === "CARD" ||
+                      method.type === "MERCADO_PAGO") && (
+                      <SelfNote style={{ marginTop: 8 }}>
+                        Outras taxas podem ser cobradas pela operadora do
+                        cartão ou processadora de pagamento, além da exibida
+                        aqui.
+                      </SelfNote>
+                    )}
                 </div>
               );
             })}

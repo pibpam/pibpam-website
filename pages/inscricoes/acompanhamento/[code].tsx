@@ -13,6 +13,9 @@ import { Closed, EventName, PixCopy, SectionLabel, Page, Summary, SummaryRow, Su
 import { CodeBox, CodeLabel, CodeValue, CtaLink, SuccessActions, TrackBadge } from "../../../styles/Tracking";
 import ParticipantItem from "../../../container/Tracking/ParticipantItem";
 import InstallmentItem from "../../../container/Tracking/InstallmentItem";
+import CheckoutStatusBanner, {
+  CheckoutStatus,
+} from "../../../container/Tracking/CheckoutStatusBanner";
 import useMenu from "../../../hooks/useMenu";
 import useHeader from "../../../hooks/useHeader";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
@@ -29,6 +32,9 @@ interface ITrackingPage {
   // Só disponível quando a busca por código encontra a inscrição (o uuid do
   // evento vem em `registration.event`).
   event: IEventDetail | null;
+  // Vem do redirect do checkout (Mercado Pago): `?status=success|pending|failure`.
+  // "pending" não tem banner próprio — o status da parcela já cobre esse caso.
+  checkoutStatus: CheckoutStatus | null;
 }
 
 const formatPrice = (price?: number | string | null) => {
@@ -56,7 +62,12 @@ const statusLabel = (status?: string) => {
   return STATUS_LABELS[status] || status;
 };
 
-const TrackingPage: NextPage<ITrackingPage> = ({ code, registration, event }) => {
+const TrackingPage: NextPage<ITrackingPage> = ({
+  code,
+  registration,
+  event,
+  checkoutStatus,
+}) => {
   const { open, toggleMenu } = useMenu();
   const { scrollActive, changeScroll } = useHeader();
   const { goBack } = useAppNavigation();
@@ -69,6 +80,9 @@ const TrackingPage: NextPage<ITrackingPage> = ({ code, registration, event }) =>
     string | null
   >(null);
   const [codeCopied, setCodeCopied] = useState(false);
+  const [showCheckoutStatus, setShowCheckoutStatus] = useState(
+    !!checkoutStatus
+  );
 
   const activeInstallment =
     installments.find((i) => i.uuid === activeInstallmentUuid) || null;
@@ -156,6 +170,13 @@ const TrackingPage: NextPage<ITrackingPage> = ({ code, registration, event }) =>
                 )}
               </PixCopy>
             </CodeBox>
+
+            {checkoutStatus && showCheckoutStatus && (
+              <CheckoutStatusBanner
+                status={checkoutStatus}
+                onClose={() => setShowCheckoutStatus(false)}
+              />
+            )}
 
             {registration ? (
               <>
@@ -281,12 +302,17 @@ const TrackingPage: NextPage<ITrackingPage> = ({ code, registration, event }) =>
 
 export const getServerSideProps: GetServerSideProps = async ({
   params,
+  query,
 }) => {
   const code = params?.code;
 
   if (!code || typeof code !== "string") {
     return { notFound: true };
   }
+
+  const rawStatus = query?.status;
+  const checkoutStatus: CheckoutStatus | null =
+    rawStatus === "success" || rawStatus === "failure" ? rawStatus : null;
 
   const api = new Api();
 
@@ -311,7 +337,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     }
   }
 
-  return { props: { code, registration, event } };
+  return { props: { code, registration, event, checkoutStatus } };
 };
 
 export default TrackingPage;
