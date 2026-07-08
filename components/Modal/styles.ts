@@ -48,6 +48,7 @@ export const DesktopDialog = styled.div`
   max-width: 560px;
   max-height: 90vh;
   overflow-y: auto;
+  padding: ${theme.spacing.lg} 0;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
   animation: ${scaleIn} 0.2s ease;
 `;

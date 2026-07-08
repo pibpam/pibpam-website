@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import QRCode from "qrcode";
 import {
   FiCheck,
@@ -12,6 +12,7 @@ import Modal from "../Modal";
 import { ApiLocal } from "../../services/apiLocal";
 import StringUtils from "../../utils/StringUtils";
 import { ICashPaymentInfo, IEventPixManualKey } from "../../interfaces/Event";
+import { AppContext } from "../../contexts/app";
 import {
   CloseButton,
   Container,
@@ -66,6 +67,10 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
   proofUrl,
   onProofUploaded,
 }) => {
+  const { isApp, isMobile } = useContext(AppContext);
+  // No modal de desktop já existe um botão de fechar próprio (fora do
+  // conteúdo) — o daqui é só para a bottom sheet mobile, evitar duplicar.
+  const isDesktop = useMemo(() => !isApp && !isMobile, [isApp, isMobile]);
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -217,13 +222,15 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
   return (
     <Modal isOpen={open} onClose={onClose}>
       <Container>
-        <CloseButton
-          type="button"
-          onClick={onClose}
-          aria-label="Fechar"
-        >
-          <FiX />
-        </CloseButton>
+        {!isDesktop && (
+          <CloseButton
+            type="button"
+            onClick={onClose}
+            aria-label="Fechar"
+          >
+            <FiX />
+          </CloseButton>
+        )}
         <Title>
           {!pixCopyPaste && !manualKey && cashInfo
             ? "Pagamento em dinheiro"
