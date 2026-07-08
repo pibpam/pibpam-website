@@ -36,6 +36,18 @@ export const SummaryRow = styled.div`
   font-size: 14px;
   color: ${theme.colors.gray700};
   padding: 6px 0;
+
+  > *:first-child {
+    flex-shrink: 0;
+  }
+
+  > *:last-child {
+    min-width: 0;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `
 
 export const SummaryTotal = styled.div`
@@ -48,6 +60,14 @@ export const SummaryTotal = styled.div`
   font-size: 18px;
   font-weight: 700;
   color: ${theme.colors.gray800};
+
+  > *:last-child {
+    min-width: 0;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `
 
 export const SectionLabel = styled.p`

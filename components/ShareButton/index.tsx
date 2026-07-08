@@ -5,13 +5,14 @@ import { Container } from "./styles"
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     url: string,
-    message: string
+    message: string,
+    large?: boolean
 }
 
-const ShareButton: React.FC<IButtonProps> = ({url, message}: IButtonProps) => {
+const ShareButton: React.FC<IButtonProps> = ({url, message, large}: IButtonProps) => {
     const {share} = usePostMessage()
     return (
-        <Container onClick={() => share(message, url)}>
+        <Container $large={large} onClick={() => share(message, url)}>
             <FiShare2/> Compartilhar
         </Container>
     );

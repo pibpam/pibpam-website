@@ -1,7 +1,7 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import theme from '../../styles/theme'
 
-export const Container = styled.button`
+export const Container = styled.button<{ $large?: boolean }>`
   padding: 4px ${theme.spacing.base};
   border-radius: ${theme.radius.xxl};
   background: transparent;
@@ -16,4 +16,16 @@ export const Container = styled.button`
 
   font-size: 16px;
   margin-top: ${theme.spacing.base};
+
+  ${({ $large }) => $large && css`
+    width: 100%;
+    padding: ${theme.spacing.md} ${theme.spacing.lg};
+    border-radius: ${theme.radius.pill};
+    font-size: 18px;
+    gap: 10px;
+
+    > svg {
+      font-size: 20px;
+    }
+  `}
 `

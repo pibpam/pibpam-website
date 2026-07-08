@@ -20,12 +20,23 @@ export const AppContextProvider: React.FC<IChildren> = ({ children }: IChildren)
   const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    const isMobile =
-      /mobile|android|iphone|ipad|ipod|blackberry|windows phone/i.test(
-        userAgent,
-      );
-    setIsMobile(isMobile);
+    // User-agent sniffing sozinho falha dentro do WebView do app nativo
+    // (a UA customizada nem sempre contém "mobile"), então também
+    // consideramos a largura da viewport — mesmo breakpoint usado no resto
+    // do site (768px) — para decidir o que é "mobile" (ex.: BottomSheet vs
+    // modal no componente Modal).
+    const checkIsMobile = () => {
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      const isMobileUserAgent =
+        /mobile|android|iphone|ipad|ipod|blackberry|windows phone/i.test(
+          userAgent,
+        );
+      setIsMobile(isMobileUserAgent || window.innerWidth < 768);
+    };
+
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
   /**

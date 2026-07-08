@@ -5,6 +5,7 @@ import Website from "../../../layout/container/Website";
 import Header from "../../../components/Header";
 import HeaderContainer from "../../../components/HeaderContainer";
 import PixPaymentSheet from "../../../components/PixPaymentSheet";
+import ShareButton from "../../../components/ShareButton";
 import { Closed, EventName, PixCopy, SectionLabel, Page, Summary, SummaryRow, SummaryTotal, Wrapper } from "../../../styles/Inscription";
 import { CodeBox, CodeLabel, CodeValue, CtaLink, SuccessActions, TrackBadge } from "../../../styles/Tracking";
 import ParticipantItem from "../../../container/Tracking/ParticipantItem";
@@ -230,6 +231,12 @@ const TrackingPage: NextPage<ITrackingPage> = ({ code, registration }) => {
                 tente novamente.
               </Closed>
             )}
+
+            <ShareButton
+              large
+              url={`https://pibpam.org/inscricoes/acompanhamento/${code}`}
+              message={`Acompanhamento da inscrição ${code}`}
+            />
           </Wrapper>
         </Page>
 

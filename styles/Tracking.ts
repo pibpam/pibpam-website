@@ -134,11 +134,16 @@ export const TrackItemHead = styled.div`
   gap: ${theme.spacing.sm};
 
   > strong {
+    min-width: 0;
     color: ${theme.colors.gray800};
     font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   > span {
+    flex-shrink: 0;
     color: ${theme.colors.success};
     font-weight: 600;
     font-size: 14px;

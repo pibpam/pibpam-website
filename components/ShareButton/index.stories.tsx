@@ -15,3 +15,9 @@ export default meta
 type Story = StoryObj<typeof ShareButton>
 
 export const Default: Story = {}
+
+export const Large: Story = {
+  args: {
+    large: true,
+  },
+}
