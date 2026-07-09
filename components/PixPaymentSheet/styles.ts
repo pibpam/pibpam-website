@@ -175,6 +175,41 @@ export const ProofError = styled.span`
   color: ${theme.colors.errorText};
 `
 
+export const ExpiryNote = styled.span<{ $expired?: boolean }>`
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: ${theme.spacing.sm};
+  color: ${({ $expired }) =>
+    $expired ? theme.colors.errorText : theme.colors.gray650};
+`
+
+export const RegenerateButton = styled.button`
+  width: 100%;
+  max-width: 320px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: ${theme.spacing.sm};
+  border: 1px solid ${theme.colors.primary};
+  background: ${theme.colors.white};
+  color: ${theme.colors.tealDark};
+  font-size: 15px;
+  font-weight: 600;
+  padding: 11px ${theme.spacing.base};
+  border-radius: ${theme.radius.pill};
+  cursor: pointer;
+  margin-bottom: ${theme.spacing.sm};
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: default;
+  }
+
+  > svg {
+    font-size: 18px;
+  }
+`
+
 const pixProofSpin = keyframes`
   from {
     transform: rotate(0deg);

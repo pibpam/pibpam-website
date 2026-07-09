@@ -5,6 +5,7 @@ import {
   FiCheckCircle,
   FiCopy,
   FiDownload,
+  FiRefreshCw,
   FiUpload,
   FiX,
 } from "react-icons/fi";
@@ -13,10 +14,12 @@ import { ApiLocal } from "../../services/apiLocal";
 import StringUtils from "../../utils/StringUtils";
 import { ICashPaymentInfo, IEventPixManualKey } from "../../interfaces/Event";
 import { AppContext } from "../../contexts/app";
+import { DateUtils } from "../../utils/Date";
 import {
   CloseButton,
   Container,
   CopyButton,
+  ExpiryNote,
   FileInput,
   ManualBox,
   ManualLabel,
@@ -27,6 +30,7 @@ import {
   ProofSection,
   ProofSuccess,
   Qr,
+  RegenerateButton,
   Spinner,
   Subtitle,
   Title,
@@ -35,17 +39,33 @@ import {
 interface IPixPaymentSheet {
   open: boolean;
   onClose: () => void;
-  // Código Pix copia-e-cola (EMV) — preferencial, permite QR code.
+  // Código Pix copia-e-cola (EMV ou MERCADO_PAGO_PIX) — preferencial, permite QR code.
   pixCopyPaste?: string | null;
+  // Só em MERCADO_PAGO_PIX: QR já pronto do backend — evita gerar client-side.
+  pixQrCodeBase64?: string | null;
+  // Só em MERCADO_PAGO_PIX: validade do código atual.
+  pixExpiresAt?: string | null;
   // Fallback quando não há copia-e-cola: chave PIX manual configurada no evento.
   manualKey?: IEventPixManualKey | null;
   // Dados do responsável pelo recebimento, quando o pagamento é em dinheiro.
   cashInfo?: ICashPaymentInfo | null;
-  // Necessários para enviar/baixar o comprovante da parcela.
+  // Necessários para enviar/baixar o comprovante da parcela e regenerar o Pix.
   registrationUuid?: string;
   installmentUuid?: string;
   proofUrl?: string | null;
   onProofUploaded?: (proofUrl: string) => void;
+  // MERCADO_PAGO_PIX confirma o pagamento sozinho via webhook — não faz
+  // sentido pedir comprovante. Só se aplica ao Pix (EMV/MERCADO_PAGO_PIX);
+  // chave manual e dinheiro sempre pedem comprovante, por serem sempre
+  // conferidos manualmente.
+  pixAutoConfirmed?: boolean;
+  // Só relevante quando pixExpiresAt existe (MERCADO_PAGO_PIX): chamado com a
+  // parcela atualizada após regenerar o código expirado.
+  onPixRegenerated?: (installment: {
+    pixCopyPaste: string | null;
+    pixQrCodeBase64: string | null;
+    pixExpiresAt: string | null;
+  }) => void;
 }
 
 const MANUAL_KEY_TYPE_LABELS: Record<string, string> = {
@@ -60,12 +80,16 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
   open,
   onClose,
   pixCopyPaste,
+  pixQrCodeBase64,
+  pixExpiresAt,
   manualKey,
   cashInfo,
   registrationUuid,
   installmentUuid,
   proofUrl,
   onProofUploaded,
+  onPixRegenerated,
+  pixAutoConfirmed,
 }) => {
   const { isApp, isMobile } = useContext(AppContext);
   // No modal de desktop já existe um botão de fechar próprio (fora do
@@ -76,9 +100,21 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [justUploaded, setJustUploaded] = useState(false);
+  const [regenerating, setRegenerating] = useState(false);
+  const [regenerateError, setRegenerateError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // QR já pronto do backend (MERCADO_PAGO_PIX) tem prioridade — evita gerar
+  // client-side um QR que o Mercado Pago já processou.
   useEffect(() => {
+    if (pixQrCodeBase64) {
+      setQrCode(
+        pixQrCodeBase64.startsWith("data:")
+          ? pixQrCodeBase64
+          : `data:image/png;base64,${pixQrCodeBase64}`
+      );
+      return;
+    }
     if (!pixCopyPaste) {
       setQrCode(null);
       return;
@@ -94,15 +130,44 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
     return () => {
       cancelled = true;
     };
-  }, [pixCopyPaste]);
+  }, [pixCopyPaste, pixQrCodeBase64]);
+
+  const expiresAtDate = pixExpiresAt ? new Date(pixExpiresAt) : null;
+  const isExpired = !!expiresAtDate && expiresAtDate.getTime() < Date.now();
 
   useEffect(() => {
     if (!open) {
       setCopied(false);
       setUploadError(null);
       setJustUploaded(false);
+      setRegenerateError(null);
     }
   }, [open]);
+
+  const handleRegenerate = async () => {
+    if (!registrationUuid || !installmentUuid) return;
+
+    setRegenerating(true);
+    setRegenerateError(null);
+    try {
+      const apiLocal = new ApiLocal();
+      const installment = await apiLocal.regenerateInstallmentPix(
+        registrationUuid,
+        installmentUuid
+      );
+      onPixRegenerated?.({
+        pixCopyPaste: installment.pixCopyPaste,
+        pixQrCodeBase64: installment.pixQrCodeBase64,
+        pixExpiresAt: installment.pixExpiresAt,
+      });
+    } catch (err) {
+      setRegenerateError(
+        "Não foi possível gerar um novo código Pix. Tente novamente."
+      );
+    } finally {
+      setRegenerating(false);
+    }
+  };
 
   const copyToClipboard = (text: string) => {
     const fallback = () => {
@@ -243,24 +308,54 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
               Escaneie o QR code ou copie o código para pagar no app do seu
               banco.
             </Subtitle>
-            {qrCode && (
-              <Qr src={qrCode} alt="QR Code PIX" />
+            {expiresAtDate && (
+              <ExpiryNote $expired={isExpired}>
+                {isExpired
+                  ? "Código expirado"
+                  : `Válido até ${DateUtils.formatDateDefault(
+                      pixExpiresAt as string
+                    )} às ${DateUtils.formatTime(pixExpiresAt as string)}`}
+              </ExpiryNote>
             )}
-            <CopyButton
-              type="button"
-              onClick={() => copyToClipboard(pixCopyPaste)}
-            >
-              {copied ? (
-                <>
-                  <FiCheck /> Copiado!
-                </>
-              ) : (
-                <>
-                  <FiCopy /> Copiar código PIX
-                </>
-              )}
-            </CopyButton>
-            {renderProofSection()}
+            {isExpired ? (
+              <>
+                <RegenerateButton
+                  type="button"
+                  disabled={regenerating}
+                  onClick={handleRegenerate}
+                >
+                  {regenerating ? (
+                    <Spinner />
+                  ) : (
+                    <>
+                      <FiRefreshCw /> Gerar novo código
+                    </>
+                  )}
+                </RegenerateButton>
+                {regenerateError && <ProofError>{regenerateError}</ProofError>}
+              </>
+            ) : (
+              <>
+                {qrCode && (
+                  <Qr src={qrCode} alt="QR Code PIX" />
+                )}
+                <CopyButton
+                  type="button"
+                  onClick={() => copyToClipboard(pixCopyPaste)}
+                >
+                  {copied ? (
+                    <>
+                      <FiCheck /> Copiado!
+                    </>
+                  ) : (
+                    <>
+                      <FiCopy /> Copiar código PIX
+                    </>
+                  )}
+                </CopyButton>
+              </>
+            )}
+            {!pixAutoConfirmed && renderProofSection()}
           </>
         ) : manualKey ? (
           <>

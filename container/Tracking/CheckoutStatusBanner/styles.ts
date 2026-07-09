@@ -12,9 +12,14 @@ const variants = {
     color: ${theme.colors.errorText};
     border-color: ${theme.colors.errorBorder};
   `,
+  warning: css`
+    background: ${theme.colors.warningTint};
+    color: ${theme.colors.warningText};
+    border-color: ${theme.colors.warningBorder};
+  `,
 }
 
-export const Container = styled.div<{ $status: 'success' | 'failure' }>`
+export const Container = styled.div<{ $status: 'success' | 'failure' | 'warning' }>`
   position: relative;
   display: flex;
   align-items: flex-start;

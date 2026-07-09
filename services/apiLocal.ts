@@ -16,6 +16,7 @@ import {
   ICreateRegistrationPayload,
   ICreateRegistrationResponse,
   ICreateInstallmentProofResponse,
+  IRegistrationInstallment,
   IRegistrationSearchParams,
   IRegistrationSearchResult,
 } from "../interfaces/Event";
@@ -148,6 +149,13 @@ export class ApiLocal {
     const { data } = await this.client.post<ICreateInstallmentProofResponse>(
       `/registrations/${registrationUuid}/installments/${installmentUuid}/proof`,
       { fileName }
+    )
+    return data
+  }
+
+  async regenerateInstallmentPix(registrationUuid: string, installmentUuid: string) {
+    const { data } = await this.client.post<IRegistrationInstallment>(
+      `/registrations/${registrationUuid}/installments/${installmentUuid}/pix/regenerate`
     )
     return data
   }

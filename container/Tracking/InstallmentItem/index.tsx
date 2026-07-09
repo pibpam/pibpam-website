@@ -33,6 +33,12 @@ const InstallmentItem: React.FC<IInstallmentItem> = ({
   statusLabel,
   onSelect,
 }) => {
+  // isOverdue é calculado na hora pelo backend (status continua "pending" no
+  // banco, não existe transição persistida pra "overdue") — por isso a label
+  // exibida não usa o `status` bruto quando a parcela está vencida.
+  const displayLabel = installment.isOverdue
+    ? "Atrasada"
+    : statusLabel(installment.status);
   return (
     <TrackItem
       $clickable={clickable}
@@ -63,11 +69,11 @@ const InstallmentItem: React.FC<IInstallmentItem> = ({
         </TrackItemTitle>
         <span>{formatPrice(installment.amount)}</span>
       </TrackItemHead>
-      <TrackItemSub>
+      <TrackItemSub $overdue={installment.isOverdue}>
         {installment.dueDate
           ? `Vencimento: ${DateUtils.formatDateDefault(installment.dueDate)} · `
           : ""}
-        {statusLabel(installment.status)}
+        {displayLabel}
       </TrackItemSub>
       {installment.proofUrl && (
         <TrackProof

@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { useState } from "react";
-import { FiArrowRight, FiCheck, FiCopy } from "react-icons/fi";
+import { FiAlertTriangle, FiArrowRight, FiCheck, FiCopy } from "react-icons/fi";
 import Website from "../../../layout/container/Website";
 import Header from "../../../components/Header";
 import HeaderContainer from "../../../components/HeaderContainer";
@@ -17,6 +17,13 @@ import InstallmentItem from "../../../container/Tracking/InstallmentItem";
 import CheckoutStatusBanner, {
   CheckoutStatus,
 } from "../../../container/Tracking/CheckoutStatusBanner";
+import {
+  Container as AlertContainer,
+  Content as AlertContent,
+  Icon as AlertIcon,
+  Message as AlertMessage,
+  Title as AlertTitle,
+} from "../../../container/Tracking/CheckoutStatusBanner/styles";
 import useMenu from "../../../hooks/useMenu";
 import useHeader from "../../../hooks/useHeader";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
@@ -106,7 +113,8 @@ const TrackingPage: NextPage<ITrackingPage> = ({
 
   // Meio de pagamento vem direto na inscrição.
   const paymentMethod = registration?.paymentMethod || null;
-  const isPix = paymentMethod?.type === "PIX";
+  const isPix =
+    paymentMethod?.type === "PIX" || paymentMethod?.type === "MERCADO_PAGO_PIX";
   const isCash = paymentMethod?.type === "CASH";
   const cashInfo = isCash
     ? {
@@ -145,6 +153,12 @@ const TrackingPage: NextPage<ITrackingPage> = ({
 
   const isPayable = (inst: IRegistrationInstallment) =>
     inst.status === "pending" || inst.status === "overdue";
+
+  // Checkout Pro (MERCADO_PAGO) sempre gera 1 parcela só; o link de
+  // redirecionamento agora vive na parcela, não mais na inscrição.
+  const payableWithUrl = installments.find(
+    (i) => i.paymentUrl && isPayable(i)
+  );
 
   return (
     <Website
@@ -193,6 +207,23 @@ const TrackingPage: NextPage<ITrackingPage> = ({
               />
             )}
 
+            {!!registration?.hasOverduePayment && (
+              <AlertContainer $status="warning" role="alert">
+                <AlertIcon>
+                  <FiAlertTriangle />
+                </AlertIcon>
+                <AlertContent>
+                  <AlertTitle>Pagamento em atraso</AlertTitle>
+                  <AlertMessage>
+                    {(registration.overdueInstallmentsCount || 1) > 1
+                      ? `${registration.overdueInstallmentsCount} parcelas estão vencidas.`
+                      : "Uma parcela está vencida."}{" "}
+                    Regularize para manter sua inscrição confirmada.
+                  </AlertMessage>
+                </AlertContent>
+              </AlertContainer>
+            )}
+
             {registration ? (
               <>
                 {/* Resumo */}
@@ -217,7 +248,7 @@ const TrackingPage: NextPage<ITrackingPage> = ({
                   )}
                 </Summary>
 
-                {registration.paymentUrl &&
+                {payableWithUrl &&
                   registration.status !== "refunded" &&
                   registration.status !== "confirmed" && (
                     <SuccessActions style={{ maxWidth: "100%" }}>
@@ -225,7 +256,7 @@ const TrackingPage: NextPage<ITrackingPage> = ({
                         type="button"
                         onClick={() => {
                           if (typeof window !== "undefined") {
-                            window.location.href = registration.paymentUrl as string;
+                            window.location.href = payableWithUrl.paymentUrl as string;
                           }
                         }}
                       >
@@ -299,6 +330,9 @@ const TrackingPage: NextPage<ITrackingPage> = ({
           open={!!activeInstallment}
           onClose={() => setActiveInstallmentUuid(null)}
           pixCopyPaste={activeInstallment?.pixCopyPaste}
+          pixQrCodeBase64={activeInstallment?.pixQrCodeBase64}
+          pixExpiresAt={activeInstallment?.pixExpiresAt}
+          pixAutoConfirmed={paymentMethod?.type === "MERCADO_PAGO_PIX"}
           manualKey={isPix ? paymentMethod?.pixManualKey : null}
           cashInfo={cashInfo}
           registrationUuid={registration?.uuid}
@@ -308,6 +342,13 @@ const TrackingPage: NextPage<ITrackingPage> = ({
             setInstallments((state) =>
               state.map((i) =>
                 i.uuid === activeInstallmentUuid ? { ...i, proofUrl } : i
+              )
+            );
+          }}
+          onPixRegenerated={(updated) => {
+            setInstallments((state) =>
+              state.map((i) =>
+                i.uuid === activeInstallmentUuid ? { ...i, ...updated } : i
               )
             );
           }}
@@ -329,9 +370,15 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   // Vem do redirect do checkout (Mercado Pago): `?status=success|pending|failure`.
   // "pending" não tem banner próprio — o status da parcela já cobre esse caso.
+  // O Mercado Pago appenda seus próprios parâmetros no back_url ao redirecionar
+  // de volta, e um deles também se chama `status` (vocabulário do MP, ex.
+  // "approved"/"rejected") — isso duplica a chave na URL e o Next.js entrega
+  // `query.status` como array em vez de string. A nossa é sempre a primeira
+  // (vem do back_url original, antes do MP appendar as dele).
   const rawStatus = query?.status;
+  const firstStatus = Array.isArray(rawStatus) ? rawStatus[0] : rawStatus;
   const checkoutStatus: CheckoutStatus | null =
-    rawStatus === "success" || rawStatus === "failure" ? rawStatus : null;
+    firstStatus === "success" || firstStatus === "failure" ? firstStatus : null;
 
   const api = new Api();
 

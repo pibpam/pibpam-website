@@ -20,6 +20,7 @@ import {
   ICreateRegistrationPayload,
   ICreateRegistrationResponse,
   ICreateInstallmentProofResponse,
+  IRegistrationInstallment,
   IRegistrationSearchParams,
   IRegistrationSearchResult,
 } from "../interfaces/Event";
@@ -268,6 +269,19 @@ export class Api {
     const { data } = await this.client.post<ICreateInstallmentProofResponse>(
       `v1/events/registrations/${registrationUuid}/installments/${installmentUuid}/proof`,
       { fileName }
+    );
+    return data;
+  }
+
+  // Regenera o Pix (copia-e-cola/QR) de uma parcela MERCADO_PAGO_PIX expirada.
+  // Sem login — o próprio comprador usa a partir da tela de acompanhamento.
+  // Novo código sempre expira em agora + 3 dias.
+  async regenerateInstallmentPix(
+    registrationUuid: string,
+    installmentUuid: string
+  ) {
+    const { data } = await this.client.post<IRegistrationInstallment>(
+      `v1/events/registrations/${registrationUuid}/installments/${installmentUuid}/pix/regenerate`
     );
     return data;
   }

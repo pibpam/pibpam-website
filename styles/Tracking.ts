@@ -113,9 +113,10 @@ export const TrackItemTitle = styled.div`
   }
 `
 
-export const TrackItemSub = styled.span`
+export const TrackItemSub = styled.span<{ $overdue?: boolean }>`
   font-size: 13px;
-  color: ${theme.colors.gray650};
+  color: ${({ $overdue }) => ($overdue ? theme.colors.errorText : theme.colors.gray650)};
+  ${({ $overdue }) => $overdue && css`font-weight: 600;`}
 `
 
 export const TrackAddons = styled.div`

@@ -73,7 +73,10 @@ export interface IEventPixManualKey {
 
 export interface IEventPaymentMethod {
   uuid: string;
-  type: "PIX" | "CASH" | "CARD" | "MERCADO_PAGO" | string;
+  // MERCADO_PAGO: Checkout Pro, sempre 1x. MERCADO_PAGO_PIX: Pix dinâmico
+  // (QR + copia-e-cola) via API do Mercado Pago, com parcelamento real —
+  // cada parcela vira uma cobrança Pix independente.
+  type: "PIX" | "CASH" | "CARD" | "MERCADO_PAGO" | "MERCADO_PAGO_PIX" | string;
   label: string;
   feeType: "none" | "percent" | "fixed" | string;
   feeValue: number | string;
@@ -161,8 +164,9 @@ export interface ICreateRegistrationResponse {
   uuid?: string;
   // Código legível da inscrição, exibido ao usuário e usado no acompanhamento.
   code?: string;
-  // Presente quando o meio de pagamento é MERCADO_PAGO (Checkout Pro).
-  paymentUrl?: string;
+  // Dados de pagamento (paymentUrl, pixCopyPaste etc.) vêm em cada parcela,
+  // não mais na raiz da inscrição — ver IRegistrationInstallment.
+  installments?: IRegistrationInstallment[];
   [key: string]: unknown;
 }
 
@@ -204,11 +208,27 @@ export interface IRegistrationInstallment {
   number: number;
   dueDate: string | null;
   amount: number | string;
-  status: "pending" | "paid" | "overdue" | "cancelled" | string;
+  status: "pending" | "paid" | "overdue" | "cancelled" | "refunded" | string;
   proofUrl: string | null;
-  // Código Pix copia-e-cola (EMV), gerado automaticamente quando o meio é PIX
-  // com pixEmvConfig completo. Nulo em PIX manual ou meios não-PIX.
+  // Código Pix copia-e-cola (EMV) — presente em PIX manual (estático) ou
+  // MERCADO_PAGO_PIX (dinâmico). Nulo nos demais meios.
   pixCopyPaste: string | null;
+  // Só em MERCADO_PAGO_PIX: imagem do QR pronta, para usar direto num <img>.
+  pixQrCodeBase64: string | null;
+  // Só em MERCADO_PAGO_PIX: validade do pixCopyPaste/pixQrCodeBase64 atual.
+  pixExpiresAt: string | null;
+  // URL de redirecionamento — só em MERCADO_PAGO (Checkout Pro).
+  paymentUrl: string | null;
+  // Só em MERCADO_PAGO (Checkout Pro).
+  mpPreferenceId: string | null;
+  // Em MERCADO_PAGO ou MERCADO_PAGO_PIX.
+  mpPaymentId: string | null;
+  // Preenchido quando a parcela foi estornada manualmente.
+  refundComment: string | null;
+  // Calculado na hora (status === "pending" && dueDate no passado) — não é
+  // persistido, não confundir com `status` (não existe transição real pra
+  // "overdue" no banco).
+  isOverdue: boolean;
   paidAt: string | null;
 }
 
@@ -227,8 +247,10 @@ export interface IRegistrationSearchResult {
   // Meio de pagamento escolhido na inscrição, com os dados (PIX EMV/manual,
   // responsável do dinheiro etc.) para exibir na tela de acompanhamento.
   paymentMethod: IEventPaymentMethod | null;
-  paymentUrl: string | null;
-  mpPreferenceId: string | null;
+  // Ausentes na resposta de criação (parcela recém-criada nunca está
+  // vencida) — só vêm em list/getById/search.
+  hasOverduePayment?: boolean;
+  overdueInstallmentsCount?: number;
   participants: IRegistrationSearchParticipant[];
   installments: IRegistrationInstallment[];
 }

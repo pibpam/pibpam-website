@@ -88,6 +88,7 @@ import {
 const paymentIcon = (type: string) => {
   switch (type) {
     case "PIX":
+    case "MERCADO_PAGO_PIX":
       return <FaPix />;
     case "CASH":
       return <FiDollarSign />;
@@ -389,8 +390,10 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
       });
 
       // Checkout Pro (MERCADO_PAGO): redireciona para a URL de pagamento.
-      if (response?.paymentUrl && typeof window !== "undefined") {
-        window.location.href = response.paymentUrl;
+      // Único meio que gera 1 parcela só com paymentUrl preenchido.
+      const paymentUrl = response?.installments?.[0]?.paymentUrl;
+      if (paymentUrl && typeof window !== "undefined") {
+        window.location.href = paymentUrl;
         return;
       }
 
