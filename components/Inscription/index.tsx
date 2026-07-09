@@ -65,6 +65,7 @@ import {
 } from "./styles";
 import InscriptionResponsibles from "./Responsibles";
 import InscriptionFaqs from "./Faqs";
+import InscriptionBatches, { InscriptionCurrentBatch } from "./Batches";
 import Toast from "../Toast";
 import { Closed, EventName, SectionLabel, Summary, SummaryRow, SummaryTotal } from "../../styles/Inscription";
 import SecondaryButton from "../Button/Secondary";
@@ -583,6 +584,11 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
               </span>
             )}
           </EventMeta>
+
+          <InscriptionCurrentBatch
+            batches={event.batches}
+            activeBatch={event.activeBatch}
+          />
 
           <CheckRegistration>
             <span>Já se inscreveu neste evento?</span>
@@ -1183,6 +1189,10 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
 
       {currentStep === "details" && (
         <DetailsExtra>
+          <InscriptionBatches
+            batches={event.batches}
+            activeBatch={event.activeBatch}
+          />
           <InscriptionResponsibles
             responsibles={event.responsibles || []}
             eventName={event.name}

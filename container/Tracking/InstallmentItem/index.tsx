@@ -6,9 +6,9 @@ import {
   TrackItemHead,
   TrackItemSub,
   TrackItemTitle,
-  TrackMethodIcon,
   TrackProof,
 } from "../../../styles/Tracking";
+import IconTile from "../../../components/IconTile";
 import { DateUtils } from "../../../utils/Date";
 import { IRegistrationInstallment } from "../../../interfaces/Event";
 
@@ -52,9 +52,9 @@ const InstallmentItem: React.FC<IInstallmentItem> = ({
     >
       <TrackItemHead>
         <TrackItemTitle>
-          <TrackMethodIcon $active={clickable}>
+          <IconTile variant={clickable ? "soft" : "neutral"} size={32}>
             {isPix ? <FaPix /> : isCash ? <FiDollarSign /> : <FiCreditCard />}
-          </TrackMethodIcon>
+          </IconTile>
           <strong>
             {installmentsCount > 1
               ? `Parcela ${installment.number}/${installmentsCount}`

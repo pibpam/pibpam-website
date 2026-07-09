@@ -30,54 +30,6 @@ export const CodeValue = styled.strong`
   word-break: break-all;
 `
 
-const trackBadgeVariants: Record<string, ReturnType<typeof css>> = {
-  pending: css`
-    background: ${theme.colors.warningTint};
-    color: ${theme.colors.warningText};
-  `,
-  paid: css`
-    background: ${theme.colors.successTint};
-    color: ${theme.colors.successText};
-  `,
-  confirmed: css`
-    background: ${theme.colors.successTint};
-    color: ${theme.colors.successText};
-  `,
-  approved: css`
-    background: ${theme.colors.successTint};
-    color: ${theme.colors.successText};
-  `,
-  cancelled: css`
-    background: ${theme.colors.errorTintStrong};
-    color: ${theme.colors.error};
-  `,
-  canceled: css`
-    background: ${theme.colors.errorTintStrong};
-    color: ${theme.colors.error};
-  `,
-  expired: css`
-    background: ${theme.colors.errorTintStrong};
-    color: ${theme.colors.error};
-  `,
-  refunded: css`
-    background: ${theme.colors.errorTintStrong};
-    color: ${theme.colors.error};
-  `,
-}
-
-export const TrackBadge = styled.span<{ $status?: string }>`
-  display: inline-block;
-  margin-top: 4px;
-  padding: 3px ${theme.spacing.md};
-  border-radius: ${theme.radius.xl};
-  font-size: 12px;
-  font-weight: 600;
-  background: ${theme.colors.tealTint};
-  color: ${theme.colors.gray700};
-
-  ${({ $status }) => $status && trackBadgeVariants[$status]}
-`
-
 export const SuccessActions = styled.div`
   margin: ${theme.spacing.lg} 0;
   width: 100%;
@@ -159,27 +111,6 @@ export const TrackItemTitle = styled.div`
     color: ${theme.colors.gray800};
     font-size: 15px;
   }
-`
-
-export const TrackMethodIcon = styled.span<{ $active?: boolean }>`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: ${theme.radius.md};
-  background: ${theme.colors.tealTint};
-  color: ${theme.colors.gray550};
-  flex-shrink: 0;
-
-  > svg {
-    font-size: 16px;
-  }
-
-  ${({ $active }) => $active && css`
-    background: ${theme.colors.tealHover};
-    color: ${theme.colors.tealDark};
-  `}
 `
 
 export const TrackItemSub = styled.span`

@@ -10,7 +10,8 @@ import InscriptionResponsibles from "../../../components/Inscription/Responsible
 import InscriptionFaqs from "../../../components/Inscription/Faqs";
 import { DetailsExtra } from "../../../components/Inscription/styles";
 import { Closed, EventName, PixCopy, SectionLabel, Page, Summary, SummaryRow, SummaryTotal, Wrapper } from "../../../styles/Inscription";
-import { CodeBox, CodeLabel, CodeValue, CtaLink, SuccessActions, TrackBadge } from "../../../styles/Tracking";
+import { CodeBox, CodeLabel, CodeValue, CtaLink, SuccessActions } from "../../../styles/Tracking";
+import Badge, { BadgeVariant } from "../../../components/Badge";
 import ParticipantItem from "../../../container/Tracking/ParticipantItem";
 import InstallmentItem from "../../../container/Tracking/InstallmentItem";
 import CheckoutStatusBanner, {
@@ -62,6 +63,19 @@ const statusLabel = (status?: string) => {
   if (!status) return "";
   return STATUS_LABELS[status] || status;
 };
+
+const STATUS_BADGE_VARIANTS: Record<string, BadgeVariant> = {
+  pending: "warning",
+  paid: "success",
+  confirmed: "success",
+  overdue: "warning",
+  cancelled: "error",
+  canceled: "error",
+  refunded: "error",
+};
+
+const statusBadgeVariant = (status?: string): BadgeVariant =>
+  (status && STATUS_BADGE_VARIANTS[status]) || "neutral";
 
 const TrackingPage: NextPage<ITrackingPage> = ({
   code,
@@ -155,9 +169,9 @@ const TrackingPage: NextPage<ITrackingPage> = ({
               <CodeLabel>Código da inscrição</CodeLabel>
               <CodeValue>{code}</CodeValue>
               {registration?.status && (
-                <TrackBadge $status={registration.status}>
+                <Badge variant={statusBadgeVariant(registration.status)}>
                   {statusLabel(registration.status)}
-                </TrackBadge>
+                </Badge>
               )}
               <PixCopy type="button" onClick={copyCode}>
                 {codeCopied ? (
