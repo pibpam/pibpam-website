@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { Container, Grid, LoadMore } from "../styles/Events";
 import Website from "../layout/container/Website";
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
@@ -111,11 +111,11 @@ const Inscricoes: NextPage<IEventsPage> = ({ data }) => {
   );
 };
 
-export async function getStaticProps() {
+export const getServerSideProps: GetServerSideProps<IEventsPage> = async () => {
   const api = new Api();
   const data = await api.getEvents(1, 20);
 
   return { props: { data } };
-}
+};
 
 export default Inscricoes;
