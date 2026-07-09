@@ -44,11 +44,10 @@ const EventTicketCard: React.FC<IEventTicketCard> = ({
     ? `${data.availableSpots} vaga${data.availableSpots === 1 ? "" : "s"}`
     : null;
 
+  // Mesmo esgotado, o clique leva pra tela do evento — é lá que quem já se
+  // inscreveu consegue acompanhar/verificar a inscrição.
   const handleSubscribe = (event: React.MouseEvent) => {
     event.stopPropagation();
-    if (data.soldOut) {
-      return;
-    }
     onSubscribe?.();
   };
 
@@ -103,10 +102,10 @@ const EventTicketCard: React.FC<IEventTicketCard> = ({
         <Cta
           type="button"
           onClick={handleSubscribe}
-          disabled={data.soldOut}
+          $soldOut={data.soldOut}
         >
           {data.soldOut ? (
-            "Esgotado"
+            "Ver evento"
           ) : (
             <>
               Fazer inscrição <FiArrowRight />

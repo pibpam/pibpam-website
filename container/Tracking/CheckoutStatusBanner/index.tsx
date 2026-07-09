@@ -15,9 +15,9 @@ const CONTENT: Record<CheckoutStatus, { title: string; message: string }> = {
     message: "Seu pagamento foi confirmado com sucesso.",
   },
   failure: {
-    title: "Pagamento não aprovado",
+    title: "Não foi possível verificar o pagamento",
     message:
-      "Não foi possível confirmar o pagamento. Tente novamente ou escolha outra forma de pagamento.",
+      "Em caso de problemas, busque ajuda com a organização do evento.",
   },
 };
 

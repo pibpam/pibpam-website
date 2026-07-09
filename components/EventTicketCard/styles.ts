@@ -124,7 +124,7 @@ const ctaNudge = keyframes`
   }
 `
 
-export const Cta = styled.button<{ disabled?: boolean }>`
+export const Cta = styled.button<{ $soldOut?: boolean }>`
   width: 100%;
   padding: 10px ${theme.spacing.lg};
   border-radius: ${theme.radius.pill};
@@ -148,8 +148,7 @@ export const Cta = styled.button<{ disabled?: boolean }>`
     animation: ${ctaNudge} 1.2s ease-in-out infinite;
   }
 
-  ${({ disabled }) => disabled && css`
-    cursor: not-allowed;
+  ${({ $soldOut }) => $soldOut && css`
     color: ${theme.colors.white};
     background: ${theme.colors.disabled};
 
