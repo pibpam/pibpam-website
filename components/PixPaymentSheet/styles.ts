@@ -198,6 +198,7 @@ export const RegenerateButton = styled.button`
   padding: 11px ${theme.spacing.base};
   border-radius: ${theme.radius.pill};
   cursor: pointer;
+  margin-top: ${theme.spacing.sm};
   margin-bottom: ${theme.spacing.sm};
 
   &:disabled {

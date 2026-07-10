@@ -71,20 +71,30 @@ export interface IEventPixManualKey {
   key: string;
 }
 
-export interface IEventPaymentMethod {
+// Canal de cobrança aprovado pela igreja (ver ChurchPaymentMethod no backend)
+// — tipo e dados de Pix vivem aqui, nunca configurados por evento.
+export interface IEventPaymentChannel {
   uuid: string;
+  name: string;
   // MERCADO_PAGO: Checkout Pro, sempre 1x. MERCADO_PAGO_PIX: Pix dinâmico
   // (QR + copia-e-cola) via API do Mercado Pago, com parcelamento real —
   // cada parcela vira uma cobrança Pix independente.
   type: "PIX" | "CASH" | "CARD" | "MERCADO_PAGO" | "MERCADO_PAGO_PIX" | string;
-  label: string;
-  feeType: "none" | "percent" | "fixed" | string;
-  feeValue: number | string;
-  maxInstallments: number;
   // Presentes quando type === "PIX": pixEmvConfig gera o copia-e-cola
   // automaticamente; pixManualKey é usado quando não há EMV configurado.
   pixEmvConfig: IEventPixEmvConfig | null;
   pixManualKey: IEventPixManualKey | null;
+}
+
+export interface IEventPaymentMethod {
+  uuid: string;
+  // Opcional: meios de pagamento configurados antes desse canal existir (ou
+  // com o canal removido depois) podem vir sem essa relação.
+  channel?: IEventPaymentChannel;
+  label: string;
+  feeType: "none" | "percent" | "fixed" | string;
+  feeValue: number | string;
+  maxInstallments: number;
   cashResponsibleName: string | null;
   cashResponsiblePhone: string | null;
 }

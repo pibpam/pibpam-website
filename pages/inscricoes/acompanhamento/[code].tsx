@@ -28,6 +28,7 @@ import useMenu from "../../../hooks/useMenu";
 import useHeader from "../../../hooks/useHeader";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import { Api } from "../../../services/api";
+import { ApiLocal } from "../../../services/apiLocal";
 import {
   IEventDetail,
   IRegistrationInstallment,
@@ -114,8 +115,9 @@ const TrackingPage: NextPage<ITrackingPage> = ({
   // Meio de pagamento vem direto na inscrição.
   const paymentMethod = registration?.paymentMethod || null;
   const isPix =
-    paymentMethod?.type === "PIX" || paymentMethod?.type === "MERCADO_PAGO_PIX";
-  const isCash = paymentMethod?.type === "CASH";
+    paymentMethod?.channel?.type === "PIX" ||
+    paymentMethod?.channel?.type === "MERCADO_PAGO_PIX";
+  const isCash = paymentMethod?.channel?.type === "CASH";
   const cashInfo = isCash
     ? {
         name: paymentMethod?.cashResponsibleName ?? null,
@@ -332,8 +334,8 @@ const TrackingPage: NextPage<ITrackingPage> = ({
           pixCopyPaste={activeInstallment?.pixCopyPaste}
           pixQrCodeBase64={activeInstallment?.pixQrCodeBase64}
           pixExpiresAt={activeInstallment?.pixExpiresAt}
-          pixAutoConfirmed={paymentMethod?.type === "MERCADO_PAGO_PIX"}
-          manualKey={isPix ? paymentMethod?.pixManualKey : null}
+          pixAutoConfirmed={paymentMethod?.channel?.type === "MERCADO_PAGO_PIX"}
+          manualKey={isPix ? paymentMethod?.channel?.pixManualKey : null}
           cashInfo={cashInfo}
           registrationUuid={registration?.uuid}
           installmentUuid={activeInstallment?.uuid}
@@ -351,6 +353,18 @@ const TrackingPage: NextPage<ITrackingPage> = ({
                 i.uuid === activeInstallmentUuid ? { ...i, ...updated } : i
               )
             );
+          }}
+          onRefresh={async () => {
+            try {
+              const apiLocal = new ApiLocal();
+              const results = await apiLocal.searchRegistrations({ code });
+              const fresh = results.find((r) => r.code === code) || results[0];
+              if (fresh) {
+                setInstallments(fresh.installments);
+              }
+            } catch {
+              // silencioso — o usuário pode tentar novamente
+            }
           }}
         />
       </>

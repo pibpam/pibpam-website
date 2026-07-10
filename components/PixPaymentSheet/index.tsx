@@ -66,6 +66,10 @@ interface IPixPaymentSheet {
     pixQrCodeBase64: string | null;
     pixExpiresAt: string | null;
   }) => void;
+  // Só relevante quando pixAutoConfirmed (MERCADO_PAGO_PIX): busca o status
+  // atualizado da parcela. O botão fecha a sheet logo depois, já que o status
+  // novo fica visível na lista de parcelas por trás.
+  onRefresh?: () => Promise<void> | void;
 }
 
 const MANUAL_KEY_TYPE_LABELS: Record<string, string> = {
@@ -89,6 +93,7 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
   proofUrl,
   onProofUploaded,
   onPixRegenerated,
+  onRefresh,
   pixAutoConfirmed,
 }) => {
   const { isApp, isMobile } = useContext(AppContext);
@@ -102,6 +107,7 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
   const [justUploaded, setJustUploaded] = useState(false);
   const [regenerating, setRegenerating] = useState(false);
   const [regenerateError, setRegenerateError] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // QR já pronto do backend (MERCADO_PAGO_PIX) tem prioridade — evita gerar
@@ -143,6 +149,16 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
       setRegenerateError(null);
     }
   }, [open]);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await onRefresh?.();
+      onClose();
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   const handleRegenerate = async () => {
     if (!registrationUuid || !installmentUuid) return;
@@ -353,6 +369,21 @@ const PixPaymentSheet: React.FC<IPixPaymentSheet> = ({
                     </>
                   )}
                 </CopyButton>
+                {pixAutoConfirmed && (
+                  <RegenerateButton
+                    type="button"
+                    disabled={refreshing}
+                    onClick={handleRefresh}
+                  >
+                    {refreshing ? (
+                      <Spinner />
+                    ) : (
+                      <>
+                        <FiRefreshCw /> Atualizar pagamento
+                      </>
+                    )}
+                  </RegenerateButton>
+                )}
               </>
             )}
             {!pixAutoConfirmed && renderProofSection()}

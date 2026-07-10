@@ -1046,7 +1046,7 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                     <ChoiceTitle>
                       <PaymentLabel>
                         <PaymentIcon>
-                          {paymentIcon(method.type)}
+                          {paymentIcon(method.channel?.type || "")}
                         </PaymentIcon>
                         {method.label}
                       </PaymentLabel>
@@ -1083,8 +1083,8 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
                   )}
 
                   {selected &&
-                    (method.type === "CARD" ||
-                      method.type === "MERCADO_PAGO") && (
+                    (method.channel?.type === "CARD" ||
+                      method.channel?.type === "MERCADO_PAGO") && (
                       <SelfNote style={{ marginTop: 8 }}>
                         Outras taxas podem ser cobradas pela operadora do
                         cartão ou processadora de pagamento, além da exibida
