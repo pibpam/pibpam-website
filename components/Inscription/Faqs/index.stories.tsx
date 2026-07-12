@@ -33,3 +33,28 @@ export const Vazio: Story = {
     faqs: [],
   },
 }
+
+export const ComTabela: Story = {
+  args: {
+    faqs: [
+      {
+        uuid: '3',
+        question: 'Quais são os lotes e valores?',
+        anwser: `
+          <p>Confira os valores por lote:</p>
+          <table>
+            <thead>
+              <tr><th>Lote</th><th>Período</th><th>Valor</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1º lote</td><td>até 10/08</td><td>R$ 80,00</td></tr>
+              <tr><td>2º lote</td><td>até 20/08</td><td>R$ 100,00</td></tr>
+              <tr><td>3º lote</td><td>até 30/08</td><td>R$ 120,00</td></tr>
+            </tbody>
+          </table>
+        `,
+        order: 1,
+      },
+    ],
+  },
+}

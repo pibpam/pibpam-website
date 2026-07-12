@@ -68,4 +68,31 @@ export const FaqAnswer = styled.div`
     color: ${theme.colors.tealDark};
     text-decoration: underline;
   }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    margin-bottom: ${theme.spacing.sm};
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  th,
+  td {
+    padding: ${theme.spacing.xs} ${theme.spacing.sm};
+    border: 1px solid ${theme.colors.tealBorderSoft};
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  th {
+    background: ${theme.colors.tealTint};
+    color: ${theme.colors.gray800};
+    font-weight: 600;
+  }
+
+  tr:nth-child(even) td {
+    background: ${theme.colors.tealTintLight};
+  }
 `
