@@ -16,6 +16,8 @@ import {
   Title,
 } from "./styles";
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 interface ICheckRegistrationSheet {
   open: boolean;
   onClose: () => void;
@@ -48,22 +50,31 @@ const CheckRegistrationSheet: React.FC<ICheckRegistrationSheet> = ({
     e.preventDefault();
     const trimmed = code.trim();
     if (!trimmed) {
-      setError("Informe o código da inscrição.");
+      setError("Informe o código ou o e-mail da inscrição.");
       return;
     }
+
+    const isEmail = EMAIL_REGEX.test(trimmed);
 
     setLoading(true);
     setError(null);
     try {
       const apiLocal = new ApiLocal();
-      const results = await apiLocal.searchRegistrations({
-        code: trimmed,
-        eventUuid,
-      });
-      const found = results.find((r) => r.code === trimmed) || results[0];
+      const results = await apiLocal.searchRegistrations(
+        isEmail
+          ? { email: trimmed, eventUuid }
+          : { code: trimmed, eventUuid }
+      );
+      const found = isEmail
+        ? results[0]
+        : results.find((r) => r.code === trimmed) || results[0];
 
       if (!found) {
-        setError("Nenhuma inscrição encontrada para este código.");
+        setError(
+          isEmail
+            ? "Nenhuma inscrição encontrada para este e-mail."
+            : "Nenhuma inscrição encontrada para este código."
+        );
         return;
       }
 
@@ -96,18 +107,18 @@ const CheckRegistrationSheet: React.FC<ICheckRegistrationSheet> = ({
         )}
         <Title>Verificar inscrição</Title>
         <Subtitle>
-          Digite o código recebido para acompanhar sua inscrição.
+          Digite o código recebido ou o e-mail usado na inscrição para
+          acompanhá-la.
         </Subtitle>
 
         <Form onSubmit={handleSubmit}>
           <Field>
-            <label htmlFor="registration-code">Código da inscrição</label>
+            <label htmlFor="registration-code">Código ou e-mail</label>
             <input
               id="registration-code"
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              placeholder="Ex.: ENERGY-2026-XY7Q"
-              autoCapitalize="characters"
+              placeholder="Ex.: ENERGY-2026-XY7Q ou seu@email.com"
             />
           </Field>
 
