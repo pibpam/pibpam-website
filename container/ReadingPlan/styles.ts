@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import theme from '../../styles/theme';
+import responsive from '../../utils/responsive';
 
 
 export const Container = styled.div`
@@ -6,6 +8,19 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  ${responsive.medium`
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 ${theme.spacing.xl} 120px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-content: start;
+  `}
+
+  ${responsive.large`
+    grid-template-columns: repeat(3, 1fr);
+  `}
 `;
 
 

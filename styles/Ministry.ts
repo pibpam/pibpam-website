@@ -1,8 +1,14 @@
 import styled from 'styled-components'
 import theme from './theme'
+import responsive from '../utils/responsive'
 
 export const Container = styled.div`
   padding: 0 ${theme.spacing.lg} ${theme.spacing.xl};
+
+  ${responsive.medium`
+    max-width: 1120px;
+    margin: 0 auto;
+  `}
 
   > h1 {
     font-weight: 700;
@@ -33,6 +39,16 @@ export const Team = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: ${theme.spacing.base};
+
+  ${responsive.medium`
+    max-width: 1120px;
+    margin: 0 auto;
+    grid-template-columns: repeat(3, 1fr);
+  `}
+
+  ${responsive.large`
+    grid-template-columns: repeat(4, 1fr);
+  `}
 `
 
 export const TeamItem = styled.div`

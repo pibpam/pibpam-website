@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import theme from "../../../styles/theme";
+import responsive from "../../../utils/responsive";
 
 export const Container = styled.div`
   padding: 0 24px 120px;
@@ -9,6 +11,13 @@ export const Container = styled.div`
     font-size: 14px;
     color: #555;
   }
+
+  ${responsive.medium`
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 ${theme.spacing.xl} 120px;
+    width: 100%;
+  `}
 `;
 
 export const HeaderContainerPage = styled.div`
@@ -40,6 +49,15 @@ export const List = styled.div`
   gap: 16px;
   margin-top: 24px;
   margin-bottom: 32px;
+
+  ${responsive.medium`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  `}
+
+  ${responsive.large`
+    grid-template-columns: repeat(3, 1fr);
+  `}
 `;
 
 export const ContentItem = styled.a`

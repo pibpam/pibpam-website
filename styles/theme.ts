@@ -71,6 +71,10 @@ const theme = {
     pill: '41.5px',
     circle: '50%',
   },
+  gradients: {
+    // Escurece a base de uma imagem para dar contraste a texto sobreposto.
+    imageOverlay: 'linear-gradient(180deg, rgba(8, 12, 35, 0) 0%, rgba(8, 12, 35, 0.2) 45%, rgba(8, 12, 35, 0.8) 100%)',
+  },
 }
 
 export default theme

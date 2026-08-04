@@ -1,11 +1,16 @@
 import styled from 'styled-components'
 import theme from '../../styles/theme'
+import responsive from '../../utils/responsive'
 
 export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
+
+  ${responsive.medium`
+    display: none;
+  `}
 
   > div {
     display: flex;
@@ -41,6 +46,12 @@ export const GoBack = styled.button`
   padding: 0;
   width: 40px;
   font-size: 32px;
+`
+
+export const MenuToggle = styled(GoBack)`
+  ${responsive.medium`
+    display: none;
+  `}
 `
 
 export const Notifications = styled.button`

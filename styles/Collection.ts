@@ -1,9 +1,15 @@
 import styled, { keyframes } from 'styled-components'
 import { FiLoader } from 'react-icons/fi'
 import theme from './theme'
+import responsive from '../utils/responsive'
 
 export const Container = styled.div`
   padding: 0 ${theme.spacing.lg} ${theme.spacing.xl};
+
+  ${responsive.medium`
+    max-width: 1120px;
+    margin: 0 auto;
+  `}
 `
 
 export const View = styled.div`
@@ -88,7 +94,7 @@ export const Modal = styled.div`
   position: fixed;
   height: 100vh;
   width: 100vw;
-  z-index: 11;
+  z-index: 21;
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.9);

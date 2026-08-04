@@ -11,7 +11,8 @@ import InscriptionFaqs from "../../../components/Inscription/Faqs";
 import { DetailsExtra } from "../../../components/Inscription/styles";
 import { Closed, EventName, PixCopy, SectionLabel, Page, Summary, SummaryRow, SummaryTotal, Wrapper } from "../../../styles/Inscription";
 import { CodeBox, CodeLabel, CodeValue, CtaLink, SuccessActions } from "../../../styles/Tracking";
-import Badge, { BadgeVariant } from "../../../components/Badge";
+import Badge from "../../../components/Badge";
+import { statusLabel, statusBadgeVariant } from "../../../utils/registrationStatus";
 import ParticipantItem from "../../../container/Tracking/ParticipantItem";
 import InstallmentItem from "../../../container/Tracking/InstallmentItem";
 import CheckoutStatusBanner, {
@@ -56,34 +57,6 @@ const formatPrice = (price?: number | string | null) => {
     currency: "BRL",
   }).format(value);
 };
-
-const STATUS_LABELS: Record<string, string> = {
-  pending: "Pendente",
-  paid: "Pago",
-  confirmed: "Confirmada",
-  overdue: "Atrasada",
-  cancelled: "Cancelada",
-  canceled: "Cancelada",
-  refunded: "Reembolsada",
-};
-
-const statusLabel = (status?: string) => {
-  if (!status) return "";
-  return STATUS_LABELS[status] || status;
-};
-
-const STATUS_BADGE_VARIANTS: Record<string, BadgeVariant> = {
-  pending: "warning",
-  paid: "success",
-  confirmed: "success",
-  overdue: "warning",
-  cancelled: "error",
-  canceled: "error",
-  refunded: "error",
-};
-
-const statusBadgeVariant = (status?: string): BadgeVariant =>
-  (status && STATUS_BADGE_VARIANTS[status]) || "neutral";
 
 const TrackingPage: NextPage<ITrackingPage> = ({
   code,

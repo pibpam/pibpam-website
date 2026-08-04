@@ -6,6 +6,10 @@ import AppleStore from '../../../components/svgs/appleStore.svg'
 import GooglePlay from '../../../components/svgs/googlePlay.svg'
 import Logo from '../../../components/svgs/pibpamlogo.svg'
 
+/**
+ * 
+ * @deprecated This page is deprecated and will be removed in the future. Please use the new home page instead. 
+ */
 const HomeDesktop: React.FC = () => {
   return (
     <Container>

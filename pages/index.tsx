@@ -38,6 +38,7 @@ interface IHome {
   birthdaysMonth: IMemberBasic[];
 }
 
+
 const Home: NextPage<IHome> = ({
   content,
   schedules,
@@ -89,6 +90,7 @@ const Home: NextPage<IHome> = ({
         <Series goTo={goTo} series={series} />
       </>
       <>
+      {/* REMOVE */}
         <HomeDesktop />
       </>
     </Website>

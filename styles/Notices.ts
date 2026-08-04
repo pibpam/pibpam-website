@@ -1,5 +1,6 @@
 import styled, { css, keyframes } from 'styled-components'
 import theme from './theme'
+import responsive from '../utils/responsive'
 
 const checkSee = keyframes`
   from {
@@ -16,6 +17,12 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing.sm};
+
+  ${responsive.medium`
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
+  `}
 `
 
 export const Header = styled.div`

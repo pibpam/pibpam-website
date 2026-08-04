@@ -1,18 +1,17 @@
-import { css } from "styled-components"
-import { Styles } from "styled-components/dist/types"
+import { css, CSSObject, Interpolation } from "styled-components"
 
-const medium = (data: Styles<object>) => {
+const medium = (strings: TemplateStringsArray | CSSObject, ...interpolations: Interpolation<object>[]) => {
   return css`
     @media screen and (min-width: 768px){
-      ${data}
+      ${css(strings as TemplateStringsArray, ...interpolations)}
     }
   `
 }
 
-const large = (data: Styles<object>) => {
+const large = (strings: TemplateStringsArray | CSSObject, ...interpolations: Interpolation<object>[]) => {
   return css`
     @media screen and (min-width: 1280px){
-      ${data}
+      ${css(strings as TemplateStringsArray, ...interpolations)}
     }
   `
 }

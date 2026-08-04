@@ -3,9 +3,11 @@ import {
   GoogleAuthProvider,
   UserCredential,
   getAuth,
+  onIdTokenChanged,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 
 let app: FirebaseApp | null = null;
@@ -54,4 +56,26 @@ export const loginWithGooglePopup = (): Promise<UserCredential> => {
 export const sendFirebasePasswordReset = (email: string): Promise<void> => {
   const firebaseApp = getFirebaseApp();
   return sendPasswordResetEmail(getAuth(firebaseApp), email);
+};
+
+// Dispara com o idToken atual sempre que o Firebase restaura a sessão
+// persistida (no carregamento da página) ou renova o token automaticamente
+// (a cada ~1h, usando o refresh token guardado por ele). É esse hook que
+// mantém o accessToken do backend sempre atualizado sem exigir novo login.
+export const observeFirebaseIdToken = (
+  onChange: (idToken: string | null) => void
+): (() => void) => {
+  const firebaseApp = getFirebaseApp();
+  return onIdTokenChanged(getAuth(firebaseApp), async (firebaseUser) => {
+    if (!firebaseUser) {
+      onChange(null);
+      return;
+    }
+    onChange(await firebaseUser.getIdToken());
+  });
+};
+
+export const signOutFirebase = (): Promise<void> => {
+  const firebaseApp = getFirebaseApp();
+  return signOut(getAuth(firebaseApp));
 };

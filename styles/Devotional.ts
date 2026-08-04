@@ -1,8 +1,14 @@
 import styled from 'styled-components'
 import theme from './theme'
+import responsive from '../utils/responsive'
 
 export const Container = styled.div`
   padding: 0 ${theme.spacing.lg} ${theme.spacing.lg};
+
+  ${responsive.medium`
+    max-width: 700px;
+    margin: 0 auto;
+  `}
 
   > h1 {
     font-weight: 700;

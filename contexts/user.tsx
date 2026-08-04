@@ -6,14 +6,19 @@ import {
   loginWithEmailAndPassword,
   loginWithGoogle,
   logoutUser,
+  refreshAccessTokenFromFirebase,
   registerWithEmailAndPassword,
 } from "../services/auth";
+import { observeFirebaseIdToken } from "../services/firebaseClient";
 
 interface Context {
   user?: IUser;
   token?: string;
   initUser: () => void;
   isLoadingAuth: boolean;
+  // true até a primeira tentativa de restaurar a sessão (token salvo) terminar —
+  // enquanto isso, ainda não sabemos se o usuário é membro ou não.
+  isLoadingUser: boolean;
   authError?: string;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
@@ -32,6 +37,7 @@ export const UserContextProvider: React.FC<IChildren> = ({ children }: IChildren
   const [token, setToken] = useState("")
   const [user, setUser] = useState<IUser | undefined>()
   const [isLoadingAuth, setIsLoadingAuth] = useState(false)
+  const [isLoadingUser, setIsLoadingUser] = useState(true)
   const [authError, setAuthError] = useState<string | undefined>()
 
   const getUser = async (token: string) => {
@@ -45,6 +51,8 @@ export const UserContextProvider: React.FC<IChildren> = ({ children }: IChildren
       setToken("")
       setUser(undefined)
       console.error(err)
+    } finally {
+      setIsLoadingUser(false)
     }
   }
 
@@ -53,6 +61,8 @@ export const UserContextProvider: React.FC<IChildren> = ({ children }: IChildren
     if (token) {
       setToken(token)
       getUser(token)
+    } else {
+      setIsLoadingUser(false)
     }
   }
 
@@ -116,6 +126,34 @@ export const UserContextProvider: React.FC<IChildren> = ({ children }: IChildren
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Mantém o accessToken do backend sincronizado com o idToken do Firebase:
+  // dispara ao restaurar a sessão persistida (page load) e a cada renovação
+  // automática dele (~1h), sem exigir novo login. Sem sessão Firebase (ex.:
+  // token recebido do app nativo via authenticateByToken) o listener some,
+  // já que getFirebaseApp() lança e o observe nunca chega a ser inscrito.
+  useEffect(() => {
+    let unsubscribe: (() => void) | undefined
+
+    try {
+      unsubscribe = observeFirebaseIdToken(async (idToken) => {
+        if (!idToken) return
+
+        try {
+          const accessToken = await refreshAccessTokenFromFirebase(idToken)
+          setToken(accessToken)
+          await getUser(accessToken)
+        } catch (err) {
+          console.error(err)
+        }
+      })
+    } catch (err) {
+      // Firebase não configurado neste ambiente — segue só pelo accessToken salvo.
+    }
+
+    return () => unsubscribe?.()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <UserContext.Provider
       value={{
@@ -123,6 +161,7 @@ export const UserContextProvider: React.FC<IChildren> = ({ children }: IChildren
         user,
         initUser,
         isLoadingAuth,
+        isLoadingUser,
         authError,
         login,
         register,

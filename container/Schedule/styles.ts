@@ -1,7 +1,15 @@
 import styled from "styled-components";
+import theme from "../../styles/theme";
+import responsive from "../../utils/responsive";
 
 export const Container = styled.div`
   padding: 0 24px 90px;
+
+  ${responsive.medium`
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 ${theme.spacing.xl} 90px;
+  `}
 `;
 
 export const Content = styled.div`
@@ -9,6 +17,18 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  ${responsive.medium`
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 32px ${theme.spacing.xl} 48px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  `}
+
+  ${responsive.large`
+    grid-template-columns: repeat(3, 1fr);
+  `}
 `;
 
 export const Grid = styled.div`
@@ -20,6 +40,14 @@ export const Grid = styled.div`
   > div {
     width: 100%;
   }
+
+  ${responsive.medium`
+    grid-template-columns: repeat(3, 1fr);
+  `}
+
+  ${responsive.large`
+    grid-template-columns: repeat(4, 1fr);
+  `}
 `;
 
 export const ContainerModal = styled.div<{ bottom?: number }>`

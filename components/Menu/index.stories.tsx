@@ -10,6 +10,7 @@ const loggedOutValue = {
   token: undefined,
   initUser: noop,
   isLoadingAuth: false,
+  isLoadingUser: false,
   authError: undefined,
   login: noopAsync,
   register: noopAsync,

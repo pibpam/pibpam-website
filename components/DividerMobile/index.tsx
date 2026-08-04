@@ -15,7 +15,7 @@ interface IDividerProps {
 const DividerMobile: React.FC<IDividerProps> = ({ color }: IDividerProps) => {
   return (
     <Container $color={color} >
-      <Divisor2 />
+      <Divisor2 preserveAspectRatio="xMidYMid slice" />
     </Container>
   );
 }

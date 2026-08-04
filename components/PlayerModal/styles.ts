@@ -27,7 +27,7 @@ export const Container = styled.div<{ $closing?: boolean }>`
   left: 0;
   top: 0;
   background: ${theme.colors.white};
-  z-index: 11;
+  z-index: 21;
   height: 100vh;
   max-height: 100vh;
   display: flex;

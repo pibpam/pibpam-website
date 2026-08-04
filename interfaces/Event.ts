@@ -279,3 +279,14 @@ export interface ICashPaymentInfo {
   name: string | null;
   phone: string | null;
 }
+
+// ---- Inscrição salva localmente (localStorage) para "Minhas inscrições" ----
+export interface ISavedRegistration {
+  code: string;
+  responsibleName: string;
+  responsibleEmail: string;
+  status: string;
+  // Ausentes em inscrições salvas antes desses campos existirem.
+  eventName?: string;
+  eventDate?: string | null;
+}

@@ -1,5 +1,10 @@
 import { ApiLocal } from "./apiLocal";
-import { loginWithFirebaseEmail, loginWithGooglePopup, sendFirebasePasswordReset } from "./firebaseClient";
+import {
+  loginWithFirebaseEmail,
+  loginWithGooglePopup,
+  sendFirebasePasswordReset,
+  signOutFirebase,
+} from "./firebaseClient";
 import { clearToken, saveToken } from "../utils/LocalStorage";
 
 const getFriendlyFirebaseError = (errorCode?: string) => {
@@ -80,6 +85,19 @@ export const loginWithGoogle = async () => {
 
 export const logoutUser = () => {
   clearToken();
+  // Sem sessão Firebase ativa (ex.: token recebido do app nativo via deep
+  // link), signOut rejeita — não deve impedir o logout do accessToken local.
+  signOutFirebase().catch(() => {});
+};
+
+// Troca o idToken atual do Firebase (já renovado por ele, via refresh
+// token) pelo accessToken do backend, mantendo a sessão sem novo login.
+export const refreshAccessTokenFromFirebase = async (idToken: string) => {
+  const api = new ApiLocal();
+  const response = await api.authByIdToken(idToken);
+
+  saveToken(response.accessToken);
+  return response.accessToken;
 };
 
 export const sendPasswordReset = async (email: string): Promise<void> => {

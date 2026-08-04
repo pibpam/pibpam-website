@@ -3,24 +3,23 @@ import theme from './theme'
 import responsive from '../utils/responsive'
 
 export const Container = styled.div`
-  padding: 0 ${theme.spacing.lg} ${theme.spacing.xl};
+  padding: 0 ${theme.spacing.lg} 90px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: ${theme.spacing.base};
 
   ${responsive.medium`
     max-width: 1120px;
     margin: 0 auto;
-    padding: 0 ${theme.spacing.xl} ${theme.spacing.xl};
+    padding: 0 ${theme.spacing.xl} 90px;
   `}
-`
-
-export const ButtonOnLine = styled.div`
-  margin-bottom: 48px;
 `
 
 export const Grid = styled.div`
   display: flex;
   gap: ${theme.spacing.sm};
   flex-direction: column;
-  margin-bottom: 48px;
 
   ${responsive.medium`
     display: grid;
@@ -34,5 +33,5 @@ export const Grid = styled.div`
 `
 
 export const LoadMore = styled.div`
-  margin-bottom: 90px;
+  margin-top: ${theme.spacing.sm};
 `

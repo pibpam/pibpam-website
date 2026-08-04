@@ -12,7 +12,7 @@ export const Container = styled.div<{ $color?: string }>`
   }
 
   svg:nth-child(2) {
-    width: 60%;
+    width: 100%;
     z-index: 0;
     height: auto;
     position: absolute;

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { FiBell, FiChevronLeft, FiMenu, FiX } from "react-icons/fi";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { NoticesContext } from "../../contexts/notices";
-import { Container, GoBack, Notifications, Title } from "./styles"
+import { Container, GoBack, MenuToggle, Notifications, Title } from "./styles"
 
 interface IHeader {
   toggleMenu: () => void
@@ -36,9 +36,9 @@ const Header: React.FC<IHeader> = ({ toggleMenu, isOpen = false, title, goBack }
       </div>
       <Notifications onClick={() => goToHook({ pathname: '/notices', showLoading: true })}>
         {!!totalUnsee && (<span>{totalUnsee}</span>)}<FiBell /></Notifications>
-      <GoBack onClick={toggleMenu}>
+      <MenuToggle onClick={toggleMenu}>
         {isOpen ? <FiX /> : <FiMenu />}
-      </GoBack>
+      </MenuToggle>
     </Container>
   );
 }

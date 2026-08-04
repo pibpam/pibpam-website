@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import theme from './theme'
+import responsive from '../utils/responsive'
 
 export const Container = styled.div`
   padding: 0 ${theme.spacing.lg} 120px;
@@ -10,6 +11,12 @@ export const Container = styled.div`
     margin-bottom: ${theme.spacing.base};
     color: ${theme.colors.gray700};
   }
+
+  ${responsive.medium`
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
+  `}
 `
 
 export const Item = styled.div`

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import theme from './theme'
+import responsive from '../utils/responsive'
 
 export const HeaderWrap = styled.div`
   position: fixed;
@@ -10,6 +11,10 @@ export const HeaderWrap = styled.div`
   transition: all .2s ease-in-out;
 
   background: ${theme.colors.gray700};
+
+  ${responsive.medium`
+    display: none;
+  `}
 `
 
 export const ContainerBooks = styled.div`
@@ -17,6 +22,18 @@ export const ContainerBooks = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing.sm};
+
+  ${responsive.medium`
+    max-width: 900px;
+    margin: 0 auto;
+    padding: ${theme.spacing.xl} ${theme.spacing.xl} 90px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  `}
+
+  ${responsive.large`
+    grid-template-columns: repeat(3, 1fr);
+  `}
 
   > button {
     text-align: left;
@@ -45,6 +62,12 @@ export const ContainerChapter = styled.div`
   align-items: center;
   justify-content: center;
 
+  ${responsive.medium`
+    max-width: 900px;
+    margin: 0 auto;
+    padding: ${theme.spacing.xl} ${theme.spacing.xl} 90px;
+  `}
+
   > button {
     text-align: center;
     width: 50px;
@@ -63,6 +86,12 @@ export const ContainerChapter = styled.div`
 
 export const ContainerVerse = styled.div`
   padding: 140px ${theme.spacing.lg} 90px;
+
+  ${responsive.medium`
+    max-width: 700px;
+    margin: 0 auto;
+    padding: ${theme.spacing.xl} ${theme.spacing.xl} 90px;
+  `}
 
   > p {
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;

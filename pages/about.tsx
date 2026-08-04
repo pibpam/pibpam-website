@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { Description } from "../styles/About";
+import { Description, PageContent } from "../styles/About";
 import Website from "../layout/container/Website";
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
@@ -60,27 +60,29 @@ const About: NextPage<IAbout> = ({ data }) => {
 
         <HeaderPage title={"Sobre a PIBPAM"} />
         <DividerMobile color={EDividerColors.white} />
-        <Title>História</Title>
+        <PageContent>
+          <Title>História</Title>
 
-        <Description>
-          <TextCollapse text={data.history || ""} />
-        </Description>
+          <Description>
+            <TextCollapse text={data.history || ""} />
+          </Description>
 
-        <Title>Contatos</Title>
-        <Contacts data={data} mapUrl={mapUrl} openLink={openLink} />
+          <Title>Contatos</Title>
+          <Contacts data={data} mapUrl={mapUrl} openLink={openLink} />
 
-        <Title>Redes sociais</Title>
-        <SocialMedia data={data} openLink={openLink} />
+          <Title>Redes sociais</Title>
+          <SocialMedia data={data} openLink={openLink} />
 
-        {data?.church_schedules && !!data.church_schedules.length && (
-          <>
-            <Title>Horários</Title>
-            <ChurchSchedule
-              schedules={data.church_schedules}
-              onSeeAll={() => goTo("/schedule")}
-            />
-          </>
-        )}
+          {data?.church_schedules && !!data.church_schedules.length && (
+            <>
+              <Title>Horários</Title>
+              <ChurchSchedule
+                schedules={data.church_schedules}
+                onSeeAll={() => goTo("/schedule")}
+              />
+            </>
+          )}
+        </PageContent>
 
         <FooterPage
           options={[

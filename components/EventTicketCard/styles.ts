@@ -90,12 +90,7 @@ export const Backdrop = styled.div`
     position: absolute;
     z-index: 0;
     top: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(8, 12, 35, 0.05) 0%,
-      rgba(8, 12, 35, 0.15) 45%,
-      rgba(8, 12, 35, 0.65) 100%
-    );
+    background: ${theme.gradients.imageOverlay};
   }
 `
 
