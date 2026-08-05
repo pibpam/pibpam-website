@@ -28,6 +28,7 @@ import {
 import useMenu from "../../../hooks/useMenu";
 import useHeader from "../../../hooks/useHeader";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
+import usePostMessage from "../../../hooks/usePostMessage";
 import { Api } from "../../../services/api";
 import { ApiLocal } from "../../../services/apiLocal";
 import {
@@ -67,6 +68,7 @@ const TrackingPage: NextPage<ITrackingPage> = ({
   const { open, toggleMenu } = useMenu();
   const { scrollActive, changeScroll } = useHeader();
   const { goBack } = useAppNavigation();
+  const { openLink } = usePostMessage();
   // Cópia local das parcelas: permite refletir o comprovante enviado sem
   // precisar recarregar a página (os dados originais vêm via SSR).
   const [installments, setInstallments] = useState<IRegistrationInstallment[]>(
@@ -230,8 +232,8 @@ const TrackingPage: NextPage<ITrackingPage> = ({
                       <CtaLink
                         type="button"
                         onClick={() => {
-                          if (typeof window !== "undefined") {
-                            window.location.href = payableWithUrl.paymentUrl as string;
+                          if (payableWithUrl.paymentUrl) {
+                            openLink(payableWithUrl.paymentUrl);
                           }
                         }}
                       >

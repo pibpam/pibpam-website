@@ -75,6 +75,7 @@ import { DateUtils } from "../../utils/Date";
 import StringUtils from "../../utils/StringUtils";
 import { ApiLocal } from "../../services/apiLocal";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
+import usePostMessage from "../../hooks/usePostMessage";
 import { UserContext } from "../../contexts/user";
 import { PostMessageContext } from "../../contexts/postMessage";
 import {
@@ -158,6 +159,7 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
   const { user } = useContext(UserContext);
   const { deviceInfo } = useContext(PostMessageContext);
   const { goTo } = useAppNavigation();
+  const { openLink } = usePostMessage();
   // Espaço para o stepper ficar abaixo do header (fixo) do app.
   const topOffset = (deviceInfo?.top || 0) + 80;
   const hasBatch = !!event.activeBatch;
@@ -392,8 +394,12 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
       // Checkout Pro (MERCADO_PAGO): redireciona para a URL de pagamento.
       // Único meio que gera 1 parcela só com paymentUrl preenchido.
       const paymentUrl = response?.installments?.[0]?.paymentUrl;
-      if (paymentUrl && typeof window !== "undefined") {
-        window.location.href = paymentUrl;
+      if (paymentUrl) {
+        openLink(paymentUrl);
+        await goTo({
+          pathname: `/inscricoes/acompanhamento/${response?.code || ""}`,
+          showLoading: true,
+        });
         return;
       }
 
