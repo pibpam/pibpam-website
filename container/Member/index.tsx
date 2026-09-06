@@ -9,7 +9,7 @@ import { useAppNavigation } from "../../hooks/useAppNavigation";
 import * as S from "./styles";
 import InfoSheet from "./InfoSheet";
 import Spinner from "../../components/Spinner";
-import { PiCake, PiCalendar, PiTicket, PiUsers } from "react-icons/pi";
+import { PiBookOpenText, PiCake, PiCalendar, PiTicket, PiUsers } from "react-icons/pi";
 import { FiArrowRight, FiInfo } from "react-icons/fi";
 
 const Member: FC = () => {
@@ -21,6 +21,7 @@ const Member: FC = () => {
   const { user, logout, isLoadingUser } = useContext(UserContext);
 
   const hasMember = !!user?.member;
+  const isAdmin = user?.type === "admin" || user?.type === "master";
 
   const handleLogout = () => {
     goTo({ pathname: "/login", showLoading: true, resetHistory: true });
@@ -136,6 +137,20 @@ const Member: FC = () => {
                   </S.CardText>
                   <FiArrowRight />
                 </S.Card>
+
+                {isAdmin && (
+                  <S.Card
+                    type="button"
+                    onClick={() => goTo({ pathname: "/member/liturgy" })}
+                  >
+                    <PiBookOpenText />
+                    <S.CardText>
+                      <strong>Plano litúrgico</strong>
+                      <span>Veja o plano de culto de hoje</span>
+                    </S.CardText>
+                    <FiArrowRight />
+                  </S.Card>
+                )}
               </S.Cards>
             </>
           )}

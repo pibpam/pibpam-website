@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components'
 import theme from '../../../styles/theme'
+import responsive from '../../../utils/responsive'
 
 const fadeInUp = keyframes`
   0% {
@@ -79,19 +80,16 @@ export const VideoContainer = styled.div`
   height: 100%;
   width: 100%;
   background: ${theme.colors.gray225};
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
 
   > div {
-    aspect-ratio: 16/9;
     height: 100%;
-    width: auto;
+    width: 100%;
 
     > video {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
     }
   }
 `
@@ -100,6 +98,7 @@ export const Content = styled.div`
   position: absolute;
   padding: 80px ${theme.spacing.lg};
   top: 0;
+  left: 0;
   height: 100%;
   width: 100%;
   z-index: 1;
@@ -108,6 +107,13 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
+
+  ${responsive.medium`
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 1120px;
+    padding: 80px ${theme.spacing.xl};
+  `}
 `
 
 export const HeaderTitle = styled.div`
@@ -127,6 +133,16 @@ export const HeaderTitle = styled.div`
     font-size: 20px;
     font-weight: 500;
   }
+
+  ${responsive.medium`
+    max-width: 640px;
+    margin: auto auto 0;
+
+    h1 {
+      font-size: 32px;
+      line-height: 44px;
+    }
+  `}
 `
 
 export const Backdrop = styled.div`

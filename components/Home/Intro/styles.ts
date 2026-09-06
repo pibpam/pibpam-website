@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import theme from '../../../styles/theme'
+import responsive from '../../../utils/responsive'
 
 export const Container = styled.div`
   background: ${theme.colors.primary};
@@ -13,6 +14,16 @@ export const Container = styled.div`
     color: ${theme.colors.gray750};
     margin-top: 48px;
   }
+
+  ${responsive.medium`
+    padding: ${theme.spacing.xl} ${theme.spacing.xl} calc(${theme.spacing.xl} + 90px);
+
+    > * {
+      max-width: 1120px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  `}
 `
 
 export const MemberArea = styled.button`
@@ -54,4 +65,8 @@ export const Buttons = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing.lg};
+
+  ${responsive.medium`
+    flex-direction: row;
+  `}
 `

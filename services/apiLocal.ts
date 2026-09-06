@@ -4,6 +4,7 @@ import { IGetAllSeries } from "../interfaces/Series";
 import { INotice } from "../interfaces/Notice";
 import { IUser } from "../interfaces/User";
 import { IGetMemberRotations } from "../interfaces/Rotation";
+import { ILiturgyPlan, ILiturgyPlanAsset, ILiturgySongCatalogEntry } from "../interfaces/Liturgy";
 import {
   IAttendanceBatchPayload,
   ICohort,
@@ -96,6 +97,21 @@ export class ApiLocal {
     const { data } = await this.client.get<ICohort[]>("/member/cohorts", {
       headers: { Authorization: token },
     })
+    return data
+  }
+
+  async getLiturgyPlansToday(token: string) {
+    const { data } = await this.client.get<ILiturgyPlan[]>("/liturgy/today", { headers: { Authorization: token } })
+    return data
+  }
+
+  async getLiturgyPlanAssets(token: string, uuid: string) {
+    const { data } = await this.client.get<ILiturgyPlanAsset[]>(`/liturgy/assets/${uuid}`, { headers: { Authorization: token } })
+    return data
+  }
+
+  async getLiturgySongsCatalog(token: string) {
+    const { data } = await this.client.get<ILiturgySongCatalogEntry[]>("/liturgy/catalog/musicas", { headers: { Authorization: token } })
     return data
   }
 

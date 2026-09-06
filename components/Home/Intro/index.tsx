@@ -11,22 +11,10 @@ interface IIntro {
   userName?: string
 }
 
-const Intro: React.FC<IIntro> = ({ goTo, banners, userName }) => {
-
-
-
+const Intro: React.FC<IIntro> = ({ goTo, banners }) => {
   return (
     <>
       <Container>
-        {!!userName && (
-          <MemberArea onClick={() => goTo("/member")}  >
-            <FiUsers />
-            <div>
-              <h3>Olá {userName.split(' ')[0]}!</h3>
-              <p>Acesse a área de membros aqui.</p>
-            </div>
-          </MemberArea>
-        )}
         <Buttons>
           <PrimaryButton onClick={() => goTo("/about")}>
             <><FiHome />Conheça a nossa igreja</>

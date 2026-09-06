@@ -1,13 +1,26 @@
 import styled from 'styled-components'
 import theme from '../../../styles/theme'
+import responsive from '../../../utils/responsive'
 
 export const Container = styled.div`
   padding: ${theme.spacing.sm} 0 calc(${theme.spacing.xl} + 90px);
   background: ${theme.colors.secondary};
+
+  ${responsive.medium`
+    > * {
+      max-width: 1120px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  `}
 `
 
 export const CardContainer = styled.div`
   width: 85vw;
+
+  ${responsive.medium`
+    width: 280px;
+  `}
 `
 
 export const Content = styled.div`

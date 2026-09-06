@@ -42,6 +42,16 @@ export class DateUtils {
     })
   }
 
+  // "Dom, 09/12 · 19h30" — versão curta (dia da semana abreviado, data numérica) usada
+  // em cabeçalhos compactos (ex.: chevron do plano litúrgico).
+  static formatShortDateTimeWithWeekDay(date: string) {
+    const weekday = format(new Date(date), "EEEEEE", { locale: ptBR })
+    const capitalizedWeekday = weekday.charAt(0).toUpperCase() + weekday.slice(1)
+    const dayMonth = format(new Date(date), "dd/MM", { locale: ptBR })
+    const time = format(new Date(date), "HH'h'mm", { locale: ptBR })
+    return `${capitalizedWeekday}, ${dayMonth} · ${time}`
+  }
+
   static getMonthStr(date: string) {
     return format(new Date(date), "MMMM", {
       locale: ptBR

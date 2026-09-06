@@ -12,6 +12,7 @@ import { ILyric } from "../interfaces/Lyric";
 import { IMemberBasic } from "../interfaces/Member";
 import { IBroadcast } from "../interfaces/Broadcast";
 import { IGetMemberRotations } from "../interfaces/Rotation";
+import { ILiturgyPlan, ILiturgyPlanAsset, ILiturgySongCatalogEntry } from "../interfaces/Liturgy";
 import { IGetAllGroupResponse } from "../interfaces/Group";
 import { IGetAllReadingPlan, IReadingPlan } from "../interfaces/ReadingPlan";
 import {
@@ -338,6 +339,30 @@ export class Api {
     const { data } = await this.client.get<ICohort[]>("v1/member/cohorts", {
       headers: { Authorization: `Bearer ${token}` },
     });
+    return data;
+  }
+
+  async getLiturgyPlansToday(token: string) {
+    const { data } = await this.client.get<ILiturgyPlan[]>(
+      "v1/liturgy/plans/today",
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  }
+
+  async getLiturgyPlanAssets(token: string, uuid: string) {
+    const { data } = await this.client.get<ILiturgyPlanAsset[]>(
+      `v1/liturgy/plans/${uuid}/assets`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  }
+
+  async getLiturgySongsCatalog(token: string) {
+    const { data } = await this.client.get<ILiturgySongCatalogEntry[]>(
+      "v1/liturgy/catalog/musicas",
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
     return data;
   }
 
