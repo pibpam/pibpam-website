@@ -13,6 +13,11 @@ import { IMemberBasic } from "../interfaces/Member";
 import { IBroadcast } from "../interfaces/Broadcast";
 import { IGetMemberRotations } from "../interfaces/Rotation";
 import { ILiturgyPlan, ILiturgyPlanAsset, ILiturgySongCatalogEntry } from "../interfaces/Liturgy";
+import {
+  ICreateLiturgyRequestPayload,
+  ILiturgyRequest,
+  ILiturgyRequestUploadUrlResponse,
+} from "../interfaces/LiturgyRequest";
 import { IGetAllGroupResponse } from "../interfaces/Group";
 import { IGetAllReadingPlan, IReadingPlan } from "../interfaces/ReadingPlan";
 import {
@@ -361,6 +366,44 @@ export class Api {
   async getLiturgySongsCatalog(token: string) {
     const { data } = await this.client.get<ILiturgySongCatalogEntry[]>(
       "v1/liturgy/catalog/musicas",
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  }
+
+  async getLiturgyPlansUpcoming(token: string) {
+    const { data } = await this.client.get<ILiturgyPlan[]>(
+      "v1/member/liturgy/plans/upcoming",
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  }
+
+  async getLiturgyRequestUploadUrl(token: string, planUuid: string, fileName: string) {
+    const { data } = await this.client.post<ILiturgyRequestUploadUrlResponse>(
+      `v1/member/liturgy/plans/${planUuid}/requests/upload-url`,
+      { fileName },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  }
+
+  async createLiturgyRequest(
+    token: string,
+    planUuid: string,
+    payload: ICreateLiturgyRequestPayload
+  ) {
+    const { data } = await this.client.post<ILiturgyRequest>(
+      `v1/member/liturgy/plans/${planUuid}/requests`,
+      payload,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  }
+
+  async getMyLiturgyRequests(token: string) {
+    const { data } = await this.client.get<ILiturgyRequest[]>(
+      "v1/member/liturgy/requests",
       { headers: { Authorization: `Bearer ${token}` } }
     );
     return data;

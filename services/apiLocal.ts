@@ -6,6 +6,11 @@ import { IUser } from "../interfaces/User";
 import { IGetMemberRotations } from "../interfaces/Rotation";
 import { ILiturgyPlan, ILiturgyPlanAsset, ILiturgySongCatalogEntry } from "../interfaces/Liturgy";
 import {
+  ICreateLiturgyRequestPayload,
+  ILiturgyRequest,
+  ILiturgyRequestUploadUrlResponse,
+} from "../interfaces/LiturgyRequest";
+import {
   IAttendanceBatchPayload,
   ICohort,
   ICohortLesson,
@@ -112,6 +117,34 @@ export class ApiLocal {
 
   async getLiturgySongsCatalog(token: string) {
     const { data } = await this.client.get<ILiturgySongCatalogEntry[]>("/liturgy/catalog/musicas", { headers: { Authorization: token } })
+    return data
+  }
+
+  async getLiturgyPlansUpcoming(token: string) {
+    const { data } = await this.client.get<ILiturgyPlan[]>("/liturgy/plans/upcoming", { headers: { Authorization: token } })
+    return data
+  }
+
+  async getLiturgyRequestUploadUrl(token: string, planUuid: string, fileName: string) {
+    const { data } = await this.client.post<ILiturgyRequestUploadUrlResponse>(
+      `/liturgy/plans/${planUuid}/requests/upload-url`,
+      { fileName },
+      { headers: { Authorization: token } }
+    )
+    return data
+  }
+
+  async createLiturgyRequest(token: string, planUuid: string, payload: ICreateLiturgyRequestPayload) {
+    const { data } = await this.client.post<ILiturgyRequest>(
+      `/liturgy/plans/${planUuid}/requests`,
+      payload,
+      { headers: { Authorization: token } }
+    )
+    return data
+  }
+
+  async getMyLiturgyRequests(token: string) {
+    const { data } = await this.client.get<ILiturgyRequest[]>("/liturgy/requests/mine", { headers: { Authorization: token } })
     return data
   }
 

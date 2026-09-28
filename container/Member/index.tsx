@@ -9,7 +9,7 @@ import { useAppNavigation } from "../../hooks/useAppNavigation";
 import * as S from "./styles";
 import InfoSheet from "./InfoSheet";
 import Spinner from "../../components/Spinner";
-import { PiBookOpenText, PiCake, PiCalendar, PiTicket, PiUsers } from "react-icons/pi";
+import { PiBookOpenText, PiCake, PiCalendar, PiNotePencil, PiTicket, PiUsers } from "react-icons/pi";
 import { FiArrowRight, FiInfo } from "react-icons/fi";
 
 const Member: FC = () => {
@@ -22,6 +22,7 @@ const Member: FC = () => {
 
   const hasMember = !!user?.member;
   const isAdmin = user?.type === "admin" || user?.type === "master";
+  const canRequestLiturgy = !!user?.permissions?.includes("worship.plan.request");
 
   const handleLogout = () => {
     goTo({ pathname: "/login", showLoading: true, resetHistory: true });
@@ -147,6 +148,25 @@ const Member: FC = () => {
                     <S.CardText>
                       <strong>Plano litúrgico</strong>
                       <span>Veja o plano de culto de hoje</span>
+                    </S.CardText>
+                    <FiArrowRight />
+                  </S.Card>
+                )}
+
+                {canRequestLiturgy && (
+                  <S.Card
+                    type="button"
+                    onClick={() =>
+                      goTo({ pathname: "/member/liturgy-requests" })
+                    }
+                  >
+                    <PiNotePencil />
+                    <S.CardText>
+                      <strong>Sugestões de liturgia</strong>
+                      <span>
+                        Sugira itens, remoções ou comentários no plano de
+                        culto
+                      </span>
                     </S.CardText>
                     <FiArrowRight />
                   </S.Card>

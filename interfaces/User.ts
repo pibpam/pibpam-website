@@ -7,4 +7,5 @@ export interface IUser {
   created_at: string;
   member: IMember;
   name: string;
+  permissions?: string[];
 }
