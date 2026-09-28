@@ -129,3 +129,27 @@ export const EmptyPlanNote = styled.p`
   font-size: 13px;
   color: ${theme.colors.gray550};
 `;
+
+export const GroupLabel = styled.h2`
+  margin: ${theme.spacing.base} 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: ${theme.colors.gray550};
+
+  &:first-child {
+    margin-top: 0;
+  }
+`;
+
+export const GroupEmptyNote = styled.p`
+  margin: 0;
+  padding: ${theme.spacing.base};
+  text-align: center;
+  font-size: 13px;
+  color: ${theme.colors.gray550};
+  background: ${theme.colors.white};
+  border: 2px solid ${theme.colors.gray100};
+  border-radius: ${theme.radius.md};
+`;

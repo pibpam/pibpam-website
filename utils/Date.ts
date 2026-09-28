@@ -1,7 +1,11 @@
-import { format } from "date-fns"
+import { format, isToday } from "date-fns"
 import ptBR from 'date-fns/locale/pt-BR';
 
 export class DateUtils {
+  static isToday(date: string) {
+    return isToday(new Date(date))
+  }
+
   static formatDateDefault(date: string) {
     return format(new Date(date), "dd MMM, yyyy", {
       locale: ptBR

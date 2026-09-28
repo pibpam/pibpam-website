@@ -13,6 +13,8 @@ import { DateUtils } from "../../../utils/Date";
 import ItemActionSheet, { ISheetContext } from "./ItemActionSheet";
 import {
   EmptyPlanNote,
+  GroupEmptyNote,
+  GroupLabel,
   InsertPoint,
   ItemActionButton,
   ItemIcon,
@@ -25,7 +27,8 @@ import {
 } from "./styles";
 
 interface ILiturgyRequestsProps {
-  plans: ILiturgyPlan[];
+  todayPlans: ILiturgyPlan[];
+  upcomingPlans: ILiturgyPlan[];
   onRequestCreated: (message: string) => void;
 }
 
@@ -102,19 +105,38 @@ const LiturgyRequestPlanSection: React.FC<IPlanSectionProps> = ({ plan, defaultO
   );
 };
 
-const LiturgyRequests: React.FC<ILiturgyRequestsProps> = ({ plans, onRequestCreated }) => {
+const LiturgyRequests: React.FC<ILiturgyRequestsProps> = ({ todayPlans, upcomingPlans, onRequestCreated }) => {
   const [sheetContext, setSheetContext] = useState<ISheetContext | null>(null);
 
   return (
     <>
-      {plans.map((plan, index) => (
-        <LiturgyRequestPlanSection
-          key={plan.uuid}
-          plan={plan}
-          defaultOpen={index === 0}
-          onOpenSheet={setSheetContext}
-        />
-      ))}
+      <GroupLabel>Hoje</GroupLabel>
+      {todayPlans.length ? (
+        todayPlans.map((plan, index) => (
+          <LiturgyRequestPlanSection
+            key={plan.uuid}
+            plan={plan}
+            defaultOpen={index === 0}
+            onOpenSheet={setSheetContext}
+          />
+        ))
+      ) : (
+        <GroupEmptyNote>Nenhum culto hoje.</GroupEmptyNote>
+      )}
+
+      {upcomingPlans.length > 0 && (
+        <>
+          <GroupLabel>Próximos cultos</GroupLabel>
+          {upcomingPlans.map((plan) => (
+            <LiturgyRequestPlanSection
+              key={plan.uuid}
+              plan={plan}
+              defaultOpen={false}
+              onOpenSheet={setSheetContext}
+            />
+          ))}
+        </>
+      )}
 
       <ItemActionSheet
         context={sheetContext}

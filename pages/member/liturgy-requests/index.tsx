@@ -11,6 +11,7 @@ import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import { ILiturgyPlan } from "../../../interfaces/Liturgy";
 import Website from "../../../layout/container/Website";
 import { ApiLocal } from "../../../services/apiLocal";
+import { DateUtils } from "../../../utils/Date";
 import { Container, Loading, MyRequestsLink, TopBar } from "../../../styles/MemberLiturgyRequests";
 
 const MemberLiturgyRequestsPage: NextPage = () => {
@@ -93,7 +94,8 @@ const MemberLiturgyRequestsPage: NextPage = () => {
 
           {!loading && !error && !!plans.length && (
             <LiturgyRequests
-              plans={plans}
+              todayPlans={plans.filter((plan) => DateUtils.isToday(plan.date))}
+              upcomingPlans={plans.filter((plan) => !DateUtils.isToday(plan.date))}
               onRequestCreated={(message) => setToastMessage(message)}
             />
           )}
