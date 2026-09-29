@@ -29,16 +29,19 @@ import {
 interface ILiturgyRequestsProps {
   todayPlans: ILiturgyPlan[];
   upcomingPlans: ILiturgyPlan[];
+  /** Sem isso, a listagem fica só leitura — sem "..." por item nem pontos de inserção. */
+  canRequest: boolean;
   onRequestCreated: (message: string) => void;
 }
 
 interface IPlanSectionProps {
   plan: ILiturgyPlan;
   defaultOpen: boolean;
+  canRequest: boolean;
   onOpenSheet: (context: ISheetContext) => void;
 }
 
-const LiturgyRequestPlanSection: React.FC<IPlanSectionProps> = ({ plan, defaultOpen, onOpenSheet }) => {
+const LiturgyRequestPlanSection: React.FC<IPlanSectionProps> = ({ plan, defaultOpen, canRequest, onOpenSheet }) => {
   const [open, setOpen] = useState(defaultOpen);
   const visibleItems = plan.manifest.filter((item) => !item.hidden);
 
@@ -70,7 +73,9 @@ const LiturgyRequestPlanSection: React.FC<IPlanSectionProps> = ({ plan, defaultO
               <EmptyPlanNote>Este plano ainda não tem itens.</EmptyPlanNote>
             )}
 
-            {visibleItems.length > 0 && renderInsertPoint(visibleItems[0].id || null, "insert-start")}
+            {canRequest &&
+              visibleItems.length > 0 &&
+              renderInsertPoint(visibleItems[0].id || null, "insert-start")}
 
             {visibleItems.map((item: ILiturgyManifestItem, index) => {
               const display = describeManifestItem(item);
@@ -85,16 +90,18 @@ const LiturgyRequestPlanSection: React.FC<IPlanSectionProps> = ({ plan, defaultO
                       <ItemName>{display.name}</ItemName>
                       {display.meta && <ItemMeta>{display.meta}</ItemMeta>}
                     </ItemInfo>
-                    <ItemActionButton
-                      type="button"
-                      title="Sugerir remoção ou comentar"
-                      onClick={() => onOpenSheet({ mode: "item", plan, item })}
-                    >
-                      <PiDotsThreeVertical />
-                    </ItemActionButton>
+                    {canRequest && (
+                      <ItemActionButton
+                        type="button"
+                        title="Sugerir remoção ou comentar"
+                        onClick={() => onOpenSheet({ mode: "item", plan, item })}
+                      >
+                        <PiDotsThreeVertical />
+                      </ItemActionButton>
+                    )}
                   </ItemRow>
 
-                  {renderInsertPoint(nextItem?.id || null, `insert-${index}`)}
+                  {canRequest && renderInsertPoint(nextItem?.id || null, `insert-${index}`)}
                 </React.Fragment>
               );
             })}
@@ -105,7 +112,12 @@ const LiturgyRequestPlanSection: React.FC<IPlanSectionProps> = ({ plan, defaultO
   );
 };
 
-const LiturgyRequests: React.FC<ILiturgyRequestsProps> = ({ todayPlans, upcomingPlans, onRequestCreated }) => {
+const LiturgyRequests: React.FC<ILiturgyRequestsProps> = ({
+  todayPlans,
+  upcomingPlans,
+  canRequest,
+  onRequestCreated,
+}) => {
   const [sheetContext, setSheetContext] = useState<ISheetContext | null>(null);
 
   return (
@@ -117,6 +129,7 @@ const LiturgyRequests: React.FC<ILiturgyRequestsProps> = ({ todayPlans, upcoming
             key={plan.uuid}
             plan={plan}
             defaultOpen={index === 0}
+            canRequest={canRequest}
             onOpenSheet={setSheetContext}
           />
         ))
@@ -132,20 +145,23 @@ const LiturgyRequests: React.FC<ILiturgyRequestsProps> = ({ todayPlans, upcoming
               key={plan.uuid}
               plan={plan}
               defaultOpen={false}
+              canRequest={canRequest}
               onOpenSheet={setSheetContext}
             />
           ))}
         </>
       )}
 
-      <ItemActionSheet
-        context={sheetContext}
-        onClose={() => setSheetContext(null)}
-        onSuccess={(message) => {
-          setSheetContext(null);
-          onRequestCreated(message);
-        }}
-      />
+      {canRequest && (
+        <ItemActionSheet
+          context={sheetContext}
+          onClose={() => setSheetContext(null)}
+          onSuccess={(message) => {
+            setSheetContext(null);
+            onRequestCreated(message);
+          }}
+        />
+      )}
     </>
   );
 };
