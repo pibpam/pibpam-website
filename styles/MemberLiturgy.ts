@@ -85,7 +85,10 @@ export const AccordionBodyInner = styled.div`
 /** Grade de cards do manifest, estilo "slides" — cada item é um card com preview em destaque. */
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
+  /* minmax(0, 1fr), não só 1fr — grid item por padrão tem min-width:auto, então um
+     <video>/<img> com resolução intrínseca grande estica o track pra fora do container
+     (o card "gigante e cortado" na lateral). */
+  grid-template-columns: minmax(0, 1fr);
   gap: ${theme.spacing.sm};
   padding: ${theme.spacing.base};
 `;
@@ -95,6 +98,7 @@ export const Card = styled.div<{ $hidden?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing.xs};
+  min-width: 0;
   border: 2px solid ${theme.colors.gray100};
   border-radius: ${theme.radius.md};
   background: ${theme.colors.white};
@@ -110,6 +114,8 @@ export const Card = styled.div<{ $hidden?: boolean }>`
 export const CardMedia = styled.div`
   position: relative;
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   aspect-ratio: 16 / 9;
   border-radius: ${theme.radius.sm};
   overflow: hidden;
