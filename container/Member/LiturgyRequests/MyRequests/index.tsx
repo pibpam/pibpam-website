@@ -2,6 +2,7 @@ import React from "react";
 import { PiChatCircleText, PiEyeSlash, PiPlus } from "react-icons/pi";
 import Badge, { BadgeVariant } from "../../../../components/Badge";
 import { ILiturgyRequest, LiturgyRequestStatus } from "../../../../interfaces/LiturgyRequest";
+import { ILiturgySongCatalogEntry } from "../../../../interfaces/Liturgy";
 import { describeManifestItem } from "../../../../utils/liturgyManifest";
 import { DateUtils } from "../../../../utils/Date";
 import {
@@ -32,10 +33,10 @@ const TYPE_ICON = {
   comment: <PiChatCircleText />,
 };
 
-const describeRequest = (request: ILiturgyRequest): string => {
+const describeRequest = (request: ILiturgyRequest, songsCatalog: ILiturgySongCatalogEntry[]): string => {
   if (request.type === "add") {
     return request.payloadItem
-      ? `Novo item: ${describeManifestItem(request.payloadItem).name}`
+      ? `Novo item: ${describeManifestItem(request.payloadItem, songsCatalog).name}`
       : "Novo item sugerido";
   }
   if (request.type === "remove") return "Sugestão de remoção";
@@ -44,16 +45,17 @@ const describeRequest = (request: ILiturgyRequest): string => {
 
 interface IMyRequestsProps {
   requests: ILiturgyRequest[];
+  songsCatalog: ILiturgySongCatalogEntry[];
 }
 
-const MyRequests: React.FC<IMyRequestsProps> = ({ requests }) => (
+const MyRequests: React.FC<IMyRequestsProps> = ({ requests, songsCatalog }) => (
   <List>
     {requests.map((request) => (
       <RequestCard key={request.uuid}>
         <RequestHeader>
           <RequestType>
             {TYPE_ICON[request.type]}
-            {describeRequest(request)}
+            {describeRequest(request, songsCatalog)}
           </RequestType>
           <Badge variant={STATUS_VARIANT[request.status]}>{STATUS_LABEL[request.status]}</Badge>
         </RequestHeader>

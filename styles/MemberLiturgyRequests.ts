@@ -25,8 +25,8 @@ export const Loading = styled.div`
 
 export const TopBar = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
   gap: ${theme.spacing.sm};
 
   p {

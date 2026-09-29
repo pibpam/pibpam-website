@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PiChatCircleText, PiEyeSlash } from "react-icons/pi";
 import Modal from "../../../../components/Modal";
-import { ILiturgyManifestItem, ILiturgyPlan } from "../../../../interfaces/Liturgy";
+import { ILiturgyManifestItem, ILiturgyPlan, ILiturgySongCatalogEntry } from "../../../../interfaces/Liturgy";
 import { describeManifestItem, TYPE_ICONS } from "../../../../utils/liturgyManifest";
 import AddItemForm from "../AddItemForm";
 import RemoveCommentForm from "../RemoveCommentForm";
@@ -26,11 +26,12 @@ type IInternalMode = "menu" | "remove" | "comment" | "add";
 
 interface IItemActionSheetProps {
   context: ISheetContext | null;
+  songsCatalog: ILiturgySongCatalogEntry[];
   onClose: () => void;
   onSuccess: (message: string) => void;
 }
 
-const ItemActionSheet: React.FC<IItemActionSheetProps> = ({ context, onClose, onSuccess }) => {
+const ItemActionSheet: React.FC<IItemActionSheetProps> = ({ context, songsCatalog, onClose, onSuccess }) => {
   const [internalMode, setInternalMode] = useState<IInternalMode>("menu");
 
   useEffect(() => {
@@ -48,7 +49,7 @@ const ItemActionSheet: React.FC<IItemActionSheetProps> = ({ context, onClose, on
   }
 
   const { plan, item } = context;
-  const display = item ? describeManifestItem(item) : undefined;
+  const display = item ? describeManifestItem(item, songsCatalog) : undefined;
 
   return (
     <Modal isOpen={!!context} onClose={onClose}>

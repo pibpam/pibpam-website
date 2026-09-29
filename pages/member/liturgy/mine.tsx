@@ -7,6 +7,7 @@ import MyRequests from "../../../container/Member/LiturgyRequests/MyRequests";
 import { UserContext } from "../../../contexts/user";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import { ILiturgyRequest } from "../../../interfaces/LiturgyRequest";
+import { ILiturgySongCatalogEntry } from "../../../interfaces/Liturgy";
 import Website from "../../../layout/container/Website";
 import { ApiLocal } from "../../../services/apiLocal";
 import { Container, Loading } from "../../../styles/MemberLiturgyRequests";
@@ -17,6 +18,7 @@ const MyLiturgyRequestsPage: NextPage = () => {
   const canRequest = !!user?.permissions?.includes("worship.plan.request");
 
   const [requests, setRequests] = useState<ILiturgyRequest[]>([]);
+  const [songsCatalog, setSongsCatalog] = useState<ILiturgySongCatalogEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -37,6 +39,11 @@ const MyLiturgyRequestsPage: NextPage = () => {
         const api = new ApiLocal();
         const data = await api.getMyLiturgyRequests(token);
         setRequests(data);
+
+        api
+          .getLiturgySongsCatalog(token)
+          .then(setSongsCatalog)
+          .catch(() => setSongsCatalog([]));
       } catch (err) {
         setError(true);
       } finally {
@@ -77,7 +84,9 @@ const MyLiturgyRequestsPage: NextPage = () => {
             <EmptyState description="Você ainda não fez nenhuma sugestão." />
           )}
 
-          {!loading && !error && !!requests.length && <MyRequests requests={requests} />}
+          {!loading && !error && !!requests.length && (
+            <MyRequests requests={requests} songsCatalog={songsCatalog} />
+          )}
         </Container>
       </>
     </Website>

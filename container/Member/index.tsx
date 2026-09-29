@@ -21,10 +21,12 @@ const Member: FC = () => {
   const { user, logout, isLoadingUser } = useContext(UserContext);
 
   const hasMember = !!user?.member;
-  const isAdmin = user?.type === "admin" || user?.type === "master";
   const canRequestLiturgy = !!user?.permissions?.includes("worship.plan.request");
   const canManageLiturgy = !!user?.permissions?.includes("worship.plan.manage");
-  const canSeeLiturgy = isAdmin || canRequestLiturgy || canManageLiturgy;
+  // Não usa user.type === "admin" aqui de propósito: esse type é compartilhado por
+  // qualquer funcionário (financeiro, secretaria, conteúdo...), a maioria sem nada a
+  // ver com liturgia — quem deve ver isso é só quem tem uma das duas permissões granulares.
+  const canSeeLiturgy = canRequestLiturgy || canManageLiturgy;
 
   const handleLogout = () => {
     goTo({ pathname: "/login", showLoading: true, resetHistory: true });

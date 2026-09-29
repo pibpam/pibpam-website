@@ -8,30 +8,28 @@ import Toast from "../../../components/Toast";
 import LiturgyRequests from "../../../container/Member/LiturgyRequests";
 import { UserContext } from "../../../contexts/user";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
-import { ILiturgyPlan } from "../../../interfaces/Liturgy";
+import { ILiturgyPlan, ILiturgyPlanAsset, ILiturgySongCatalogEntry } from "../../../interfaces/Liturgy";
 import Website from "../../../layout/container/Website";
 import { ApiLocal } from "../../../services/apiLocal";
 import { DateUtils } from "../../../utils/Date";
 import { Container, Loading, MyRequestsLink, TopBar } from "../../../styles/MemberLiturgyRequests";
 
 /**
- * Tela única de plano litúrgico — antes eram duas (/member/liturgy, só leitura/admin, e
- * /member/liturgy-requests, com sugestões). Unificadas: quem tem worship.plan.request vê
- * as ações de sugestão; quem só tem worship.plan.manage (ou é admin sem nenhuma das duas
- * permissões) vê a mesma listagem em modo somente leitura.
+ * Tela única de plano litúrgico — visível só pra quem tem worship.plan.request (com ações
+ * de sugestão) ou worship.plan.manage (só leitura). Não usa user.type === "admin": esse type
+ * é compartilhado por qualquer funcionário (financeiro, secretaria...) sem nada a ver com
+ * liturgia, então bypassar por ele mostraria o card pra gente que não devia ver.
  */
 const MemberLiturgyPage: NextPage = () => {
   const { user, token, isLoadingUser } = useContext(UserContext);
   const { goTo } = useAppNavigation();
-  const isAdmin = user?.type === "admin" || user?.type === "master";
   const canRequest = !!user?.permissions?.includes("worship.plan.request");
   const canManage = !!user?.permissions?.includes("worship.plan.manage");
-  // Hoje + próximos exige uma das duas permissões no backend (ver routes_member.ts);
-  // sem nenhuma, cai pro endpoint antigo (só hoje) pra não quebrar admins ainda sem Role atribuída.
-  const canViewUpcoming = canRequest || canManage;
-  const canView = isAdmin || canViewUpcoming;
+  const canView = canRequest || canManage;
 
   const [plans, setPlans] = useState<ILiturgyPlan[]>([]);
+  const [assetsByPlan, setAssetsByPlan] = useState<Record<string, ILiturgyPlanAsset[]>>({});
+  const [songsCatalog, setSongsCatalog] = useState<ILiturgySongCatalogEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -51,10 +49,25 @@ const MemberLiturgyPage: NextPage = () => {
       setError(false);
       try {
         const api = new ApiLocal();
-        const data = canViewUpcoming
-          ? await api.getLiturgyPlansUpcoming(token)
-          : await api.getLiturgyPlansToday(token);
+        const data = await api.getLiturgyPlansUpcoming(token);
         setPlans(data);
+
+        api
+          .getLiturgySongsCatalog(token)
+          .then(setSongsCatalog)
+          .catch(() => setSongsCatalog([]));
+
+        const assetsEntries = await Promise.all(
+          data.map(async (plan) => {
+            try {
+              const planAssets = await api.getLiturgyPlanAssets(token, plan.uuid);
+              return [plan.uuid, planAssets] as const;
+            } catch (err) {
+              return [plan.uuid, []] as const;
+            }
+          }),
+        );
+        setAssetsByPlan(Object.fromEntries(assetsEntries));
       } catch (err) {
         setError(true);
       } finally {
@@ -64,7 +77,7 @@ const MemberLiturgyPage: NextPage = () => {
 
     fetchPlans();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, canView, canViewUpcoming]);
+  }, [token, canView]);
 
   if (isLoadingUser || !canView) {
     return (
@@ -113,6 +126,8 @@ const MemberLiturgyPage: NextPage = () => {
             <LiturgyRequests
               todayPlans={plans.filter((plan) => DateUtils.isToday(plan.date))}
               upcomingPlans={plans.filter((plan) => !DateUtils.isToday(plan.date))}
+              assetsByPlan={assetsByPlan}
+              songsCatalog={songsCatalog}
               canRequest={canRequest}
               onRequestCreated={(message) => setToastMessage(message)}
             />
