@@ -42,6 +42,18 @@ const Member: NextPage = () => {
     const data = await api.getRotations(token);
     console.log("Rotations data in component:", data); // Log the rotations data for debugging
     setTeams(data);
+
+    const rotationUuid = new URLSearchParams(window.location.search).get(
+      "rotation",
+    );
+    if (rotationUuid) {
+      const rotation = data
+        .flatMap((item) => item.rotations)
+        .find((item) => item.uuid === rotationUuid);
+      if (rotation) {
+        setSelectedRotation(rotation);
+      }
+    }
   };
 
   useEffect(() => {

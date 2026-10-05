@@ -89,8 +89,6 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
       const route = dataLink.route ? `/${dataLink.route}` : "/";
       const searchParams = new URLSearchParams(dataLink.params).toString();
 
-      alert(JSON.stringify({ route, searchParams, dataLink }));
-
       goTo({
         pathname: `${route}?${searchParams}`,
         showLoading: true,

@@ -444,6 +444,14 @@ export class Api {
     return data;
   }
 
+  async authByRotationLink(token: string) {
+    const { data } = await this.client.post<{
+      accessToken: string;
+      rotationUuid: string;
+    }>("auth/link", { token });
+    return data;
+  }
+
   async createAccount(payload: ICreateAccountPayload) {
     const { data } = await this.client.post("account", payload);
     return data;
