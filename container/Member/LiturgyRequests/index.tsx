@@ -30,10 +30,12 @@ import {
   OrdinalBadge,
   PinBadge,
   PlanSection,
+  PlanStatus,
 } from "../../../styles/MemberLiturgy";
 import { ILiturgyManifestItem, ILiturgyPlan, ILiturgyPlanAsset, ILiturgySongCatalogEntry } from "../../../interfaces/Liturgy";
 import { describeManifestItem, getAssetUrl, isPptxItem } from "../../../utils/liturgyManifest";
 import { DateUtils } from "../../../utils/Date";
+import { planStatusBadgeVariant, planStatusLabel, planStatusOf } from "../../../utils/liturgyPlanStatus";
 import ItemActionSheet, { ISheetContext } from "./ItemActionSheet";
 import { EmptyPlanNote, GroupEmptyNote, GroupLabel, InsertPoint } from "./styles";
 
@@ -98,6 +100,9 @@ const LiturgyRequestPlanSection: React.FC<IPlanSectionProps> = ({
         <div>
           <strong>{DateUtils.formatShortDateTimeWithWeekDay(plan.date)}</strong>
           <span>{plan.liturgyType?.nome}</span>
+          <PlanStatus $live={planStatusOf(plan.status) === "running"}>
+            <Badge variant={planStatusBadgeVariant(plan.status)}>{planStatusLabel(plan.status)}</Badge>
+          </PlanStatus>
         </div>
         <ChevronIcon $open={open}>
           <PiCaretDown />

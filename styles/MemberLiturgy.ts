@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import theme from "./theme";
 import responsive from "../utils/responsive";
 
@@ -57,10 +57,38 @@ export const Header = styled.button<{ $open: boolean }>`
     font-weight: 700;
   }
 
-  span {
+  > div > span,
+  > span {
     font-size: 12px;
     color: ${theme.colors.gray550};
   }
+`;
+
+const livePulse = keyframes`
+  0% { box-shadow: 0 0 0 0 rgba(110, 143, 10, 0.5); }
+  70% { box-shadow: 0 0 0 6px rgba(110, 143, 10, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(110, 143, 10, 0); }
+`;
+
+/** Selo de status do plano no cabeçalho do acordeão — "em execução" ganha um ponto pulsante. */
+export const PlanStatus = styled.div<{ $live?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+
+  ${({ $live }) =>
+    $live &&
+    css`
+      &::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: ${theme.colors.success};
+        animation: ${livePulse} 1.6s ease-out infinite;
+      }
+    `}
 `;
 
 export const ChevronIcon = styled.span<{ $open: boolean }>`

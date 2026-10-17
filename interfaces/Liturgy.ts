@@ -37,11 +37,16 @@ export interface ILiturgyType {
   slug: string;
 }
 
+/** Mesmo ciclo do admin: draft (em criação) → ready (aprovado) → running (em execução) → finished. */
+export type LiturgyPlanStatus = "draft" | "ready" | "running" | "finished";
+
 export interface ILiturgyPlan {
   uuid: string;
   date: string;
   manifest: ILiturgyManifestItem[];
   liturgyType: ILiturgyType;
+  /** Ausente em plano gravado antes do campo existir — tratar como "draft". */
+  status?: LiturgyPlanStatus;
 }
 
 export interface ILiturgyPlanAsset {
