@@ -16,6 +16,18 @@
       "autoPort": true
     },
     {
+      "name": "pibpam-web-behind-site",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "ASSET_PREFIX=http://localhost:3000 yarn dev"],
+      "port": 3000
+    },
+    {
+      "name": "pibpam-site",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd site && PATH=$HOME/.nvm/versions/node/v22.13.0/bin:$PATH yarn dev -p 3001"],
+      "port": 3001
+    },
+    {
       "name": "pibpam-storybook",
       "runtimeExecutable": "yarn",
       "runtimeArgs": ["storybook"],

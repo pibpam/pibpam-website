@@ -15,6 +15,14 @@ yarn build-storybook  # Static Storybook build
 
 There is no test suite in this project. Package manager is **yarn** (see `yarn.lock`).
 
+## Institutional site (`site/`)
+
+`site/` is a **separate project** (own `package.json`, `yarn.lock`, Node 22.13+): the public, SEO-first
+institutional website built with Next.js 16 App Router + Tailwind CSS 4. Its conventions differ from the
+app below (Tailwind instead of styled-components, `src/` + `@/*` imports, Cache Components). See
+`site/README.md` and `site/CLAUDE.md`. The root `tsconfig.json` and `.eslintignore` exclude `site/`.
+`ASSET_PREFIX` in this app's `next.config.js` exists so the app can be served behind the site's proxy.
+
 ## Environment
 
 Copy `.env.example` to `.env`. Two groups of variables:
