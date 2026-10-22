@@ -24,7 +24,7 @@ yarn lint
 | `API` | URL do backend upstream (só no servidor). Padrão: `https://api.pibpam.org/` |
 | `SITE_URL` | URL canônica pública (canonical, sitemap, Open Graph). Padrão: `https://www.pibpam.org` |
 | `LEGACY_APP_URL` | App legado (`https://app.pibpam.org`). Liga o proxy, os redirects e o fallback. **Obrigatório em produção**: sem ele o deploy falha |
-| `CONTACT_ENABLED` | `true` envia o formulário para `POST {API}/v1/contact-messages`. Sem isso, o form oferece o WhatsApp |
+| `CONTACT_ENABLED` | `true` envia o formulário de contato para `POST {API}/v1/contact-messages`, repassando o IP do visitante em `x-visitor-ip`. **Só ligue depois que esse endpoint estiver publicado no backend**; sem isso o formulário oferece o WhatsApp |
 
 ## Páginas
 

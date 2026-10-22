@@ -8,11 +8,18 @@ const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 5;
 const hits = new Map<string, number[]>();
 
+const RATE_LIMIT_MESSAGE = "Muitas mensagens em pouco tempo. Tente de novo em alguns minutos.";
+const UPSTREAM_TIMEOUT_MS = 10_000;
+
 function rateLimited(ip: string) {
   const now = Date.now();
   const recent = (hits.get(ip) ?? []).filter((time) => now - time < WINDOW_MS);
   recent.push(now);
   hits.set(ip, recent);
+  // Evita o mapa crescer para sempre numa instância longeva.
+  if (hits.size > 1000) {
+    for (const [key, times] of hits) if (times.every((time) => now - time >= WINDOW_MS)) hits.delete(key);
+  }
   return recent.length > MAX_PER_WINDOW;
 }
 
@@ -32,16 +39,24 @@ export async function POST(request: Request) {
 
   if (!CONTACT_ENABLED) return json({ error: "O envio pelo site ainda não está disponível.", fallback: true }, 503);
 
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  if (rateLimited(ip)) return json({ error: "Muitas mensagens em pouco tempo. Tente de novo em alguns minutos." }, 429);
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  if (rateLimited(ip)) return json({ error: RATE_LIMIT_MESSAGE }, 429);
 
   const { email, phone, ...rest } = parsed.data;
   try {
+    // O backend só enxerga o IP da Vercel (a chamada é de servidor para servidor);
+    // este header deixa o limite por visitante funcionar lá também.
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (ip !== "unknown") headers["x-visitor-ip"] = ip;
+
     const res = await fetch(new URL("v1/contact-messages", API_URL), {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({ ...rest, email: email || undefined, phone: phone || undefined }),
+      signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
     });
+    // Limite do backend: não é falha do servidor, então não oferecemos o WhatsApp como "plano B".
+    if (res.status === 429) return json({ error: RATE_LIMIT_MESSAGE }, 429);
     if (!res.ok) throw new Error(`upstream ${res.status}`);
     return json({ ok: true }, 201);
   } catch (error) {
