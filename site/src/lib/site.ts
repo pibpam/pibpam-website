@@ -8,7 +8,8 @@ export const SITE_DESCRIPTION =
 
 export const NAV_LINKS = [
   { href: "/sobre", label: "Sobre" },
-  { href: "/ministerios", label: "Ministérios" },
+  // Ministérios oculto por enquanto (a página segue no ar em /ministerios). Reativar também no sitemap.
+  // { href: "/ministerios", label: "Ministérios" },
   { href: "/conteudos", label: "Mensagens" },
   { href: "/agenda", label: "Agenda" },
   { href: "/ao-vivo", label: "Ao vivo" },
