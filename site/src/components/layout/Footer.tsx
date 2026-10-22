@@ -1,12 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cacheLife } from "next/cache";
+import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import type { ReactNode } from "react";
 import { getChurchInfo } from "@/lib/api";
 import { APP_LINKS, CHURCH_LEGAL_NAME, EVENTS_URL, FALLBACK_CONTACT, NAV_LINKS } from "@/lib/site";
 import { formatPhone, mapsUrl, toE164, whatsappUrl } from "@/lib/format";
 import { Container } from "@/components/ui/Container";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 import { sortSchedules } from "@/lib/schedule";
+
+/** Linha com ícone alinhado à primeira linha do texto (h-[1lh] acompanha o line-height). */
+function IconLine({ icon, className = "", children }: { icon: ReactNode; className?: string; children: ReactNode }) {
+  return (
+    <div className={`flex gap-3 ${className}`}>
+      <span className="flex h-[1lh] shrink-0 items-center text-accent">{icon}</span>
+      <div className="min-w-0">{children}</div>
+    </div>
+  );
+}
 
 export async function Footer() {
   "use cache";
@@ -29,18 +41,22 @@ export async function Footer() {
         <div>
           <h2 className="font-bold">Visite</h2>
           <address className="mt-4 not-italic leading-relaxed text-ink-inverse-muted">
-            <a href={mapsUrl(address)} target="_blank" rel="noopener noreferrer" className="hover:text-ink-inverse">
-              {address}
-            </a>
+            <IconLine icon={<MapPin aria-hidden className="size-4" />}>
+              <a href={mapsUrl(address)} target="_blank" rel="noopener noreferrer" className="hover:text-ink-inverse">
+                {address}
+              </a>
+            </IconLine>
           </address>
           {info?.church_schedules?.length ? (
-            <ul className="mt-4 space-y-1 text-sm text-ink-inverse-muted">
-              {sortSchedules(info.church_schedules).map((item) => (
-                <li key={item.uuid}>
-                  {item.text}: {item.day.toLowerCase()}, <span className="tabular-nums">{item.time}</span>
-                </li>
-              ))}
-            </ul>
+            <IconLine icon={<Clock aria-hidden className="size-4" />} className="mt-4 text-sm text-ink-inverse-muted">
+              <ul className="space-y-1">
+                {sortSchedules(info.church_schedules).map((item) => (
+                  <li key={item.uuid}>
+                    {item.text}: {item.day.toLowerCase()}, <span className="tabular-nums">{item.time}</span>
+                  </li>
+                ))}
+              </ul>
+            </IconLine>
           ) : null}
         </div>
 
@@ -48,17 +64,23 @@ export async function Footer() {
           <h2 className="font-bold">Fale com a gente</h2>
           <ul className="mt-4 space-y-2 text-ink-inverse-muted">
             <li>
-              <a href={`tel:${toE164(phone)}`} className="hover:text-ink-inverse">{formatPhone(phone)}</a>
+              <IconLine icon={<Phone aria-hidden className="size-4" />}>
+                <a href={`tel:${toE164(phone)}`} className="hover:text-ink-inverse">{formatPhone(phone)}</a>
+              </IconLine>
             </li>
             {info?.whatsAppNumber && (
               <li>
-                <a href={whatsappUrl(info.whatsAppNumber)} target="_blank" rel="noopener noreferrer" className="hover:text-ink-inverse">
-                  WhatsApp {formatPhone(info.whatsAppNumber)}
-                </a>
+                <IconLine icon={<MessageCircle aria-hidden className="size-4" />}>
+                  <a href={whatsappUrl(info.whatsAppNumber)} target="_blank" rel="noopener noreferrer" className="hover:text-ink-inverse">
+                    WhatsApp {formatPhone(info.whatsAppNumber)}
+                  </a>
+                </IconLine>
               </li>
             )}
             <li>
-              <a href={`mailto:${email}`} className="text-sm hover:text-ink-inverse">{email}</a>
+              <IconLine icon={<Mail aria-hidden className="size-4" />} className="text-sm">
+                <a href={`mailto:${email}`} className="break-words hover:text-ink-inverse">{email}</a>
+              </IconLine>
             </li>
           </ul>
         </div>
