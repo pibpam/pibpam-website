@@ -58,7 +58,8 @@ export function Give() {
           </p>
         </div>
 
-        <figure className="self-start rounded-lg bg-mist p-6 text-center">
+        {/* No celular não dá para escanear a própria tela: lá ficam só os botões de copiar. */}
+        <figure className="hidden self-start rounded-lg bg-mist p-6 text-center md:block">
           <PixQrCode payload={PIX.copyPaste} className="mx-auto aspect-square w-full max-w-64 rounded-sm bg-paper p-3" />
           <figcaption className="mt-4 text-sm text-ink-muted">
             Aponte a câmera do app do seu banco para pagar com Pix.

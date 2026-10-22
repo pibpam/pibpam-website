@@ -9,7 +9,8 @@ const STATIC_ROUTES: { path: string; priority: number; changeFrequency: "daily" 
   { path: "/conteudos", priority: 0.8, changeFrequency: "daily" },
   { path: "/conteudos/transmissoes", priority: 0.7, changeFrequency: "daily" },
   { path: "/conteudos/series", priority: 0.7, changeFrequency: "weekly" },
-  { path: "/ministerios", priority: 0.7, changeFrequency: "monthly" },
+  // Oculto junto com o link no NAV_LINKS (src/lib/site.ts).
+  // { path: "/ministerios", priority: 0.7, changeFrequency: "monthly" },
   { path: "/agenda", priority: 0.8, changeFrequency: "daily" },
   { path: "/ao-vivo", priority: 0.7, changeFrequency: "daily" },
   { path: "/contato", priority: 0.8, changeFrequency: "monthly" },
