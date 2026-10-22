@@ -1,0 +1,38 @@
+/*
+ * Tokens do site institucional — ÚNICO lugar para trocar cores.
+ *
+ * Os componentes usam apenas os utilitários semânticos gerados a partir
+ * destes tokens (bg-brand, text-ink, bg-pine…), nunca hex direto.
+ * Para um tema alternativo, redefina as variáveis num seletor
+ * [data-theme="nome"] e aplique o atributo no <html>.
+ */
+:root {
+  /* Marca (mesmas cores do app) */
+  --brand: #5fd9da; /* teal do logo — destaque sobre fundo escuro */
+  --brand-strong: #2f6f70; /* teal escuro — ações e links sobre fundo claro */
+  --brand-soft: #eef4f4; /* tint para superfícies de apoio */
+  --accent: #b5da35; /* lime do logo — "agora", ao vivo, próximo culto */
+
+  /* Superfícies */
+  --paper: #ffffff;
+  --mist: #f4fbfb;
+  --pine: #12302f; /* seções escuras, derivado do teal escuro */
+  --pine-soft: #1b4241;
+
+  /* Texto */
+  --ink: #1d1d1d;
+  --ink-muted: #5e5b5b;
+  --ink-inverse: #f4fbfb;
+  --ink-inverse-muted: #a9c9c8;
+
+  /* Linhas e estados */
+  --line: #e2eeee;
+  --line-inverse: #2b5150;
+  --danger: #c64545;
+  --success: #5c7a0a;
+
+  /* Forma */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+}
