@@ -3,7 +3,6 @@ import { Container, Grid, LoadMore } from '../styles/Events'
 import Website from '../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
-import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
 import React, { useState } from "react";
 import { FiBookOpen, FiCalendar, FiPlus } from "react-icons/fi";
@@ -25,7 +24,6 @@ interface ISeriesPage {
 }
 
 const Series: NextPage<ISeriesPage> = ({ data }) => {
-  const { open, toggleMenu } = useMenu()
   const [paginator, setPaginator] = useState<IPaginationData>(data.pagination)
   const [contents, setContents] = useState<ISeries[]>([] as ISeries[])
   const [loading, setLoading] = useState(false)
@@ -46,10 +44,10 @@ const Series: NextPage<ISeriesPage> = ({ data }) => {
   }
 
   return (
-    <Website hasTabNavigator title={"Séries"} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+    <Website hasTabNavigator title={"Séries"} changeScroll={changeScroll}>
       <>
         <HeaderContainer active={scrollActive}>
-          <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <Header goBack={() => goBack({})} />
         </HeaderContainer>
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Séries</>} />

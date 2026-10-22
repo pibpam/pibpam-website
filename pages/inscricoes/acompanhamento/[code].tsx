@@ -25,7 +25,6 @@ import {
   Message as AlertMessage,
   Title as AlertTitle,
 } from "../../../container/Tracking/CheckoutStatusBanner/styles";
-import useMenu from "../../../hooks/useMenu";
 import useHeader from "../../../hooks/useHeader";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import usePostMessage from "../../../hooks/usePostMessage";
@@ -65,7 +64,6 @@ const TrackingPage: NextPage<ITrackingPage> = ({
   event,
   checkoutStatus,
 }) => {
-  const { open, toggleMenu } = useMenu();
   const { scrollActive, changeScroll } = useHeader();
   const { goBack } = useAppNavigation();
   const { openLink } = usePostMessage();
@@ -142,14 +140,11 @@ const TrackingPage: NextPage<ITrackingPage> = ({
       title={`Acompanhamento · ${code}`}
       hasTabNavigator={false}
       changeScroll={changeScroll}
-      openMenu={open}
-      toggleMenu={toggleMenu}
     >
       <>
         <HeaderContainer active={true}>
           <Header
             goBack={() => goBack({ fallback: "/inscricoes" })}
-            toggleMenu={toggleMenu}
           />
         </HeaderContainer>
         <Page>

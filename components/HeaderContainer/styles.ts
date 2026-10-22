@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components'
 import theme from '../../styles/theme'
-import responsive from '../../utils/responsive'
 
 export const Container = styled.div<{ $active?: boolean }>`
   position: fixed;
@@ -11,9 +10,6 @@ export const Container = styled.div<{ $active?: boolean }>`
   background: transparent;
   transition: all .2s ease-in-out;
 
-  ${responsive.medium`
-    display: none;
-  `}
 
   ${({ $active }) => $active && css`
     background: rgba(255, 255, 255, .9);

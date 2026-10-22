@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
-import { FiBook, FiBookOpen, FiCalendar, FiFilm, FiPlay, FiRadio } from "react-icons/fi";
+import { FiBook, FiCalendar, FiFilm, FiPlay } from "react-icons/fi";
 import { useRouter } from "next/router";
-import { LivesContext } from "../../contexts/lives";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { Container } from "./styles";
 import { PostMessageContext } from "../../contexts/postMessage";
@@ -9,7 +8,6 @@ import { PostMessageContext } from "../../contexts/postMessage";
 const TabNavigator: React.FC = () => {
   const router = useRouter()
   const { pathname } = router
-  const { lives } = useContext(LivesContext)
   const { deviceInfo } = useContext(PostMessageContext)
   const { goTo: goToHook } = useAppNavigation()
 
@@ -26,13 +24,6 @@ const TabNavigator: React.FC = () => {
             <span>cultos</span>
           </button>
         </li>
-        {/* <li>
-          <button className={`${pathname === "/devotionals" && 'active'}`}
-            onClick={() => goTo("/devotionals")}>
-            <FiBookOpen />
-            <span>devocional</span>
-          </button>
-        </li> */}
         <li>
           <button className={`${pathname === "/series" && 'active'}`}
             onClick={() => goTo("/series")}>
@@ -41,15 +32,6 @@ const TabNavigator: React.FC = () => {
           </button>
         </li>
 
-        {!!lives.length && (
-          <li>
-            <button className={`${pathname === "/live" && 'active'}`}
-              onClick={() => goTo("/live")}>
-              <FiRadio />
-              <span>ao vivo</span>
-            </button>
-          </li>
-        )}
         <li>
           <button className={`${pathname.includes("/schedule") && 'active'}`}
             onClick={pathname.includes("/schedule") ? undefined : () => goTo("/schedule")}>

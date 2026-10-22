@@ -1,30 +1,31 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Image from "next/image";
-import { FiBell, FiChevronLeft, FiMenu, FiX } from "react-icons/fi";
+import { useRouter } from "next/router";
+import { FiChevronLeft } from "react-icons/fi";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
-import { NoticesContext } from "../../contexts/notices";
-import { Container, GoBack, MenuToggle, Notifications, Title } from "./styles"
+import { Container, GoBack, Title } from "./styles"
 
 interface IHeader {
-  toggleMenu: () => void
-  isOpen?: boolean
   title?: string
   goBack?: () => void
 }
 
-const Header: React.FC<IHeader> = ({ toggleMenu, isOpen = false, title, goBack }) => {
-  const { goTo: goToHook } = useAppNavigation()
-  const { totalUnsee } = useContext(NoticesContext)
+const Header: React.FC<IHeader> = ({ title, goBack }) => {
+  const router = useRouter()
+  const { goTo: goToHook, goBack: goBackHook } = useAppNavigation()
 
   const goToHome = async () => {
     await goToHook({ pathname: "/", showLoading: true, resetHistory: true })
   }
 
+  // Todas as páginas, exceto a Home, voltam por padrão (histórico ou Home)
+  const handleGoBack = goBack ?? (router.pathname !== "/" ? () => goBackHook({}) : undefined)
+
   return (
     <Container>
       <div>
-        {goBack && (
-          <GoBack onClick={goBack}>
+        {handleGoBack && (
+          <GoBack onClick={handleGoBack}>
             <FiChevronLeft />
           </GoBack>
         )}
@@ -34,11 +35,6 @@ const Header: React.FC<IHeader> = ({ toggleMenu, isOpen = false, title, goBack }
           </button>
         }
       </div>
-      <Notifications onClick={() => goToHook({ pathname: '/notices', showLoading: true })}>
-        {!!totalUnsee && (<span>{totalUnsee}</span>)}<FiBell /></Notifications>
-      <MenuToggle onClick={toggleMenu}>
-        {isOpen ? <FiX /> : <FiMenu />}
-      </MenuToggle>
     </Container>
   );
 }

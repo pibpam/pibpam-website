@@ -24,7 +24,6 @@ import { AppContext } from "../contexts/app";
 import Website from "../layout/container/Website";
 import Header from "../components/Header";
 import HeaderContainer from "../components/HeaderContainer";
-import useMenu from "../hooks/useMenu";
 import { useAppNavigation } from "../hooks/useAppNavigation";
 import useHeader from "../hooks/useHeader";
 
@@ -36,7 +35,6 @@ const SignUp: NextPage = () => {
     useContext(PostMessageContext);
   const { isApp } = useContext(AppContext);
 
-  const { open, toggleMenu } = useMenu();
   const { goBack } = useAppNavigation();
   const { scrollActive, changeScroll } = useHeader();
 
@@ -105,14 +103,11 @@ const SignUp: NextPage = () => {
       title="Criar conta"
       hasTabNavigator={false}
       changeScroll={changeScroll}
-      openMenu={open}
-      toggleMenu={toggleMenu}
     >
       <>
         <HeaderContainer active={scrollActive}>
           <Header
             goBack={() => goBack({ fallback: "/login" })}
-            toggleMenu={toggleMenu}
           />
         </HeaderContainer>
         <Page as="main">

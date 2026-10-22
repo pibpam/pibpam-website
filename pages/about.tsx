@@ -3,7 +3,6 @@ import { Description, PageContent } from "../styles/About";
 import Website from "../layout/container/Website";
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
-import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
 import Title from "../components/Title";
 import FooterPage from "../components/FooterPage";
@@ -30,7 +29,6 @@ interface IAbout {
 }
 
 const About: NextPage<IAbout> = ({ data }) => {
-  const { open, toggleMenu } = useMenu();
   const { goTo: goToHook, goBack } = useAppNavigation();
   const { scrollActive, changeScroll } = useHeader();
   const { getHref } = useOpenMap();
@@ -50,12 +48,10 @@ const About: NextPage<IAbout> = ({ data }) => {
       title={"Sobre a PIPPAM"}
       hasTabNavigator={false}
       changeScroll={changeScroll}
-      openMenu={open}
-      toggleMenu={toggleMenu}
     >
       <>
         <HeaderContainer active={scrollActive}>
-          <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <Header goBack={() => goBack({})} />
         </HeaderContainer>
 
         <HeaderPage title={"Sobre a PIBPAM"} />

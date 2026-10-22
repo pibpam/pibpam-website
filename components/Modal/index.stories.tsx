@@ -23,16 +23,6 @@ export default meta
 
 type Story = StoryObj<typeof Modal>
 
-export const Desktop: Story = {
-  decorators: [
-    (Story) => (
-      <AppContext.Provider value={{ isApp: false, isIos: false, isAndroid: false, isMobile: false }}>
-        <Story />
-      </AppContext.Provider>
-    ),
-  ],
-}
-
 export const MobileBottomSheet: Story = {
   decorators: [
     (Story) => (

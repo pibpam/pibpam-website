@@ -3,7 +3,6 @@ import { Container, Grid } from '../styles/Events'
 import Website from '../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
-import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
 import React from "react";
 import { FiBookOpen, FiCalendar } from "react-icons/fi";
@@ -21,7 +20,6 @@ interface ICollectionsPage {
 }
 
 const Collections: NextPage<ICollectionsPage> = ({ collections }) => {
-  const { open, toggleMenu } = useMenu()
   const { goTo: goToHook } = useAppNavigation()
   const { scrollActive, changeScroll } = useHeader()
 
@@ -30,10 +28,10 @@ const Collections: NextPage<ICollectionsPage> = ({ collections }) => {
   }
 
   return (
-    <Website title={"Galeria de Fotos"} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+    <Website title={"Galeria de Fotos"} changeScroll={changeScroll}>
       <>
         <HeaderContainer active={scrollActive}>
-          <Header toggleMenu={toggleMenu} />
+          <Header />
         </HeaderContainer>
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Galeria de Fotos</>} />

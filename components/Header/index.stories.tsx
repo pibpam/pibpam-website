@@ -5,9 +5,6 @@ const meta: Meta<typeof Header> = {
   title: 'Layout/Header',
   component: Header,
   parameters: { layout: 'fullscreen' },
-  args: {
-    toggleMenu: () => {},
-  },
 }
 
 export default meta
@@ -20,11 +17,5 @@ export const WithTitleAndBack: Story = {
   args: {
     title: 'Culto de Celebração',
     goBack: () => {},
-  },
-}
-
-export const MenuOpen: Story = {
-  args: {
-    isOpen: true,
   },
 }

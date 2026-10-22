@@ -1,9 +1,8 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { FiSearch, FiX } from "react-icons/fi";
 import Modal from "../Modal";
 import { ApiLocal } from "../../services/apiLocal";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
-import { AppContext } from "../../contexts/app";
 import {
   CloseButton,
   Container,
@@ -31,10 +30,6 @@ const CheckRegistrationSheet: React.FC<ICheckRegistrationSheet> = ({
   eventUuid,
 }) => {
   const { goTo } = useAppNavigation();
-  const { isApp, isMobile } = useContext(AppContext);
-  // No modal de desktop já existe um botão de fechar próprio (fora do
-  // conteúdo) — o daqui é só para a bottom sheet mobile, evitar duplicar.
-  const isDesktop = useMemo(() => !isApp && !isMobile, [isApp, isMobile]);
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -96,15 +91,13 @@ const CheckRegistrationSheet: React.FC<ICheckRegistrationSheet> = ({
   return (
     <Modal isOpen={open} onClose={handleClose}>
       <Container>
-        {!isDesktop && (
-          <CloseButton
-            type="button"
-            onClick={handleClose}
-            aria-label="Fechar"
-          >
-            <FiX />
-          </CloseButton>
-        )}
+        <CloseButton
+          type="button"
+          onClick={handleClose}
+          aria-label="Fechar"
+        >
+          <FiX />
+        </CloseButton>
         <Title>Verificar inscrição</Title>
         <Subtitle>
           Digite o código recebido ou o e-mail usado na inscrição para

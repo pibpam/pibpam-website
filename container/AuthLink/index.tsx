@@ -43,7 +43,7 @@ const AuthLink: React.FC = () => {
   }, [authenticateByToken, router]);
 
   return (
-    <Website openMenu={false} toggleMenu={() => {}} hasTabNavigator={false}>
+    <Website hasTabNavigator={false}>
       <Container>
         <h1>Abrindo escala...</h1>
 

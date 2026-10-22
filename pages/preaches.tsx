@@ -3,7 +3,6 @@ import { Container, Grid, LoadMore } from '../styles/Events'
 import Website from '../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
-import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
 import React, { useState } from "react";
 import { FiBookOpen, FiCalendar, FiPlus } from "react-icons/fi";
@@ -25,7 +24,6 @@ interface IEventsPage {
 }
 
 const Preaches: NextPage<IEventsPage> = ({ data }) => {
-  const { open, toggleMenu } = useMenu()
   const [paginator, setPaginator] = useState<IPaginationData>(data.pagination)
   const [contents, setContents] = useState<IContent[]>([] as IContent[])
   const [loading, setLoading] = useState(false)
@@ -46,10 +44,10 @@ const Preaches: NextPage<IEventsPage> = ({ data }) => {
   }
 
   return (
-    <Website title='Exposições' changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+    <Website title='Exposições' changeScroll={changeScroll}>
       <>
         <HeaderContainer active={scrollActive}>
-          <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <Header goBack={() => goBack({})} />
         </HeaderContainer>
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Exposições</>} />

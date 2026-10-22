@@ -141,8 +141,6 @@ const Member: NextPage = () => {
       <Website
         hasTabNavigator={false}
         title={"Área de membros"}
-        openMenu={false}
-        toggleMenu={() => {}}
       >
         <>
           <HeaderMember

@@ -3,7 +3,6 @@ import { Container, Header } from '../../styles/Devotional'
 import Website from '../../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
 import HeaderComp from "../../components/Header";
-import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
 import { FiCalendar } from "react-icons/fi";
 import React from "react";
@@ -21,16 +20,15 @@ interface IDevotionalPage {
 }
 
 const Devotional: NextPage<IDevotionalPage> = ({ data }) => {
-  const { open, toggleMenu } = useMenu()
   const { goBack } = useAppNavigation()
   const { scrollActive, changeScroll } = useHeader()
 
   return (
     <Website changeScroll={changeScroll} title={`Devocional: ${data.title} - ${data.author?.name}`} img={data.image}
-      hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+      hasTabNavigator={false}>
       <>
         <HeaderContainer active={scrollActive}>
-          <HeaderComp goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <HeaderComp goBack={() => goBack({})} />
         </HeaderContainer>
         <HeaderPage background={data.image} />
         <DividerMobile color={EDividerColors.white} />

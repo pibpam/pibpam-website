@@ -5,7 +5,6 @@ import DividerMobile, {
   EDividerColors,
 } from "../../../../components/DividerMobile";
 import Header from "../../../../components/Header";
-import useMenu from "../../../../hooks/useMenu";
 import {
   EBible,
   getBook,
@@ -24,22 +23,18 @@ interface IBible {
 }
 
 const BibleVerses: NextPage<IBible> = ({ chapter, book, verses }) => {
-  const { open, toggleMenu } = useMenu();
   const { goBack } = useAppNavigation();
 
   return (
     <Website
       title={`Bíblia: ${book.name} - ${chapter} `}
       hasTabNavigator={false}
-      openMenu={open}
-      toggleMenu={toggleMenu}
     >
       <>
         <HeaderWrap>
           <Header
             goBack={() => goBack({})}
             title={`${book.name}, ${chapter}`}
-            toggleMenu={toggleMenu}
           />
         </HeaderWrap>
         <DividerMobile color={EDividerColors.white} />

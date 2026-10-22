@@ -28,6 +28,15 @@ export class DateUtils {
     })
   }
 
+  static formatDay(date: string) {
+    return format(new Date(date), "dd", { locale: ptBR })
+  }
+
+  // "out", "nov"... (sem ponto)
+  static formatMonthShort(date: string) {
+    return format(new Date(date), "MMM", { locale: ptBR }).replace(".", "")
+  }
+
   static formatTime(date: string) {
     return format(new Date(date), "HH:mm", {
       locale: ptBR

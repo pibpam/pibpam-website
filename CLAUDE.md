@@ -31,7 +31,7 @@ Copy `.env.example` to `.env`. Two groups of variables:
 
 ## Architecture
 
-Next.js 12 (pages router) app for a church (PIB Pará de Minas). It is a mobile-first website that also runs **embedded inside a React Native / Expo WebView app**, which shapes much of the design.
+Next.js 12 (pages router) app for a church (PIB Pará de Minas). It is a mobile-only app (no desktop layout: desktop visitors use the institutional site in `site/`) that runs **embedded inside a React Native / Expo WebView app**, which shapes much of the design.
 
 ### BFF / API proxy pattern (important)
 The frontend never calls the upstream backend (`process.env.API`) directly. Two axios clients mediate every request:
@@ -62,7 +62,7 @@ Pages use `getStaticProps` (mostly, e.g. `index.tsx`) or `getServerSideProps` to
 ### Directory layout
 - `pages/` — routes + `pages/api/*` (the BFF handlers). Files here are routes, so page-level styled-components live in `styles/<PageName>.ts`, not colocated.
 - `components/` — reusable presentational components, each a folder with `index.tsx` + `styles.ts`.
-- `container/` — larger composed/screen-level pieces (e.g. `Desktop/HomeDesktop`, `ReadingPlan`, `Schedule`, `Tracking`), often with desktop/mobile split or extracted from a specific page's distinct sections (e.g. `About/Contacts`, `Tracking/ParticipantItem`).
+- `container/` — larger composed/screen-level pieces (e.g. `Home`, `ReadingPlan`, `Schedule`, `Tracking`), often extracted from a specific page's distinct sections (e.g. `About/Contacts`, `Tracking/ParticipantItem`).
 - `layout/` — page shells (e.g. `Website`).
 - `contexts/`, `hooks/`, `services/`, `utils/`, `enum/`.
 - `interfaces/` — TypeScript interfaces for API/domain models. These are imported broadly by `Api`/`ApiLocal`; keep them in sync when changing API shapes.

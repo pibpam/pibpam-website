@@ -2,7 +2,6 @@ import type { NextPage } from 'next'
 import Website from '../../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
 import Header from "../../components/Header";
-import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
 import { Api } from "../../services/api";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
@@ -22,15 +21,14 @@ interface IParams {
 }
 
 const Broadcast: NextPage<IBroadcastPage> = ({ data }) => {
-  const { open, toggleMenu } = useMenu()
   const { goBack } = useAppNavigation()
   const { scrollActive, changeScroll } = useHeader()
 
   return (
-    <Website title={`${data.title} - ${data.author?.name}`} img={data.image} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+    <Website title={`${data.title} - ${data.author?.name}`} img={data.image} changeScroll={changeScroll} hasTabNavigator={false}>
       <>
         <HeaderContainer active={scrollActive} >
-          <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <Header goBack={() => goBack({})} />
         </HeaderContainer>
         <HeaderPage background={data.image} />
         <DividerMobile color={EDividerColors.white} />

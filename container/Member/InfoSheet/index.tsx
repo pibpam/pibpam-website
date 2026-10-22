@@ -1,7 +1,6 @@
-import React, { useContext, useMemo } from "react";
+import React from "react";
 import { FiClipboard, FiClock, FiMessageCircle, FiUserCheck, FiX } from "react-icons/fi";
 import Modal from "../../../components/Modal";
-import { AppContext } from "../../../contexts/app";
 import { CloseButton, Container, Item, List, Title } from "./styles";
 
 interface IMemberInfoSheet {
@@ -10,19 +9,13 @@ interface IMemberInfoSheet {
 }
 
 const MemberInfoSheet: React.FC<IMemberInfoSheet> = ({ open, onClose }) => {
-  const { isApp, isMobile } = useContext(AppContext);
-  // No modal de desktop já existe um botão de fechar próprio (fora do
-  // conteúdo) — o daqui é só para a bottom sheet mobile, evitar duplicar.
-  const isDesktop = useMemo(() => !isApp && !isMobile, [isApp, isMobile]);
 
   return (
     <Modal isOpen={open} onClose={onClose}>
       <Container>
-        {!isDesktop && (
-          <CloseButton type="button" onClick={onClose} aria-label="Fechar">
-            <FiX />
-          </CloseButton>
-        )}
+        <CloseButton type="button" onClick={onClose} aria-label="Fechar">
+          <FiX />
+        </CloseButton>
         <Title>Como funciona o vínculo de membro</Title>
 
         <List>

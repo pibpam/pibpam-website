@@ -4,7 +4,6 @@ import Header from "../../components/Header";
 import HeaderContainer from "../../components/HeaderContainer";
 import InscriptionFlow from "../../components/Inscription";
 import { Page, Wrapper } from "../../styles/Inscription";
-import useMenu from "../../hooks/useMenu";
 import useHeader from "../../hooks/useHeader";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { Api } from "../../services/api";
@@ -15,7 +14,6 @@ interface IInscriptionPage {
 }
 
 const InscriptionPage: NextPage<IInscriptionPage> = ({ event }) => {
-  const { open, toggleMenu } = useMenu();
   const { scrollActive, changeScroll } = useHeader();
   const { goBack } = useAppNavigation();
 
@@ -24,14 +22,11 @@ const InscriptionPage: NextPage<IInscriptionPage> = ({ event }) => {
       title={`Inscrição · ${event.name}`}
       hasTabNavigator={false}
       changeScroll={changeScroll}
-      openMenu={open}
-      toggleMenu={toggleMenu}
     >
       <>
         <HeaderContainer active={true}>
           <Header
             goBack={() => goBack({ fallback: "/inscricoes" })}
-            toggleMenu={toggleMenu}
           />
         </HeaderContainer>
         <Page>

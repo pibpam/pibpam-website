@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import useMenu from "../../hooks/useMenu";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import useHeader from "../../hooks/useHeader";
 import Website from "../../layout/container/Website";
@@ -36,7 +35,6 @@ import { AlertMultiline, DateTime } from "../Schedule/Details/styles";
 import { PostMessageContext } from "../../contexts/postMessage";
 
 const Group: React.FC<IGroupPage> = ({ data }) => {
-  const { open, toggleMenu } = useMenu();
   const { goTo: goToHook, goBack } = useAppNavigation();
   const { scrollActive, changeScroll } = useHeader();
   const [mapUrl, setMapUrl] = useState("");
@@ -81,13 +79,10 @@ const Group: React.FC<IGroupPage> = ({ data }) => {
       title={"Pequenos Grupos"}
       changeScroll={changeScroll}
       hasTabNavigator={false}
-      openMenu={open}
-      toggleMenu={toggleMenu}
     >
       <>
         <HeaderContainer active={scrollActive}>
           <Header
-            toggleMenu={toggleMenu}
             goBack={() => goBack({ fallback: "/" })}
           />
         </HeaderContainer>

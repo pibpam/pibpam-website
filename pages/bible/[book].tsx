@@ -3,7 +3,6 @@ import { ContainerChapter, HeaderWrap } from '../../styles/Bible'
 import Website from '../../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
 import Header from "../../components/Header";
-import useMenu from "../../hooks/useMenu";
 import { EBible, getBook, getBooks, getChapters, IBook } from "../../data/bibles";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 
@@ -13,7 +12,6 @@ interface IBible {
 }
 
 const BibleChapters: NextPage<IBible> = ({ chapters, book }) => {
-  const { open, toggleMenu } = useMenu()
   const { goTo: goToHook, goBack } = useAppNavigation()
 
   const goTo = async (pathname: string) => {
@@ -21,10 +19,10 @@ const BibleChapters: NextPage<IBible> = ({ chapters, book }) => {
   }
 
   return (
-    <Website title={`Bíblia: ${book.name}`} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+    <Website title={`Bíblia: ${book.name}`} hasTabNavigator={false}>
       <>
         <HeaderWrap>
-          <Header goBack={() => goBack({})} title={book.name} toggleMenu={toggleMenu} />
+          <Header goBack={() => goBack({})} title={book.name} />
         </HeaderWrap>
         <DividerMobile color={EDividerColors.white} />
         <ContainerChapter>
