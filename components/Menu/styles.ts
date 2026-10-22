@@ -1,6 +1,5 @@
 import styled, { css, keyframes } from 'styled-components'
 import theme from '../../styles/theme'
-import responsive from '../../utils/responsive'
 
 const showUp = keyframes`
   0% {
@@ -51,9 +50,6 @@ export const Container = styled.div<{ $animationOut?: boolean }>`
 
   animation: ${showUp} .5s ease-out forwards;
 
-  ${responsive.medium`
-    display: none;
-  `}
 
   > div:last-child {
     margin-top: auto;

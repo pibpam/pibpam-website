@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import responsive from "../../utils/responsive";
 import theme from "../../styles/theme";
 
 export const Container = styled.div`
@@ -8,13 +7,6 @@ export const Container = styled.div`
   flex-direction: column;
   gap: ${theme.spacing.base};
   min-height: 100vh;
-
-  ${responsive.medium`
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 110px 32px 120px;
-    width: 100%;
-  `}
 `;
 
 export const Welcome = styled.div`

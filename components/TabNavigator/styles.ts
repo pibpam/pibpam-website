@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import responsive from '../../utils/responsive';
 import theme from '../../styles/theme';
 
 export const Container = styled.div<{bottom?: number}>`
@@ -13,9 +12,6 @@ export const Container = styled.div<{bottom?: number}>`
   width: 100%;
   filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, .5));
 
-  ${responsive.medium`
-    display: none;
-  `}
 
   > ul {
     list-style: none;

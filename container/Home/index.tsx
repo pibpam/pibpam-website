@@ -21,7 +21,6 @@ import usePostMessage from "../../hooks/usePostMessage";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { UserContext } from "../../contexts/user";
 import { LivesContext } from "../../contexts/lives";
-import HomeDesktop from "../Desktop/HomeDesktop";
 import LiveCard from "./LiveCard";
 import * as S from "./styles";
 
@@ -136,10 +135,6 @@ const Home: FC = () => {
             />
           </S.Grid>
         </S.Container>
-      </>
-      <>
-        {/* REMOVE */}
-        <HomeDesktop />
       </>
     </Website>
   );

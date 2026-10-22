@@ -3,7 +3,6 @@ import Contexts from "../contexts";
 import Loading from "../components/Loading";
 import React, { useEffect } from "react";
 import Script from "next/script";
-import Modal from '../components/ModalDesktopWarn';
 import ModalGetApp from '../components/ModalGetApp';
 import { clarity } from 'react-microsoft-clarity';
 import GlobalStyle from "../styles/GlobalStyle";
@@ -46,7 +45,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         <>
           <Loading />
           <Component {...pageProps} />
-          {/* <Modal /> */}
           <ModalGetApp/>
         </>
       </Contexts>
