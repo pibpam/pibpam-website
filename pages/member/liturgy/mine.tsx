@@ -63,7 +63,7 @@ const MyLiturgyRequestsPage: NextPage = () => {
   }
 
   return (
-    <Website hasTabNavigator={false} title="Área de membros" openMenu={false} toggleMenu={() => {}}>
+    <Website hasTabNavigator={false} title="Área de membros">
       <>
         <HeaderMember
           goBack={() => goTo({ pathname: "/member/liturgy" })}

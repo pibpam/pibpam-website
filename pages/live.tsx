@@ -2,7 +2,6 @@ import type { NextPage } from 'next'
 import Website from '../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
-import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
 import LivePage from "../components/LivePage";
 import { useContext } from "react";
@@ -12,17 +11,15 @@ import HeaderContainer from "../components/HeaderContainer";
 import { useAppNavigation } from "../hooks/useAppNavigation";
 
 const Live: NextPage = () => {
-  const { open, toggleMenu } = useMenu()
   const { lives } = useContext(LivesContext)
   const { scrollActive, changeScroll } = useHeader()
   const { goBack } = useAppNavigation()
 
   return (
-    <Website title={`Ao vivo - ${lives[0]?.title || ''}`} changeScroll={changeScroll} openMenu={open}
-      toggleMenu={toggleMenu}>
+    <Website title={`Ao vivo - ${lives[0]?.title || ''}`} changeScroll={changeScroll}>
       <>
         <HeaderContainer active={scrollActive}>
-          <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <Header goBack={() => goBack({})} />
         </HeaderContainer>
         <HeaderPage />
         <DividerMobile color={EDividerColors.white} />

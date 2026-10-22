@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { FiAlertOctagon, FiCalendar, FiClock, FiEdit3, FiInfo, FiMapPin, FiUsers } from "react-icons/fi";
-import useMenu from '../../../hooks/useMenu';
 import useHeader from '../../../hooks/useHeader';
 import useOpenMap from '../../../hooks/useOpenMap';
 import usePostMessage from '../../../hooks/usePostMessage';
@@ -18,7 +17,6 @@ interface ISchedule {
 }
 
 const DetailsSchedule: React.FC<ISchedule> = ({ data }) => {
-  const { open, toggleMenu } = useMenu()
   const { changeScroll } = useHeader()
   const { getHref } = useOpenMap()
   const [mapUrl, setMapUrl] = useState('')
@@ -39,8 +37,7 @@ const DetailsSchedule: React.FC<ISchedule> = ({ data }) => {
   }
 
   return (
-    <Website title={`${data.schedule.title}`} img={data.schedule.image} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open}
-      toggleMenu={toggleMenu}>
+    <Website title={`${data.schedule.title}`} img={data.schedule.image} changeScroll={changeScroll} hasTabNavigator={false}>
       <>
         <Begin>
           {data.schedule.image && (

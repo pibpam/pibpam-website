@@ -3,7 +3,6 @@ import { ButtonOnLine, Container, Grid, LoadMore } from '../styles/Events'
 import Website from '../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
-import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
 import React, { useState } from "react";
 import SecondaryButton from "../components/Button/Secondary";
@@ -27,7 +26,6 @@ interface IEventsPage {
 }
 
 const Events: NextPage<IEventsPage> = ({ data, lives }) => {
-  const { open, toggleMenu } = useMenu()
   const [paginator, setPaginator] = useState<IPaginationData>(data.pagination)
   const [contents, setContents] = useState<IContent[]>([] as IContent[])
   const [loading, setLoading] = useState(false)
@@ -48,10 +46,10 @@ const Events: NextPage<IEventsPage> = ({ data, lives }) => {
   }
 
   return (
-    <Website title={"Cultos e Eventos"} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+    <Website title={"Cultos e Eventos"} changeScroll={changeScroll}>
       <>
         <HeaderContainer active={scrollActive}>
-          <Header toggleMenu={toggleMenu} />
+          <Header />
         </HeaderContainer>
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Cultos <span>//</span> Eventos </>} />

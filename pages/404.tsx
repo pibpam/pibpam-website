@@ -4,7 +4,6 @@ import Header from "../components/Header";
 import React from "react";
 
 import HeaderContainer from "../components/HeaderContainer";
-import useMenu from "../hooks/useMenu";
 import { useAppNavigation } from "../hooks/useAppNavigation";
 import useHeader from "../hooks/useHeader";
 import HeaderPage from "../components/HeaderPage";
@@ -13,7 +12,6 @@ import EmptyState from "../components/EmptyState";
 import { Container } from "../styles/404";
 
 const NotFound: NextPage = () => {
-  const { open, toggleMenu } = useMenu();
   const { goBack } = useAppNavigation();
   const { scrollActive, changeScroll } = useHeader();
 
@@ -21,12 +19,10 @@ const NotFound: NextPage = () => {
     <Website
       title={"404"}
       changeScroll={changeScroll}
-      openMenu={open}
-      toggleMenu={toggleMenu}
     >
       <>
         <HeaderContainer active={scrollActive}>
-          <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <Header goBack={() => goBack({})} />
         </HeaderContainer>
         <HeaderPage title={"404"} />
         <DividerMobile color={EDividerColors.white} />

@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { ISchedule } from "../../pages/schedule";
 import { IScheduleDate } from "../../interfaces/Schedule";
-import useMenu from "../../hooks/useMenu";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import useHeader from "../../hooks/useHeader";
 import Website from "../../layout/container/Website";
@@ -25,7 +24,6 @@ const ScheduleContainer: React.FC<ISchedule> = ({
   schedules,
   uuid,
 }) => {
-  const { open, toggleMenu } = useMenu();
   const { goTo: goToHook } = useAppNavigation();
   const { scrollActive, changeScroll } = useHeader();
   const [selectedEvent, setSelectedEvent] = useState<IScheduleDate | undefined>(
@@ -58,12 +56,10 @@ const ScheduleContainer: React.FC<ISchedule> = ({
       hasTabNavigator={!selectedEvent}
       title={"Agenda"}
       changeScroll={changeScroll}
-      openMenu={open}
-      toggleMenu={toggleMenu}
     >
       <>
         <HeaderContainer active={scrollActive}>
-          <Header toggleMenu={toggleMenu} />
+          <Header />
         </HeaderContainer>
         <HeaderPage title={"Agenda"} />
         <DividerMobile color={EDividerColors.white} />

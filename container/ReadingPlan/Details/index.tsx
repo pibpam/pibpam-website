@@ -10,7 +10,6 @@ import Header from "../../../components/Header";
 import HeaderPage from "../../../components/HeaderPage";
 import DividerMobile from "../../../components/DividerMobile";
 import { EDividerColors } from "../../../components/Divider";
-import useMenu from "../../../hooks/useMenu";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import useHeader from "../../../hooks/useHeader";
 import {
@@ -40,7 +39,6 @@ import Modal from "../../../components/Modal";
 import { PostMessageContext } from "../../../contexts/postMessage";
 
 const Details: React.FC<{ readingPlan: IReadingPlan }> = ({ readingPlan }) => {
-  const { open, toggleMenu } = useMenu();
   const { goBack } = useAppNavigation();
   const { scrollActive, changeScroll } = useHeader();
   const { deviceInfo } = React.useContext(PostMessageContext);
@@ -52,8 +50,6 @@ const Details: React.FC<{ readingPlan: IReadingPlan }> = ({ readingPlan }) => {
     <Website
       title={readingPlan.title}
       changeScroll={changeScroll}
-      openMenu={open}
-      toggleMenu={toggleMenu}
       hasTabNavigator={false}
     >
       <>
@@ -66,7 +62,6 @@ const Details: React.FC<{ readingPlan: IReadingPlan }> = ({ readingPlan }) => {
                     fallback: "/reading-plan",
                   })
                 }
-                toggleMenu={toggleMenu}
               />
             )}
           </>

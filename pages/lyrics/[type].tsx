@@ -3,7 +3,6 @@ import { ContainerBooks, HeaderWrap } from '../../styles/Lyrics'
 import Website from '../../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
 import Header from "../../components/Header";
-import useMenu from "../../hooks/useMenu";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { ILyric } from '../../interfaces/Lyric';
 import { Api } from '../../services/api';
@@ -17,7 +16,6 @@ interface ILyricsList {
 }
 
 const LyricsList: NextPage<ILyricsList> = ({ lyrics, type }) => {
-  const { open, toggleMenu } = useMenu()
   const { goTo: goToHook, goBack } = useAppNavigation()
 
   const goTo = async (pathname: string) => {
@@ -25,10 +23,10 @@ const LyricsList: NextPage<ILyricsList> = ({ lyrics, type }) => {
   }
 
   return (
-    <Website title={type} hasTabNavigator={false} openMenu={open} toggleMenu={toggleMenu}>
+    <Website title={type} hasTabNavigator={false}>
       <>
         <HeaderWrap>
-          <Header goBack={() => goBack({})} title={type} toggleMenu={toggleMenu} />
+          <Header goBack={() => goBack({})} title={type} />
         </HeaderWrap>
         <DividerMobile color={EDividerColors.white} />
         <ContainerBooks>

@@ -3,7 +3,6 @@ import { Container, Grid } from '../styles/Events'
 import Website from '../layout/container/Website'
 import DividerMobile, {EDividerColors} from "../components/DividerMobile";
 import Header from "../components/Header";
-import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
 import MinistriesItem from "../components/MinistriesItem";
 import {Api} from "../services/api";
@@ -18,7 +17,6 @@ interface IMinistries {
 }
 
 const Ministries: NextPage<IMinistries> = ({data}) => {
-    const {open, toggleMenu} = useMenu()
     const {goTo: goToHook, goBack} = useAppNavigation()
     const {scrollActive, changeScroll} = useHeader()
 
@@ -27,11 +25,10 @@ const Ministries: NextPage<IMinistries> = ({data}) => {
     }
 
     return (
-        <Website title={"Ministérios"} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open}
-                 toggleMenu={toggleMenu}>
+        <Website title={"Ministérios"} changeScroll={changeScroll} hasTabNavigator={false}>
             <>
                 <HeaderContainer active={scrollActive}>
-                    <Header goBack={() => goBack({})} toggleMenu={toggleMenu}/>
+                    <Header goBack={() => goBack({})}/>
                 </HeaderContainer>
                 <HeaderPage
                     title={"Ministérios"}

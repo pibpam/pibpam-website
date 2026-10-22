@@ -60,7 +60,7 @@ const AuthCode: React.FC<{ execute: boolean }> = ({ execute }) => {
   };
 
   return (
-    <Website openMenu={false} toggleMenu={() => {}} hasTabNavigator={false}>
+    <Website hasTabNavigator={false}>
       <Container>
         <h1>Autenticando com Google...</h1>
 

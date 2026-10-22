@@ -3,7 +3,6 @@ import { Container, Item } from '../styles/Birthdays'
 import Website from '../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
-import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
 import React from "react";
 import { useAppNavigation } from "../hooks/useAppNavigation";
@@ -19,15 +18,14 @@ interface IBirthdays {
 }
 
 const Birthdays: NextPage<IBirthdays> = ({ data }) => {
-  const { open, toggleMenu } = useMenu()
   const { goBack } = useAppNavigation()
   const { scrollActive, changeScroll } = useHeader()
 
   return (
-    <Website title={"Aniversariantes"} changeScroll={changeScroll} openMenu={open} toggleMenu={toggleMenu}>
+    <Website title={"Aniversariantes"} changeScroll={changeScroll}>
       <>
         <HeaderContainer active={scrollActive}>
-          <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <Header goBack={() => goBack({})} />
         </HeaderContainer>
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Aniversariantes</>} />

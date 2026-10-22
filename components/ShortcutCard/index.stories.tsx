@@ -7,36 +7,52 @@ const meta: Meta<typeof ShortcutCard> = {
   component: ShortcutCard,
   decorators: [
     (Story) => (
-      <div style={{ width: 180 }}>
+      <div style={{ width: 170, height: 92 }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    icon: <PiBookBookmark />,
+    title: "Bíblia",
+    description: "Leia a Palavra",
+    onClick: () => {},
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof ShortcutCard>;
+
+export const Default: Story = {};
+
+export const Tint: Story = {
+  args: { tone: "tint" },
+};
+
+export const Lime: Story = {
+  args: { tone: "lime" },
+};
+
+export const Compact: Story = {
+  args: { size: "compact", title: "Séries" },
+  decorators: [
+    (Story) => (
+      <div style={{ width: 80, height: 92 }}>
         <Story />
       </div>
     ),
   ],
 };
 
-export default meta;
-type Story = StoryObj<typeof ShortcutCard>;
-
-export const Default: Story = {
+export const Wide: Story = {
   args: {
-    icon: <PiBookBookmark />,
-    title: "Plano de Leitura",
-    description: "Comentada e devocional",
-    onClick: () => {},
-  },
-};
-
-export const Horizontal: Story = {
-  args: {
-    icon: <PiBookBookmark />,
+    size: "wide",
     title: "Área de Membros",
     description: "Recursos para membresia e ministérios",
-    horizontal: true,
-    onClick: () => {},
   },
   decorators: [
     (Story) => (
-      <div style={{ width: 340 }}>
+      <div style={{ width: 340, height: 64 }}>
         <Story />
       </div>
     ),
@@ -44,11 +60,5 @@ export const Horizontal: Story = {
 };
 
 export const External: Story = {
-  args: {
-    icon: <PiBookBookmark />,
-    title: "Sobre a igreja",
-    description: "Abre o site da PIBPAM",
-    external: true,
-    onClick: () => {},
-  },
+  args: { title: "Sobre a igreja", external: true },
 };

@@ -1,16 +1,24 @@
 import React from "react";
 import { FiChevronRight, FiExternalLink } from "react-icons/fi";
 import IconTile from "../IconTile";
-import { Container, Text, Trailing } from "./styles";
+import {
+  Container,
+  ShortcutCardSize,
+  ShortcutCardTone,
+  Text,
+  Trailing,
+} from "./styles";
 
 interface IShortcutCardProps {
   icon: React.ReactNode;
   title: string;
   description?: string;
+  // compact: ícone e título centralizados (célula 1x1); default: ícone no topo e texto
+  // embaixo; wide: em linha, com seta, para atalhos de largura total.
+  size?: ShortcutCardSize;
+  tone?: ShortcutCardTone;
   // Sinaliza que o atalho abre fora do app (ex.: site da igreja).
   external?: boolean;
-  // Layout em linha (ícone, texto e seta), para atalhos de destaque em largura total.
-  horizontal?: boolean;
   onClick: () => void;
 }
 
@@ -18,20 +26,21 @@ const ShortcutCard: React.FC<IShortcutCardProps> = ({
   icon,
   title,
   description,
+  size = "default",
+  tone = "default",
   external,
-  horizontal = false,
   onClick,
 }) => (
-  <Container type="button" $horizontal={horizontal} onClick={onClick}>
-    <IconTile variant={horizontal ? "solid" : "soft"} size={horizontal ? 48 : 40}>
+  <Container type="button" $size={size} $tone={tone} onClick={onClick}>
+    <IconTile variant="soft" size={size === "compact" ? 32 : 36}>
       {icon}
     </IconTile>
-    <Text>
+    <Text $size={size}>
       <strong>{title}</strong>
-      {description && <span>{description}</span>}
+      {description && size !== "compact" && <span>{description}</span>}
     </Text>
-    {(external || horizontal) && (
-      <Trailing aria-hidden $corner={!horizontal}>
+    {(external || size === "wide") && (
+      <Trailing aria-hidden $corner={size !== "wide"}>
         {external ? <FiExternalLink /> : <FiChevronRight />}
       </Trailing>
     )}

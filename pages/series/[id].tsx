@@ -2,7 +2,6 @@ import type { NextPage } from 'next'
 import Website from '../../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
 import HeaderComp from "../../components/Header";
-import useMenu from "../../hooks/useMenu";
 import HeaderPage from "../../components/HeaderPage";
 import { Api } from "../../services/api";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
@@ -26,7 +25,6 @@ interface IParams {
 }
 
 const Event: NextPage<IEventPage> = ({ data }) => {
-  const { open, toggleMenu } = useMenu()
   const { goBack } = useAppNavigation()
   const { scrollActive, changeScroll } = useHeader()
   const { goTo } = useAppNavigation()
@@ -36,11 +34,10 @@ const Event: NextPage<IEventPage> = ({ data }) => {
   }
 
   return (
-    <Website title={`${data.title}`} changeScroll={changeScroll} hasTabNavigator={false} openMenu={open}
-      toggleMenu={toggleMenu}>
+    <Website title={`${data.title}`} changeScroll={changeScroll} hasTabNavigator={false}>
       <>
         <HeaderContainer active={scrollActive}>
-          <HeaderComp goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <HeaderComp goBack={() => goBack({})} />
         </HeaderContainer>
         <HeaderPage background={data.image} />
         <DividerMobile color={EDividerColors.white} />

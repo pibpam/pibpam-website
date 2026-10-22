@@ -1,14 +1,11 @@
 import Head from 'next/head';
 import React, { ReactElement, useContext, useEffect } from 'react';
 import TabNavigator from "../../../components/TabNavigator";
-import Menu from "../../../components/Menu";
 import { Container } from './styles';
 import { PostMessageContext } from '../../../contexts/postMessage';
 
 interface IWebsiteProps {
   children: ReactElement | ReactElement[]
-  openMenu: boolean
-  toggleMenu: () => void
   hasTabNavigator?: boolean
   changeScroll?: (top: number) => void,
   title?: string,
@@ -19,8 +16,6 @@ const Website: React.FC<IWebsiteProps> = ({
   title = 'PIB Pará de Minas',
   hasTabNavigator = true,
   children,
-  openMenu,
-  toggleMenu,
   img,
   changeScroll
 }) => {
@@ -55,7 +50,6 @@ const Website: React.FC<IWebsiteProps> = ({
         {children}
       </Container>
       {hasTabNavigator && <TabNavigator />}
-      {openMenu && <Menu toggleMenu={toggleMenu} />}
     </div>
   );
 }

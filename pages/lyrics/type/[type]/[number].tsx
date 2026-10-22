@@ -3,7 +3,6 @@ import { ContainerLyric, HeaderWrap } from '../../../../styles/Lyrics'
 import Website from '../../../../layout/container/Website'
 import DividerMobile, { EDividerColors } from "../../../../components/DividerMobile";
 import Header from "../../../../components/Header";
-import useMenu from "../../../../hooks/useMenu";
 import { useAppNavigation } from "../../../../hooks/useAppNavigation";
 import { Api } from '../../../../services/api';
 import { ILyric } from '../../../../interfaces/Lyric';
@@ -14,16 +13,13 @@ interface IBible {
 }
 
 const BibleVerses: NextPage<IBible> = ({ lyric, type }) => {
-  const { open, toggleMenu } = useMenu()
   const { goBack } = useAppNavigation()
 
   return (
-    <Website title={`${lyric.name}`} hasTabNavigator={false} openMenu={open}
-      toggleMenu={toggleMenu}>
+    <Website title={`${lyric.name}`} hasTabNavigator={false}>
       <>
         <HeaderWrap>
-          <Header goBack={() => goBack({})} title={`${type.toUpperCase()} - ${lyric.number}`}
-            toggleMenu={toggleMenu} />
+          <Header goBack={() => goBack({})} title={`${type.toUpperCase()} - ${lyric.number}`} />
         </HeaderWrap>
         <DividerMobile color={EDividerColors.white} />
         <ContainerLyric>

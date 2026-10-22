@@ -72,6 +72,9 @@ const theme = {
     circle: '50%',
   },
   gradients: {
+    // Fundo das telas de destaque (Home): teal bem claro <-> lima bem claro. Pensado para
+    // ser animado (background-size 100% 300% + deslocamento vertical).
+    screen: 'linear-gradient(180deg, #E8FAFA 0%, #F4FBFB 25%, #EEF8D9 50%, #F4FBFB 75%, #E8FAFA 100%)',
     // Escurece a base de uma imagem para dar contraste a texto sobreposto.
     imageOverlay: 'linear-gradient(180deg, rgba(8, 12, 35, 0) 0%, rgba(8, 12, 35, 0.2) 45%, rgba(8, 12, 35, 0.8) 100%)',
   },

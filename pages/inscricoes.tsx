@@ -3,7 +3,6 @@ import { Container, Grid, LoadMore } from "../styles/Events";
 import Website from "../layout/container/Website";
 import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
-import useMenu from "../hooks/useMenu";
 import HeaderPage from "../components/HeaderPage";
 import React, { useState } from "react";
 import { FiCalendar, FiPlay, FiPlus } from "react-icons/fi";
@@ -25,7 +24,6 @@ interface IEventsPage {
 }
 
 const Inscricoes: NextPage<IEventsPage> = ({ data }) => {
-  const { open, toggleMenu } = useMenu();
   const [paginator, setPaginator] = useState<IPaginationData>(data.pagination);
   const [events, setEvents] = useState<IEvent[]>([] as IEvent[]);
   const [loading, setLoading] = useState(false);
@@ -49,12 +47,10 @@ const Inscricoes: NextPage<IEventsPage> = ({ data }) => {
     <Website
       title={"Inscrições"}
       changeScroll={changeScroll}
-      openMenu={open}
-      toggleMenu={toggleMenu}
     >
       <>
         <HeaderContainer active={scrollActive}>
-          <Header toggleMenu={toggleMenu} />
+          <Header />
         </HeaderContainer>
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Inscrições</>} />

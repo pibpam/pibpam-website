@@ -6,7 +6,6 @@ import Header from "../../components/Header";
 import HeaderPage from "../../components/HeaderPage";
 import DividerMobile from "../../components/DividerMobile";
 import { EDividerColors } from "../../components/Divider";
-import useMenu from "../../hooks/useMenu";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import useHeader from "../../hooks/useHeader";
 import { PiBookBookmark, PiEye } from "react-icons/pi";
@@ -18,7 +17,6 @@ const ReadingPlan: React.FC<{ readingPlans: IGetAllReadingPlan }> = ({
   readingPlans,
 }) => {
   const SCROLL_STORAGE_KEY = "reading_plan_scroll_y";
-  const { open, toggleMenu } = useMenu();
   const { goBack, goTo } = useAppNavigation();
   const { scrollActive, changeScroll } = useHeader();
 
@@ -56,13 +54,11 @@ const ReadingPlan: React.FC<{ readingPlans: IGetAllReadingPlan }> = ({
     <Website
       title={"Plano de Leitura"}
       changeScroll={changeScroll}
-      openMenu={open}
-      toggleMenu={toggleMenu}
       hasTabNavigator={false}
     >
       <>
         <HeaderContainer active={scrollActive}>
-          <Header goBack={() => goBack({})} toggleMenu={toggleMenu} />
+          <Header goBack={() => goBack({})} />
         </HeaderContainer>
         {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
         <HeaderPage title={<>Leitura Bíblica</>} />

@@ -17,7 +17,6 @@ import {
 import Website from "../layout/container/Website";
 import Header from "../components/Header";
 import HeaderContainer from "../components/HeaderContainer";
-import useMenu from "../hooks/useMenu";
 import { useAppNavigation } from "../hooks/useAppNavigation";
 import useHeader from "../hooks/useHeader";
 import { sendPasswordReset } from "../services/auth";
@@ -28,7 +27,6 @@ const RecuperarSenha: NextPage = () => {
   const [error, setError] = useState<string | undefined>();
   const [sent, setSent] = useState(false);
 
-  const { open, toggleMenu } = useMenu();
   const { goBack } = useAppNavigation();
   const { scrollActive, changeScroll } = useHeader();
 
@@ -52,14 +50,11 @@ const RecuperarSenha: NextPage = () => {
       title="Recuperar senha"
       hasTabNavigator={false}
       changeScroll={changeScroll}
-      openMenu={open}
-      toggleMenu={toggleMenu}
     >
       <>
         <HeaderContainer active={scrollActive}>
           <Header
             goBack={() => goBack({ fallback: "/login" })}
-            toggleMenu={toggleMenu}
           />
         </HeaderContainer>
         <Page as="main">

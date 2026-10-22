@@ -43,31 +43,3 @@ export const GoBack = styled.button`
   font-size: 32px;
 `
 
-export const Notifications = styled.button`
-  color: ${theme.colors.secondary};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  width: 40px;
-  font-size: 32px;
-  margin-left: auto;
-  position: relative;
-  margin-right: ${theme.spacing.base};
-
-  > span {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    border-radius: ${theme.radius.circle};
-    background: ${theme.colors.white};
-    font-size: 14px;
-    font-weight: 700;
-    color: ${theme.colors.gray700};
-    right: -4px;
-    top: -4px;
-  }
-`

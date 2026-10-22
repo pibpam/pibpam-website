@@ -41,8 +41,6 @@ const MemberInscricoesPage: NextPage<IMemberInscricoesPage> = ({ data }) => {
     <Website
       hasTabNavigator={false}
       title={"Inscrições"}
-      openMenu={false}
-      toggleMenu={() => {}}
     >
       <>
         <HeaderMember

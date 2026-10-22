@@ -1,6 +1,5 @@
 import React, { FC, useContext, useState } from "react";
 import Website from "../../layout/container/Website";
-import useMenu from "../../hooks/useMenu";
 import useHeader from "../../hooks/useHeader";
 import HeaderContainer from "../../components/HeaderContainer";
 import Header from "../../components/Header";
@@ -13,7 +12,6 @@ import { PiBookOpenText, PiCake, PiCalendar, PiTicket, PiUsers } from "react-ico
 import { FiArrowRight, FiInfo } from "react-icons/fi";
 
 const Member: FC = () => {
-  const { open, toggleMenu } = useMenu();
   const { scrollActive, changeScroll } = useHeader();
   const { goTo } = useAppNavigation();
   const [infoSheetOpen, setInfoSheetOpen] = useState(false);
@@ -45,12 +43,10 @@ const Member: FC = () => {
       hasTabNavigator={false}
       title={"Área de membros"}
       changeScroll={changeScroll}
-      openMenu={open}
-      toggleMenu={toggleMenu}
     >
       <>
         <HeaderContainer active={scrollActive}>
-          <Header toggleMenu={toggleMenu} />
+          <Header />
         </HeaderContainer>
         <S.Container>
           <h1>Olá, {nameCapitalized}!</h1>
