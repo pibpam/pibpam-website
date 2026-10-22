@@ -126,12 +126,15 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
   }, [action]);
 
   const handleEventPostMessage = (event: MessageEvent) => {
+    // Origens web cujas mensagens NÃO são da ponte nativa (ex.: a própria página
+    // e o popup do Firebase): ignoradas. As mensagens do app nativo chegam sem origem.
     if (
       [
         "http://localhost:3000",
         "https://pibpam-website.vercel.app",
         "https://pibpam.org",
         "https://www.pibpam.org",
+        "https://app.pibpam.org",
         "https://pibpam.firebaseapp.com",
         "http://10.0.2.2:3000",
       ].includes(event.origin)

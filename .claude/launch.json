@@ -24,8 +24,9 @@
     {
       "name": "pibpam-site",
       "runtimeExecutable": "bash",
-      "runtimeArgs": ["-c", "cd site && PATH=$HOME/.nvm/versions/node/v22.13.0/bin:$PATH yarn dev -p 3001"],
-      "port": 3001
+      "runtimeArgs": ["-c", "cd site && PATH=$HOME/.nvm/versions/node/v22.13.0/bin:$PATH yarn dev -p ${PORT:-3001}"],
+      "port": 3001,
+      "autoPort": true
     },
     {
       "name": "pibpam-storybook",

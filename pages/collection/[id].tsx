@@ -57,7 +57,9 @@ const Collection: NextPage<ICollectionPage> = ({ data }) => {
 
     isApp && (currentImage.current = image)
     isApp && setLoadingDownload(true)
-    const imageDownload = 'https://pibpam.org/api/download?image=' + image
+    // Mesma origem da página (app.pibpam.org ou, no app antigo, www.pibpam.org):
+    // evita depender de um domínio fixo, que agora é o site institucional.
+    const imageDownload = `${window.location.origin}/api/download?image=${encodeURIComponent(image)}`
     saveImage(image, imageDownload)
     // openLink(imageDownload)
 

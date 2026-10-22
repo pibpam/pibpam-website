@@ -23,7 +23,7 @@ yarn lint
 |---|---|
 | `API` | URL do backend upstream (só no servidor). Padrão: `https://api.pibpam.org/` |
 | `SITE_URL` | URL canônica pública (canonical, sitemap, Open Graph). Padrão: `https://www.pibpam.org` |
-| `LEGACY_APP_URL` | App legado (WebView). Liga o proxy do app e o fallback de rotas. Ex.: `https://app.pibpam.org` |
+| `LEGACY_APP_URL` | App legado (`https://app.pibpam.org`). Liga o proxy, os redirects e o fallback. **Obrigatório em produção**: sem ele o deploy falha |
 | `CONTACT_ENABLED` | `true` envia o formulário para `POST {API}/v1/contact-messages`. Sem isso, o form oferece o WhatsApp |
 
 ## Páginas
@@ -67,21 +67,16 @@ então basta editar o `theme.css`. Para um tema alternativo, redefina as variáv
 - **Componentes:** `src/components/{ui,media,agenda,layout,live,contact,seo}` e seções da home em
   `src/sections/home`.
 
-## Convivência com o app (go-live em pibpam.org)
+## Convivência com o app (domínio)
 
-O app nativo abre `https://www.pibpam.org?platform=ios|android`. Com o site na raiz do domínio:
+`pibpam.org` é o site; o app legado (Next 12, usado no WebView do app nativo) vai para `app.pibpam.org`. As versões antigas do
+app nativo ainda abrem `https://www.pibpam.org?platform=ios|android`, então o site as atende por um proxy até todos atualizarem.
 
-1. Publique o app legado num domínio próprio (ex.: `app.pibpam.org`) com
-   `ASSET_PREFIX=https://app.pibpam.org`. Assim os assets dele não colidem com os do site, e o CORS
-   de `/_next/*` já é liberado no `next.config.js` do app.
-2. Publique este site (projeto Vercel com Root Directory `site`) com `LEGACY_APP_URL=https://app.pibpam.org`.
-3. `src/proxy.ts`:
-   - `?platform=` grava o cookie `pibpam_app`, e daí em diante todo o tráfego do WebView vai para o
-     app legado (páginas, `/api/*`, `/_next/data/*`, `/sw.js`).
-   - Para navegadores, links antigos recebem 301 (`/about`→`/sobre`, `/event/:id`→`/conteudos/video/:id`…).
-   - `/sw.js` é um kill-switch que remove o service worker antigo dos navegadores.
-4. O `fallback` de `next.config.ts` manda para o app tudo o que o site não tem (`/bible`, `/inscricoes`,
-   `/member`, `/auth/*`, `/devotional/*`…).
+- `src/proxy.ts`: `?platform=` (ou o cookie `pibpam_app`) repassa o tráfego do WebView ao app legado mantendo a URL; navegadores
+  que abrem páginas só do app (`/bible`, `/member`, `/inscricoes/…`) recebem 308 para `app.pibpam.org`; links antigos
+  (`/about`, `/event/:id`…) recebem 301 para o site; `/sw.js` é um kill-switch do service worker antigo.
+- `next.config.ts`: `fallback` repassa ao app o que o site não tem (`/api/*`, `/auth/*`, arquivos de `public/`), e o deploy de
+  produção **falha sem `LEGACY_APP_URL`**.
+- No app legado, `ASSET_PREFIX=https://app.pibpam.org` evita colisão de `/_next/static` (com CORS liberado em `/_next/*`).
 
-Antes de trocar o DNS, valide em staging que o cookie persiste no WebView (iOS e Android) e que o
-login com Google (`/auth/google` → `/auth/code`) funciona pelo proxy.
+Passo a passo, testes, rollback e como encerrar o suporte: [docs/migracao-dominio.md](docs/migracao-dominio.md).
