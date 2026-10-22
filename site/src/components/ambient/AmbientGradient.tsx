@@ -33,9 +33,12 @@ function compile(gl: WebGLRenderingContext, type: number, source: string) {
  * - Pausa quando sai da tela ou a aba fica oculta.
  * - Ao vivo: as manchas aceleram, ficam mais intensas e puxam para o lime.
  * - Sem WebGL fica o degradê em CSS por baixo (fallback).
+ * - Cria um <canvas> novo a cada montagem: com `cacheComponents` a rota fica
+ *   guardada num <Activity>, os efeitos desmontam mas o DOM fica, e um canvas
+ *   que já passou por `loseContext()` devolveria o mesmo contexto perdido.
  */
 export function AmbientGradient() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const layerRef = useRef<HTMLDivElement>(null);
   const { live } = useLive();
   const liveRef = useRef(0);
   const redrawRef = useRef<(() => void) | null>(null);
@@ -47,8 +50,8 @@ export function AmbientGradient() {
   }, [live]);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const layer = layerRef.current;
+    if (!layer) return;
 
     let raf = 0;
     let disposed = false;
@@ -56,6 +59,8 @@ export function AmbientGradient() {
 
     const start = () => {
       if (disposed) return;
+      const canvas = document.createElement("canvas");
+      canvas.className = "absolute inset-0 size-full";
       const gl = canvas.getContext("webgl", { premultipliedAlpha: true, antialias: false, alpha: true });
       if (!gl) return;
 
@@ -71,6 +76,7 @@ export function AmbientGradient() {
         return;
       }
       gl.useProgram(program);
+      layer.appendChild(canvas);
 
       const buffer = gl.createBuffer();
       gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -153,6 +159,8 @@ export function AmbientGradient() {
         document.removeEventListener("visibilitychange", resume);
         redrawRef.current = null;
         gl.getExtension("WEBGL_lose_context")?.loseContext();
+        canvas.remove();
+        setVisible(false);
       };
     };
 
@@ -175,9 +183,9 @@ export function AmbientGradient() {
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       {/* Fallback e base: o mesmo degradê em CSS, estático. */}
       <div className="absolute inset-0 bg-[radial-gradient(50%_60%_at_80%_30%,color-mix(in_srgb,var(--brand)_28%,transparent),transparent),radial-gradient(45%_50%_at_55%_95%,color-mix(in_srgb,var(--brand-strong)_55%,transparent),transparent)]" />
-      <canvas
-        ref={canvasRef}
-        className={`absolute inset-0 size-full transition-opacity duration-[1500ms] ease-out ${visible ? "opacity-100" : "opacity-0"}`}
+      <div
+        ref={layerRef}
+        className={`absolute inset-0 transition-opacity duration-[1500ms] ease-out ${visible ? "opacity-100" : "opacity-0"}`}
       />
     </div>
   );
