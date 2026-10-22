@@ -5,7 +5,6 @@ import { ITeam } from "../interfaces/Team";
 import { IScheduleDate } from "../interfaces/Schedule";
 import { IChurchInfo, IChurchSchedule } from "../interfaces/Church";
 import { IGetAllSeries } from "../interfaces/Series";
-import { IBanner } from "../interfaces/Banner";
 import { ICollection } from "../interfaces/Collection";
 import { INotice } from "../interfaces/Notice";
 import { ILyric } from "../interfaces/Lyric";
@@ -185,11 +184,6 @@ export class Api {
     const { data } = await this.client.get<IScheduleDate[]>("v1/schedules", {
       params,
     });
-    return data;
-  }
-
-  async getBanners() {
-    const { data } = await this.client.get<IBanner[]>("v1/banners");
     return data;
   }
 
