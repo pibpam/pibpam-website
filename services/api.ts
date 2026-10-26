@@ -18,7 +18,6 @@ import {
   ILiturgyRequestUploadUrlResponse,
 } from "../interfaces/LiturgyRequest";
 import { IGetAllGroupResponse } from "../interfaces/Group";
-import { IGetAllReadingPlan, IReadingPlan } from "../interfaces/ReadingPlan";
 import {
   IGetAllEventsResponse,
   IEventDetail,
@@ -201,25 +200,6 @@ export class Api {
 
   async getNotices() {
     const { data } = await this.client.get<INotice[]>("v1/notices");
-    return data;
-  }
-
-  async getReadingPlans(date?: Date) {
-    const { data } = await this.client.get<IGetAllReadingPlan>(
-      "v1/reading-plan", {
-        params: {
-          date: date?.toISOString(),
-          limit: 200
-        }
-      }
-    );
-    return data;
-  }
-
-  async getReadingPlan(uuid: string) {
-    const { data } = await this.client.get<IReadingPlan>(
-      "v1/reading-plan/" + uuid
-    );
     return data;
   }
 

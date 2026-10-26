@@ -1,6 +1,8 @@
 import type { NextPage } from "next";
 import Home, { IHomeProps } from "../container/Home";
 import { Api } from "../services/api";
+import { ReadingPlansApi } from "../services/readingPlans";
+import { READING_PLAN_SLUG } from "../utils/ReadingPlan";
 
 const HomePage: NextPage<IHomeProps> = (props) => {
   return <Home {...props} />;
@@ -14,7 +16,7 @@ export async function getStaticProps() {
     await Promise.allSettled([
       api.getContents(1, "transmission", 1),
       api.getSchedules(1),
-      api.getReadingPlans(new Date()),
+      new ReadingPlansApi().getLatestDay(READING_PLAN_SLUG),
       api.getMonthBirthDateMembers(),
     ]);
 
@@ -25,9 +27,7 @@ export async function getStaticProps() {
       nextEvent:
         schedules.status === "fulfilled" ? schedules.value[0] || null : null,
       readingPlan:
-        readingPlans.status === "fulfilled"
-          ? readingPlans.value.data[0] || null
-          : null,
+        readingPlans.status === "fulfilled" ? readingPlans.value : null,
       birthdaysMonth: birthdays.status === "fulfilled" ? birthdays.value : [],
     },
     // A leitura do dia, o último culto, a agenda e os aniversários mudam ao longo do dia.
