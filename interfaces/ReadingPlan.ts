@@ -1,48 +1,27 @@
-import { IBook, IVerse } from "../data/bibles";
-import { IAuthor } from "./Author";
-import { IPagination } from "./Pagination";
-
-export type UUID = string;
-export type ISODateString = string;
-
-export interface IReference {
-  chapter: string;
-  book: IBook;
-  verses: IVerse[];
-}
-
-
-export interface DailyReading {
-  uuid: UUID;
+export interface IPlanDay {
+  id: string;
   title: string;
-  image: string;
-  audio: string | null;
-  reference: string;
-  devotional: string | null;
-  transcription: string | null;
-  created_at: ISODateString;
-  references?: IReference[];
-  author?: IAuthor
-}
-
-export interface IReadingPlanItem {
-  uuid: UUID;
   position: number;
-  created_at: ISODateString;
-  dailyReading: DailyReading;
+  // YYYY-MM-DD, no fuso do plano.
+  unlock_date: string;
+  url: string;
 }
 
-export interface IReadingPlan {
-  uuid: UUID;
+export interface IPlanItem {
+  id: string;
+  type: string;
   title: string;
-  description: string;
-  image: string;
-  active: boolean;
-  created_at: ISODateString;
-  readingPlanItems?: IReadingPlanItem[];
-  itemsQtd?: number
+  required: boolean;
+  reference: string | null;
 }
 
-export interface IGetAllReadingPlan extends IPagination {
-  data: IReadingPlan[];
+export interface IPlanLatestDay {
+  plan: {
+    slug: string;
+    title: string;
+    timezone: string;
+    url: string;
+  };
+  day: IPlanDay;
+  items: IPlanItem[];
 }

@@ -21,9 +21,10 @@ import { UserContext } from "../../contexts/user";
 import { LivesContext } from "../../contexts/lives";
 import { IContent } from "../../interfaces/Contens";
 import { IMemberBasic } from "../../interfaces/Member";
-import { IReadingPlan } from "../../interfaces/ReadingPlan";
+import { IPlanLatestDay } from "../../interfaces/ReadingPlan";
 import { IScheduleDate } from "../../interfaces/Schedule";
 import { DateUtils } from "../../utils/Date";
+import { readingPlanDayUrl } from "../../utils/ReadingPlan";
 import MediaCard from "./MediaCard";
 import ReadingCard from "./ReadingCard";
 import NextEventCard from "./NextEventCard";
@@ -36,7 +37,7 @@ const STAGGER_MS = 70;
 
 export interface IHomeProps {
   lastService?: IContent | null;
-  readingPlan?: IReadingPlan | null;
+  readingPlan?: IPlanLatestDay | null;
   nextEvent?: IScheduleDate | null;
   // Aniversariantes do mês; o filtro do dia é feito no cliente.
   birthdaysMonth: IMemberBasic[];
@@ -137,7 +138,7 @@ const Home: FC<IHomeProps> = ({
               <S.Cell $cols={2} $rows={2} $delay={delay()}>
                 <ReadingCard
                   readingPlan={readingPlan}
-                  onClick={() => goTo("/reading-plan/" + readingPlan.uuid)}
+                  onClick={() => openLink(readingPlanDayUrl(readingPlan.day.id))}
                 />
               </S.Cell>
             )}

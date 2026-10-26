@@ -25,9 +25,10 @@ app below (Tailwind instead of styled-components, `src/` + `@/*` imports, Cache 
 
 ## Environment
 
-Copy `.env.example` to `.env`. Two groups of variables:
+Copy `.env.example` to `.env`. Three groups of variables:
 - `API` — base URL of the upstream backend, consumed **server-side only** (see BFF pattern below).
 - `NEXT_PUBLIC_FIREBASE_*` — Firebase web config, used client-side for auth.
+- `READING_PLANS_API` / `READING_PLANS_API_KEY` — base URL and Bearer key of the external reading-plans service (`services/readingPlans.ts`), consumed **server-side only** in the Home's `getStaticProps`. Reading plans no longer live in this app: the Home card links out to the service.
 
 ## Architecture
 
@@ -62,7 +63,7 @@ Pages use `getStaticProps` (mostly, e.g. `index.tsx`) or `getServerSideProps` to
 ### Directory layout
 - `pages/` — routes + `pages/api/*` (the BFF handlers). Files here are routes, so page-level styled-components live in `styles/<PageName>.ts`, not colocated.
 - `components/` — reusable presentational components, each a folder with `index.tsx` + `styles.ts`.
-- `container/` — larger composed/screen-level pieces (e.g. `Home`, `ReadingPlan`, `Schedule`, `Tracking`), often extracted from a specific page's distinct sections (e.g. `About/Contacts`, `Tracking/ParticipantItem`).
+- `container/` — larger composed/screen-level pieces (e.g. `Home`, `Schedule`, `Tracking`), often extracted from a specific page's distinct sections (e.g. `About/Contacts`, `Tracking/ParticipantItem`).
 - `layout/` — page shells (e.g. `Website`).
 - `contexts/`, `hooks/`, `services/`, `utils/`, `enum/`.
 - `interfaces/` — TypeScript interfaces for API/domain models. These are imported broadly by `Api`/`ApiLocal`; keep them in sync when changing API shapes.
