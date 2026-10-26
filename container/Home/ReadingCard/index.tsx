@@ -33,7 +33,9 @@ const ReadingCard: React.FC<IReadingCardProps> = ({ readingPlan, onClick }) => {
         <PiBookBookmark />
       </span>
       <Text>
-        <small>{label}</small>
+        <small>
+          {label} · Dia {day.position}
+        </small>
         <strong>{day.title}</strong>
         {references && <span>{references}</span>}
       </Text>
