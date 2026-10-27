@@ -79,6 +79,16 @@ const theme = {
     pill: '41.5px',
     circle: '50%',
   },
+  shadows: {
+    // Cartão claro em repouso (atalhos, próximo evento).
+    card: '0 2px 10px rgba(47, 111, 112, 0.08)',
+    // Cartão colorido em destaque (mídia, leitura).
+    raised: '0 6px 18px rgba(47, 111, 112, 0.25)',
+    // Cartão lima em destaque (próximo evento, aniversariantes).
+    raisedLime: '0 6px 18px rgba(110, 143, 10, 0.3)',
+    // Barra de navegação flutuante.
+    floating: '0 8px 24px rgba(47, 111, 112, 0.22)',
+  },
   gradients: {
     // Fundo das telas de destaque (Home): teal bem claro <-> lima bem claro. Pensado para
     // ser animado (background-size 100% 300% + deslocamento vertical).

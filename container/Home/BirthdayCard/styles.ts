@@ -17,7 +17,7 @@ export const Container = styled.button`
   color: ${theme.colors.white};
   text-align: left;
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(110, 143, 10, 0.3);
+  box-shadow: ${theme.shadows.raisedLime};
   transition: transform 0.1s ease;
 
   &:active {

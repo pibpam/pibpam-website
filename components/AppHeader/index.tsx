@@ -11,7 +11,8 @@ interface IAppHeader {
   title?: string
   /** Por padrão toda tela, exceto a Home, volta pelo histórico do app. */
   onBack?: () => void
-  tone?: 'light' | 'dark'
+  /** glass: translúcido, para telas com fundo em degradê (Home). */
+  tone?: 'light' | 'dark' | 'glass'
   trailing?: ReactNode
 }
 
@@ -32,6 +33,7 @@ const AppHeader: React.FC<IAppHeader> = ({ title, onBack, tone = 'light', traili
   return (
     <Container
       $dark={dark}
+      $glass={tone === 'glass'}
       style={{
         paddingTop: `calc(max(${deviceInfo?.top ?? 0}px, env(safe-area-inset-top, 0px)) + 12px)`,
       }}

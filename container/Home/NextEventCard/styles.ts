@@ -16,7 +16,7 @@ export const Container = styled.button<{ $active: boolean }>`
   border: 1px solid ${theme.colors.tealBorderCard};
   border-radius: ${theme.radius.xl};
   background: ${theme.colors.white};
-  box-shadow: 0 2px 10px rgba(47, 111, 112, 0.08);
+  box-shadow: ${theme.shadows.card};
   text-align: left;
   cursor: pointer;
   transition: transform 0.1s ease;
@@ -28,7 +28,7 @@ export const Container = styled.button<{ $active: boolean }>`
   ${({ $active }) => $active && css`
     border-color: transparent;
     background: linear-gradient(150deg, ${theme.colors.success} 0%, ${theme.colors.secondary} 55%, ${theme.colors.tealMedium} 100%);
-    box-shadow: 0 6px 18px rgba(110, 143, 10, 0.3);
+    box-shadow: ${theme.shadows.raisedLime};
     ${shineSweep}
   `}
 `

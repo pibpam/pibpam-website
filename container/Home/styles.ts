@@ -23,7 +23,7 @@ const drift = keyframes`
 `;
 
 export const Container = styled.div`
-  padding: 110px 24px 140px;
+  padding: 24px 24px 140px;
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing.base};

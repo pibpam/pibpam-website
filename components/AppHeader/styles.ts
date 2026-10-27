@@ -1,13 +1,15 @@
 import styled from 'styled-components'
 import theme from '../../styles/theme'
 
-export const Container = styled.header<{ $dark: boolean }>`
+export const Container = styled.header<{ $dark: boolean; $glass?: boolean }>`
   position: sticky;
   top: 0;
   z-index: 10;
   width: 100%;
   padding: 0 20px 12px;
-  background: ${({ $dark }) => ($dark ? theme.colors.pine : theme.colors.white)};
+  background: ${({ $dark, $glass }) =>
+    $glass ? 'rgba(255, 255, 255, 0.82)' : $dark ? theme.colors.pine : theme.colors.white};
+  backdrop-filter: ${({ $glass }) => ($glass ? 'blur(12px)' : 'none')};
   border-bottom: 1px solid
     ${({ $dark }) => ($dark ? theme.colors.lineInverse : theme.colors.tealBorder)};
 `

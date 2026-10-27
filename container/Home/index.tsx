@@ -9,10 +9,8 @@ import {
   PiPlayCircle,
 } from "react-icons/pi";
 import Website from "../../layout/container/Website";
-import HeaderContainer from "../../components/HeaderContainer";
-import Header from "../../components/Header";
+import AppHeader from "../../components/AppHeader";
 import ShortcutCard from "../../components/ShortcutCard";
-import useHeader from "../../hooks/useHeader";
 import usePostMessage from "../../hooks/usePostMessage";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { LivesContext } from "../../contexts/lives";
@@ -46,7 +44,6 @@ const Home: FC<IHomeProps> = ({
   nextEvent,
   birthdaysMonth,
 }) => {
-  const { scrollActive, changeScroll } = useHeader();
   const { goTo: goToHook } = useAppNavigation();
   const { openLink } = usePostMessage();
   const { lives } = useContext(LivesContext);
@@ -71,11 +68,9 @@ const Home: FC<IHomeProps> = ({
   const delay = () => order++ * STAGGER_MS;
 
   return (
-    <Website changeScroll={changeScroll}>
+    <Website>
       <>
-        <HeaderContainer active={scrollActive}>
-          <Header />
-        </HeaderContainer>
+        <AppHeader tone="glass" />
         <S.Container>
           <S.Welcome>
             <h1>Bem-vindo!</h1>

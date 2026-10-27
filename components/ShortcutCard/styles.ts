@@ -62,7 +62,7 @@ export const Container = styled.button<{
   display: flex;
   border: 1px solid transparent;
   border-radius: ${theme.radius.xl};
-  box-shadow: 0 2px 10px rgba(47, 111, 112, 0.08);
+  box-shadow: ${theme.shadows.card};
   text-align: left;
   cursor: pointer;
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease;

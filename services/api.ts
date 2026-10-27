@@ -2,7 +2,7 @@ import axios from "axios";
 import { IContent, IGetAllContentsResponse } from "../interfaces/Contens";
 import { ITeam } from "../interfaces/Team";
 import { IScheduleDate } from "../interfaces/Schedule";
-import { IChurchInfo, IChurchSchedule } from "../interfaces/Church";
+import { IChurchSchedule } from "../interfaces/Church";
 import { IGetAllSeries } from "../interfaces/Series";
 import { ILyric } from "../interfaces/Lyric";
 import { IMemberBasic } from "../interfaces/Member";
@@ -26,11 +26,6 @@ export class Api {
     this.client = axios.create({
       baseURL: process.env.API,
     });
-  }
-
-  async getChurchInfo() {
-    const { data } = await this.client.get<IChurchInfo>("v1/churchs/info");
-    return data;
   }
 
   async getChurchSchedule() {

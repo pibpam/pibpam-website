@@ -1,21 +1,6 @@
 import styled, { css, keyframes } from 'styled-components'
 import theme from '../../styles/theme'
 
-export const PrimaryContainer = styled.button`
-  color: ${theme.colors.gray800};
-  background: ${theme.colors.white};
-  padding: ${theme.spacing.md} ${theme.spacing.lg};
-  border-radius: ${theme.radius.pill};
-  display: flex;
-  align-items: center;
-  gap: ${theme.spacing.base};
-  justify-content: center;
-
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 20px;
-`
-
 export const SecondaryContainer = styled.button`
   display: flex;
   align-items: center;

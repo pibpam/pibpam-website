@@ -22,6 +22,17 @@ export const Dark: Story = {
   args: { title: 'Ao vivo', onBack: () => {}, tone: 'dark' },
 }
 
+export const Glass: Story = {
+  args: { tone: 'glass' },
+  decorators: [
+    (Story) => (
+      <div style={{ background: 'linear-gradient(180deg, #E8FAFA, #EEF8D9)', minHeight: 160 }}>
+        <Story />
+      </div>
+    ),
+  ],
+}
+
 export const WithTrailing: Story = {
   args: {
     title: 'Agenda',

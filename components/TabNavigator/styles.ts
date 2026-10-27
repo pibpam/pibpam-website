@@ -14,7 +14,7 @@ export const Container = styled.div<{bottom?: number}>`
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid ${theme.colors.tealBorderCard};
-  box-shadow: 0 8px 24px rgba(47, 111, 112, 0.22);
+  box-shadow: ${theme.shadows.floating};
   transform: translateX(-50%);
 
   > ul {
