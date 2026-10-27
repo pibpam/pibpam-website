@@ -6,6 +6,7 @@ import Script from "next/script";
 import ModalGetApp from '../components/ModalGetApp';
 import { clarity } from 'react-microsoft-clarity';
 import GlobalStyle from "../styles/GlobalStyle";
+import "../styles/tailwind.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
 

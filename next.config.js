@@ -28,6 +28,14 @@ module.exports = {
 
   // `import Icon from './x.svg'` vira componente React (SVGR).
   turbopack: {
+    // Componentes importados de site/src (alias `@/*`) resolvem os pacotes a
+    // partir de site/node_modules; sem isso o app carregaria duas cópias de
+    // React/Next e os hooks e o router quebrariam.
+    resolveAlias: {
+      react: './node_modules/react',
+      'react-dom': './node_modules/react-dom',
+      next: './node_modules/next',
+    },
     rules: {
       '*.svg': {
         loaders: ['@svgr/webpack'],

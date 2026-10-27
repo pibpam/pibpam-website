@@ -50,8 +50,16 @@ const theme = {
     warningTint: '#FFF4E0',
     warningText: '#A5641E',
     warningBorder: '#F5D9AC',
+
+    // Superfícies escuras e texto sobre elas (mesmos valores do site: pine/ink-inverse).
+    pine: '#12302F',
+    pineSoft: '#1B4241',
+    inkInverse: '#F4FBFB',
+    inkInverseMuted: '#A9C9C8',
+    lineInverse: '#2B5150',
   },
-  fontFamily: "'Quicksand', sans-serif",
+  // `--font-jakarta` é definido no :root pelo GlobalStyle (next/font).
+  fontFamily: 'var(--font-jakarta), ui-sans-serif, system-ui, sans-serif',
   spacing: {
     xs: '4px',
     sm: '8px',

@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components'
 import Contexts from '../contexts'
 import theme from '../styles/theme'
 import GlobalStyle from '../styles/GlobalStyle'
+import '../styles/tailwind.css'
 
 const preview: Preview = {
   parameters: {

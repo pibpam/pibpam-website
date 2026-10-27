@@ -1,0 +1,14 @@
+/*
+ * Tailwind 4 só para os componentes compartilhados com o site (alias `@/*` →
+ * site/src). As telas do app seguem em styled-components, por isso o preflight
+ * (reset) fica de fora: o GlobalStyle já faz o reset que elas esperam.
+ */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* Mesmos tokens e mapeamento de utilitários do site (fonte única). */
+@import "../site/src/styles/theme.css";
+@import "../site/src/styles/tailwind-theme.css";
+
+@source "../site/src";

@@ -66,15 +66,19 @@ Pages use `getStaticProps` (mostly, e.g. `index.tsx`) or `getServerSideProps` to
 - `data/bibles/` — bundled offline Bible text (NVI translation) as JSON.
 
 ### Styling
-The app is **100% styled-components** — there is no CSS/SCSS anywhere in the codebase.
+The app's screens are **styled-components**. The only CSS file is `styles/tailwind.css` (Tailwind 4 via `postcss.config.mjs`), which exists solely to style components shared with the institutional site (see "Sharing with `site/`").
 
 - **Component pattern**: every component is a folder with `index.tsx` + a colocated `styles.ts` that exports the styled elements, imported into `index.tsx` (e.g. `components/Button/`, `components/Header/`).
 - **Page-level styles**: since every file directly under `pages/` is a route, styles for a page (or a group of pages sharing one visual language, e.g. `Events.ts` used by 7 list pages) live in `styles/<PageName>.ts` instead of being colocated.
 - **Design tokens**: `styles/theme.ts` exports `colors`, `fontFamily`, `spacing`, and `radius`. Consume it via a direct `import theme from '.../styles/theme'` and reference `theme.colors.x` / `theme.spacing.x` / `theme.radius.x` inside template literals — there is **no** `ThemeProvider`. Reuse an existing token instead of hardcoding a hex/px value; only add a new token when a color/size is genuinely distinct or repeats 3+ times.
+- **Font**: Plus Jakarta Sans (same as the site) through `next/font` in `styles/fonts.ts`; `GlobalStyle` publishes it as `--font-jakarta` on `:root` and `theme.fontFamily` consumes the variable. Do not add a `<link>` to Google Fonts.
 - **Global styles**: `styles/GlobalStyle.ts` (a `createGlobalStyle`) replaces what would be a global stylesheet, rendered once in `pages/_app.tsx` and again in `.storybook/preview.tsx`.
 - **Conditional styling**: use styled-components' transient prop convention (`$propName`) for props that control CSS but shouldn't leak to the DOM. Wrap any conditional block that references a `keyframes` result in the `css` helper (an untagged template string containing a keyframes interpolation throws at runtime in styled-components v6).
 - **Page-internal sections**: when a page has a section with real visual/logical identity (not a trivial 1–2 line wrapper), extract it into its own `container/<Page>/<Section>/` component (`index.tsx` + `styles.ts`) rather than inlining it in the page file.
 - `next.config.js` sets `compiler: { styledComponents: true }` — required for stable SSR/CSR className hashing; do not remove it.
+
+### Sharing with `site/`
+`@/*` resolves to `site/src/*` (tsconfig `paths`, picked up by Turbopack). Import only **presentational** site components (`@/components/ui/*`, `agenda`, `media`, `ambient`…): nothing that uses `server-only`, `"use cache"`, `next/navigation` or `next/cache`. Tailwind runs **without preflight** (`styles/tailwind.css` imports only `theme` + `utilities`), so legacy screens keep the `GlobalStyle` reset. Tokens come from `site/src/styles/theme.css` and `tailwind-theme.css` (single source for both projects; change colors there). `turbopack.resolveAlias` in `next.config.js` pins `react`, `react-dom` and `next` to the app's copy; without it site files would load `site/node_modules` duplicates. If a shared component imports a package that only `site/package.json` has (e.g. `lucide-react`), add it to the root `package.json` too.
 
 ### Design system (Storybook)
 `styles/*.stories.tsx` (`Colors`, `Spacing`, `Typography`) document the design tokens, and most `components/*` have an `index.stories.tsx`. Run `yarn storybook` to browse the catalog. When adding a new reusable component, add a matching story.

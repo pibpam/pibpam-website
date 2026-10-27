@@ -1,7 +1,12 @@
 import { createGlobalStyle } from 'styled-components'
 import theme from './theme'
+import { jakarta } from './fonts'
 
 const GlobalStyle = createGlobalStyle`
+  :root {
+    --font-jakarta: ${jakarta.style.fontFamily};
+  }
+
   html,
   body {
     padding: 0;
