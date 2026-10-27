@@ -2966,6 +2966,13 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@youversion/platform-core@2.16.0":
+  version "2.16.0"
+  resolved "https://registry.yarnpkg.com/@youversion/platform-core/-/platform-core-2.16.0.tgz#df24c0cfe7a7bd44aa6a345ee5fea6ddcdc10f08"
+  integrity sha512-BcIPtkMiIslSMPuBOPAXjWdXf8xBcjAGYYIXvDLsO4cEd47nMAmAUabMhh3s4XL4AfYxcKsHtQyuBW2wGBx5ww==
+  dependencies:
+    zod "4.1.12"
+
 abort-controller@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/abort-controller/-/abort-controller-3.0.0.tgz#eaf54d53b62bae4138e809ca225c8439a6efb392"
@@ -8733,6 +8740,11 @@ youtube-player@5.5.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/zod-validation-error/-/zod-validation-error-4.0.2.tgz#bc605eba49ce0fcd598c127fee1c236be3f22918"
   integrity sha512-Q6/nZLe6jxuU80qb/4uJ4t5v2VEZ44lzQjPDhYJNztRQ4wyWc6VF3D3Kb/fAuPetZQnhS3hnajCf9CsWesghLQ==
+
+zod@4.1.12:
+  version "4.1.12"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-4.1.12.tgz#64f1ea53d00eab91853195653b5af9eee68970f0"
+  integrity sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==
 
 "zod@^3.25.0 || ^4.0.0":
   version "4.6.7"

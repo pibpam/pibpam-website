@@ -10,6 +10,8 @@ interface IWebsiteProps {
   changeScroll?: (top: number) => void,
   title?: string,
   img?: string
+  /** Tema escuro na área da tela (hoje só a Bíblia). */
+  dark?: boolean
 }
 
 const Website: React.FC<IWebsiteProps> = ({
@@ -17,6 +19,7 @@ const Website: React.FC<IWebsiteProps> = ({
   hasTabNavigator = true,
   children,
   img,
+  dark = false,
   changeScroll
 }) => {
 
@@ -46,7 +49,7 @@ const Website: React.FC<IWebsiteProps> = ({
         {img && (<meta property="og:image" content={img} />)}
         <meta property="og:type" content="website" />
       </Head>
-      <Container bottom={deviceInfo?.bottom}>
+      <Container bottom={deviceInfo?.bottom} $dark={dark} data-theme={dark ? 'dark' : undefined}>
         {children}
       </Container>
       {hasTabNavigator && <TabNavigator />}

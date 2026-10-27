@@ -36,3 +36,17 @@
   --radius-md: 14px;
   --radius-lg: 24px;
 }
+
+/* Tema escuro (hoje usado pela Bíblia do app): superfícies pine, texto claro. */
+[data-theme="dark"] {
+  --brand-strong: #5fd9da;
+  --brand-soft: #234e4d;
+
+  --paper: #1b4241;
+  --mist: #12302f;
+
+  --ink: #f4fbfb;
+  --ink-muted: #a9c9c8;
+
+  --line: #2b5150;
+}

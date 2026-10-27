@@ -1,82 +1,83 @@
-import type { NextPage } from "next";
+import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { Container } from "@/components/ui/Container";
 import Website from "../../../../layout/container/Website";
 import AppHeader from "../../../../components/AppHeader";
+import BibleText from "../../../../components/BibleText";
+import BibleThemeToggle from "../../../../components/BibleThemeToggle";
 import {
-  EBible,
-  getBook,
-  getBooks,
-  getChapters,
-  getVerses,
-  IBook,
-  IVerse,
-} from "../../../../data/bibles";
+  BIBLE_REVALIDATE,
+  getBibleBook,
+  getBibleChapter,
+  getBibleCopyright,
+  getLegacyBookId,
+  IBibleBook,
+} from "../../../../services/youversion";
+import { useBibleTheme } from "../../../../hooks/useBibleTheme";
 
 interface IBible {
-  chapter: number;
-  book: IBook;
-  verses: IVerse[];
+  chapter: string;
+  book: IBibleBook;
+  html: string;
+  copyright: string | null;
 }
 
-const BibleVerses: NextPage<IBible> = ({ chapter, book, verses }) => {
+const BibleVerses: NextPage<IBible> = ({ chapter, book, html, copyright }) => {
+  const { dark, toggle } = useBibleTheme();
+
   return (
     <Website
-      title={`Bíblia: ${book.name} - ${chapter} `}
+      title={`Bíblia: ${book.title} - ${chapter} `}
       hasTabNavigator={false}
+      dark={dark}
     >
       <>
-        <AppHeader title={`${book.name}, ${chapter}`} />
+        <AppHeader
+          title={`${book.title}, ${chapter}`}
+          tone={dark ? "dark" : "light"}
+          trailing={<BibleThemeToggle dark={dark} onToggle={toggle} />}
+        />
         <Container className="pt-6 pb-16">
-          <div className="mx-auto flex max-w-[700px] flex-col gap-3 text-lg leading-8">
-            {verses &&
-              verses.map((item) => (
-                <p key={item.verse}>
-                  <sup className="mr-1 text-xs font-bold text-brand-strong">{item.verse}</sup>
-                  {item.text}
-                </p>
-              ))}
-          </div>
+          <BibleText html={html} copyright={copyright} />
         </Container>
       </>
     </Website>
   );
 };
 
-export async function getStaticPaths() {
-  const books = getBooks(EBible.NVI);
-  const data = [] as { chapter: string; book: string }[];
+// Os 1.189 capítulos são gerados sob demanda (e guardados em cache), não no build.
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: [],
+  fallback: "blocking",
+});
 
-  books.forEach((book) => {
-    const chapters = getChapters(EBible.NVI, book.book_reference_id);
-    chapters.forEach((chapter) => {
-      data.push({
-        chapter: chapter.toString(),
-        book: book.book_reference_id.toString(),
-      });
-    });
-  });
+export const getStaticProps: GetStaticProps<
+  IBible,
+  { book: string; chapter: string }
+> = async ({ params }) => {
+  const { book: bookParam = "", chapter = "" } = params ?? {};
+
+  const legacyId = await getLegacyBookId(bookParam);
+  if (legacyId) {
+    return {
+      redirect: { destination: `/bible/${legacyId}/chapter/${chapter}`, permanent: true },
+    };
+  }
+
+  if (!/^[0-9A-Z]{3}$/.test(bookParam) || !/^\d+$/.test(chapter)) {
+    return { notFound: true };
+  }
+
+  const [data, html, copyright] = await Promise.all([
+    getBibleBook(bookParam),
+    getBibleChapter(bookParam, chapter),
+    getBibleCopyright(),
+  ]);
+  if (!data || !html) return { notFound: true };
 
   return {
-    paths: data.map((item) => ({ params: { ...item } })),
-    fallback: false,
+    props: { chapter, book: data.book, html, copyright },
+    revalidate: BIBLE_REVALIDATE,
   };
-}
-
-interface IParams {
-  params: {
-    book: number;
-    chapter: number;
-  };
-}
-
-export async function getStaticProps({ params }: IParams) {
-  const book = getBook(EBible.NVI, Number(params.book));
-  const verses = getVerses(
-    EBible.NVI,
-    Number(params.book),
-    Number(params.chapter)
-  );
-  return { props: { chapter: params.chapter, book, verses } };
-}
+};
 
 export default BibleVerses;
