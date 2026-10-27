@@ -10,7 +10,8 @@ interface LiveState {
   ready: boolean;
 }
 
-const LiveContext = createContext<LiveState>({ live: null, ready: false });
+// Exportado para o app (WebView) alimentar o estado "ao vivo" com o contexto dele.
+export const LiveContext = createContext<LiveState>({ live: null, ready: false });
 
 /**
  * Consulta /api/site/live a cada minuto (e quando a aba volta ao foco).
