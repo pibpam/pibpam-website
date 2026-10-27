@@ -1,20 +1,15 @@
-import type { NextPage } from 'next'
-import Website from '../../layout/container/Website'
-import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
-import HeaderComp from "../../components/Header";
-import HeaderPage from "../../components/HeaderPage";
-import { Api } from "../../services/api";
-import { useAppNavigation } from "../../hooks/useAppNavigation";
-import useHeader from "../../hooks/useHeader";
-import HeaderContainer from "../../components/HeaderContainer";
-import { ISeries } from "../../interfaces/Series";
+import type { GetStaticPaths, NextPage } from 'next'
+import Image from 'next/image'
 import { FiList } from "react-icons/fi";
-import { Container, Grid, Header } from "../../styles/SeriesPage"
-import EventCard from "../../components/EventCard";
-import { GetStaticPaths } from "next";
-import ShareButton from '../../components/ShareButton';
+import { Container } from '@/components/ui/Container'
+import Website from '../../layout/container/Website'
+import AppHeader from "../../components/AppHeader";
+import AppVideoCard from "../../components/AppVideoCard";
+import AppShareButton from '../../components/AppShareButton';
+import { Api } from "../../services/api";
+import { ISeries } from "../../interfaces/Series";
 
-interface IEventPage {
+interface ISeriesDetailPage {
   data: ISeries
 }
 
@@ -24,43 +19,37 @@ interface IParams {
   }
 }
 
-const Event: NextPage<IEventPage> = ({ data }) => {
-  const { goBack } = useAppNavigation()
-  const { scrollActive, changeScroll } = useHeader()
-  const { goTo } = useAppNavigation()
-
-  const goToContent = async (pathname: string) => {
-    await goTo({ pathname, showLoading: true })
-  }
+const SeriesDetail: NextPage<ISeriesDetailPage> = ({ data }) => {
+  const count = data.series_contents.length
 
   return (
-    <Website title={`${data.title}`} changeScroll={changeScroll} hasTabNavigator={false}>
+    <Website title={`${data.title}`} hasTabNavigator={false}>
       <>
-        <HeaderContainer active={scrollActive}>
-          <HeaderComp goBack={() => goBack({})} />
-        </HeaderContainer>
-        <HeaderPage background={data.image} />
-        <DividerMobile color={EDividerColors.white} />
-        <Container>
-          <Header>
-            <h2>{data.title}</h2>
-            <p>{data.description}</p>
-            <div>
-              <div>
-                <FiList /> {data.series_contents.length} {data.series_contents.length > 1 ? "episódios" : "episódio"}
-              </div>
-              <ShareButton url={`https://pibpam.org/series/${data.uuid}`} message={`${data.title}, ${data.description}.`} />
+        <AppHeader title="Série" />
+        <Container className="pt-5 pb-16">
+          {data.image && (
+            <div className="relative aspect-video overflow-hidden rounded-md bg-pine-soft">
+              <Image src={data.image} alt="" fill priority sizes="100vw" className="object-cover" />
             </div>
-          </Header>
-          <Grid>
+          )}
+          <h1 className="mt-5 text-2xl font-extrabold tracking-tight text-balance">{data.title}</h1>
+          {data.description && (
+            <p className="mt-2 text-lg leading-relaxed whitespace-pre-line text-ink-muted">{data.description}</p>
+          )}
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <span className="inline-flex items-center gap-2 font-semibold text-brand-strong">
+              <FiList aria-hidden /> {count} {count === 1 ? "mensagem" : "mensagens"}
+            </span>
+            <AppShareButton url={`https://pibpam.org/series/${data.uuid}`} message={`${data.title}, ${data.description}.`} />
+          </div>
+
+          <ul className="mt-8 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
             {data.series_contents.map(item => (
-              <EventCard
-                key={item.content.uuid} hideDate
-                onClick={() => goToContent("/event/" + item.content.uuid)}
-                data={item.content}
-              />
+              <li key={item.content.uuid}>
+                <AppVideoCard content={item.content} />
+              </li>
             ))}
-          </Grid>
+          </ul>
         </Container>
       </>
     </Website>
@@ -85,4 +74,4 @@ export async function getStaticProps({ params }: IParams) {
   return { props: { data } }
 }
 
-export default Event
+export default SeriesDetail

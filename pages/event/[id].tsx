@@ -1,16 +1,12 @@
 import type { GetStaticPaths, NextPage } from 'next'
+import { FiList } from 'react-icons/fi'
+import { Container } from '@/components/ui/Container'
 import Website from '../../layout/container/Website'
-import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
-import Header from "../../components/Header";
-import HeaderPage from "../../components/HeaderPage";
+import AppHeader from "../../components/AppHeader";
+import AppButton from "../../components/AppButton";
+import ContentPage from '../../components/ContentPage';
 import { Api } from "../../services/api";
 import { IContent } from "../../interfaces/Contens";
-import { useAppNavigation } from "../../hooks/useAppNavigation";
-import useHeader from "../../hooks/useHeader";
-import HeaderContainer from "../../components/HeaderContainer";
-import ContentPage from '../../components/ContentPage';
-import FooterPage from '../../components/FooterPage';
-import { FiBookOpen, FiList } from 'react-icons/fi';
 
 interface IEventPage {
   data: IContent
@@ -23,32 +19,24 @@ interface IParams {
 }
 
 const Event: NextPage<IEventPage> = ({ data }) => {
-  const { goBack, goTo: goToHook } = useAppNavigation()
-  const { scrollActive, changeScroll } = useHeader()
-
-  const goTo = async (pathname: string) => {
-    await goToHook({ pathname, showLoading: true })
-  }
-
   return (
-    <Website title={`${data.name} - ${data.author?.name}`} img={data.image} changeScroll={changeScroll} hasTabNavigator={false}>
+    <Website title={`${data.name} - ${data.author?.name}`} img={data.image} hasTabNavigator={false}>
       <>
-        <HeaderContainer active={scrollActive} >
-          <Header goBack={() => goBack({})} />
-        </HeaderContainer>
-        <HeaderPage background={data.image} />
-        <DividerMobile color={EDividerColors.white} />
+        <AppHeader title="Culto" />
         <ContentPage content={data} />
-        <FooterPage
-          options={
-            data.series_contents?.map(item => ({
-              text: `${item.series.title}`,
-              title: 'Assista a série completa',
-              icon: <FiList />,
-              action: () => goTo(`/series/${item.series.uuid}`)
-            }))
-          }
-        />
+        {!!data.series_contents?.length && (
+          <Container className="-mt-8 pb-16">
+            <h2 className="mb-3 text-lg font-extrabold tracking-tight">Assista a série completa</h2>
+            <div className="flex flex-col items-start gap-2">
+              {data.series_contents.map(item => (
+                <AppButton key={item.series.uuid} variant="outline" icon={<FiList aria-hidden />}
+                  href={`/series/${item.series.uuid}`}>
+                  {item.series.title}
+                </AppButton>
+              ))}
+            </div>
+          </Container>
+        )}
       </>
     </Website>
   )

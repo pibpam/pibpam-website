@@ -1,16 +1,12 @@
 import type { NextPage } from 'next'
-import { Container, Team, TeamItem } from '../../styles/Ministry'
-import Website from '../../layout/container/Website'
-import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
-import HeaderComp from "../../components/Header";
-import HeaderPage from "../../components/HeaderPage";
+import Image from 'next/image'
 import React from "react";
-import Title from "../../components/Title";
+import { Container } from '@/components/ui/Container'
+import { shortName } from '@/lib/format'
+import Website from '../../layout/container/Website'
+import AppHeader from "../../components/AppHeader";
 import { Api } from "../../services/api";
 import { ITeam } from "../../interfaces/Team";
-import { useAppNavigation } from "../../hooks/useAppNavigation";
-import useHeader from "../../hooks/useHeader";
-import HeaderContainer from "../../components/HeaderContainer";
 
 interface IParams {
   params: {
@@ -23,36 +19,42 @@ interface IMinistry {
 }
 
 const Ministry: NextPage<IMinistry> = ({ data }) => {
-  const { goBack } = useAppNavigation()
-  const { scrollActive, changeScroll } = useHeader()
-
   return (
-    <Website title={`${data.name}`} changeScroll={changeScroll} hasTabNavigator={false}>
+    <Website title={`${data.name}`} hasTabNavigator={false}>
       <>
-        <HeaderContainer active={scrollActive}>
-          <HeaderComp goBack={() => goBack({})} />
-        </HeaderContainer>
-        <HeaderPage background={data.image} />
-        <DividerMobile color={EDividerColors.white} />
-        <Container>
-          <h1>{data.name}</h1>
-          <h2>{data.shortDescription}</h2>
-          <p>{data.description}</p>
+        <AppHeader title="Ministério" />
+        <Container className="pt-5 pb-10">
+          {data.image && (
+            <div className="relative size-28 overflow-hidden rounded-md bg-pine">
+              <Image src={data.image} alt={`Logo do ${data.name}`} fill sizes="112px" className="object-cover" />
+            </div>
+          )}
+          <h1 className="mt-5 text-2xl font-extrabold tracking-tight text-balance">{data.name}</h1>
+          {data.shortDescription && (
+            <p className="mt-1 text-lg font-medium text-ink">{data.shortDescription}</p>
+          )}
+          {data.description && (
+            <p className="mt-3 leading-relaxed whitespace-pre-line text-ink-muted">{data.description}</p>
+          )}
         </Container>
+
         {!!data.teamMember.length && (
-          <>
-            <Title>Equipe</Title>
-            <Team>
-              {data.teamMember.map(item => (
-                <TeamItem key={item.uuid}>
-                  <div
-                    style={{ background: "url('" + (item.member?.image || "/user.jpg") + "') center/cover" }}></div>
-                  <div>{item.member?.name}</div>
-                  <div>{item.role}</div>
-                </TeamItem>
-              ))}
-            </Team>
-          </>
+          <div className="bg-mist py-10">
+            <Container className="pb-6">
+              <h2 className="text-xl font-extrabold tracking-tight">Equipe</h2>
+              <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
+                {data.teamMember.map(item => (
+                  <li key={item.uuid} className="flex flex-col items-center text-center">
+                    <span className="relative size-24 overflow-hidden rounded-full bg-brand-soft">
+                      <Image src={item.member?.image || "/user.jpg"} alt="" fill sizes="96px" className="object-cover" />
+                    </span>
+                    <span className="mt-3 font-semibold text-balance">{item.member && shortName(item.member.name)}</span>
+                    {item.role && <span className="text-sm text-ink-muted">{item.role}</span>}
+                  </li>
+                ))}
+              </ul>
+            </Container>
+          </div>
         )}
       </>
     </Website>

@@ -28,9 +28,12 @@ const GlobalStyle = createGlobalStyle`
     font-family: ${theme.fontFamily};
   }
 
-  button {
-    border: none;
-    cursor: pointer;
+  /* Na camada base, para os utilitários do Tailwind (border, bg-*) dos componentes do site vencerem. */
+  @layer base {
+    button {
+      border: none;
+      cursor: pointer;
+    }
   }
 
   h1,

@@ -15,7 +15,8 @@
 
 /*
  * Sem preflight, os componentes do site herdam o que o navegador define. Só o
- * mínimo que eles assumem: listas com classe não têm marcador nem recuo.
+ * mínimo que eles assumem: listas com classe não têm marcador nem recuo e
+ * botões não vêm com o fundo cinza do navegador.
  * (Listas sem classe, como as de texto rico vindo da API, ficam intactas.)
  */
 @layer base {
@@ -24,5 +25,9 @@
     list-style: none;
     margin: 0;
     padding: 0;
+  }
+
+  button {
+    background-color: transparent;
   }
 }

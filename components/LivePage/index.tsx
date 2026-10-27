@@ -1,10 +1,7 @@
 import React from "react";
-import YTPlayer from "../YTPlayer";
-import { FiCalendar } from "react-icons/fi";
-import { DateUtils } from "../../utils/Date";
-import ShareButton from "../ShareButton";
+import { Container } from "@/components/ui/Container";
+import VideoDetail from "../VideoDetail";
 import { IBroadcast } from "../../interfaces/Broadcast";
-import { Container, Header, TagDate, TagLive } from "./styles"
 
 interface ILivePage {
   content: IBroadcast
@@ -12,23 +9,18 @@ interface ILivePage {
 
 const LivePage: React.FC<ILivePage> = ({ content }) => {
   return (
-    <Container>
-      <h1>{content?.title}</h1>
-      <Header>
-        <div>
-          {content.author?.image && (
-            <div style={{ background: "url('" + content.author.image + "') center/cover" }}></div>
-          )}
-          {content.author && content.author.name}
-        </div>
-        {content.ytStatus === 'complete' ? (<TagDate>
-          <FiCalendar />{content?.startAt && DateUtils.formatDateDefault(content.startAt)}</TagDate>) : (
-          <TagLive>Ao Vivo</TagLive>)}
-
-      </Header>
-      <YTPlayer videoId={content.ytId} thumb={content.image} />
-      <p>{content.description}</p>
-      <ShareButton url={`https://pibpam.org/broadcast/${content.uuid}`} message={`${content.title}, ${content.author?.name}.`} />
+    <Container className="pt-5 pb-16">
+      <VideoDetail
+        title={content.title}
+        videoId={content.ytId}
+        thumb={content.image}
+        description={content.description}
+        author={content.author}
+        date={content.startAt}
+        live={content.ytStatus !== 'complete'}
+        shareUrl={`https://pibpam.org/broadcast/${content.uuid}`}
+        shareMessage={`${content.title}, ${content.author?.name}.`}
+      />
     </Container>
   )
 }
