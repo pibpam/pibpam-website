@@ -30,7 +30,12 @@ export const READING_PLAN = {
 export const APP_LINKS = {
   android: "https://play.google.com/store/apps/details?id=com.lucasmg37.pibpam",
   ios: "https://apps.apple.com/br/app/pibpam/id6448954477",
+  /** O mesmo app, aberto no navegador. */
+  web: "https://app.pibpam.org",
 };
+
+/** Sistema de gestão da igreja (área administrativa). */
+export const ADMIN_URL = "https://admin.pibpam.org";
 
 /** Usado quando a API está fora do ar, para o rodapé e o JSON-LD não ficarem vazios. */
 export const FALLBACK_CONTACT = {

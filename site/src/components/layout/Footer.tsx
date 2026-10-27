@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cacheLife } from "next/cache";
-import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Clock, LayoutDashboard, Mail, MapPin, MessageCircle, Phone, Smartphone } from "lucide-react";
 import type { ReactNode } from "react";
 import { getChurchInfo } from "@/lib/api";
-import { APP_LINKS, CHURCH_LEGAL_NAME, EVENTS_URL, FALLBACK_CONTACT, NAV_LINKS } from "@/lib/site";
+import { ADMIN_URL, APP_LINKS, CHURCH_LEGAL_NAME, EVENTS_URL, FALLBACK_CONTACT, NAV_LINKS } from "@/lib/site";
 import { formatPhone, mapsUrl, toE164, whatsappUrl } from "@/lib/format";
 import { Container } from "@/components/ui/Container";
 import { SocialLinks } from "@/components/ui/SocialLinks";
@@ -105,6 +105,18 @@ export async function Footer() {
             <a href={APP_LINKS.ios} target="_blank" rel="noopener noreferrer" className="rounded-full border border-line-inverse px-4 py-2 hover:border-ink-inverse">iPhone</a>
             <a href={APP_LINKS.android} target="_blank" rel="noopener noreferrer" className="rounded-full border border-line-inverse px-4 py-2 hover:border-ink-inverse">Android</a>
           </div>
+          <ul className="mt-5 space-y-2 text-ink-inverse-muted">
+            <li>
+              <IconLine icon={<Smartphone aria-hidden className="size-4" />}>
+                <a href={APP_LINKS.web} target="_blank" rel="noopener noreferrer" className="hover:text-ink-inverse">Usar o app no navegador</a>
+              </IconLine>
+            </li>
+            <li>
+              <IconLine icon={<LayoutDashboard aria-hidden className="size-4" />}>
+                <a href={ADMIN_URL} target="_blank" rel="noopener noreferrer" className="hover:text-ink-inverse">Sistema de gestão</a>
+              </IconLine>
+            </li>
+          </ul>
         </div>
       </Container>
       <div className="border-t border-line-inverse">
