@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 yarn dev              # Start dev server at http://localhost:3000
 yarn build            # Production build (Next.js)
 yarn start            # Serve the production build
-yarn lint             # ESLint (next lint)
+yarn lint             # ESLint (eslint .)
 yarn storybook        # Storybook dev server at http://localhost:6006 (design system catalog)
 yarn build-storybook  # Static Storybook build
 ```
@@ -20,7 +20,7 @@ There is no test suite in this project. Package manager is **yarn** (see `yarn.l
 `site/` is a **separate project** (own `package.json`, `yarn.lock`, Node 22.13+): the public, SEO-first
 institutional website built with Next.js 16 App Router + Tailwind CSS 4. Its conventions differ from the
 app below (Tailwind instead of styled-components, `src/` + `@/*` imports, Cache Components). See
-`site/README.md` and `site/CLAUDE.md`. The root `tsconfig.json` and `.eslintignore` exclude `site/`.
+`site/README.md` and `site/CLAUDE.md`. The root `tsconfig.json` and `eslint.config.mjs` exclude `site/`.
 `ASSET_PREFIX` in this app's `next.config.js` exists so the app can be served behind the site's proxy.
 
 ## Environment
@@ -31,7 +31,7 @@ Copy `.env.example` to `.env`. Two groups of variables:
 
 ## Architecture
 
-Next.js 12 (pages router) app for a church (PIB Pará de Minas). It is a mobile-only app (no desktop layout: desktop visitors use the institutional site in `site/`) that runs **embedded inside a React Native / Expo WebView app**, which shapes much of the design.
+Next.js 16 (pages router, Turbopack) + React 19 app for a church (PIB Pará de Minas). It is a mobile-only app (no desktop layout: desktop visitors use the institutional site in `site/`) that runs **embedded inside a React Native / Expo WebView app**, which shapes much of the design.
 
 ### BFF / API proxy pattern (important)
 The frontend never calls the upstream backend (`process.env.API`) directly. Two axios clients mediate every request:
@@ -80,6 +80,8 @@ The app is **100% styled-components** — there is no CSS/SCSS anywhere in the c
 `styles/*.stories.tsx` (`Colors`, `Spacing`, `Typography`) document the design tokens, and most `components/*` have an `index.stories.tsx`. Run `yarn storybook` to browse the catalog. When adding a new reusable component, add a matching story.
 
 ### Notable config
-- `next.config.js` wraps config with `next-with-workbox` (PWA service worker, source `public/sw.js`), enables SVG-as-component imports via `@svgr/webpack` (`import Icon from './x.svg'`), sets `images.unoptimized`, `reactStrictMode: false`, and `compiler.styledComponents: true` (see Styling above).
+- `next.config.js` enables SVG-as-component imports via `turbopack.rules` + `@svgr/webpack` (`import Icon from './x.svg'`), sets `images.unoptimized`, `reactStrictMode: false`, and `compiler.styledComponents: true` (see Styling above). Node 22.13+ (`.nvmrc`). Storybook 10 still uses webpack, so its SVGR rule lives in `.storybook/main.ts`.
+- `public/sw.js` is a cleanup service worker (no offline cache): it deletes caches and unregisters itself. `next-with-workbox` was removed; the old precache worker was never served compiled.
+- `eslint.config.mjs` (flat config). The React Compiler rules of `eslint-config-next` 16 (`react-hooks/purity|immutability|set-state-in-effect`) are warnings, not errors.
 - Google Analytics and Microsoft Clarity are initialized in `pages/_app.tsx`.
 - The codebase is primarily in **Portuguese** (user-facing strings, commit messages, some identifiers). `tsconfig.json` targets ES5 with `strict: true`.

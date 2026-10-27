@@ -16,7 +16,7 @@ interface YTPlayerProps {
 const YTPlayer: React.FC<YTPlayerProps> = ({ videoId, autoplay = false, thumb, controls = 2, loop = false, mute = false, start = 0 }: YTPlayerProps) => {
   const [player, setPlayer] = useState<YouTubePlayer>();
 
-  const playerRef = useRef<YouTubePlayer | undefined>()
+  const playerRef = useRef<YouTubePlayer | undefined>(undefined)
 
   const [playing, setPlaying] = useState(true)
   const playerContainer = useRef<null | HTMLDivElement>(null)

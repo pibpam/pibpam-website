@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
-const withWorkbox = require('next-with-workbox')
-
-module.exports = withWorkbox({
+module.exports = {
   reactStrictMode: false,
   // Quando o app roda atrás do site institucional (site/), os assets dele
   // precisam vir do próprio domínio (ex.: https://app.pibpam.org) para não
@@ -19,7 +17,6 @@ module.exports = withWorkbox({
       },
     ]
   },
-  swcMinify: true,
 
   compiler: {
     styledComponents: true,
@@ -29,16 +26,13 @@ module.exports = withWorkbox({
     unoptimized: true,
   },
 
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    })
-    return config
+  // `import Icon from './x.svg'` vira componente React (SVGR).
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
   },
-
-  workbox: {
-    swSrc: 'public/sw.js',
-    swDest: 'public/sw.js',
-  },
-})
+}

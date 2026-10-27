@@ -22,7 +22,7 @@ O app nativo (Expo, `pib-app`) abre `https://www.pibpam.org?platform=ios|android
 | Link antigo compartilhado | `pibpam.org/event/ID`, `/series/ID`… | 301 para a página equivalente do site. |
 
 O proxy **não redireciona** o que o app antigo usa sem cookie: `/api/*` (inclusive o download de imagem), `/auth/*` (login com
-Google), `/_next/data/*` (dados das páginas do Next 12) e os arquivos de `public/` que só o app tem. Isso cai no `fallback` de
+Google), `/_next/data/*` (dados das páginas do app (pages router)) e os arquivos de `public/` que só o app tem. Isso cai no `fallback` de
 `next.config.ts` e no próprio proxy.
 
 ## Decisões e consequências
@@ -90,7 +90,7 @@ curl -sI https://pibpam.org/ | grep -iE "^(HTTP|location)"              # 308 �
 curl -s -c /tmp/jar "https://www.pibpam.org/?platform=ios" | grep -o "<title>[^<]*"
 grep -c pibpam_app /tmp/jar                                              # 1
 
-# Dados do Next 12 pelo proxy devem ser JSON (pegue o buildId do HTML do app)
+# Dados do app (pages router) pelo proxy devem ser JSON (pegue o buildId do HTML do app)
 BUILD=$(curl -s https://app.pibpam.org/ | grep -o '"buildId":"[^"]*"' | cut -d'"' -f4)
 curl -s -b /tmp/jar -o /dev/null -w "%{http_code} %{content_type}\n" "https://www.pibpam.org/_next/data/$BUILD/about.json"   # 200 application/json
 

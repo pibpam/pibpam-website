@@ -1,5 +1,5 @@
 import { format, isToday } from "date-fns"
-import ptBR from 'date-fns/locale/pt-BR';
+import { ptBR } from 'date-fns/locale/pt-BR';
 
 export class DateUtils {
   static isToday(date: string) {

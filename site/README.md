@@ -69,7 +69,7 @@ então basta editar o `theme.css`. Para um tema alternativo, redefina as variáv
 
 ## Convivência com o app (domínio)
 
-`pibpam.org` é o site; o app legado (Next 12, usado no WebView do app nativo) vai para `app.pibpam.org`. As versões antigas do
+`pibpam.org` é o site; o app legado (Next 16, pages router, usado no WebView do app nativo) vai para `app.pibpam.org`. As versões antigas do
 app nativo ainda abrem `https://www.pibpam.org?platform=ios|android`, então o site as atende por um proxy até todos atualizarem.
 
 - `src/proxy.ts`: `?platform=` (ou o cookie `pibpam_app`) repassa o tráfego do WebView ao app legado mantendo a URL; navegadores
