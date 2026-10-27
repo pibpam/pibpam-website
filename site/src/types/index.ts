@@ -137,3 +137,17 @@ export interface IMinistry {
   image?: string;
   people: IMinistryPerson[];
 }
+
+/** Leitura mais recente de um plano do serviço de planos de leitura. */
+export interface IReadingPlanDay {
+  plan: { slug: string; title: string; url: string };
+  day: {
+    id: string;
+    title: string;
+    position: number;
+    /** YYYY-MM-DD, no fuso do plano. */
+    unlock_date: string;
+    url: string;
+  };
+  items: { id: string; type: string; title: string; reference: string | null }[];
+}

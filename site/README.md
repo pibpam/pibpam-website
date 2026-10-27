@@ -25,6 +25,7 @@ yarn lint
 | `SITE_URL` | URL canônica pública (canonical, sitemap, Open Graph). Padrão: `https://www.pibpam.org` |
 | `LEGACY_APP_URL` | App legado (`https://app.pibpam.org`). Liga o proxy, os redirects e o fallback. **Obrigatório em produção**: sem ele o deploy falha |
 | `CONTACT_ENABLED` | `true` envia o formulário de contato para `POST {API}/v1/contact-messages`, repassando o IP do visitante em `x-visitor-ip`. **Só ligue depois que esse endpoint estiver publicado no backend**; sem isso o formulário oferece o WhatsApp |
+| `READING_PLANS_API` / `READING_PLANS_API_KEY` | URL base e chave (Bearer) do serviço de planos de leitura, as mesmas do app. Mostram a leitura do dia na home; sem elas a seção fica só com o link para o plano |
 
 ## Páginas
 

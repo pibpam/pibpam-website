@@ -49,7 +49,7 @@ export function Header() {
             <Image src="/pibpam-logo.svg" alt="" width={148} height={38} priority />
           </Link>
 
-          <nav aria-label="Principal" className="hidden items-center gap-1 lg:flex">
+          <nav aria-label="Principal" className="hidden items-center lg:flex xl:gap-1">
             {NAV_LINKS.map((link) => {
               const isLive = link.href === "/ao-vivo";
               return (
@@ -57,7 +57,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   aria-current={isActive(link.href) ? "page" : undefined}
-                  className={`relative flex items-center gap-2 rounded-full px-4 py-2 text-[0.95rem] font-semibold transition-colors ${
+                  className={`relative flex items-center gap-2 rounded-full px-3 py-2 text-[0.95rem] font-semibold whitespace-nowrap transition-colors xl:px-4 ${
                     overHero ? "hover:bg-ink-inverse/10" : "hover:bg-brand-soft"
                   } ${isActive(link.href) ? (overHero ? "text-brand" : "text-brand-strong") : ""}`}
                 >
@@ -72,7 +72,7 @@ export function Header() {
           <div className="flex items-center gap-2">
             <Link
               href="/sobre#visite"
-              className={`hidden h-11 items-center rounded-full px-5 text-[0.95rem] font-semibold transition-colors sm:inline-flex ${
+              className={`hidden h-11 items-center rounded-full px-5 text-[0.95rem] font-semibold whitespace-nowrap transition-colors sm:inline-flex ${
                 overHero ? "bg-accent text-pine hover:bg-paper" : "bg-brand-strong text-paper hover:bg-pine"
               }`}
             >
@@ -104,6 +104,12 @@ export function Header() {
               key={link.href}
               href={link.href}
               aria-current={pathname === link.href ? "page" : undefined}
+              // Âncoras da própria home (/#…) não mudam o pathname: fecha o menu no clique e libera
+              // a rolagem já aqui, senão o salto para a âncora acontece com o body travado.
+              onClick={() => {
+                document.body.style.overflow = "";
+                setOpenAt(null);
+              }}
               className="flex items-center justify-between border-b border-line py-4 text-2xl font-bold tracking-tight aria-[current=page]:text-brand-strong"
             >
               {link.label}

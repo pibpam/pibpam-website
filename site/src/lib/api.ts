@@ -8,6 +8,7 @@ import type {
   IContent,
   IContentList,
   IMinistry,
+  IReadingPlanDay,
   IScheduleDate,
   ISeries,
   ISeriesList,
@@ -175,3 +176,21 @@ export const getLives = () =>
     ),
     [],
   );
+
+/** Serviço externo de planos de leitura (o mesmo da Home do app). A chave fica só no servidor. */
+const READING_PLANS_API = process.env.READING_PLANS_API?.replace(/\/?$/, "/");
+
+async function fetchReadingPlanDay(slug: string) {
+  "use cache";
+  // A leitura nova libera à meia-noite: cache curto para a Home não ficar um dia atrás.
+  cacheLife("minutes");
+  cacheTag("reading-plan");
+  if (!READING_PLANS_API) return null;
+  const res = await fetch(new URL(`plans/${encodeURIComponent(slug)}/latest-day`, READING_PLANS_API), {
+    headers: { Accept: "application/json", Authorization: `Bearer ${process.env.READING_PLANS_API_KEY ?? ""}` },
+  });
+  if (!res.ok) throw new Error(`Planos de leitura ${res.status} em ${slug}`);
+  return (await res.json()) as IReadingPlanDay;
+}
+
+export const getReadingPlanDay = (slug: string) => safe<IReadingPlanDay | null>(fetchReadingPlanDay(slug), null);

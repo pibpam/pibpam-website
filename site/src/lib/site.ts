@@ -12,12 +12,20 @@ export const NAV_LINKS = [
   // { href: "/ministerios", label: "Ministérios" },
   { href: "/conteudos", label: "Mensagens" },
   { href: "/agenda", label: "Agenda" },
+  // Seção da home (a leitura em si fica no serviço externo, ver READING_PLAN).
+  { href: "/#plano-de-leitura", label: "Plano de leitura" },
   { href: "/ao-vivo", label: "Ao vivo" },
   { href: "/contato", label: "Contato" },
 ] as const;
 
 /** Plataforma de inscrições em eventos da igreja. */
 export const EVENTS_URL = "https://eventos.pibpam.org/";
+
+/** Plano de leitura bíblica da igreja (serviço externo, o mesmo do card da Home do app). */
+export const READING_PLAN = {
+  slug: "juntos-na-palavra",
+  url: "https://planos-leitura.vercel.app/planos/juntos-na-palavra",
+};
 
 export const APP_LINKS = {
   android: "https://play.google.com/store/apps/details?id=com.lucasmg37.pibpam",
