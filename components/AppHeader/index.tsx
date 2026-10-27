@@ -28,7 +28,7 @@ const AppHeader: React.FC<IAppHeader> = ({ title, onBack, tone = 'light', traili
   const dark = tone === 'dark'
 
   const handleBack = onBack ?? (router.pathname !== '/' ? () => goBack({}) : undefined)
-  const goToHome = () => goTo({ pathname: '/', showLoading: true, resetHistory: true })
+  const goToHome = () => goTo({ pathname: '/', resetHistory: true })
 
   return (
     <Container

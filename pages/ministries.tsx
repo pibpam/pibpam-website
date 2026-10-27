@@ -3,6 +3,7 @@ import React from "react";
 import { Container } from '@/components/ui/Container'
 import Website from '../layout/container/Website'
 import AppHeader from "../components/AppHeader";
+import Reveal from "../components/Reveal";
 import AppMinistryCard from "../components/AppMinistryCard";
 import EmptyState from "../components/EmptyState";
 import { Api } from "../services/api";
@@ -23,13 +24,13 @@ const Ministries: NextPage<IMinistries> = ({ data }) => {
                 <Container className="pt-6 pb-16">
                     {data.length ? (
                         <ul className="grid gap-4 lg:grid-cols-2">
-                            {data.map(item => (
-                                <li key={item.uuid}>
+                            {data.map((item, i) => (
+                                <Reveal as="li" index={i} key={item.uuid}>
                                     <AppMinistryCard
                                         data={item}
-                                        onClick={() => goTo({ pathname: "/ministry/" + item.uuid, showLoading: true })}
+                                        onClick={() => goTo({ pathname: "/ministry/" + item.uuid })}
                                     />
-                                </li>
+                                </Reveal>
                             ))}
                         </ul>
                     ) : (

@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 import theme from '../../../styles/theme'
-import { bounce, shineSweep } from '../highlight'
+import { bounce, shineSweep } from '../../../styles/highlight'
 
 export const Container = styled.button<{ $active: boolean }>`
   position: relative;

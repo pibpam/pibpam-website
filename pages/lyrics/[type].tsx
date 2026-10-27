@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import { Container } from '@/components/ui/Container'
 import Website from '../../layout/container/Website'
 import AppHeader from "../../components/AppHeader";
+import Reveal from "../../components/Reveal";
 import ListLink from "../../components/ListLink";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { ILyric } from '../../interfaces/Lyric';
@@ -21,14 +22,14 @@ const LyricsList: NextPage<ILyricsList> = ({ lyrics, type }) => {
         <AppHeader title={type} />
         <Container className="pt-6 pb-16">
           <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {lyrics && lyrics.map(item => (
-              <li key={item.number}>
+            {lyrics && lyrics.map((item, i) => (
+              <Reveal as="li" index={i} key={item.number}>
                 <ListLink
                   prefix={item.number}
                   label={item.name}
-                  onClick={() => goTo({ pathname: "/lyrics/type/" + type.toLowerCase() + "/" + item.number, showLoading: true })}
+                  onClick={() => goTo({ pathname: "/lyrics/type/" + type.toLowerCase() + "/" + item.number })}
                 />
-              </li>
+              </Reveal>
             ))}
           </ul>
         </Container>

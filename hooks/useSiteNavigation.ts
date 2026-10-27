@@ -24,7 +24,7 @@ const useSiteNavigation = () => {
       }
       const [pathname, search] = mapSiteHref(href).split("?");
       const query = search ? Object.fromEntries(new URLSearchParams(search)) : undefined;
-      goTo({ pathname, query, showLoading: true });
+      goTo({ pathname, query });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [goTo, openLink],

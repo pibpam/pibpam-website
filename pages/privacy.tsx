@@ -3,6 +3,7 @@ import React from "react";
 import { Container } from '@/components/ui/Container'
 import Website from '../layout/container/Website'
 import AppHeader from "../components/AppHeader";
+import Reveal from "../components/Reveal";
 
 const Privacy: NextPage = () => {
     return (
@@ -10,7 +11,7 @@ const Privacy: NextPage = () => {
             <>
                 <AppHeader title="Privacidade" />
                 <Container className="pt-6 pb-16">
-                    <div className="mx-auto max-w-[700px]">
+                    <Reveal className="mx-auto max-w-[700px]">
                         <h1 className="text-3xl font-extrabold tracking-tight text-balance">Política de Privacidade</h1>
             <p className="mt-3 leading-relaxed text-ink-muted">O aplicativo da Primeira Igreja Batista de Pará de Minas é projetado para ser usado por pessoas com idade
                 igual ou superior a 13 anos. Esta política de privacidade descreve como coletamos, usamos e divulgamos
@@ -39,7 +40,7 @@ const Privacy: NextPage = () => {
             <p className="mt-3 leading-relaxed text-ink-muted">Se você tiver alguma dúvida ou preocupação sobre esta política de privacidade ou sobre nossas práticas de
                 coleta e uso de informações pessoais, entre em contato conosco através do endereço de e-mail fornecido
                 no aplicativo.</p>
-                    </div>
+                    </Reveal>
                 </Container>
             </>
         </Website>

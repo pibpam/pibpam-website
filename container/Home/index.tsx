@@ -61,7 +61,7 @@ const Home: FC<IHomeProps> = ({
   const live = lives?.[0];
 
   const goTo = (pathname: string) =>
-    goToHook({ pathname, showLoading: true });
+    goToHook({ pathname });
 
   // Cada célula entra com um pequeno atraso em relação à anterior.
   let order = 1;

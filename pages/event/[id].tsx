@@ -4,6 +4,8 @@ import { Container } from '@/components/ui/Container'
 import Website from '../../layout/container/Website'
 import AppHeader from "../../components/AppHeader";
 import AppButton from "../../components/AppButton";
+import SectionTitle from "../../components/SectionTitle";
+import Reveal from "../../components/Reveal";
 import ContentPage from '../../components/ContentPage';
 import { Api } from "../../services/api";
 import { IContent } from "../../interfaces/Contens";
@@ -25,8 +27,9 @@ const Event: NextPage<IEventPage> = ({ data }) => {
         <AppHeader title="Culto" />
         <ContentPage content={data} />
         {!!data.series_contents?.length && (
-          <Container className="-mt-8 pb-16">
-            <h2 className="mb-3 text-lg font-extrabold tracking-tight">Assista a série completa</h2>
+          <Container className="pb-16">
+            <Reveal index={4}>
+            <SectionTitle>Assista a série completa</SectionTitle>
             <div className="flex flex-col items-start gap-2">
               {data.series_contents.map(item => (
                 <AppButton key={item.series.uuid} variant="outline" icon={<FiList aria-hidden />}
@@ -35,6 +38,7 @@ const Event: NextPage<IEventPage> = ({ data }) => {
                 </AppButton>
               ))}
             </div>
+            </Reveal>
           </Container>
         )}
       </>

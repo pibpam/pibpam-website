@@ -7,7 +7,7 @@ const GroupItem: React.FC<{ group: IGroup, onClick: () => void }> = ({ group, on
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full flex-col gap-2 rounded-lg border border-line bg-paper p-5 text-left transition-colors active:bg-brand-soft"
+      className="flex w-full flex-col gap-2 rounded-lg border border-line bg-paper p-5 shadow-sm text-left transition-colors active:bg-brand-soft"
     >
       <span className="flex items-start justify-between gap-3">
         <span className="text-xl font-extrabold tracking-tight text-balance">{group.title}</span>

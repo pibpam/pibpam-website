@@ -395,7 +395,6 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
         openLink(paymentUrl);
         await goTo({
           pathname: `/inscricoes/acompanhamento/${response?.code || ""}`,
-          showLoading: true,
         });
         return;
       }
@@ -403,7 +402,6 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
       // Sucesso: manda o usuário direto para o acompanhamento da inscrição.
       await goTo({
         pathname: `/inscricoes/acompanhamento/${response?.code || ""}`,
-        showLoading: true,
       });
     } catch (err: any) {
       setError(

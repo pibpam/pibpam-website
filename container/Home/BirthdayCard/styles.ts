@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import theme from '../../../styles/theme'
-import { bounce, shineSweep } from '../highlight'
+import { bounce, shineSweep } from '../../../styles/highlight'
 
 export const Container = styled.button`
   position: relative;
@@ -13,8 +13,9 @@ export const Container = styled.button`
   overflow: hidden;
   border: none;
   border-radius: ${theme.radius.xl};
-  background: linear-gradient(120deg, ${theme.colors.success} 0%, ${theme.colors.secondary} 55%, ${theme.colors.tealMedium} 100%);
+  background: ${theme.gradients.birthday};
   color: ${theme.colors.white};
+  text-shadow: ${theme.shadows.onGradientText};
   text-align: left;
   cursor: pointer;
   box-shadow: ${theme.shadows.raisedLime};

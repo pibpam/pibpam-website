@@ -4,6 +4,7 @@ import Website from '../layout/container/Website'
 import AppHeader from "../components/AppHeader";
 import AppBackdrop from "../components/AppBackdrop";
 import AppButton from "../components/AppButton";
+import Reveal from "../components/Reveal";
 import LivePage from "../components/LivePage";
 import { Api } from "../services/api";
 import { IBroadcast } from "../interfaces/Broadcast";
@@ -25,11 +26,11 @@ const Live: NextPage<ILive> = ({ lives }) => {
             <LivePage content={live} tone="dark" />
           ) : (
             <Container className="flex flex-col items-start gap-5 pt-12">
-              <h1 className="text-3xl font-extrabold tracking-tight text-balance">Nenhuma transmissão no momento</h1>
-              <p className="text-lg leading-relaxed text-ink-inverse-muted">
+              <Reveal index={0}><h1 className="text-3xl font-extrabold tracking-tight text-balance">Nenhuma transmissão no momento</h1></Reveal>
+              <Reveal index={1}><p className="text-lg leading-relaxed text-ink-inverse-muted">
                 Quando houver culto ao vivo, ele aparece aqui. Enquanto isso, assista aos cultos anteriores.
-              </p>
-              <AppButton variant="accent" href="/events">Ver cultos</AppButton>
+              </p></Reveal>
+              <Reveal index={2}><AppButton variant="accent" href="/events">Ver cultos</AppButton></Reveal>
             </Container>
           )}
         </div>

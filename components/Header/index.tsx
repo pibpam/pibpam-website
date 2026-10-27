@@ -15,7 +15,7 @@ const Header: React.FC<IHeader> = ({ title, goBack }) => {
   const { goTo: goToHook, goBack: goBackHook } = useAppNavigation()
 
   const goToHome = async () => {
-    await goToHook({ pathname: "/", showLoading: true, resetHistory: true })
+    await goToHook({ pathname: "/", resetHistory: true })
   }
 
   // Todas as páginas, exceto a Home, voltam por padrão (histórico ou Home)

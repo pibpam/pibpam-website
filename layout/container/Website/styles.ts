@@ -1,16 +1,10 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
+import theme from '../../../styles/theme';
 
-const showUp = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`
-
+// Fundo suave em degradê (o mesmo da Home, parado); as telas colocam cartões brancos sobre ele.
 export const Container = styled.main<{bottom?: number}>`
   position: relative;
+  min-height: 100vh;
   padding-bottom: ${({ bottom }) => bottom || 0}px;
-  animation: ${showUp} .4s ease-in-out forwards;
+  background: ${theme.gradients.screen};
 `;

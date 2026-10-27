@@ -90,7 +90,6 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
 
       goTo({
         pathname: `${route}?${searchParams}`,
-        showLoading: true,
         query: { ...query, from: "linking" } as Record<string, string>,
       }).then();
       setAction("");
@@ -112,7 +111,6 @@ export const PostMessageContextProvider: React.FC<IChildren> = ({
       if (notifiationData?.route) {
         goTo({
           pathname: `/${notifiationData.route}`,
-          showLoading: true,
           query: { ...query, from: "push" } as Record<string, string>,
         }).then();
       }

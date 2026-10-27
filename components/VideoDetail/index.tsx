@@ -4,6 +4,7 @@ import { FiCalendar } from 'react-icons/fi'
 import { LiveBadge } from '@/components/ui/LiveBadge'
 import { formatDate } from '@/lib/format'
 import YTPlayer from '../YTPlayer'
+import Reveal from '../Reveal'
 import AppShareButton from '../AppShareButton'
 
 interface IVideoDetail {
@@ -38,11 +39,11 @@ const VideoDetail: React.FC<IVideoDetail> = ({
   const dark = tone === 'dark'
   return (
   <article className="flex flex-col gap-5">
-    <div className="overflow-hidden rounded-md bg-pine">
+    <Reveal index={0} className="overflow-hidden rounded-md bg-pine">
       <YTPlayer videoId={videoId} thumb={thumb} />
-    </div>
+    </Reveal>
 
-    <div className="flex flex-wrap items-center justify-between gap-3">
+    <Reveal index={1} className="flex flex-wrap items-center justify-between gap-3">
       {author ? (
         <div className="flex min-w-0 items-center gap-3">
           {author.image && (
@@ -65,16 +66,16 @@ const VideoDetail: React.FC<IVideoDetail> = ({
           </span>
         )
       )}
-    </div>
+    </Reveal>
 
-    <div>
+    <Reveal index={2}>
       <h1 className="text-2xl font-extrabold tracking-tight text-balance">{title}</h1>
       {description && <p className={`mt-2 text-lg leading-relaxed whitespace-pre-line ${dark ? 'text-ink-inverse-muted' : 'text-ink-muted'}`}>{description}</p>}
-    </div>
+    </Reveal>
 
-    <div>
+    <Reveal index={3}>
       <AppShareButton url={shareUrl} message={shareMessage} tone={tone} />
-    </div>
+    </Reveal>
   </article>
   )
 }

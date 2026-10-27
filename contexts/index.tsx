@@ -1,5 +1,5 @@
 import React from "react";
-import { IChildren, LoadingContextProvider } from "./loading";
+import { IChildren } from "./lives";
 import { LivesContextProvider } from "./lives";
 import { PostMessageContextProvider } from "./postMessage";
 import { AppContextProvider } from "./app";
@@ -7,13 +7,11 @@ import { AppContextProvider } from "./app";
 const Contexts: React.FC<IChildren> = ({ children }: IChildren) => {
   return <>
     <AppContextProvider>
-      <LoadingContextProvider>
         <PostMessageContextProvider>
           <LivesContextProvider>
             {children}
           </LivesContextProvider>
         </PostMessageContextProvider>
-      </LoadingContextProvider>
     </AppContextProvider>
   </>;
 }

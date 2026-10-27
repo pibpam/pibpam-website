@@ -13,7 +13,7 @@ const ListLink: React.FC<IListLink> = ({ label, prefix, onClick }) => (
   <button
     type="button"
     onClick={onClick}
-    className="flex min-h-14 w-full items-center gap-3 rounded-md border border-line bg-paper px-4 py-3 text-left font-semibold transition-colors active:bg-brand-soft"
+    className="flex min-h-14 w-full items-center gap-3 rounded-md border border-line bg-paper px-4 shadow-sm py-3 text-left font-semibold transition-colors active:bg-brand-soft"
   >
     {prefix !== undefined && (
       <span className="min-w-8 text-brand-strong tabular-nums">{prefix}</span>

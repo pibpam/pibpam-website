@@ -31,7 +31,7 @@ const Inscricoes: NextPage<IEventsPage> = ({ data }) => {
   const { scrollActive, changeScroll } = useHeader();
 
   const goTo = async (pathname: string) => {
-    await goToHook({ pathname, showLoading: true });
+    await goToHook({ pathname });
   };
 
   const handleGetAll = async () => {

@@ -7,9 +7,11 @@ import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import useOpenMap from '../../../hooks/useOpenMap';
 import usePostMessage from '../../../hooks/usePostMessage';
 import AppButton from "../../../components/AppButton";
+import Reveal from "../../../components/Reveal";
 import AppMinistryCard from "../../../components/AppMinistryCard";
 import YTPlayer from '../../../components/YTPlayer';
 import { IScheduleDate } from '../../../interfaces/Schedule';
+import SectionTitle from "../../../components/SectionTitle";
 
 interface ISchedule {
   data: IScheduleDate
@@ -36,17 +38,19 @@ const DetailsSchedule: React.FC<ISchedule> = ({ data }) => {
   return (
     <Container className="pt-5 pb-16">
       {schedule.image && (
-        <div className="relative aspect-video overflow-hidden rounded-md bg-pine-soft">
+        <Reveal index={0} className="relative aspect-video overflow-hidden rounded-md bg-pine-soft">
           <Image src={schedule.image} alt="" fill priority sizes="100vw" className="object-cover" />
-        </div>
+        </Reveal>
       )}
 
-      <h1 className="mt-5 text-2xl font-extrabold tracking-tight text-balance">{schedule.title.trim()}</h1>
-      {schedule.shortDescription && (
-        <p className="mt-1 text-lg font-medium text-ink-muted">{schedule.shortDescription}</p>
-      )}
+      <Reveal index={1}>
+        <h1 className="mt-5 text-2xl font-extrabold tracking-tight text-balance">{schedule.title.trim()}</h1>
+        {schedule.shortDescription && (
+          <p className="mt-1 text-lg font-medium text-ink-muted">{schedule.shortDescription}</p>
+        )}
+      </Reveal>
 
-      <div className="mt-6 flex flex-col gap-4 rounded-lg border border-line p-5">
+      <Reveal index={2} className="mt-6 flex flex-col gap-4 rounded-lg border border-line bg-paper p-5 shadow-sm">
         <InfoRow icon={<FiCalendar />}>
           <p className="font-semibold first-letter:uppercase">{formatWeekdayDate(data.scheduleDate)}</p>
         </InfoRow>
@@ -77,24 +81,24 @@ const DetailsSchedule: React.FC<ISchedule> = ({ data }) => {
             <p className="font-semibold">Vagas limitadas.</p>
           </InfoRow>
         )}
-      </div>
+      </Reveal>
 
       {schedule.enrollmentLink && (
-        <div className="mt-5">
+        <Reveal index={3} className="mt-5">
           <AppButton size="lg" icon={<FiEdit3 aria-hidden />} onClick={() => openLink(schedule.enrollmentLink as string)}>
             Inscrição
           </AppButton>
-        </div>
+        </Reveal>
       )}
 
       {schedule.description && (
-        <div className="mt-8">
-          <h2 className="mb-3 text-xl font-extrabold tracking-tight">Descrição</h2>
+        <Reveal index={4} className="mt-8">
+          <SectionTitle>Descrição</SectionTitle>
           <div
             className="leading-relaxed text-ink-muted [&_a]:font-semibold [&_a]:text-brand-strong [&_a]:underline [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-5"
             dangerouslySetInnerHTML={{ __html: schedule.description }}
           />
-        </div>
+        </Reveal>
       )}
 
       {!!schedule.promotionalVideo && (
@@ -114,13 +118,13 @@ const DetailsSchedule: React.FC<ISchedule> = ({ data }) => {
       )}
 
       {schedule.team && (
-        <div className="mt-10">
-          <h2 className="mb-3 text-xl font-extrabold tracking-tight">Organizador</h2>
+        <Reveal index={5} className="mt-10">
+          <SectionTitle>Organizador</SectionTitle>
           <AppMinistryCard
             data={schedule.team}
-            onClick={() => goTo({ pathname: "/ministry/" + schedule.team?.uuid, showLoading: true })}
+            onClick={() => goTo({ pathname: "/ministry/" + schedule.team?.uuid })}
           />
-        </div>
+        </Reveal>
       )}
     </Container>
   )

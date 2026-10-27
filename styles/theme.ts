@@ -86,10 +86,14 @@ const theme = {
     raised: '0 6px 18px rgba(47, 111, 112, 0.25)',
     // Cartão lima em destaque (próximo evento, aniversariantes).
     raisedLime: '0 6px 18px rgba(110, 143, 10, 0.3)',
+    // Sombra suave sob texto branco em degradê claro (ajuda a legibilidade).
+    onGradientText: '0 1px 2px rgba(0, 0, 0, 0.25)',
     // Barra de navegação flutuante.
     floating: '0 8px 24px rgba(47, 111, 112, 0.22)',
   },
   gradients: {
+    // Card de aniversariante (Home e tela de aniversariantes): degradê claro, texto branco.
+    birthday: 'linear-gradient(120deg, #6E8F0A 0%, #B5DA35 55%, #53C4C4 100%)',
     // Fundo das telas de destaque (Home): teal bem claro <-> lima bem claro. Pensado para
     // ser animado (background-size 100% 300% + deslocamento vertical).
     screen: 'linear-gradient(180deg, #E8FAFA 0%, #F4FBFB 25%, #EEF8D9 50%, #F4FBFB 75%, #E8FAFA 100%)',

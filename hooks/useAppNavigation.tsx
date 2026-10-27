@@ -1,17 +1,14 @@
 import { useRouter } from "next/router";
-import useLoading from "./useLoading";
 import usePostMessage from "./usePostMessage";
 
 interface IGoToParams {
   pathname: string
-  showLoading?: boolean
   resetHistory?: boolean
   query?: Record<string, string>
 }
 
 export const useAppNavigation = () => {
   const router = useRouter()
-  const { handleOpen, handleClose } = useLoading()
   const { sendMessage } = usePostMessage()
 
   const handleSendMessage = (route: string) => {
@@ -41,10 +38,6 @@ export const useAppNavigation = () => {
       localHistory?.push(data.pathname)
     }
 
-    if (data.showLoading) {
-      await handleOpen()
-    }
-
     try {
       const query = router.query
       if (localHistory) {
@@ -56,8 +49,6 @@ export const useAppNavigation = () => {
       handleSendMessage(data.pathname)
     } catch (e) {
       alert("ERRO")
-    } finally {
-      handleClose()
     }
   }
 
@@ -73,7 +64,6 @@ export const useAppNavigation = () => {
       history.pop()
     }
 
-    await handleOpen()
     try {
       const query = router.query
       if (!Array.isArray(history) || !history.length) {
@@ -85,8 +75,6 @@ export const useAppNavigation = () => {
       handleSendMessage(navigateTo)
     } catch (e) {
       alert("ERRO")
-    } finally {
-      handleClose()
     }
   }
 

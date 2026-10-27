@@ -5,6 +5,7 @@ import { ImSpinner2 } from "react-icons/im";
 import { Container } from '@/components/ui/Container'
 import Website from '../layout/container/Website'
 import AppHeader from "../components/AppHeader";
+import Reveal from "../components/Reveal";
 import AppContentTabs from "../components/AppContentTabs";
 import AppVideoCard from "../components/AppVideoCard";
 import AppButton from "../components/AppButton";
@@ -42,20 +43,20 @@ const Events: NextPage<IEventsPage> = ({ data, lives }) => {
       <>
         <AppHeader title="Cultos" />
         <Container className="pb-32">
-          <AppContentTabs current="/events" />
+          <Reveal><AppContentTabs current="/events" /></Reveal>
 
           {!!lives && !!lives.length && (
-            <div className="mt-6">
+            <Reveal index={1} className="mt-6">
               <LiveBanner title={lives[0].title} href={"/broadcast/" + lives[0].uuid} />
-            </div>
+            </Reveal>
           )}
 
           {items.length ? (
             <ul className="mt-8 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-              {items.map(item => (
-                <li key={item.uuid}>
+              {items.map((item, i) => (
+                <Reveal as="li" index={i} key={item.uuid}>
                   <AppVideoCard content={item} />
-                </li>
+                </Reveal>
               ))}
             </ul>
           ) : (

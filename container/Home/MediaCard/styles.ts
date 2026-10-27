@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components'
 import theme from '../../../styles/theme'
-import { bounce, shineSweep } from '../highlight'
+import { bounce, shineSweep } from '../../../styles/highlight'
 
 const pulse = keyframes`
   0%, 100% { opacity: 1; }

@@ -5,6 +5,7 @@ import { ImSpinner2 } from "react-icons/im";
 import { Container } from '@/components/ui/Container'
 import Website from '../layout/container/Website'
 import AppHeader from "../components/AppHeader";
+import Reveal from "../components/Reveal";
 import AppContentTabs from "../components/AppContentTabs";
 import AppSeriesCard from "../components/AppSeriesCard";
 import AppButton from "../components/AppButton";
@@ -39,14 +40,14 @@ const Series: NextPage<ISeriesPage> = ({ data }) => {
       <>
         <AppHeader title="Séries" />
         <Container className="pb-32">
-          <AppContentTabs current="/series" />
+          <Reveal><AppContentTabs current="/series" /></Reveal>
 
           {items.length ? (
             <ul className="mt-8 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-              {items.map(item => (
-                <li key={item.uuid}>
+              {items.map((item, i) => (
+                <Reveal as="li" index={i} key={item.uuid}>
                   <AppSeriesCard series={item} />
-                </li>
+                </Reveal>
               ))}
             </ul>
           ) : (

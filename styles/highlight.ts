@@ -1,6 +1,6 @@
 import { css, keyframes } from 'styled-components'
 
-// Animações de destaque dos cards da Home (aniversário, ao vivo, evento de hoje).
+// Animações de destaque (aniversário, ao vivo, evento de hoje): cards da Home e aniversariantes.
 
 export const bounce = keyframes`
   0%, 100% { transform: translateY(0) rotate(-6deg); }

@@ -18,32 +18,34 @@ const GlobalStyle = createGlobalStyle`
     color: ${theme.colors.gray900};
   }
 
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
 
   * {
     box-sizing: border-box;
     font-family: ${theme.fontFamily};
   }
 
-  /* Na camada base, para os utilitários do Tailwind (border, bg-*) dos componentes do site vencerem. */
+  /* Na camada base, para os utilitários do Tailwind (border, bg-*, mt-*, text-*) dos componentes do site vencerem. */
   @layer base {
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
     button {
       border: none;
       cursor: pointer;
     }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p {
+      margin: 0;
+      padding: 0;
+    }
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  p {
-    margin: 0;
-    padding: 0;
-  }
 
   #__next {
     height: 100%;

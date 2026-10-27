@@ -75,7 +75,6 @@ const CheckRegistrationSheet: React.FC<ICheckRegistrationSheet> = ({
 
       await goTo({
         pathname: `/inscricoes/acompanhamento/${found.code}`,
-        showLoading: true,
       });
       handleClose();
     } catch (err: any) {

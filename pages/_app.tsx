@@ -1,6 +1,5 @@
 import type { AppProps } from 'next/app'
 import Contexts from "../contexts";
-import Loading from "../components/Loading";
 import React, { useEffect } from "react";
 import Script from "next/script";
 import ModalGetApp from '../components/ModalGetApp';
@@ -44,7 +43,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Script>
       <Contexts>
         <>
-          <Loading />
           <Component {...pageProps} />
           <ModalGetApp/>
         </>

@@ -2,6 +2,8 @@ import type { NextPage } from 'next'
 import { Container } from '@/components/ui/Container'
 import Website from '../../layout/container/Website'
 import AppHeader from "../../components/AppHeader";
+import Reveal from "../../components/Reveal";
+import SectionTitle from "../../components/SectionTitle";
 import { EBible, getBook, getBooks, getChapters, IBook } from "../../data/bibles";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 
@@ -18,20 +20,20 @@ const BibleChapters: NextPage<IBible> = ({ chapters, book }) => {
       <>
         <AppHeader title={book.name} />
         <Container className="pt-6 pb-16">
-          <h2 className="mb-4 text-xl font-extrabold tracking-tight">Capítulos</h2>
-          <ul className="grid grid-cols-5 gap-2 sm:grid-cols-8 lg:grid-cols-10">
+          <SectionTitle>Capítulos</SectionTitle>
+          <Reveal as="ul" className="grid grid-cols-5 gap-2 sm:grid-cols-8 lg:grid-cols-10">
             {chapters && chapters.map(item => (
               <li key={item}>
                 <button
                   type="button"
-                  onClick={() => goTo({ pathname: "/bible/" + book.book_reference_id + "/chapter/" + item, showLoading: true })}
-                  className="flex h-12 w-full items-center justify-center rounded-md border border-line bg-paper text-lg font-bold tabular-nums transition-colors active:bg-brand-soft"
+                  onClick={() => goTo({ pathname: "/bible/" + book.book_reference_id + "/chapter/" + item })}
+                  className="flex h-12 w-full items-center justify-center rounded-md border border-line bg-paper text-lg font-bold shadow-sm tabular-nums transition-colors active:bg-brand-soft"
                 >
                   {item}
                 </button>
               </li>
             ))}
-          </ul>
+          </Reveal>
         </Container>
       </>
     </Website>

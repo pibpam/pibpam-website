@@ -31,3 +31,19 @@
     background-color: transparent;
   }
 }
+
+/*
+ * Ajustes só do app sobre os tokens do site: telas com fundo em degradê pedem
+ * linhas e superfícies de apoio um pouco mais fortes para manter o contraste.
+ */
+:root {
+  --line: #c9dfdf;
+  --brand-soft: #dff0f0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-live {
+    animation: none;
+  }
+}

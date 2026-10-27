@@ -8,6 +8,8 @@ import usePostMessage from "../../hooks/usePostMessage";
 import useOpenMap from "../../hooks/useOpenMap";
 import Website from "../../layout/container/Website";
 import AppHeader from "../../components/AppHeader";
+import Reveal from "../../components/Reveal";
+import SectionTitle from "../../components/SectionTitle";
 import EmptyState from "../../components/EmptyState";
 import GroupItem from "../../components/GroupItem";
 import Modal from "../../components/Modal";
@@ -64,15 +66,15 @@ const Group: React.FC<IGroupPage> = ({ data }) => {
         <Container className="pt-6 pb-16">
           {data.length ? (
             <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {data.map((item) => (
-                <li key={item.uuid}>
+              {data.map((item, i) => (
+                <Reveal as="li" index={i} key={item.uuid}>
                   <GroupItem
                     onClick={() => {
                       if (!selectedGroup) handleOpen(item);
                     }}
                     group={item}
                   />
-                </li>
+                </Reveal>
               ))}
             </ul>
           ) : (
@@ -126,7 +128,7 @@ const Group: React.FC<IGroupPage> = ({ data }) => {
 
                 {selectedGroup.description && (
                   <div>
-                    <h2 className="mb-2 text-xl font-extrabold tracking-tight">Descrição</h2>
+                    <SectionTitle>Descrição</SectionTitle>
                     <div
                       className="leading-relaxed text-ink-muted [&_a]:font-semibold [&_a]:text-brand-strong [&_a]:underline [&_p]:mb-3"
                       dangerouslySetInnerHTML={{ __html: selectedGroup.description }}
