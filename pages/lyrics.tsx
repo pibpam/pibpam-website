@@ -1,40 +1,25 @@
 import type { NextPage } from 'next'
-import { ContainerBooks, HeaderWrap } from '../styles/Bible'
+import { Container } from '@/components/ui/Container'
 import Website from '../layout/container/Website'
-import Header from "../components/Header";
-import { FiChevronRight } from "react-icons/fi";
+import AppHeader from "../components/AppHeader";
+import ListLink from "../components/ListLink";
 import { useAppNavigation } from "../hooks/useAppNavigation";
 
 const Lyrics: NextPage = () => {
-  const { goTo: goToHook, goBack } = useAppNavigation()
+  const { goTo } = useAppNavigation()
 
-  const goTo = async (pathname: string) => {
-    await goToHook({ pathname, showLoading: true })
-  }
+  const open = (pathname: string) => goTo({ pathname, showLoading: true })
 
   return (
     <Website title={"Hinários"} hasTabNavigator={false}>
       <>
-        <HeaderWrap>
-          <Header goBack={() => goBack({})} title={"Hinários"} />
-        </HeaderWrap>
-        <ContainerBooks>
-          <button onClick={() => goTo("/lyrics/cc")}>
-            Cantor Cristão <FiChevronRight />
-          </button>
-          <button onClick={() => goTo("/lyrics/hcc")}>
-            Hinário para o Culto Cristão <FiChevronRight />
-          </button>
-        </ContainerBooks>
-        {/* <FooterPage
-          options={[
-            {
-              text: "Bíblia",
-              icon: <FiBook />,
-              action: () => goTo("/bible")
-            },
-          ]}
-        /> */}
+        <AppHeader title="Hinários" />
+        <Container className="pt-6 pb-16">
+          <ul className="grid gap-2 sm:grid-cols-2">
+            <li><ListLink label="Cantor Cristão" onClick={() => open("/lyrics/cc")} /></li>
+            <li><ListLink label="Hinário para o Culto Cristão" onClick={() => open("/lyrics/hcc")} /></li>
+          </ul>
+        </Container>
       </>
     </Website>
   )

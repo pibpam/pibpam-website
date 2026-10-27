@@ -1,14 +1,11 @@
 import type { NextPage } from 'next'
-import { ContainerBooks, HeaderWrap } from '../../styles/Lyrics'
+import { Container } from '@/components/ui/Container'
 import Website from '../../layout/container/Website'
-import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
-import Header from "../../components/Header";
+import AppHeader from "../../components/AppHeader";
+import ListLink from "../../components/ListLink";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { ILyric } from '../../interfaces/Lyric';
 import { Api } from '../../services/api';
-import { FiBook, FiChevronRight } from 'react-icons/fi';
-import FooterPage from '../../components/FooterPage';
-import { type } from 'os';
 
 interface ILyricsList {
   lyrics: ILyric[],
@@ -16,38 +13,25 @@ interface ILyricsList {
 }
 
 const LyricsList: NextPage<ILyricsList> = ({ lyrics, type }) => {
-  const { goTo: goToHook, goBack } = useAppNavigation()
-
-  const goTo = async (pathname: string) => {
-    await goToHook({ pathname, showLoading: true })
-  }
+  const { goTo } = useAppNavigation()
 
   return (
     <Website title={type} hasTabNavigator={false}>
       <>
-        <HeaderWrap>
-          <Header goBack={() => goBack({})} title={type} />
-        </HeaderWrap>
-        <DividerMobile color={EDividerColors.white} />
-        <ContainerBooks>
-          {lyrics && lyrics.map(item => (
-            <button
-              key={item.number}
-              onClick={() => goTo("/lyrics/type/" + type.toLowerCase() + "/" + item.number)}
-            >
-              <span>{item.number}</span> {item.name} <FiChevronRight />
-            </button>
-          ))}
-        </ContainerBooks>
-        <FooterPage
-          options={[
-            {
-              text: "Bíblia",
-              icon: <FiBook />,
-              action: () => goTo("/bible")
-            },
-          ]}
-        />
+        <AppHeader title={type} />
+        <Container className="pt-6 pb-16">
+          <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {lyrics && lyrics.map(item => (
+              <li key={item.number}>
+                <ListLink
+                  prefix={item.number}
+                  label={item.name}
+                  onClick={() => goTo({ pathname: "/lyrics/type/" + type.toLowerCase() + "/" + item.number, showLoading: true })}
+                />
+              </li>
+            ))}
+          </ul>
+        </Container>
       </>
     </Website>
   )

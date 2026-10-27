@@ -1,10 +1,7 @@
 import type { NextPage } from "next";
-import { ContainerVerse, HeaderWrap } from "../../../../styles/Bible";
+import { Container } from "@/components/ui/Container";
 import Website from "../../../../layout/container/Website";
-import DividerMobile, {
-  EDividerColors,
-} from "../../../../components/DividerMobile";
-import Header from "../../../../components/Header";
+import AppHeader from "../../../../components/AppHeader";
 import {
   EBible,
   getBook,
@@ -14,7 +11,6 @@ import {
   IBook,
   IVerse,
 } from "../../../../data/bibles";
-import { useAppNavigation } from "../../../../hooks/useAppNavigation";
 
 interface IBible {
   chapter: number;
@@ -23,29 +19,24 @@ interface IBible {
 }
 
 const BibleVerses: NextPage<IBible> = ({ chapter, book, verses }) => {
-  const { goBack } = useAppNavigation();
-
   return (
     <Website
       title={`Bíblia: ${book.name} - ${chapter} `}
       hasTabNavigator={false}
     >
       <>
-        <HeaderWrap>
-          <Header
-            goBack={() => goBack({})}
-            title={`${book.name}, ${chapter}`}
-          />
-        </HeaderWrap>
-        <DividerMobile color={EDividerColors.white} />
-        <ContainerVerse>
-          {verses &&
-            verses.map((item) => (
-              <p key={item.verse}>
-                <sup>{item.verse} </sup> {item.text}
-              </p>
-            ))}
-        </ContainerVerse>
+        <AppHeader title={`${book.name}, ${chapter}`} />
+        <Container className="pt-6 pb-16">
+          <div className="mx-auto flex max-w-[700px] flex-col gap-3 text-lg leading-8">
+            {verses &&
+              verses.map((item) => (
+                <p key={item.verse}>
+                  <sup className="mr-1 text-xs font-bold text-brand-strong">{item.verse}</sup>
+                  {item.text}
+                </p>
+              ))}
+          </div>
+        </Container>
       </>
     </Website>
   );

@@ -1,42 +1,29 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { useAppNavigation } from "../../hooks/useAppNavigation";
-import useHeader from "../../hooks/useHeader";
-import Website from "../../layout/container/Website";
-import HeaderContainer from "../../components/HeaderContainer";
-import Header from "../../components/Header";
-import HeaderPage from "../../components/HeaderPage";
-import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
-import EmptyState from "../../components/EmptyState";
-import FooterPage from "../../components/FooterPage";
-import {
-  FiPlay,
-  FiCalendar,
-  FiClock,
-  FiInfo,
-  FiMapPin,
-} from "react-icons/fi";
+import React, { ReactNode, useContext, useEffect, useRef, useState } from "react";
+import { FiCalendar, FiClock, FiInfo, FiMapPin, FiUser } from "react-icons/fi";
+import { Container } from "@/components/ui/Container";
 import { IGroupPage } from "../../pages/groups";
-import {
-  Begin,
-  Container,
-  ContainerModal,
-  Description,
-  Grid,
-  Location,
-} from "./styles";
-import GroupItem from "../../components/GroupItem";
-import Modal from "../../components/Modal";
 import { IGroup } from "../../interfaces/Group";
-import Title from "../../components/Title";
-import YTPlayer from "../../components/YTPlayer";
+import { PostMessageContext } from "../../contexts/postMessage";
 import usePostMessage from "../../hooks/usePostMessage";
 import useOpenMap from "../../hooks/useOpenMap";
-import { AlertMultiline, DateTime } from "../Schedule/Details/styles";
-import { PostMessageContext } from "../../contexts/postMessage";
+import Website from "../../layout/container/Website";
+import AppHeader from "../../components/AppHeader";
+import EmptyState from "../../components/EmptyState";
+import GroupItem from "../../components/GroupItem";
+import Modal from "../../components/Modal";
+import YTPlayer from "../../components/YTPlayer";
+
+const Info: React.FC<{ icon: ReactNode, title: string, children: ReactNode }> = ({ icon, title, children }) => (
+  <div className="flex items-start gap-3 rounded-md bg-brand-soft p-4">
+    <span aria-hidden className="mt-1 shrink-0 text-brand-strong">{icon}</span>
+    <div className="min-w-0">
+      <p className="font-semibold">{title}</p>
+      <p className="mt-1 whitespace-pre-line text-ink-muted">{children}</p>
+    </div>
+  </div>
+)
 
 const Group: React.FC<IGroupPage> = ({ data }) => {
-  const { goTo: goToHook, goBack } = useAppNavigation();
-  const { scrollActive, changeScroll } = useHeader();
   const [mapUrl, setMapUrl] = useState("");
   const { openLink } = usePostMessage();
   const { getHref } = useOpenMap();
@@ -55,10 +42,6 @@ const Group: React.FC<IGroupPage> = ({ data }) => {
     );
   }, [selectedGroup?.addressRedirect, getHref]);
 
-  const goTo = async (pathname: string) => {
-    await goToHook({ pathname, showLoading: true });
-  };
-
   const handleOpen = (data?: IGroup) => {
     if (waitToClick.current && data) {
       return;
@@ -75,122 +58,98 @@ const Group: React.FC<IGroupPage> = ({ data }) => {
   };
 
   return (
-    <Website
-      title={"Pequenos Grupos"}
-      changeScroll={changeScroll}
-      hasTabNavigator={false}
-    >
+    <Website title={"Pequenos Grupos"} hasTabNavigator={false}>
       <>
-        <HeaderContainer active={scrollActive}>
-          <Header
-            goBack={() => goBack({ fallback: "/" })}
-          />
-        </HeaderContainer>
-        {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
-        <HeaderPage title="Pequenos Grupos" />
-        <DividerMobile color={EDividerColors.white} />
-        <Container>
-          <Grid>
-            {data.map((item) => (
-              <GroupItem
-                onClick={() => {
-                  selectedGroup ? () => {} : handleOpen(item);
-                }}
-                group={item}
-                key={item.uuid}
-              />
-            ))}
-            {!data.length && <EmptyState />}
-          </Grid>
+        <AppHeader title="Pequenos Grupos" />
+        <Container className="pt-6 pb-16">
+          {data.length ? (
+            <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {data.map((item) => (
+                <li key={item.uuid}>
+                  <GroupItem
+                    onClick={() => {
+                      if (!selectedGroup) handleOpen(item);
+                    }}
+                    group={item}
+                  />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <EmptyState />
+          )}
         </Container>
-        <FooterPage
-          options={[
-            {
-              text: "Cultos",
-              icon: <FiPlay />,
-              action: () => goTo("/events"),
-            },
-            {
-              text: "Agenda",
-              icon: <FiCalendar />,
-              action: () => goTo("/schedule"),
-            },
-          ]}
-        />
         <Modal
           blockClick
           isOpen={!!selectedGroup}
           onClose={() => handleOpen(undefined)}
         >
-          <ContainerModal bottom={deviceInfo?.bottom}>
+          <div className="px-5 pt-6" style={{ paddingBottom: (deviceInfo?.bottom || 0) + 32 }}>
             {selectedGroup && (
-              <>
-                <Begin>
-                  <h1>{selectedGroup?.title}</h1>
-                  <h2>{selectedGroup?.shortDescription}</h2>
-                  <DateTime>
-                    <div>
-                      <FiCalendar />
-                      {selectedGroup.dayDescription}
-                    </div>
-                    <div>
-                      <FiClock />
-                      {selectedGroup.timeDescription}
-                    </div>
-                  </DateTime>
-                  {selectedGroup?.address && (
-                    <Location>
-                      <FiMapPin />
-                      <div>
-                        <div>{selectedGroup?.address}</div>
-                        <button onClick={() => openLink(mapUrl)}>
-                          Como chegar
-                        </button>
-                      </div>
-                    </Location>
+              <div className="flex flex-col gap-5">
+                <div>
+                  <h1 className="text-2xl font-extrabold tracking-tight text-balance">{selectedGroup.title}</h1>
+                  {selectedGroup.shortDescription && (
+                    <p className="mt-1 text-lg font-medium text-ink-muted">{selectedGroup.shortDescription}</p>
                   )}
-                </Begin>
-                {(selectedGroup?.description ||
-                  selectedGroup?.info ||
-                  selectedGroup?.promotionalVideo) && (
-                  <>
-                    <Title>Descrição</Title>
-                    <Description>
-                      <p
-                        dangerouslySetInnerHTML={{
-                          __html: selectedGroup?.description || "",
-                        }}
-                      ></p>
+                </div>
 
-                      {!!selectedGroup?.promotionalVideo && (
-                        <YTPlayer videoId={selectedGroup?.promotionalVideo} />
-                      )}
+                <div className="flex flex-col gap-3 rounded-lg border border-line p-4">
+                  {selectedGroup.dayDescription && (
+                    <p className="flex items-center gap-3 font-semibold">
+                      <FiCalendar aria-hidden className="text-brand-strong" />{selectedGroup.dayDescription}
+                    </p>
+                  )}
+                  {selectedGroup.timeDescription && (
+                    <p className="flex items-center gap-3 font-semibold">
+                      <FiClock aria-hidden className="text-brand-strong" />{selectedGroup.timeDescription}
+                    </p>
+                  )}
+                  {selectedGroup.address && (
+                    <div className="flex items-start gap-3">
+                      <FiMapPin aria-hidden className="mt-1 shrink-0 text-brand-strong" />
+                      <div>
+                        <p>{selectedGroup.address}</p>
+                        {mapUrl && (
+                          <button
+                            type="button"
+                            onClick={() => openLink(mapUrl)}
+                            className="mt-1 font-semibold text-brand-strong underline underline-offset-4"
+                          >
+                            Como chegar
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
 
-                      {selectedGroup?.info && (
-                        <AlertMultiline>
-                          <FiInfo />
-                          <div>
-                            <div>Mais informações:</div>
-                            <div>{selectedGroup?.info}</div>
-                          </div>
-                        </AlertMultiline>
-                      )}
-
-                      {selectedGroup?.lider && (
-                        <AlertMultiline>
-                          <FiInfo />
-                          <div>
-                            <div>Líder(es):</div>
-                            <div>{selectedGroup?.lider}</div>
-                          </div>
-                        </AlertMultiline>
-                      )}
-                    </Description>
-                  </>
+                {selectedGroup.description && (
+                  <div>
+                    <h2 className="mb-2 text-xl font-extrabold tracking-tight">Descrição</h2>
+                    <div
+                      className="leading-relaxed text-ink-muted [&_a]:font-semibold [&_a]:text-brand-strong [&_a]:underline [&_p]:mb-3"
+                      dangerouslySetInnerHTML={{ __html: selectedGroup.description }}
+                    />
+                  </div>
                 )}
-              </>
+
+                {!!selectedGroup.promotionalVideo && (
+                  <div className="overflow-hidden rounded-md bg-pine">
+                    <YTPlayer videoId={selectedGroup.promotionalVideo} />
+                  </div>
+                )}
+
+                {selectedGroup.info && (
+                  <Info icon={<FiInfo />} title="Mais informações">{selectedGroup.info}</Info>
+                )}
+
+                {selectedGroup.lider && (
+                  <Info icon={<FiUser />} title="Líder(es)">{selectedGroup.lider}</Info>
+                )}
+              </div>
             )}
-          </ContainerModal>
+          </div>
         </Modal>
       </>
     </Website>

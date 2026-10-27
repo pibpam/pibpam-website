@@ -1,32 +1,33 @@
 import type { NextPage } from 'next'
-import { ContainerLyric, HeaderWrap } from '../../../../styles/Lyrics'
+import { Container } from '@/components/ui/Container'
 import Website from '../../../../layout/container/Website'
-import DividerMobile, { EDividerColors } from "../../../../components/DividerMobile";
-import Header from "../../../../components/Header";
-import { useAppNavigation } from "../../../../hooks/useAppNavigation";
+import AppHeader from "../../../../components/AppHeader";
 import { Api } from '../../../../services/api';
 import { ILyric } from '../../../../interfaces/Lyric';
 
-interface IBible {
+interface ILyricPage {
   lyric: ILyric
   type: string
 }
 
-const BibleVerses: NextPage<IBible> = ({ lyric, type }) => {
-  const { goBack } = useAppNavigation()
-
+const LyricPage: NextPage<ILyricPage> = ({ lyric, type }) => {
   return (
     <Website title={`${lyric.name}`} hasTabNavigator={false}>
       <>
-        <HeaderWrap>
-          <Header goBack={() => goBack({})} title={`${type.toUpperCase()} - ${lyric.number}`} />
-        </HeaderWrap>
-        <DividerMobile color={EDividerColors.white} />
-        <ContainerLyric>
-          <h4> <span>{lyric.number}</span> {lyric.name}</h4>
-          <h5>{lyric.author}</h5>
-          <div dangerouslySetInnerHTML={{ __html: lyric.lyric }} ></div>
-        </ContainerLyric>
+        <AppHeader title={`${type.toUpperCase()} - ${lyric.number}`} />
+        <Container className="pt-6 pb-16">
+          <div className="mx-auto max-w-[700px]">
+            <h1 className="text-2xl font-extrabold tracking-tight text-balance">
+              <span className="mr-2 text-brand-strong tabular-nums">{lyric.number}</span>
+              {lyric.name}
+            </h1>
+            {lyric.author && <p className="mt-2 text-ink-muted">{lyric.author}</p>}
+            <div
+              className="mt-6 text-lg leading-8 [&_p]:mb-6"
+              dangerouslySetInnerHTML={{ __html: lyric.lyric }}
+            />
+          </div>
+        </Container>
       </>
     </Website>
   )
@@ -72,4 +73,4 @@ export async function getStaticProps({ params }: IParams) {
   return { props: { lyric, type: params.type } }
 }
 
-export default BibleVerses
+export default LyricPage

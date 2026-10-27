@@ -1,8 +1,7 @@
 import type { NextPage } from 'next'
-import { ContainerChapter, HeaderWrap } from '../../styles/Bible'
+import { Container } from '@/components/ui/Container'
 import Website from '../../layout/container/Website'
-import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
-import Header from "../../components/Header";
+import AppHeader from "../../components/AppHeader";
 import { EBible, getBook, getBooks, getChapters, IBook } from "../../data/bibles";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 
@@ -12,29 +11,28 @@ interface IBible {
 }
 
 const BibleChapters: NextPage<IBible> = ({ chapters, book }) => {
-  const { goTo: goToHook, goBack } = useAppNavigation()
-
-  const goTo = async (pathname: string) => {
-    await goToHook({ pathname, showLoading: true })
-  }
+  const { goTo } = useAppNavigation()
 
   return (
     <Website title={`Bíblia: ${book.name}`} hasTabNavigator={false}>
       <>
-        <HeaderWrap>
-          <Header goBack={() => goBack({})} title={book.name} />
-        </HeaderWrap>
-        <DividerMobile color={EDividerColors.white} />
-        <ContainerChapter>
-          {chapters && chapters.map(item => (
-            <button
-              key={item}
-              onClick={() => goTo("/bible/" + book.book_reference_id + "/chapter/" + item)}
-            >
-              {item}
-            </button>
-          ))}
-        </ContainerChapter>
+        <AppHeader title={book.name} />
+        <Container className="pt-6 pb-16">
+          <h2 className="mb-4 text-xl font-extrabold tracking-tight">Capítulos</h2>
+          <ul className="grid grid-cols-5 gap-2 sm:grid-cols-8 lg:grid-cols-10">
+            {chapters && chapters.map(item => (
+              <li key={item}>
+                <button
+                  type="button"
+                  onClick={() => goTo({ pathname: "/bible/" + book.book_reference_id + "/chapter/" + item, showLoading: true })}
+                  className="flex h-12 w-full items-center justify-center rounded-md border border-line bg-paper text-lg font-bold tabular-nums transition-colors active:bg-brand-soft"
+                >
+                  {item}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </Container>
       </>
     </Website>
   )
