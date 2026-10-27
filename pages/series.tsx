@@ -1,23 +1,18 @@
 import type { NextPage } from 'next'
-import { Container, Grid, LoadMore } from '../styles/Events'
-import Website from '../layout/container/Website'
-import DividerMobile, { EDividerColors } from "../components/DividerMobile";
-import Header from "../components/Header";
-import HeaderPage from "../components/HeaderPage";
 import React, { useState } from "react";
-import { FiCalendar, FiPlay, FiPlus } from "react-icons/fi";
-import ThirdButton from "../components/Button/Third";
-import FooterPage from "../components/FooterPage";
-import { Api } from "../services/api";
+import { FiPlus } from "react-icons/fi";
+import { ImSpinner2 } from "react-icons/im";
+import { Container } from '@/components/ui/Container'
+import Website from '../layout/container/Website'
+import AppHeader from "../components/AppHeader";
+import AppContentTabs from "../components/AppContentTabs";
+import AppSeriesCard from "../components/AppSeriesCard";
+import AppButton from "../components/AppButton";
 import EmptyState from "../components/EmptyState";
+import { Api } from "../services/api";
 import { ApiLocal } from "../services/apiLocal";
 import { IPaginationData } from "../interfaces/Pagination";
-import { ImSpinner2 } from "react-icons/im";
-import { useAppNavigation } from "../hooks/useAppNavigation";
-import useHeader from "../hooks/useHeader";
-import HeaderContainer from "../components/HeaderContainer";
 import { IGetAllSeries, ISeries } from "../interfaces/Series";
-import SeriesCard from "../components/SeriesCard";
 
 interface ISeriesPage {
   data: IGetAllSeries
@@ -27,12 +22,6 @@ const Series: NextPage<ISeriesPage> = ({ data }) => {
   const [paginator, setPaginator] = useState<IPaginationData>(data.pagination)
   const [contents, setContents] = useState<ISeries[]>([] as ISeries[])
   const [loading, setLoading] = useState(false)
-  const { goTo: goToHook, goBack } = useAppNavigation()
-  const { scrollActive, changeScroll } = useHeader()
-
-  const goTo = async (pathname: string) => {
-    await goToHook({ pathname, showLoading: true })
-  }
 
   const handleGetAll = async () => {
     setLoading(true)
@@ -43,53 +32,38 @@ const Series: NextPage<ISeriesPage> = ({ data }) => {
     setLoading(false)
   }
 
+  const items = [...data.data, ...contents]
+
   return (
-    <Website hasTabNavigator title={"Séries"} changeScroll={changeScroll}>
+    <Website hasTabNavigator title={"Séries"}>
       <>
-        <HeaderContainer active={scrollActive}>
-          <Header goBack={() => goBack({})} />
-        </HeaderContainer>
-        {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
-        <HeaderPage title={<>Séries</>} />
-        <DividerMobile color={EDividerColors.white} />
-        <Container>
-          <Grid>
-            {
-              contents.map(item => (
-                <SeriesCard data={item} key={item.uuid} onClick={() => goTo("/series/" + item.uuid)} />
-              ))
-            }
-            {
-              data.data.map(item => (
-                <SeriesCard data={item} key={item.uuid} onClick={() => goTo("/series/" + item.uuid)} />
-              ))
-            }
-            {!data.data.length && (
+        <AppHeader title="Séries" />
+        <Container className="pb-32">
+          <AppContentTabs current="/series" />
+
+          {items.length ? (
+            <ul className="mt-8 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+              {items.map(item => (
+                <li key={item.uuid}>
+                  <AppSeriesCard series={item} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="mt-8">
               <EmptyState />
-            )}
-          </Grid>
+            </div>
+          )}
+
           {paginator.page < paginator.totalPage && (
-            <LoadMore>
-              <ThirdButton loading={loading} onClick={handleGetAll}>
-                {loading ? <ImSpinner2 /> : (<><FiPlus /> ver mais</>)}
-              </ThirdButton>
-            </LoadMore>
+            <div className="mt-10 flex justify-center">
+              <AppButton variant="outline" disabled={loading} onClick={handleGetAll}
+                icon={loading ? <ImSpinner2 className="animate-spin" /> : <FiPlus />}>
+                {loading ? "Carregando" : "Ver mais"}
+              </AppButton>
+            </div>
           )}
         </Container>
-        <FooterPage
-          options={[
-            {
-              text: "Cultos",
-              icon: <FiPlay />,
-              action: () => goTo("/events")
-            },
-            {
-              text: "Agenda",
-              icon: <FiCalendar />,
-              action: () => goTo("/schedule")
-            }
-          ]}
-        />
       </>
     </Website>
   )

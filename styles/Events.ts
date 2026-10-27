@@ -12,10 +12,6 @@ export const Container = styled.div`
   `}
 `
 
-export const ButtonOnLine = styled.div`
-  margin-bottom: 48px;
-`
-
 export const Grid = styled.div`
   display: flex;
   gap: ${theme.spacing.sm};

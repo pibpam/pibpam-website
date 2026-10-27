@@ -1,40 +1,30 @@
 import type { NextPage } from 'next'
-import { ButtonOnLine, Container, Grid, LoadMore } from '../styles/Events'
-import Website from '../layout/container/Website'
-import DividerMobile, { EDividerColors } from "../components/DividerMobile";
-import Header from "../components/Header";
-import HeaderPage from "../components/HeaderPage";
 import React, { useState } from "react";
-import SecondaryButton from "../components/Button/Secondary";
-import { FiCalendar, FiFilm, FiPlay, FiPlus } from "react-icons/fi";
-import EventCard from "../components/EventCard";
-import ThirdButton from "../components/Button/Third";
-import FooterPage from "../components/FooterPage";
-import { Api } from "../services/api";
-import { IContent, IGetAllContentsResponse } from "../interfaces/Contens";
-import EmptyState from "../components/EmptyState";
-import { ApiLocal } from "../services/apiLocal";
-import { IPaginationData } from "../interfaces/Pagination";
+import { FiPlus } from "react-icons/fi";
 import { ImSpinner2 } from "react-icons/im";
-import { useAppNavigation } from "../hooks/useAppNavigation";
-import useHeader from "../hooks/useHeader";
-import HeaderContainer from "../components/HeaderContainer";
+import { Container } from '@/components/ui/Container'
+import Website from '../layout/container/Website'
+import AppHeader from "../components/AppHeader";
+import AppContentTabs from "../components/AppContentTabs";
+import AppVideoCard from "../components/AppVideoCard";
+import AppButton from "../components/AppButton";
+import LiveBanner from "../components/LiveBanner";
+import EmptyState from "../components/EmptyState";
+import { Api } from "../services/api";
+import { ApiLocal } from "../services/apiLocal";
+import { IContent, IGetAllContentsResponse } from "../interfaces/Contens";
+import { IBroadcast } from "../interfaces/Broadcast";
+import { IPaginationData } from "../interfaces/Pagination";
 
 interface IEventsPage {
   data: IGetAllContentsResponse
-  lives: IContent[]
+  lives: IBroadcast[]
 }
 
 const Events: NextPage<IEventsPage> = ({ data, lives }) => {
   const [paginator, setPaginator] = useState<IPaginationData>(data.pagination)
   const [contents, setContents] = useState<IContent[]>([] as IContent[])
   const [loading, setLoading] = useState(false)
-  const { goTo: goToHook } = useAppNavigation()
-  const { scrollActive, changeScroll } = useHeader()
-
-  const goTo = async (pathname: string) => {
-    await goToHook({ pathname, showLoading: true })
-  }
 
   const handleGetAll = async () => {
     setLoading(true)
@@ -45,62 +35,44 @@ const Events: NextPage<IEventsPage> = ({ data, lives }) => {
     setLoading(false)
   }
 
+  const items = [...data.data, ...contents]
+
   return (
-    <Website title={"Cultos e Eventos"} changeScroll={changeScroll}>
+    <Website title={"Cultos e Eventos"}>
       <>
-        <HeaderContainer active={scrollActive}>
-          <Header />
-        </HeaderContainer>
-        {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
-        <HeaderPage title={<>Cultos <span>//</span> Eventos </>} />
-        <DividerMobile color={EDividerColors.white} />
-        <Container>
+        <AppHeader title="Cultos" />
+        <Container className="pb-32">
+          <AppContentTabs current="/events" />
+
           {!!lives && !!lives.length && (
-            <ButtonOnLine>
-              <SecondaryButton onClick={() => goTo("/event/" + lives[0].uuid)}>
-                <><FiPlay /> Assistir Culto On-line</>
-              </SecondaryButton>
-            </ButtonOnLine>
+            <div className="mt-6">
+              <LiveBanner title={lives[0].title} href={"/broadcast/" + lives[0].uuid} />
+            </div>
           )}
 
-          <Grid>
-            {
-              data.data.map(item => (
-                <EventCard data={item} key={item.uuid} onClick={() => goTo("/event/" + item.uuid)} />
-              ))
-            }
-            {
-              contents.map(item => (
-                <EventCard data={item} key={item.uuid} onClick={() => goTo("/event/" + item.uuid)} />
-              ))
-            }
-
-            {!data.data.length && (
+          {items.length ? (
+            <ul className="mt-8 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+              {items.map(item => (
+                <li key={item.uuid}>
+                  <AppVideoCard content={item} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="mt-8">
               <EmptyState />
-            )}
-          </Grid>
+            </div>
+          )}
+
           {paginator.page < paginator.totalPage && (
-            <LoadMore>
-              <ThirdButton loading={loading} onClick={handleGetAll}>
-                {loading ? <ImSpinner2 /> : (<><FiPlus /> ver mais</>)}
-              </ThirdButton>
-            </LoadMore>
+            <div className="mt-10 flex justify-center">
+              <AppButton variant="outline" disabled={loading} onClick={handleGetAll}
+                icon={loading ? <ImSpinner2 className="animate-spin" /> : <FiPlus />}>
+                {loading ? "Carregando" : "Ver mais"}
+              </AppButton>
+            </div>
           )}
         </Container>
-        <FooterPage
-          options={[
-            {
-              text: "Séries",
-              icon: <FiFilm />,
-              action: () => goTo("/series")
-            },
-            {
-              text: "Agenda",
-              icon: <FiCalendar />,
-              action: () => goTo("/schedule")
-            }
-          ]}
-        />
       </>
     </Website>
   )
