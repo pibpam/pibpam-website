@@ -13,7 +13,7 @@ import Title from "../../components/Title";
 import ScheduleEvent from "../../components/ScheduleEvent";
 import ProgramCard from "../../components/ProgramCard";
 import FooterPage from "../../components/FooterPage";
-import { FiBookOpen, FiPlay } from "react-icons/fi";
+import { FiFilm, FiPlay } from "react-icons/fi";
 import Modal from "../../components/Modal";
 import DetailsSchedule from "./Details";
 import { Container, ContainerModal, Content, Grid } from "./styles";
@@ -103,9 +103,9 @@ const ScheduleContainer: React.FC<ISchedule> = ({
               action: () => goTo("/events"),
             },
             {
-              text: "Devocionais",
-              icon: <FiBookOpen />,
-              action: () => goTo("/devotionals"),
+              text: "Séries",
+              icon: <FiFilm />,
+              action: () => goTo("/series"),
             },
           ]}
         />

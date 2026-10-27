@@ -18,7 +18,7 @@ O app nativo (Expo, `pib-app`) abre `https://www.pibpam.org?platform=ios|android
 |---|---|---|
 | App nativo novo | `app.pibpam.org` | Vai direto ao app legado. Nunca passa pelo site. |
 | App nativo antigo | `www.pibpam.org?platform=…` | `src/proxy.ts` repassa (rewrite) ao app legado e grava o cookie `pibpam_app`, mantendo a URL. |
-| Navegador | `www.pibpam.org` | Site. Páginas que só existem no app (`/bible`, `/member`, `/inscricoes/…`) recebem 308 para o mesmo caminho em `app.pibpam.org`. |
+| Navegador | `www.pibpam.org` | Site. Páginas que só existem no app (`/bible`, `/inscricoes/…`) recebem 308 para o mesmo caminho em `app.pibpam.org`. |
 | Link antigo compartilhado | `pibpam.org/event/ID`, `/series/ID`… | 301 para a página equivalente do site. |
 
 O proxy **não redireciona** o que o app antigo usa sem cookie: `/api/*` (inclusive o download de imagem), `/auth/*` (login com

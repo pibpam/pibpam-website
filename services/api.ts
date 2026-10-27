@@ -1,22 +1,12 @@
 import axios from "axios";
-import { IDevotinal } from "../interfaces/Devotinal";
 import { IContent, IGetAllContentsResponse } from "../interfaces/Contens";
 import { ITeam } from "../interfaces/Team";
 import { IScheduleDate } from "../interfaces/Schedule";
 import { IChurchInfo, IChurchSchedule } from "../interfaces/Church";
 import { IGetAllSeries } from "../interfaces/Series";
-import { ICollection } from "../interfaces/Collection";
-import { INotice } from "../interfaces/Notice";
 import { ILyric } from "../interfaces/Lyric";
 import { IMemberBasic } from "../interfaces/Member";
 import { IBroadcast } from "../interfaces/Broadcast";
-import { IGetMemberRotations } from "../interfaces/Rotation";
-import { ILiturgyPlan, ILiturgyPlanAsset, ILiturgySongCatalogEntry } from "../interfaces/Liturgy";
-import {
-  ICreateLiturgyRequestPayload,
-  ILiturgyRequest,
-  ILiturgyRequestUploadUrlResponse,
-} from "../interfaces/LiturgyRequest";
 import { IGetAllGroupResponse } from "../interfaces/Group";
 import {
   IGetAllEventsResponse,
@@ -28,22 +18,6 @@ import {
   IRegistrationSearchParams,
   IRegistrationSearchResult,
 } from "../interfaces/Event";
-import {
-  IAttendanceBatchPayload,
-  ICohort,
-  ICohortLesson,
-} from "../interfaces/Cohort";
-
-export interface ICreateAccountPayload {
-  email: string;
-  password: string;
-  name: string;
-}
-
-export interface IThirdPartyAuthPayload {
-  idToken: string;
-  provider: "google";
-}
 
 export class Api {
   private client;
@@ -52,24 +26,6 @@ export class Api {
     this.client = axios.create({
       baseURL: process.env.API,
     });
-  }
-
-  async getDevotionals(limit?: number) {
-    const params = {} as { limit?: number };
-    if (limit) {
-      params.limit = limit;
-    }
-    const { data } = await this.client.get<IDevotinal[]>("v1/devotionals", {
-      params,
-    });
-    return data;
-  }
-
-  async getDevotional(uuid: string) {
-    const { data } = await this.client.get<IDevotinal>(
-      "v1/devotionals/" + uuid
-    );
-    return data;
   }
 
   async getChurchInfo() {
@@ -186,23 +142,6 @@ export class Api {
     return data;
   }
 
-  async getCollections() {
-    const { data } = await this.client.get<ICollection[]>("v1/collections");
-    return data;
-  }
-
-  async getCollection(uuid: string) {
-    const { data } = await this.client.get<ICollection>(
-      "v1/collections/" + uuid
-    );
-    return data;
-  }
-
-  async getNotices() {
-    const { data } = await this.client.get<INotice[]>("v1/notices");
-    return data;
-  }
-
   async getEvents(page?: number, pageSize?: number) {
     const params = {} as { page?: number; pageSize?: number };
     if (page) {
@@ -291,119 +230,6 @@ export class Api {
     return data;
   }
 
-  async getRotations(token: string) {
-    const { data } = await this.client.get<IGetMemberRotations>(
-      "v1/member/rotations",
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    return data;
-  }
-
-  async saveAvailability(
-    token: string,
-    { rotationItem, status }: { status: string; rotationItem: string }
-  ) {
-    const { data } = await this.client.post<{
-      uuid: string;
-      status: "unavailable" | "available" | "unknown";
-    }>(
-      "v1/member/rotations/availability",
-      { rotationItem, status },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    return data;
-  }
-
-  async getMemberCohorts(token: string) {
-    const { data } = await this.client.get<ICohort[]>("v1/member/cohorts", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return data;
-  }
-
-  async getLiturgyPlansToday(token: string) {
-    const { data } = await this.client.get<ILiturgyPlan[]>(
-      "v1/liturgy/plans/today",
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    return data;
-  }
-
-  async getLiturgyPlanAssets(token: string, uuid: string) {
-    const { data } = await this.client.get<ILiturgyPlanAsset[]>(
-      `v1/liturgy/plans/${uuid}/assets`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    return data;
-  }
-
-  async getLiturgySongsCatalog(token: string) {
-    const { data } = await this.client.get<ILiturgySongCatalogEntry[]>(
-      "v1/liturgy/catalog/musicas",
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    return data;
-  }
-
-  async getLiturgyPlansUpcoming(token: string) {
-    const { data } = await this.client.get<ILiturgyPlan[]>(
-      "v1/member/liturgy/plans/upcoming",
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    return data;
-  }
-
-  async getLiturgyRequestUploadUrl(token: string, planUuid: string, fileName: string) {
-    const { data } = await this.client.post<ILiturgyRequestUploadUrlResponse>(
-      `v1/member/liturgy/plans/${planUuid}/requests/upload-url`,
-      { fileName },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    return data;
-  }
-
-  async createLiturgyRequest(
-    token: string,
-    planUuid: string,
-    payload: ICreateLiturgyRequestPayload
-  ) {
-    const { data } = await this.client.post<ILiturgyRequest>(
-      `v1/member/liturgy/plans/${planUuid}/requests`,
-      payload,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    return data;
-  }
-
-  async getMyLiturgyRequests(token: string) {
-    const { data } = await this.client.get<ILiturgyRequest[]>(
-      "v1/member/liturgy/requests",
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    return data;
-  }
-
-  async getCohortLessons(token: string, cohortUuid: string) {
-    const { data } = await this.client.get<ICohortLesson[]>(
-      `v1/member/cohorts/${cohortUuid}/lessons`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    return data;
-  }
-
-  async saveAttendanceBatch(token: string, payload: IAttendanceBatchPayload) {
-    const { data } = await this.client.post(
-      "v1/member/attendance/batch",
-      payload,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    return data;
-  }
-
   async savePushToken(token: string) {
     const { data } = await this.client.post("v1/notifications/device", {
       token,
@@ -411,43 +237,4 @@ export class Api {
     return data;
   }
 
-  async authByFirebaseIdToken(idToken: string) {
-    const { data } = await this.client.post<{ accessToken: string }>("auth", {
-      idToken,
-    });
-    return data;
-  }
-
-  async authByRotationLink(token: string) {
-    const { data } = await this.client.post<{
-      accessToken: string;
-      rotationUuid: string;
-    }>("auth/link", { token });
-    return data;
-  }
-
-  async createAccount(payload: ICreateAccountPayload) {
-    const { data } = await this.client.post("account", payload);
-    return data;
-  }
-
-  async authWithThirdParty(payload: IThirdPartyAuthPayload) {
-    const { data } = await this.client.post<{ accessToken: string }>(
-      "auth/third-party",
-      payload
-    );
-
-    console.log("Third-party auth response:", data); // Log the authentication response for debugging
-
-    return data;
-  }
-
-  async getMe(token: string) {
-    const { data } = await this.client.get("v1/member/users/me", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return data;
-  }
 }

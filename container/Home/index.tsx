@@ -7,8 +7,6 @@ import {
   PiFilmSlate,
   PiMusicNotes,
   PiPlayCircle,
-  PiSignIn,
-  PiUsers,
 } from "react-icons/pi";
 import Website from "../../layout/container/Website";
 import HeaderContainer from "../../components/HeaderContainer";
@@ -17,7 +15,6 @@ import ShortcutCard from "../../components/ShortcutCard";
 import useHeader from "../../hooks/useHeader";
 import usePostMessage from "../../hooks/usePostMessage";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
-import { UserContext } from "../../contexts/user";
 import { LivesContext } from "../../contexts/lives";
 import { IContent } from "../../interfaces/Contens";
 import { IMemberBasic } from "../../interfaces/Member";
@@ -52,7 +49,6 @@ const Home: FC<IHomeProps> = ({
   const { scrollActive, changeScroll } = useHeader();
   const { goTo: goToHook } = useAppNavigation();
   const { openLink } = usePostMessage();
-  const { user, isLoadingUser } = useContext(UserContext);
   const { lives } = useContext(LivesContext);
 
   // A página é gerada estaticamente: só o cliente sabe qual é o dia de hoje.
@@ -66,10 +62,6 @@ const Home: FC<IHomeProps> = ({
   );
 
   const live = lives?.[0];
-  const firstName = (user?.member?.name || user?.name)?.split(" ")[0];
-  const greetingName = firstName
-    ? firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase()
-    : "";
 
   const goTo = (pathname: string) =>
     goToHook({ pathname, showLoading: true });
@@ -86,24 +78,11 @@ const Home: FC<IHomeProps> = ({
         </HeaderContainer>
         <S.Container>
           <S.Welcome>
-            <h1>{greetingName ? `Olá, ${greetingName}!` : "Bem-vindo!"}</h1>
+            <h1>Bem-vindo!</h1>
             <p>Primeira Igreja Batista em Pará de Minas</p>
           </S.Welcome>
 
           <S.Grid>
-            {user?.id && (
-              <S.Cell $cols={4} $delay={delay()}>
-                <ShortcutCard
-                  size="wide"
-                  tone="tint"
-                  icon={<PiUsers />}
-                  title="Área de Membros"
-                  description="Recursos para membresia e ministérios"
-                  onClick={() => goTo("/member")}
-                />
-              </S.Cell>
-            )}
-
             {live && (
               <S.Cell $cols={4} $rows={2} $delay={delay()}>
                 <MediaCard
@@ -214,18 +193,6 @@ const Home: FC<IHomeProps> = ({
                 />
               )}
             </S.Cell>
-
-            {!isLoadingUser && !user?.id && (
-              <S.Cell $cols={4} $delay={delay()}>
-                <ShortcutCard
-                  size="wide"
-                  icon={<PiSignIn />}
-                  title="Entrar / Cadastrar"
-                  description="Acesse a área de membros"
-                  onClick={() => goTo("/login")}
-                />
-              </S.Cell>
-            )}
           </S.Grid>
         </S.Container>
       </>

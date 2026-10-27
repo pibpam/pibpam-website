@@ -76,7 +76,6 @@ import StringUtils from "../../utils/StringUtils";
 import { ApiLocal } from "../../services/apiLocal";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import usePostMessage from "../../hooks/usePostMessage";
-import { UserContext } from "../../contexts/user";
 import { PostMessageContext } from "../../contexts/postMessage";
 import {
   IEventAddon,
@@ -156,7 +155,6 @@ const emptyParticipant = (): ParticipantForm => ({
 });
 
 const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
-  const { user } = useContext(UserContext);
   const { deviceInfo } = useContext(PostMessageContext);
   const { goTo } = useAppNavigation();
   const { openLink } = usePostMessage();
@@ -359,7 +357,6 @@ const InscriptionFlow: React.FC<IInscriptionFlowProps> = ({ event }) => {
     try {
       const apiLocal = new ApiLocal();
       const response = await apiLocal.createRegistration(event.uuid, {
-        memberUuid: user?.member?.uuid,
         responsibleName: responsible.name,
         responsiblePhone: responsible.phone,
         responsibleEmail: responsible.email,

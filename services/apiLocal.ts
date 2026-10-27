@@ -1,21 +1,6 @@
 import axios from "axios";
 import { IGetAllContentsResponse } from "../interfaces/Contens";
 import { IGetAllSeries } from "../interfaces/Series";
-import { INotice } from "../interfaces/Notice";
-import { IUser } from "../interfaces/User";
-import { IGetMemberRotations } from "../interfaces/Rotation";
-import { ILiturgyPlan, ILiturgyPlanAsset, ILiturgySongCatalogEntry } from "../interfaces/Liturgy";
-import {
-  ICreateLiturgyRequestPayload,
-  ILiturgyRequest,
-  ILiturgyRequestUploadUrlResponse,
-} from "../interfaces/LiturgyRequest";
-import {
-  IAttendanceBatchPayload,
-  ICohort,
-  ICohortLesson,
-} from "../interfaces/Cohort";
-import { ICreateAccountPayload, IThirdPartyAuthPayload } from "./api";
 import {
   IGetAllEventsResponse,
   IEventDetail,
@@ -53,117 +38,8 @@ export class ApiLocal {
     return data
   }
 
-  async getNotices() {
-    const { data } = await this.client.get<INotice[]>("/notices")
-    return data
-  }
-
   async savePushToken(token: string) {
     const { data } = await this.client.post("/notifications", { token })
-    return data
-  }
-
-  async authByCode(token: string) {
-    const { data } = await this.client.post<{ accessToken: string }>("/auth/code", { token })
-    return data
-  }
-
-  async authByIdToken(idToken: string) {
-    const { data } = await this.client.post<{ accessToken: string }>("/auth", { idToken })
-    return data
-  }
-
-  async authByRotationLink(token: string) {
-    const { data } = await this.client.post<{ accessToken: string; rotationUuid: string }>("/auth/link", { token })
-    return data
-  }
-
-  async createAccount(payload: ICreateAccountPayload) {
-    const { data } = await this.client.post("/account", payload)
-    return data
-  }
-
-  async authWithThirdParty(payload: IThirdPartyAuthPayload) {
-    const { data } = await this.client.post<{ accessToken: string }>("/auth/third-party", payload)
-    return data
-  }
-
-  async getMe(token: string) {
-    const { data } = await this.client.get<IUser>("/member/me", { headers: { Authorization: token } })
-    return data
-  }
-
-  async getRotations(token: string) {
-    const { data } = await this.client.get<IGetMemberRotations>("/rotation/get", { headers: { Authorization: token } })
-    return data
-  }
-
-  async saveAvailability(token: string, data: { status: string, rotationItem: string }) {
-    const result = await this.client.post("/rotation/availability", data, { headers: { Authorization: token } })
-    return result
-  }
-
-  async getMemberCohorts(token: string) {
-    const { data } = await this.client.get<ICohort[]>("/member/cohorts", {
-      headers: { Authorization: token },
-    })
-    return data
-  }
-
-  async getLiturgyPlansToday(token: string) {
-    const { data } = await this.client.get<ILiturgyPlan[]>("/liturgy/today", { headers: { Authorization: token } })
-    return data
-  }
-
-  async getLiturgyPlanAssets(token: string, uuid: string) {
-    const { data } = await this.client.get<ILiturgyPlanAsset[]>(`/liturgy/assets/${uuid}`, { headers: { Authorization: token } })
-    return data
-  }
-
-  async getLiturgySongsCatalog(token: string) {
-    const { data } = await this.client.get<ILiturgySongCatalogEntry[]>("/liturgy/catalog/musicas", { headers: { Authorization: token } })
-    return data
-  }
-
-  async getLiturgyPlansUpcoming(token: string) {
-    const { data } = await this.client.get<ILiturgyPlan[]>("/liturgy/plans/upcoming", { headers: { Authorization: token } })
-    return data
-  }
-
-  async getLiturgyRequestUploadUrl(token: string, planUuid: string, fileName: string) {
-    const { data } = await this.client.post<ILiturgyRequestUploadUrlResponse>(
-      `/liturgy/plans/${planUuid}/requests/upload-url`,
-      { fileName },
-      { headers: { Authorization: token } }
-    )
-    return data
-  }
-
-  async createLiturgyRequest(token: string, planUuid: string, payload: ICreateLiturgyRequestPayload) {
-    const { data } = await this.client.post<ILiturgyRequest>(
-      `/liturgy/plans/${planUuid}/requests`,
-      payload,
-      { headers: { Authorization: token } }
-    )
-    return data
-  }
-
-  async getMyLiturgyRequests(token: string) {
-    const { data } = await this.client.get<ILiturgyRequest[]>("/liturgy/requests/mine", { headers: { Authorization: token } })
-    return data
-  }
-
-  async getCohortLessons(token: string, cohortUuid: string) {
-    const { data } = await this.client.get<ICohortLesson[]>(`/member/cohorts/${cohortUuid}/lessons`, {
-      headers: { Authorization: token },
-    })
-    return data
-  }
-
-  async saveAttendanceBatch(token: string, payload: IAttendanceBatchPayload) {
-    const { data } = await this.client.post("/member/attendance/batch", payload, {
-      headers: { Authorization: token },
-    })
     return data
   }
 

@@ -73,7 +73,7 @@ então basta editar o `theme.css`. Para um tema alternativo, redefina as variáv
 app nativo ainda abrem `https://www.pibpam.org?platform=ios|android`, então o site as atende por um proxy até todos atualizarem.
 
 - `src/proxy.ts`: `?platform=` (ou o cookie `pibpam_app`) repassa o tráfego do WebView ao app legado mantendo a URL; navegadores
-  que abrem páginas só do app (`/bible`, `/member`, `/inscricoes/…`) recebem 308 para `app.pibpam.org`; links antigos
+  que abrem páginas só do app (`/bible`, `/inscricoes/…`) recebem 308 para `app.pibpam.org`; links antigos
   (`/about`, `/event/:id`…) recebem 301 para o site; `/sw.js` é um kill-switch do service worker antigo.
 - `next.config.ts`: `fallback` repassa ao app o que o site não tem (`/api/*`, `/auth/*`, arquivos de `public/`), e o deploy de
   produção **falha sem `LEGACY_APP_URL`**.

@@ -25,9 +25,8 @@ app below (Tailwind instead of styled-components, `src/` + `@/*` imports, Cache 
 
 ## Environment
 
-Copy `.env.example` to `.env`. Three groups of variables:
+Copy `.env.example` to `.env`. Two groups of variables:
 - `API` — base URL of the upstream backend, consumed **server-side only** (see BFF pattern below).
-- `NEXT_PUBLIC_FIREBASE_*` — Firebase web config, used client-side for auth.
 - `READING_PLANS_API` / `READING_PLANS_API_KEY` — base URL and Bearer key of the external reading-plans service (`services/readingPlans.ts`), consumed **server-side only** in the Home's `getStaticProps`. Reading plans no longer live in this app: the Home card links out to the service.
 
 ## Architecture
@@ -42,10 +41,7 @@ The frontend never calls the upstream backend (`process.env.API`) directly. Two 
 
 So the flow is: client component → `ApiLocal` → `pages/api/<route>` handler → `Api` → upstream backend. When adding a new backend call, you generally add a method to `Api`, create the matching `pages/api/*` handler, and add a method to `ApiLocal`.
 
-Authenticated endpoints pass a bearer token explicitly as a method argument (`getRotations(token)`, `getMe(token)`, etc.); there is no axios interceptor. Tokens are stored via `utils/LocalStorage.ts`.
-
-### Authentication
-Firebase Auth (email/password + Google popup) runs client-side in `services/firebaseClient.ts`. `services/auth.ts` orchestrates the flow: sign in with Firebase → get Firebase idToken → exchange it via `ApiLocal` (`/api/auth` or `/api/auth/third-party`) for the app's own `accessToken` → save token to localStorage. `firebaseClient.ts` throws if run server-side or if env vars are missing.
+The app has **no login or logged-in area** (the member area and the sign-in/sign-up screens were removed). Every endpoint is public, so there is no auth token handling or axios interceptor.
 
 ### WebView / native app integration
 Because the site is embedded in a native shell, there is a `postMessage` bridge:
@@ -55,7 +51,7 @@ Because the site is embedded in a native shell, there is a `postMessage` bridge:
 - `contexts/app.tsx` exposes `isApp`/`isIos`/`isAndroid` (derived from a `?platform=` query param — **marked `@deprecated`**) and `isMobile` (from user agent). Prefer `isMobile` for new work.
 
 ### State
-Global state is React Context only (no Redux). Providers are nested in `contexts/index.tsx` and wrap the whole app in `pages/_app.tsx`: `AppContext`, `LoadingContext`, `UserContext`, `PostMessageContext`, `LivesContext`, `NoticesContext`. Access via `useContext(...)` or the paired hooks in `hooks/`.
+Global state is React Context only (no Redux). Providers are nested in `contexts/index.tsx` and wrap the whole app in `pages/_app.tsx`: `AppContext`, `LoadingContext`, `PostMessageContext`, `LivesContext`. Access via `useContext(...)` or the paired hooks in `hooks/`.
 
 ### Rendering & data fetching
 Pages use `getStaticProps` (mostly, e.g. `index.tsx`) or `getServerSideProps` to fetch initial data through the `Api` class server-side. Client-side data fetching goes through `ApiLocal`.
@@ -63,7 +59,7 @@ Pages use `getStaticProps` (mostly, e.g. `index.tsx`) or `getServerSideProps` to
 ### Directory layout
 - `pages/` — routes + `pages/api/*` (the BFF handlers). Files here are routes, so page-level styled-components live in `styles/<PageName>.ts`, not colocated.
 - `components/` — reusable presentational components, each a folder with `index.tsx` + `styles.ts`.
-- `container/` — larger composed/screen-level pieces (e.g. `Home`, `Schedule`, `Tracking`), often extracted from a specific page's distinct sections (e.g. `About/Contacts`, `Tracking/ParticipantItem`).
+- `container/` — larger composed/screen-level pieces (e.g. `Home`, `Schedule`, `Tracking`), often extracted from a specific page's distinct sections (e.g. `Tracking/ParticipantItem`).
 - `layout/` — page shells (e.g. `Website`).
 - `contexts/`, `hooks/`, `services/`, `utils/`, `enum/`.
 - `interfaces/` — TypeScript interfaces for API/domain models. These are imported broadly by `Api`/`ApiLocal`; keep them in sync when changing API shapes.

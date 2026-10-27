@@ -49,20 +49,11 @@ const REDIRECTS: [RegExp, (match: RegExpMatchArray) => string][] = [
 const LEGACY_ONLY_PREFIXES = [
   "/bible",
   "/birthdays",
-  "/cadastro",
-  "/collection",
-  "/collections",
-  "/devotional",
-  "/devotionals",
   "/groups",
   "/inscricoes",
-  "/login",
   "/lyrics",
-  "/member",
-  "/notices",
   "/privacy",
   "/reading-plan",
-  "/recuperar-senha",
 ];
 
 const isLegacyOnly = (pathname: string) =>

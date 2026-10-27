@@ -6,7 +6,7 @@ import Header from "../components/Header";
 import HeaderPage from "../components/HeaderPage";
 import React, { useState } from "react";
 import SecondaryButton from "../components/Button/Secondary";
-import { FiBookOpen, FiCalendar, FiPlay, FiPlus } from "react-icons/fi";
+import { FiCalendar, FiFilm, FiPlay, FiPlus } from "react-icons/fi";
 import EventCard from "../components/EventCard";
 import ThirdButton from "../components/Button/Third";
 import FooterPage from "../components/FooterPage";
@@ -90,9 +90,9 @@ const Events: NextPage<IEventsPage> = ({ data, lives }) => {
         <FooterPage
           options={[
             {
-              text: "Devocionais",
-              icon: <FiBookOpen />,
-              action: () => goTo("/devotionals")
+              text: "Séries",
+              icon: <FiFilm />,
+              action: () => goTo("/series")
             },
             {
               text: "Agenda",

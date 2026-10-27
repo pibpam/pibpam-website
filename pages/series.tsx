@@ -5,7 +5,7 @@ import DividerMobile, { EDividerColors } from "../components/DividerMobile";
 import Header from "../components/Header";
 import HeaderPage from "../components/HeaderPage";
 import React, { useState } from "react";
-import { FiBookOpen, FiCalendar, FiPlus } from "react-icons/fi";
+import { FiCalendar, FiPlay, FiPlus } from "react-icons/fi";
 import ThirdButton from "../components/Button/Third";
 import FooterPage from "../components/FooterPage";
 import { Api } from "../services/api";
@@ -79,9 +79,9 @@ const Series: NextPage<ISeriesPage> = ({ data }) => {
         <FooterPage
           options={[
             {
-              text: "Devocionais",
-              icon: <FiBookOpen />,
-              action: () => goTo("/devotionals")
+              text: "Cultos",
+              icon: <FiPlay />,
+              action: () => goTo("/events")
             },
             {
               text: "Agenda",

@@ -9,7 +9,7 @@ import DividerMobile, { EDividerColors } from "../../components/DividerMobile";
 import EmptyState from "../../components/EmptyState";
 import FooterPage from "../../components/FooterPage";
 import {
-  FiBookOpen,
+  FiPlay,
   FiCalendar,
   FiClock,
   FiInfo,
@@ -106,9 +106,9 @@ const Group: React.FC<IGroupPage> = ({ data }) => {
         <FooterPage
           options={[
             {
-              text: "Devocionais",
-              icon: <FiBookOpen />,
-              action: () => goTo("/devotionals"),
+              text: "Cultos",
+              icon: <FiPlay />,
+              action: () => goTo("/events"),
             },
             {
               text: "Agenda",
