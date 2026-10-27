@@ -12,3 +12,14 @@ export default meta
 type Story = StoryObj<typeof AppShareButton>
 
 export const Default: Story = {}
+
+export const Dark: Story = {
+  args: { tone: 'dark' },
+  decorators: [
+    (Story) => (
+      <div style={{ background: '#12302F', padding: 24, borderRadius: 14 }}>
+        <Story />
+      </div>
+    ),
+  ],
+}

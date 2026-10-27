@@ -1,121 +1,129 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
+import Image from "next/image";
 import { FiAlertOctagon, FiCalendar, FiClock, FiEdit3, FiInfo, FiMapPin, FiUsers } from "react-icons/fi";
-import useHeader from '../../../hooks/useHeader';
+import { Container } from "@/components/ui/Container";
+import { formatTime, formatWeekdayDate } from "@/lib/format";
+import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import useOpenMap from '../../../hooks/useOpenMap';
 import usePostMessage from '../../../hooks/usePostMessage';
-import Website from '../../../layout/container/Website';
-import { DateUtils } from '../../../utils/Date';
-import ThirdButton from '../../../components/Button/Third';
-import Title from '../../../components/Title';
+import AppButton from "../../../components/AppButton";
+import AppMinistryCard from "../../../components/AppMinistryCard";
 import YTPlayer from '../../../components/YTPlayer';
-import MinistriesItem from '../../../components/MinistriesItem';
 import { IScheduleDate } from '../../../interfaces/Schedule';
-import { Alert, AlertMultiline, Audience, Begin, Container, DateTime, Description, ImageHeader, Location, SubscriptionButton } from './styles';
 
 interface ISchedule {
   data: IScheduleDate
 }
 
+const InfoRow: React.FC<{ icon: ReactNode, children: ReactNode }> = ({ icon, children }) => (
+  <div className="flex items-start gap-3">
+    <span aria-hidden className="mt-1 text-lg text-brand-strong">{icon}</span>
+    <div className="min-w-0 flex-1">{children}</div>
+  </div>
+)
+
 const DetailsSchedule: React.FC<ISchedule> = ({ data }) => {
-  const { changeScroll } = useHeader()
+  const { goTo } = useAppNavigation()
   const { getHref } = useOpenMap()
   const [mapUrl, setMapUrl] = useState('')
   const { openLink } = usePostMessage()
+  const { schedule } = data
 
   useEffect(() => {
-    setMapUrl(data.schedule.addressRedirect ? getHref(data.schedule.addressRedirect) : "")
-  }, [data.schedule.addressRedirect, getHref])
-
-  const goToTeam = async () => {
-    // await goToHook({pathname: "/ministry/" + data.schedule.team?.uuid, showLoading: true})
-  }
-
-  const goToEnrollmentLink = () => {
-    if (data.schedule.enrollmentLink) {
-      openLink(data.schedule.enrollmentLink)
-    }
-  }
+    setMapUrl(schedule.addressRedirect ? getHref(schedule.addressRedirect) : "")
+  }, [schedule.addressRedirect, getHref])
 
   return (
-    <Website title={`${data.schedule.title}`} img={data.schedule.image} changeScroll={changeScroll} hasTabNavigator={false}>
-      <>
-        <Begin>
-          {data.schedule.image && (
-            <ImageHeader src={data.schedule.image} />
-          )}
-          <h1>{data.schedule.title}</h1>
-          <h2>{data.schedule.shortDescription}</h2>
-          <DateTime>
-            <div><FiCalendar />{DateUtils.formatDateDefault(data.scheduleDate)}</div>
-            <div><FiClock />{DateUtils.formatTimeH(data.scheduleDate)}</div>
-          </DateTime>
-          {data.schedule.address && (
-            <Location>
-              <FiMapPin />
-              <div>
-                <div>{data.schedule.address}</div>
-                <button onClick={() => openLink(mapUrl)}>Como chegar</button>
-              </div>
-            </Location>
-          )}
-          {data.schedule.publicSchedule && (
-            <Audience>
-              <FiUsers />
-              <div>
-                <div>Público:</div>
-                <div>{data.schedule.publicSchedule}</div>
-              </div>
-            </Audience>
-          )}
-          {data.schedule.vacancies && (
-            <Alert>
-              <FiAlertOctagon /> Vagas limitadas.
-            </Alert>
-          )}
+    <Container className="pt-5 pb-16">
+      {schedule.image && (
+        <div className="relative aspect-video overflow-hidden rounded-md bg-pine-soft">
+          <Image src={schedule.image} alt="" fill priority sizes="100vw" className="object-cover" />
+        </div>
+      )}
 
-          {data.schedule.enrollmentLink && (
-            <SubscriptionButton>
-              <ThirdButton onClick={goToEnrollmentLink}>
-                <><FiEdit3 />inscrição</>
-              </ThirdButton>
-            </SubscriptionButton>
-          )}
-        </Begin>
-        {(data.schedule.description || data.schedule.extraData || data.schedule.promotionalVideo) && (
-          <>
-            <Title>Descrição</Title>
-            <Description>
-              <p dangerouslySetInnerHTML={{ __html: data.schedule.description || "" }}></p>
+      <h1 className="mt-5 text-2xl font-extrabold tracking-tight text-balance">{schedule.title.trim()}</h1>
+      {schedule.shortDescription && (
+        <p className="mt-1 text-lg font-medium text-ink-muted">{schedule.shortDescription}</p>
+      )}
 
-              {!!data.schedule.promotionalVideo && (
-                <YTPlayer videoId={data.schedule.promotionalVideo} />
-              )}
-
-              {data.schedule.extraData && (
-                <AlertMultiline>
-                  <FiInfo />
-                  <div>
-                    <div>Mais informações:</div>
-                    <div>{data.schedule.extraData}</div>
-                  </div>
-                </AlertMultiline>
-              )}
-            </Description>
-          </>
+      <div className="mt-6 flex flex-col gap-4 rounded-lg border border-line p-5">
+        <InfoRow icon={<FiCalendar />}>
+          <p className="font-semibold first-letter:uppercase">{formatWeekdayDate(data.scheduleDate)}</p>
+        </InfoRow>
+        <InfoRow icon={<FiClock />}>
+          <p className="font-semibold">{formatTime(data.scheduleDate)}</p>
+        </InfoRow>
+        {schedule.address && (
+          <InfoRow icon={<FiMapPin />}>
+            <p>{schedule.address}</p>
+            {mapUrl && (
+              <button
+                type="button"
+                onClick={() => openLink(mapUrl)}
+                className="mt-1 font-semibold text-brand-strong underline underline-offset-4"
+              >
+                Como chegar
+              </button>
+            )}
+          </InfoRow>
         )}
-
-        {data.schedule.team && (
-          <>
-            <Title>Organizador</Title>
-            <Container>
-              <MinistriesItem data={data.schedule.team} onClick={goToTeam} />
-            </Container>
-          </>
+        {schedule.publicSchedule && (
+          <InfoRow icon={<FiUsers />}>
+            <p><span className="font-semibold">Público:</span> {schedule.publicSchedule}</p>
+          </InfoRow>
         )}
-      </>
-    </Website>
+        {!!schedule.vacancies && (
+          <InfoRow icon={<FiAlertOctagon />}>
+            <p className="font-semibold">Vagas limitadas.</p>
+          </InfoRow>
+        )}
+      </div>
+
+      {schedule.enrollmentLink && (
+        <div className="mt-5">
+          <AppButton size="lg" icon={<FiEdit3 aria-hidden />} onClick={() => openLink(schedule.enrollmentLink as string)}>
+            Inscrição
+          </AppButton>
+        </div>
+      )}
+
+      {schedule.description && (
+        <div className="mt-8">
+          <h2 className="mb-3 text-xl font-extrabold tracking-tight">Descrição</h2>
+          <div
+            className="leading-relaxed text-ink-muted [&_a]:font-semibold [&_a]:text-brand-strong [&_a]:underline [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-5"
+            dangerouslySetInnerHTML={{ __html: schedule.description }}
+          />
+        </div>
+      )}
+
+      {!!schedule.promotionalVideo && (
+        <div className="mt-6 overflow-hidden rounded-md bg-pine">
+          <YTPlayer videoId={schedule.promotionalVideo} />
+        </div>
+      )}
+
+      {schedule.extraData && (
+        <div className="mt-6 flex items-start gap-3 rounded-md bg-brand-soft p-4">
+          <FiInfo aria-hidden className="mt-1 shrink-0 text-brand-strong" />
+          <div>
+            <p className="font-semibold">Mais informações</p>
+            <p className="mt-1 whitespace-pre-line text-ink-muted">{schedule.extraData}</p>
+          </div>
+        </div>
+      )}
+
+      {schedule.team && (
+        <div className="mt-10">
+          <h2 className="mb-3 text-xl font-extrabold tracking-tight">Organizador</h2>
+          <AppMinistryCard
+            data={schedule.team}
+            onClick={() => goTo({ pathname: "/ministry/" + schedule.team?.uuid, showLoading: true })}
+          />
+        </div>
+      )}
+    </Container>
   )
 }
-
 
 export default DetailsSchedule

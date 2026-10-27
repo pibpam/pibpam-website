@@ -18,6 +18,8 @@ interface IVideoDetail {
   live?: boolean
   shareUrl: string
   shareMessage: string
+  /** dark para fundos pine (ex.: /live). */
+  tone?: 'light' | 'dark'
 }
 
 /** Corpo das telas de culto e de transmissão: player, autoria, data/ao vivo, texto e compartilhar. */
@@ -31,7 +33,10 @@ const VideoDetail: React.FC<IVideoDetail> = ({
   live = false,
   shareUrl,
   shareMessage,
-}) => (
+  tone = 'light',
+}) => {
+  const dark = tone === 'dark'
+  return (
   <article className="flex flex-col gap-5">
     <div className="overflow-hidden rounded-md bg-pine">
       <YTPlayer videoId={videoId} thumb={thumb} />
@@ -54,7 +59,7 @@ const VideoDetail: React.FC<IVideoDetail> = ({
         <LiveBadge />
       ) : (
         date && (
-          <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-strong">
+          <span className={`inline-flex items-center gap-2 text-sm font-semibold ${dark ? 'text-brand' : 'text-brand-strong'}`}>
             <FiCalendar aria-hidden />
             {formatDate(date)}
           </span>
@@ -64,13 +69,14 @@ const VideoDetail: React.FC<IVideoDetail> = ({
 
     <div>
       <h1 className="text-2xl font-extrabold tracking-tight text-balance">{title}</h1>
-      {description && <p className="mt-2 text-lg leading-relaxed whitespace-pre-line text-ink-muted">{description}</p>}
+      {description && <p className={`mt-2 text-lg leading-relaxed whitespace-pre-line ${dark ? 'text-ink-inverse-muted' : 'text-ink-muted'}`}>{description}</p>}
     </div>
 
     <div>
-      <AppShareButton url={shareUrl} message={shareMessage} />
+      <AppShareButton url={shareUrl} message={shareMessage} tone={tone} />
     </div>
   </article>
-)
+  )
+}
 
 export default VideoDetail

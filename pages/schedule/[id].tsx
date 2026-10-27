@@ -3,7 +3,9 @@ import React from "react";
 
 import { Api } from "../../services/api";
 import { IScheduleDate } from "../../interfaces/Schedule";
-import ScheduleContainer from "../../container/Schedule";
+import Website from "../../layout/container/Website";
+import AppHeader from "../../components/AppHeader";
+import DetailsSchedule from "../../container/Schedule/Details";
 
 interface IParams {
   params: {
@@ -11,32 +13,32 @@ interface IParams {
   };
 }
 
-export interface ISchedule {
-  highlighted: IScheduleDate[];
-  schedules: IScheduleDate[];
-  uuid: string;
+interface ISchedulePage {
+  data: IScheduleDate;
 }
 
-const Schedule: NextPage<ISchedule> = (data) => {
-  return <ScheduleContainer {...data} />;
+const SchedulePage: NextPage<ISchedulePage> = ({ data }) => {
+  return (
+    <Website title={data.schedule.title} img={data.schedule.image} hasTabNavigator={false}>
+      <>
+        <AppHeader title="Agenda" />
+        <DetailsSchedule data={data} />
+      </>
+    </Website>
+  );
 };
 
 export async function getServerSideProps({ params }: IParams) {
   const api = new Api();
-  const highlighted = await api.getSchedulesHighlighted();
-  const schedules = await api.getSchedules();
-
-  const finalSchedules = [] as IScheduleDate[];
-  schedules.forEach((item) => {
-    const hasType = finalSchedules.find(
-      (schedule) => schedule.schedule.uuid === item.schedule.uuid,
-    );
-    if (!hasType) {
-      finalSchedules.push(item);
+  try {
+    const data = await api.getSchedule(params.id);
+    if (!data) {
+      return { notFound: true };
     }
-  });
-
-  return { props: { highlighted, schedules: schedules, uuid: params.id } };
+    return { props: { data } };
+  } catch {
+    return { notFound: true };
+  }
 }
 
-export default Schedule;
+export default SchedulePage;

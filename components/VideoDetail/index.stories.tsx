@@ -31,4 +31,15 @@ export const Default: Story = {}
 
 export const Live: Story = { args: { live: true } }
 
+export const Dark: Story = {
+  args: { tone: 'dark' },
+  decorators: [
+    (Story) => (
+      <div style={{ background: '#12302F', color: '#F4FBFB', padding: 20, borderRadius: 14 }}>
+        <Story />
+      </div>
+    ),
+  ],
+}
+
 export const WithoutAuthor: Story = { args: { author: null } }

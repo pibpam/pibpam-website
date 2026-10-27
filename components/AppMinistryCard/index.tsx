@@ -27,7 +27,7 @@ const AppMinistryCard: React.FC<IAppMinistryCard> = ({ data, onClick }) => (
         shortDescription: data.shortDescription,
         description: data.description,
         image: data.image,
-        people: data.teamMember
+        people: (data.teamMember ?? [])
           .filter((item) => item.member)
           .map((item) => ({
             uuid: item.uuid,

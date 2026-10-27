@@ -1,124 +1,59 @@
-import React, { useRef, useState } from "react";
+import React from "react";
+import { Container } from "@/components/ui/Container";
+import { ServiceTimes } from "@/components/agenda/ServiceTimes";
 import { ISchedule } from "../../pages/schedule";
-import { IScheduleDate } from "../../interfaces/Schedule";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
-import useHeader from "../../hooks/useHeader";
 import Website from "../../layout/container/Website";
-import HeaderContainer from "../../components/HeaderContainer";
-import Header from "../../components/Header";
-import HeaderPage from "../../components/HeaderPage";
-import DividerMobile from "../../components/DividerMobile";
-import { EDividerColors } from "../../components/Divider";
-import Title from "../../components/Title";
-import ScheduleEvent from "../../components/ScheduleEvent";
-import ProgramCard from "../../components/ProgramCard";
-import FooterPage from "../../components/FooterPage";
-import { FiFilm, FiPlay } from "react-icons/fi";
-import Modal from "../../components/Modal";
-import DetailsSchedule from "./Details";
-import { Container, ContainerModal, Content, Grid } from "./styles";
-import { PostMessageContext } from "../../contexts/postMessage";
+import AppHeader from "../../components/AppHeader";
+import AppAgendaList from "../../components/AppAgendaList";
+import AgendaHighlight from "../../components/AgendaHighlight";
+
+const SectionTitle: React.FC<{ children: string }> = ({ children }) => (
+  <h2 className="mb-4 text-xl font-extrabold tracking-tight">{children}</h2>
+);
 
 const ScheduleContainer: React.FC<ISchedule> = ({
   highlighted,
   schedules,
-  uuid,
+  churchSchedules,
 }) => {
-  const { goTo: goToHook } = useAppNavigation();
-  const { scrollActive, changeScroll } = useHeader();
-  const [selectedEvent, setSelectedEvent] = useState<IScheduleDate | undefined>(
-    [...highlighted, ...schedules].find((item) => item.uuid === uuid),
-  );
-  const waitToClick = useRef(false);
-  const { deviceInfo } = React.useContext(PostMessageContext);
-
-  const goTo = async (pathname: string) => {
-    await goToHook({ pathname, showLoading: true });
-  };
-
-  const handleOpen = (data?: IScheduleDate) => {
-    if (waitToClick.current && data) {
-      return;
-    }
-
-    waitToClick.current = true;
-    setSelectedEvent(data);
-
-    if (!data) {
-      setTimeout(() => {
-        waitToClick.current = false;
-      }, 1000);
-    }
-  };
+  const { goTo } = useAppNavigation();
 
   return (
-    <Website
-      hasTabNavigator={!selectedEvent}
-      title={"Agenda"}
-      changeScroll={changeScroll}
-    >
+    <Website title={"Agenda"}>
       <>
-        <HeaderContainer active={scrollActive}>
-          <Header />
-        </HeaderContainer>
-        <HeaderPage title={"Agenda"} />
-        <DividerMobile color={EDividerColors.white} />
-
-        {!!highlighted.length && (
-          <>
-            <Title>Destaques</Title>
-            <Content>
-              {highlighted.map((item) => (
-                <ScheduleEvent
-                  key={item.uuid}
-                  schedule={item}
-                  onClick={() => handleOpen(item)}
-                />
-              ))}
-            </Content>
-          </>
-        )}
-
-        {!!schedules.length && (
-          <>
-            <Title>Próximas Agendas</Title>
-            <Container>
-              <Grid>
-                {schedules.map((item) => (
-                  <ProgramCard
-                    schedule={item}
-                    key={item.uuid}
-                    onClick={() => handleOpen(item)}
-                  />
+        <AppHeader title="Agenda" />
+        <Container className="flex flex-col gap-10 pt-6 pb-32">
+          {!!highlighted.length && (
+            <section aria-label="Destaques">
+              <SectionTitle>Destaques</SectionTitle>
+              <ul className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2">
+                {highlighted.map((item) => (
+                  <li key={item.uuid} className="flex w-[82%] shrink-0 snap-start sm:w-[45%]">
+                    <AgendaHighlight
+                      schedule={item}
+                      onClick={() => goTo({ pathname: "/schedule/" + item.uuid, showLoading: true })}
+                    />
+                  </li>
                 ))}
-              </Grid>
-            </Container>
-          </>
-        )}
-        <FooterPage
-          options={[
-            {
-              text: "Cultos",
-              icon: <FiPlay />,
-              action: () => goTo("/events"),
-            },
-            {
-              text: "Séries",
-              icon: <FiFilm />,
-              action: () => goTo("/series"),
-            },
-          ]}
-        />
+              </ul>
+            </section>
+          )}
 
-        <Modal
-          blockClick
-          isOpen={!!selectedEvent}
-          onClose={() => handleOpen(undefined)}
-        >
-          <ContainerModal bottom={deviceInfo?.bottom}>
-            {selectedEvent && <DetailsSchedule data={selectedEvent} />}
-          </ContainerModal>
-        </Modal>
+          {!!schedules.length && (
+            <section aria-label="Próximas agendas">
+              <SectionTitle>Próximas agendas</SectionTitle>
+              <AppAgendaList items={schedules} />
+            </section>
+          )}
+
+          {!!churchSchedules?.length && (
+            <section aria-label="Horários dos cultos">
+              <SectionTitle>Horários dos cultos</SectionTitle>
+              <ServiceTimes items={churchSchedules} tone="light" />
+            </section>
+          )}
+        </Container>
       </>
     </Website>
   );
