@@ -29,11 +29,10 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // As imagens já vêm prontas da origem (Supabase, Firestore, YouTube, capas de
+  // culto e evento): reprocessá-las na Vercel só consumiria a cota de otimização.
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "pibpam.s3.us-east-1.amazonaws.com" },
-      { protocol: "https", hostname: "i.ytimg.com" },
-    ],
+    unoptimized: true,
   },
   async rewrites() {
     if (!LEGACY_APP_URL) return [];
