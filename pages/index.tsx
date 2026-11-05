@@ -3,6 +3,7 @@ import Home, { IHomeProps } from "../container/Home";
 import { Api } from "../services/api";
 import { ReadingPlansApi } from "../services/readingPlans";
 import { READING_PLAN_SLUG } from "../utils/ReadingPlan";
+import { CONTENT_REVALIDATE } from "../utils/revalidate";
 
 const HomePage: NextPage<IHomeProps> = (props) => {
   return <Home {...props} />;
@@ -31,7 +32,7 @@ export async function getStaticProps() {
       birthdaysMonth: birthdays.status === "fulfilled" ? birthdays.value : [],
     },
     // A leitura do dia, o último culto, a agenda e os aniversários mudam ao longo do dia.
-    revalidate: 600,
+    revalidate: CONTENT_REVALIDATE,
   };
 }
 

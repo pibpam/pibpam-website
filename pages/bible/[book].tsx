@@ -8,7 +8,6 @@ import SectionTitle from "../../components/SectionTitle";
 import {
   BIBLE_REVALIDATE,
   getBibleBook,
-  getBibleBooks,
   getLegacyBookId,
   IBibleBook,
 } from "../../services/youversion";
@@ -53,13 +52,11 @@ const BibleChapters: NextPage<IBible> = ({ chapters, book }) => {
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const books = await getBibleBooks()
-  return {
-    paths: books.map(item => ({ params: { book: item.id } })),
-    fallback: 'blocking',
-  }
-}
+// Os livros são gerados sob demanda: um erro da YouVersion não pode derrubar o build.
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: [],
+  fallback: 'blocking',
+})
 
 export const getStaticProps: GetStaticProps<IBible, { book: string }> = async ({ params }) => {
   const param = params?.book ?? ''
@@ -72,7 +69,7 @@ export const getStaticProps: GetStaticProps<IBible, { book: string }> = async ({
   if (!/^[0-9A-Z]{3}$/.test(param)) return { notFound: true }
 
   const data = await getBibleBook(param)
-  if (!data) return { notFound: true }
+  if (!data) return { notFound: true, revalidate: BIBLE_REVALIDATE }
 
   return { props: data, revalidate: BIBLE_REVALIDATE }
 }

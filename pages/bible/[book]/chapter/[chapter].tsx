@@ -72,7 +72,7 @@ export const getStaticProps: GetStaticProps<
     getBibleChapter(bookParam, chapter),
     getBibleCopyright(),
   ]);
-  if (!data || !html) return { notFound: true };
+  if (!data || !html) return { notFound: true, revalidate: BIBLE_REVALIDATE };
 
   return {
     props: { chapter, book: data.book, html, copyright },
