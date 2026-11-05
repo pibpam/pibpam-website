@@ -4,6 +4,7 @@ import Website from '../../../../layout/container/Website'
 import AppHeader from "../../../../components/AppHeader";
 import { Api } from '../../../../services/api';
 import { ILyric } from '../../../../interfaces/Lyric';
+import { LYRICS_REVALIDATE } from '../../../../utils/revalidate';
 
 interface ILyricPage {
   lyric: ILyric
@@ -33,44 +34,35 @@ const LyricPage: NextPage<ILyricPage> = ({ lyric, type }) => {
   )
 }
 
+// Os hinos são gerados sob demanda (e guardados em cache), não no build.
 export async function getStaticPaths() {
-  const api = new Api()
-  const lyricsCC = await api.getAllLyrics('cc')
-  const lyricsHCC = await api.getAllLyrics('hcc')
-  const data = [] as { type: string, number: string }[]
-
-  lyricsCC.forEach(book => {
-    data.push({
-      type: 'cc',
-      number: book.number.toString()
-    })
-  })
-
-  lyricsHCC.forEach(book => {
-    data.push({
-      type: 'hcc',
-      number: book.number.toString()
-    })
-  })
-
   return {
-    paths: data.map(item => ({ params: { ...item } })),
-    fallback: false,
+    paths: [],
+    fallback: 'blocking',
   }
 }
 
 interface IParams {
   params: {
     type: string
-    number: number
+    number: string
   }
 }
 
 export async function getStaticProps({ params }: IParams) {
-  const api = new Api()
-  const lyric = await api.getLyric(params.number, params.type)
+  // A API responde 200 a qualquer URL (hinário desconhecido cai no CC; número inexistente vem
+  // vazio): sem validar aqui, URLs inválidas viram páginas em vez de 404.
+  if (!['cc', 'hcc'].includes(params.type) || !/^\d+$/.test(params.number)) {
+    return { notFound: true }
+  }
 
-  return { props: { lyric, type: params.type } }
+  const api = new Api()
+  const lyric = await api.getLyric(Number(params.number), params.type)
+  if (!lyric) {
+    return { notFound: true, revalidate: LYRICS_REVALIDATE }
+  }
+
+  return { props: { lyric, type: params.type }, revalidate: LYRICS_REVALIDATE }
 }
 
 export default LyricPage

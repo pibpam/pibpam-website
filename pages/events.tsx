@@ -13,6 +13,7 @@ import LiveBanner from "../components/LiveBanner";
 import EmptyState from "../components/EmptyState";
 import { Api } from "../services/api";
 import { ApiLocal } from "../services/apiLocal";
+import { CONTENT_REVALIDATE } from "../utils/revalidate";
 import { IContent, IGetAllContentsResponse } from "../interfaces/Contens";
 import { IBroadcast } from "../interfaces/Broadcast";
 import { IPaginationData } from "../interfaces/Pagination";
@@ -84,7 +85,7 @@ export async function getStaticProps() {
   const data = await api.getContents(1, "transmission", 20)
   const lives = await api.getLives()
 
-  return { props: { data, lives } }
+  return { props: { data, lives }, revalidate: CONTENT_REVALIDATE }
 }
 
 

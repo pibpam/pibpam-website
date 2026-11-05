@@ -4,6 +4,7 @@ import { Api } from "../services/api";
 import { IScheduleDate } from "../interfaces/Schedule";
 import { IChurchSchedule } from "../interfaces/Church";
 import ScheduleContainer from '../container/Schedule';
+import { CONTENT_REVALIDATE } from "../utils/revalidate";
 
 export interface ISchedule {
   highlighted: IScheduleDate[]
@@ -40,7 +41,10 @@ export async function getStaticProps() {
 
 
   const churchSchedules = await api.getChurchSchedule()
-  return { props: { highlighted: selectedHighlighted, schedules: schedules, churchSchedules } }
+  return {
+    props: { highlighted: selectedHighlighted, schedules: schedules, churchSchedules },
+    revalidate: CONTENT_REVALIDATE,
+  }
 }
 
 export default Schedule

@@ -28,7 +28,7 @@ app below (Tailwind instead of styled-components, `src/` + `@/*` imports, Cache 
 Copy `.env.example` to `.env`. Two groups of variables:
 - `API` — base URL of the upstream backend, consumed **server-side only** (see BFF pattern below).
 - `READING_PLANS_API` / `READING_PLANS_API_KEY` — base URL and Bearer key of the external reading-plans service (`services/readingPlans.ts`), consumed **server-side only** in the Home's `getStaticProps`. Reading plans no longer live in this app: the Home card links out to the service.
-- `YOUVERSION_APP_KEY` — app key of the YouVersion Platform (`@youversion/platform-core`), consumed **server-side only** by `services/youversion.ts` in the `/bible` pages' `getStaticProps`. The Bible (NVI, version 129) comes from there: book pages are prerendered, chapters render on demand (`fallback: 'blocking'` + `revalidate`). Old numeric book URLs (`/bible/43`) redirect to the USFM code (`/bible/JHN`).
+- `YOUVERSION_APP_KEY` — app key of the YouVersion Platform (`@youversion/platform-core`), consumed **server-side only** by `services/youversion.ts` in the `/bible` pages' `getStaticProps`. The Bible (NVI, version 129) comes from there: book and chapter pages render on demand (`fallback: 'blocking'` + `revalidate`), so a YouVersion error cannot fail the build; only `/bible` (the book list) still calls it at build time. Old numeric book URLs (`/bible/43`) redirect to the USFM code (`/bible/JHN`).
 
 ## Architecture
 
@@ -56,6 +56,8 @@ Global state is React Context only (no Redux). Providers are nested in `contexts
 
 ### Rendering & data fetching
 Pages use `getStaticProps` (mostly, e.g. `index.tsx`) or `getServerSideProps` to fetch initial data through the `Api` class server-side. Client-side data fetching goes through `ApiLocal`.
+
+Content stays fresh through ISR, not deploys: every `getStaticProps` must return `revalidate` (values in `utils/revalidate.ts`), including on `notFound`, or the page freezes until the next build. Dynamic routes use `paths: []` + `fallback: 'blocking'` so the build does not depend on upstream APIs. With `fallback: 'blocking'` invalid URLs reach the handler, so validate params and empty responses there: the upstream answers 200 for missing items (`null` or an empty body) and `/v1/lyrics/<anything>/<n>` falls back to the CC hymnal.
 
 ### Directory layout
 - `pages/` — routes + `pages/api/*` (the BFF handlers). Files here are routes, so page-level styled-components live in `styles/<PageName>.ts`, not colocated.

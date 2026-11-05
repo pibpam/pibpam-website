@@ -9,6 +9,7 @@ import AppVideoCard from "../../components/AppVideoCard";
 import AppShareButton from '../../components/AppShareButton';
 import { Api } from "../../services/api";
 import { ISeries } from "../../interfaces/Series";
+import { CONTENT_REVALIDATE } from "../../utils/revalidate";
 
 interface ISeriesDetailPage {
   data: ISeries
@@ -72,9 +73,10 @@ export async function getStaticProps({ params }: IParams) {
   if (!data) {
     return {
       notFound: true,
+      revalidate: CONTENT_REVALIDATE,
     };
   }
-  return { props: { data } }
+  return { props: { data }, revalidate: CONTENT_REVALIDATE }
 }
 
 export default SeriesDetail

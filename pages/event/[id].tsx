@@ -9,6 +9,7 @@ import Reveal from "../../components/Reveal";
 import ContentPage from '../../components/ContentPage';
 import { Api } from "../../services/api";
 import { IContent } from "../../interfaces/Contens";
+import { CONTENT_REVALIDATE } from "../../utils/revalidate";
 
 interface IEventPage {
   data: IContent
@@ -60,9 +61,10 @@ export async function getStaticProps({ params }: IParams) {
   if (!data) {
     return {
       notFound: true,
+      revalidate: CONTENT_REVALIDATE,
     };
   }
-  return { props: { data } }
+  return { props: { data }, revalidate: CONTENT_REVALIDATE }
 }
 
 export default Event

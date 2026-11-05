@@ -12,6 +12,7 @@ import AppButton from "../components/AppButton";
 import EmptyState from "../components/EmptyState";
 import { Api } from "../services/api";
 import { ApiLocal } from "../services/apiLocal";
+import { CONTENT_REVALIDATE } from "../utils/revalidate";
 import { IPaginationData } from "../interfaces/Pagination";
 import { IGetAllSeries, ISeries } from "../interfaces/Series";
 
@@ -74,7 +75,7 @@ export async function getStaticProps() {
   const api = new Api()
   const data = await api.getSeries(1, 20)
 
-  return { props: { data } }
+  return { props: { data }, revalidate: CONTENT_REVALIDATE }
 }
 
 

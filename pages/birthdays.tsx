@@ -10,6 +10,7 @@ import { DateUtils } from '../utils/Date';
 import { Api } from '../services/api';
 import { IMemberBasic } from '../interfaces/Member';
 import StringUtils from '../utils/StringUtils';
+import { BIRTHDAYS_REVALIDATE } from '../utils/revalidate';
 
 interface IBirthdays {
   data: IMemberBasic[]
@@ -63,7 +64,7 @@ const Birthdays: NextPage<IBirthdays> = ({ data }) => {
 export async function getStaticProps() {
   const api = new Api()
   const data = await api.getMonthBirthDateMembers()
-  return { props: { data } }
+  return { props: { data }, revalidate: BIRTHDAYS_REVALIDATE }
 }
 
 

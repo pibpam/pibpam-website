@@ -7,6 +7,7 @@ import ListLink from "../../components/ListLink";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { ILyric } from '../../interfaces/Lyric';
 import { Api } from '../../services/api';
+import { LYRICS_REVALIDATE } from '../../utils/revalidate';
 
 interface ILyricsList {
   lyrics: ILyric[],
@@ -55,7 +56,7 @@ interface IParams {
 export async function getStaticProps({ params }: IParams) {
   const api = new Api()
   const lyrics = await api.getAllLyrics(params.type)
-  return { props: { lyrics, type: params.type.toUpperCase() } }
+  return { props: { lyrics, type: params.type.toUpperCase() }, revalidate: LYRICS_REVALIDATE }
 }
 
 export default LyricsList
