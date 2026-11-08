@@ -51,6 +51,12 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
 
+  /* Os sheets (react-spring-bottom-sheet) ficam acima da barra de abas flutuante (z-index 10). */
+  [data-rsbs-backdrop],
+  [data-rsbs-overlay] {
+    z-index: 20;
+  }
+
   #globalLoader {
     position: fixed;
     z-index: 9999;

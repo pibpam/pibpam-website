@@ -5,12 +5,14 @@ import {
   PiCalendarBlank,
   PiChurch,
   PiFilmSlate,
+  PiHandHeart,
   PiMusicNotes,
   PiPlayCircle,
 } from "react-icons/pi";
 import Website from "../../layout/container/Website";
 import AppHeader from "../../components/AppHeader";
 import ShortcutCard from "../../components/ShortcutCard";
+import GiveSheet from "../../components/GiveSheet";
 import usePostMessage from "../../hooks/usePostMessage";
 import { useAppNavigation } from "../../hooks/useAppNavigation";
 import { LivesContext } from "../../contexts/lives";
@@ -49,6 +51,7 @@ const Home: FC<IHomeProps> = ({
   const { lives } = useContext(LivesContext);
 
   // A página é gerada estaticamente: só o cliente sabe qual é o dia de hoje.
+  const [giveOpen, setGiveOpen] = useState(false);
   const [today, setToday] = useState<number | null>(null);
   useEffect(() => {
     setToday(new Date().getDate());
@@ -172,6 +175,17 @@ const Home: FC<IHomeProps> = ({
             </S.Cell>
 
             <S.Cell $cols={4} $delay={delay()}>
+              <ShortcutCard
+                size="wide"
+                tone="lime"
+                icon={<PiHandHeart />}
+                title="Dízimos e ofertas"
+                description="Contribua pelo Pix ou no culto"
+                onClick={() => setGiveOpen(true)}
+              />
+            </S.Cell>
+
+            <S.Cell $cols={4} $delay={delay()}>
               {birthdaysToday.length ? (
                 <BirthdayCard
                   birthdays={birthdaysToday}
@@ -190,6 +204,7 @@ const Home: FC<IHomeProps> = ({
             </S.Cell>
           </S.Grid>
         </S.Container>
+        <GiveSheet open={giveOpen} onClose={() => setGiveOpen(false)} />
       </>
     </Website>
   );
