@@ -4,7 +4,7 @@ import { cacheLife } from "next/cache";
 import { Clock, LayoutDashboard, Mail, MapPin, MessageCircle, Phone, Smartphone } from "lucide-react";
 import type { ReactNode } from "react";
 import { getChurchInfo } from "@/lib/api";
-import { ADMIN_URL, APP_LINKS, CHURCH_LEGAL_NAME, EVENTS_URL, FALLBACK_CONTACT, NAV_LINKS } from "@/lib/site";
+import { ADMIN_URL, APP_LINKS, CHURCH_CNPJ, CHURCH_LEGAL_NAME, EVENTS_URL, FALLBACK_CONTACT, NAV_LINKS } from "@/lib/site";
 import { formatPhone, mapsUrl, toE164, whatsappUrl } from "@/lib/format";
 import { Container } from "@/components/ui/Container";
 import { SocialLinks } from "@/components/ui/SocialLinks";
@@ -121,7 +121,7 @@ export async function Footer() {
       </Container>
       <div className="border-t border-line-inverse">
         <Container className="flex flex-col gap-2 py-6 text-sm text-ink-inverse-muted sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} {CHURCH_LEGAL_NAME}</p>
+          <p>© {new Date().getFullYear()} {CHURCH_LEGAL_NAME} · CNPJ {CHURCH_CNPJ}</p>
           <Link href="/privacy" className="hover:text-ink-inverse">Política de privacidade</Link>
         </Container>
       </div>

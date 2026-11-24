@@ -2,6 +2,8 @@ export const SITE_URL = (process.env.SITE_URL ?? "https://www.pibpam.org").repla
 
 export const SITE_NAME = "PIB Pará de Minas";
 export const CHURCH_LEGAL_NAME = "Primeira Igreja Batista em Pará de Minas";
+/** CNPJ da igreja, exibido no rodapé. */
+export const CHURCH_CNPJ = "20.915.617/0001-44";
 export const FOUNDED_YEAR = 1981;
 export const SITE_DESCRIPTION =
   "Primeira Igreja Batista em Pará de Minas – MG. Cultos com exposição bíblica aos domingos e quartas, Escola Bíblica Dominical, transmissões ao vivo e agenda da igreja.";
