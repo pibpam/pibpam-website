@@ -40,7 +40,7 @@ export default async function SobrePage() {
   cacheLife("hours");
 
   const info = await getChurchInfo();
-  const { story: history, timeline } = splitTimeline(htmlToParagraphs(info?.history));
+  const { story: history, timeline, founders } = splitTimeline(htmlToParagraphs(info?.history));
   const pastoral = htmlToParagraphs(info?.shepherdText);
   const address = info?.address?.trim() ?? FALLBACK_CONTACT.address;
   const years = new Date().getFullYear() - FOUNDED_YEAR;
@@ -84,6 +84,16 @@ export default async function SobrePage() {
               </li>
             ))}
           </ol>
+          {founders.length > 0 && (
+            <div className="mt-14">
+              <h3 className="text-xl font-extrabold tracking-tight">Membros-fundadores</h3>
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {founders.map((name) => (
+                  <li key={name} className="rounded-full border border-line px-4 py-1.5 text-ink-muted">{name}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </Section>
       )}
 

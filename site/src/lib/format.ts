@@ -78,7 +78,7 @@ export function htmlToParagraphs(html = ""): string[] {
     .replace(/<[^>]+>/g, "")
     .replace(/&[a-z#0-9]+;/gi, (entity) => ENTITIES[entity] ?? " ")
     .split(/\n+/)
-    .map((paragraph) => paragraph.replace(/\s+/g, " ").trim())
+    .map((paragraph) => paragraph.replace(/[\u200b-\u200d\ufeff]/g, "").replace(/\s+/g, " ").trim())
     .filter(Boolean);
 }
 
@@ -90,26 +90,35 @@ export interface TimelineEntry {
   text: string;
 }
 
-const PERIOD = /^\d{4}(\s*[–-]\s*\d{4})?;?$/;
+/** "1994", "1995–2001", "2016 – Agosto 2023", "2024 – Atualidade". */
+const PERIOD = /^\d{4}(\s*[–-]\s*(?:(?:[A-Za-zÀ-ÿ]+\s+)?\d{4}|atualidade|atual|hoje))?;?$/i;
+const FOUNDERS_HEADING = /^membros[\s-]+fundadores:?$/i;
 
 /**
  * A história cadastrada termina com uma "Cronologia" (linhas de ano seguidas
- * de descrição). Separamos esse trecho para exibir como linha do tempo.
+ * de descrição) e, às vezes, com a lista de membros-fundadores. Separamos esses
+ * trechos para exibir como linha do tempo e lista.
  */
-export function splitTimeline(paragraphs: string[]): { story: string[]; timeline: TimelineEntry[] } {
+export function splitTimeline(paragraphs: string[]): { story: string[]; timeline: TimelineEntry[]; founders: string[] } {
   const start = paragraphs.findIndex((paragraph) => /^cronologia:?$/i.test(paragraph));
-  if (start < 0) return { story: paragraphs, timeline: [] };
+  if (start < 0) return { story: paragraphs, timeline: [], founders: [] };
 
   const timeline: TimelineEntry[] = [];
+  const founders: string[] = [];
+  let inFounders = false;
   for (const paragraph of paragraphs.slice(start + 1)) {
-    if (PERIOD.test(paragraph)) {
+    if (FOUNDERS_HEADING.test(paragraph)) {
+      inFounders = true;
+    } else if (inFounders) {
+      founders.push(paragraph.replace(/[;.]$/, ""));
+    } else if (PERIOD.test(paragraph)) {
       timeline.push({ period: paragraph.replace(/;$/, "").replace(/\s*[–-]\s*/, "–"), text: "" });
     } else if (timeline.length > 0) {
       const last = timeline[timeline.length - 1];
       last.text = [last.text, paragraph.replace(/;$/, ".")].filter(Boolean).join(" ");
     }
   }
-  return { story: paragraphs.slice(0, start), timeline: timeline.filter((entry) => entry.text) };
+  return { story: paragraphs.slice(0, start), timeline: timeline.filter((entry) => entry.text), founders };
 }
 
 const NAME_SUFFIXES = /^(j[úu]nior|filho|neto|sobrinho)$/i;
