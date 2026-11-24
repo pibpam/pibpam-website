@@ -22,14 +22,18 @@ const CLARITY_ID = "ifcbvo85r0";
 // Só em produção, para não poluir as métricas com acessos de desenvolvimento.
 const ANALYTICS = process.env.NODE_ENV === "production";
 
+// Os ids abaixo NÃO podem ser "ga" nem "clarity": um elemento com `id` vira uma
+// propriedade global de `window`, então `<script id="clarity">` fazia
+// `window.clarity` ser o próprio elemento. O snippet (`c[a]=c[a]||function…`) nunca
+// criava a função, e a tag da Microsoft lançava "a[c] is not a function".
 function Analytics() {
   return (
     <>
       <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
-      <Script id="ga" strategy="afterInteractive">
+      <Script id="ga-init" strategy="afterInteractive">
         {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${GA_ID}');`}
       </Script>
-      <Script id="clarity" strategy="afterInteractive">
+      <Script id="clarity-init" strategy="afterInteractive">
         {`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");`}
       </Script>
     </>
