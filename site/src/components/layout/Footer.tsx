@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cacheLife } from "next/cache";
-import { Clock, LayoutDashboard, Mail, MapPin, MessageCircle, Phone, Smartphone } from "lucide-react";
+import { Clock, LayoutDashboard, Mail, MapPin, Phone, Smartphone } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa6";
 import type { ReactNode } from "react";
 import { getChurchInfo } from "@/lib/api";
 import { ADMIN_URL, APP_LINKS, CHURCH_CNPJ, CHURCH_LEGAL_NAME, EVENTS_URL, FALLBACK_CONTACT, NAV_LINKS } from "@/lib/site";
@@ -9,6 +10,7 @@ import { formatPhone, mapsUrl, toE164, whatsappUrl } from "@/lib/format";
 import { Container } from "@/components/ui/Container";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 import { sortSchedules } from "@/lib/schedule";
+import type { IChurchSchedule } from "@/types";
 
 /** Linha com ícone alinhado à primeira linha do texto (h-[1lh] acompanha o line-height). */
 function IconLine({ icon, className = "", children }: { icon: ReactNode; className?: string; children: ReactNode }) {
@@ -18,6 +20,18 @@ function IconLine({ icon, className = "", children }: { icon: ReactNode; classNa
       <div className="min-w-0">{children}</div>
     </div>
   );
+}
+
+/** Agrupa os horários (já ordenados) por dia, mantendo a ordem. */
+function groupByDay(items: IChurchSchedule[]) {
+  const groups: { day: string; items: IChurchSchedule[] }[] = [];
+  for (const item of sortSchedules(items)) {
+    const day = item.day.charAt(0).toUpperCase() + item.day.slice(1).toLowerCase();
+    const last = groups[groups.length - 1];
+    if (last?.day === day) last.items.push(item);
+    else groups.push({ day, items: [item] });
+  }
+  return groups;
 }
 
 export async function Footer() {
@@ -49,13 +63,21 @@ export async function Footer() {
           </address>
           {info?.church_schedules?.length ? (
             <IconLine icon={<Clock aria-hidden className="size-4" />} className="mt-4 text-sm text-ink-inverse-muted">
-              <ul className="space-y-1">
-                {sortSchedules(info.church_schedules).map((item) => (
-                  <li key={item.uuid}>
-                    {item.text}: {item.day.toLowerCase()}, <span className="tabular-nums">{item.time}</span>
-                  </li>
+              <div className="space-y-3">
+                {groupByDay(info.church_schedules).map((group) => (
+                  <div key={group.day}>
+                    <h3 className="font-semibold text-ink-inverse">{group.day}</h3>
+                    <ul className="mt-1 space-y-0.5">
+                      {group.items.map((item) => (
+                        <li key={item.uuid} className="grid grid-cols-[3rem_1fr] gap-x-2">
+                          <span className="tabular-nums text-ink-inverse">{item.time}</span>
+                          <span>{item.text}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </IconLine>
           ) : null}
         </div>
@@ -70,9 +92,9 @@ export async function Footer() {
             </li>
             {info?.whatsAppNumber && (
               <li>
-                <IconLine icon={<MessageCircle aria-hidden className="size-4" />}>
-                  <a href={whatsappUrl(info.whatsAppNumber)} target="_blank" rel="noopener noreferrer" className="hover:text-ink-inverse">
-                    WhatsApp {formatPhone(info.whatsAppNumber)}
+                <IconLine icon={<FaWhatsapp aria-hidden className="size-4" />}>
+                  <a href={whatsappUrl(info.whatsAppNumber)} target="_blank" rel="noopener noreferrer" className="whitespace-nowrap hover:text-ink-inverse" aria-label={`WhatsApp ${formatPhone(info.whatsAppNumber)}`}>
+                    {formatPhone(info.whatsAppNumber)}
                   </a>
                 </IconLine>
               </li>
